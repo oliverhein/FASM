@@ -22,13 +22,6 @@ public class SortAlgos {
 		}
 	}
 	
-	static void bubbleSort( int[] feld ) {
-		for( int j=1; j<feld.length; j++ ) 
-			for( int i=feld.length-1; i>=j; i-- ) 
-				if( feld[i] > feld[i-1] ) 
-					tausche(feld,i,i-1);									
-	}
-	
 	public static void tausche(int[] feld, int i, int j){
 		int zwi;
 		zwi = feld[i];
