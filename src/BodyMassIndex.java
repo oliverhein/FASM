@@ -10,7 +10,7 @@ public class BodyMassIndex {
 			gewicht = BmiEingabe.EingabeGewicht();
 			groesse = BmiEingabe.EingabeGroesse();
 			
-			System.out.println("Ihr BMI beträgt: " + gewicht/(groesse*groesse));
+			System.out.println("Ihr BMI beträgt: " + gewicht/((groesse/100)*(groesse/100)));
 		}
 		
 		catch (GewichtUnplausibel e) {
@@ -19,7 +19,9 @@ public class BodyMassIndex {
 		
 		catch (GroesseUnplausibel e) {
 			System.out.println(e.getMessage());
-		}
-	}
+		} 
+		
+		finally {}
+	} 
 
 }
