@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+  <!--JBuilder Library Definition File-->
+  <fullname>fasm3rdpartylibrary</fullname>
+  <class>
+    <path>[lib/log4j.jar]</path>
+    <path>[lib/jade/Base64.jar]</path>
+    <path>[lib/jade/iiop.jar]</path>
+    <path>[lib/jade/jade.jar]</path>
+    <path>[lib/jade/jadeTools.jar]</path>
+    <path>[lib/jung/colt.jar]</path>
+    <path>[lib/jung/commons-collections-3.1.jar]</path>
+    <path>[lib/jung/concurrent.jar]</path>
+    <path>[lib/jung/jung-1.7.2.jar]</path>
+    <path>[lib/jung/resolver.jar]</path>
+    <path>[lib/jung/xercesImpl.jar]</path>
+    <path>[lib/jung/xml-apis.jar]</path>
+    <path>[lib/jbcl.jar]</path>
+    <path>[lib/swt/swt.jar]</path>
+    <path>[lib/jfreechart/jcommon-1.0.12.jar]</path>
+    <path>[lib/jfreechart/jfreechart-1.0.9.jar]</path>
+  </class>
+</library>

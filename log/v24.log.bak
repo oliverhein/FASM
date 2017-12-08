@@ -1,0 +1,31 @@
+00:41:30:011: [V24][main]DEBUG - Hallo yyyyy
+00:43:45:385: [V24][main]DEBUG - Hallo yyyyy
+00:43:45:385: [V24][main]ERROR - ERrror xxxx
+00:43:45:385: [V24][main]ERROR - error while xxx 
+java.lang.StringIndexOutOfBoundsException: String index out of range: 100
+	at java.lang.String.substring(String.java:1765)
+	at de.marketsim.util.MsgLogger.main(MsgLogger.java:81)
+00:47:57:408: [V24][main]DEBUG - Hallo yyyyy
+00:47:57:408: [V24][main]ERROR - ERrror xxxx
+00:47:57:408: [V24][main]ERROR - de.marketsim.util.MsgLogger$XYZ@1ea5671
+java.lang.StringIndexOutOfBoundsException: String index out of range: 100
+	at java.lang.String.substring(String.java:1765)
+	at de.marketsim.util.MsgLogger.main(MsgLogger.java:81)
+00:49:40:766: [V24][main]DEBUG - Hallo yyyyy
+00:49:40:766: [V24][main]ERROR - ERrror xxxx
+00:49:40:766: [V24][main]ERROR - Eoorr 
+java.lang.StringIndexOutOfBoundsException: String index out of range: 100
+	at java.lang.String.substring(String.java:1765)
+	at de.marketsim.util.MsgLogger.main(MsgLogger.java:81)
+00:49:40:766: [V24][main]DEBUG - Eoorr 
+java.lang.StringIndexOutOfBoundsException: String index out of range: 100
+	at java.lang.String.substring(String.java:1765)
+	at de.marketsim.util.MsgLogger.main(MsgLogger.java:81)
+00:49:40:776: [V24][main]FATAL - Eoorr 
+java.lang.StringIndexOutOfBoundsException: String index out of range: 100
+	at java.lang.String.substring(String.java:1765)
+	at de.marketsim.util.MsgLogger.main(MsgLogger.java:81)
+00:49:40:776: [V24][main]INFO - Eoorr 
+java.lang.StringIndexOutOfBoundsException: String index out of range: 100
+	at java.lang.String.substring(String.java:1765)
+	at de.marketsim.util.MsgLogger.main(MsgLogger.java:81)

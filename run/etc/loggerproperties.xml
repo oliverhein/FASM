@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+
+        <appender name="datalogger" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/dataloggeragent.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c][%t] %p - %m%n"/>
+                </layout>
+        </appender>
+
+        <appender name="storelogger" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/stockstore.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c][%t] %p - %m%n"/>
+                </layout>
+        </appender>
+
+        <appender name="storeablauflogger" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/stockstoreablauf.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c][%t] %p - %m%n"/>
+                </layout>
+        </appender>
+
+
+
+        <appender name="random1logger" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/random1.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c][%t] %p - %m%n"/>
+                </layout>
+        </appender>
+
+        <appender name="random2logger" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/random2.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c][%t] %p - %m%n"/>
+                </layout>
+        </appender>
+
+        <appender name="statisticlogger" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/statistic.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c][%t]%p - %m%n"/>
+                </layout>
+        </appender>
+
+        <appender name="V24Logger" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/v24.log" />
+                <param name="Append" value="true" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c][%t]%p - %m%n"/>
+                </layout>
+        </appender>
+
+        <appender name="kursrechnerlogger" class="org.apache.log4j.DailyRollingFileAppender">
+        <!-- commenta -->
+                <param name="File"   value="log/kursrechner.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c] %p - %m%n"/>
+                </layout>
+        </appender>
+
+        <appender name="V1LOG" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/v1.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c] %p - %m%n"/>
+                </layout>
+        </appender>
+
+        <appender name="TOBINTAXLOG" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File"   value="log/tobintaxagent.log" />
+                <param name="Append" value="false" />
+                <param name="DatePattern" value="'.'yyyy-MM-dd" />
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{HH:mm:ss:SSS}: [%c] %p - %m%n"/>
+                </layout>
+        </appender>
+
+
+<category name="V24.COMMUNICATION.ABC" class="org.apache.log4j.Logger"  additivity="false">
+		<priority value="INFO" class="org.apache.log4j.Level"/>
+		<appender-ref ref="V24Logger"/>
+	</category>
+
+
+
+	<category name="STATISTIC" class="org.apache.log4j.Logger"  additivity="false">
+		<priority value="error" class="org.apache.log4j.Level"/>
+		<appender-ref ref="statisticlogger"/>
+	</category>
+
+
+	<category name="KURSRECHNER" class="org.apache.log4j.Logger" additivity="false" >
+		<priority value="error" class="org.apache.log4j.Level"/>
+		<appender-ref ref="kursrechnerlogger"/>
+	</category>
+
+	<category name="STOCKSTORE.ABLAUF" class="org.apache.log4j.Logger"  additivity="false" >
+		<priority value="info" class="org.apache.log4j.Level"/>
+		<appender-ref ref="storeablauflogger"/>
+	</category>
+
+	<category name="DATALOGGER" class="org.apache.log4j.Logger"  additivity="false">
+		<priority value="info" class="org.apache.log4j.Level"/>
+		<appender-ref ref="datalogger"/>
+	</category>
+
+
+	<category name="RANDOMTRADER1" class="org.apache.log4j.Logger" additivity="false" >
+		<priority value="info" class="org.apache.log4j.Level"/>
+		<appender-ref ref="random1logger"/>
+	</category>
+
+	<category name="RANDOMTRADER2" class="org.apache.log4j.Logger" additivity="false" >
+		<priority value="info" class="org.apache.log4j.Level"/>
+		<appender-ref ref="random2logger"/>
+	</category>
+
+	<category name="V1" class="org.apache.log4j.Logger"  additivity="false">
+		<priority value="info" class="org.apache.log4j.Level"/>
+		<appender-ref ref="V1LOG"/>
+	</category>
+
+
+	<root>
+		<priority value="error"/>
+	</root>
+
+</log4j:configuration>

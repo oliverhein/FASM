@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %legacyLayoutPluginName
+Bundle-SymbolicName: com.togethersoft.modules.impl.nlayout.alg.legacy; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: plugin.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.togethersoft.modules.impl.b.e.e,
+ com.togethersoft.modules.impl.b.e.e.a,
+ com.togethersoft.modules.impl.b.e.e.b,
+ com.togethersoft.modules.impl.b.e.e.c,
+ com.togethersoft.modules.impl.b.e.e.d,
+ com.togethersoft.modules.impl.b.e.e.e.a,
+ com.togethersoft.modules.impl.b.e.e.f,
+ com.togethersoft.modules.impl.nlayout.alg.legacy,
+ com.togethersoft.modules.impl.nlayout.alg.legacy.auto,
+ com.togethersoft.modules.impl.nlayout.alg.legacy.geometry,
+ com.togethersoft.modules.impl.nlayout.alg.legacy.increment,
+ com.togethersoft.modules.impl.nlayout.alg.legacy.semiauto
+Require-Bundle: com.borland.tg.gde.layout,
+ com.togethersoft.platform.modulemanager
+Eclipse-LazyStart: true

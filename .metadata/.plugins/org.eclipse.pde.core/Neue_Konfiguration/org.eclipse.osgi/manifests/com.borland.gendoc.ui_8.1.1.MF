@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.borland.gendoc.ui; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: gendocui.jar
+Bundle-Activator: com.borland.gendoc.ui.UiPlugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com,
+ com.borland.gendoc.ui,
+ com.borland.gendoc.ui.actions,
+ com.borland.gendoc.ui.logging,
+ com.borland.gendoc.ui.preferences,
+ com.borland.gendoc.ui.wizard
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.borland.gendoc.core,
+ com.tssap.selena.model,
+ com.tssap.selena.model.ui,
+ org.eclipse.core.resources,
+ com.borland.tg.gde,
+ org.eclipse.help.base,
+ com.borland.csf.license
+Eclipse-LazyStart: true

@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Generated-from: 1158785428000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam Search Plug-in
+Bundle-SymbolicName: com.borland.starteam.eclipse.search; singleton:=true
+Bundle-Version: 8.0.0
+Bundle-ClassPath: starteam-search.jar
+Bundle-Activator: com.borland.starteam.eclipse.search.SearchPlugin
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Export-Package: com.borland.starteam.eclipse.search,
+ com.borland.starteam.eclipse.search.internal.ui.actions,
+ com.borland.starteam.eclipse.search.internal.ui.itemviewscope,
+ com.borland.starteam.eclipse.search.internal.ui.manualscope,
+ com.borland.starteam.eclipse.search.internal.ui.manualscope.view
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.0.0,4.0.0)",
+ org.eclipse.core.resources;bundle-version="[3.0.0,4.0.0)",
+ org.eclipse.search;bundle-version="[3.0.0,4.0.0)",
+ com.starbase.starteam.eclipse.team.sdk;bundle-version="[8.0.0,8.1.0)",
+ com.borland.team.starteam.core;bundle-version="[8.0.0,8.1.0)",
+ com.borland.team.starteam.ui;bundle-version="[8.0.0,8.1.0)",
+ org.eclipse.team.core;bundle-version="[3.0.0,4.0.0)",
+ com.borland.starteam.idk;bundle-version="[8.0.0,8.1.0)",
+ com.borland.starteam.idk.ui,
+ org.apache.regexp;bundle-version="[1.3.0,1.4.0)",
+ org.eclipse.ui;bundle-version="[3.0.0,4.0.0)",
+ org.eclipse.ui.ide;bundle-version="[3.0.0,4.0.0)",
+ org.eclipse.team.ui
+Eclipse-LazyStart: true

@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.borland.tg.uml20.gsd; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: gsduml20.jar
+Bundle-Activator: com.borland.tg.uml20.gsd.GsdUml20Plugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.tg.uml20.gsd,
+ com.borland.tg.uml20.gsd.internal,
+ com.borland.tg.uml20.gsd.internal.builder,
+ com.borland.tg.uml20.gsd.internal.sda
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.borland.tg.uml20.interaction,
+ com.tssap.selena.model,
+ com.togethersoft.modules.uml20,
+ com.borland.tg.gsd,
+ com.tssap.selena.model.ui,
+ org.eclipse.core.resources,
+ com.togethersoft.modules.ocl
+Eclipse-LazyStart: true

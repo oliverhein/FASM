@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %metamodelSupportImpl
+Bundle-SymbolicName: com.togethersoft.modules.impl.model
+Bundle-Version: 8.1.1
+Bundle-ClassPath: model-shared-impl.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.togethersoft.modules.impl.model.metainfo,
+ com.togethersoft.modules.impl.model.metainfo.associations,
+ com.togethersoft.modules.impl.model.metainfo.properties,
+ com.togethersoft.modules.impl.model.metainfo.stereotypes,
+ com.togethersoft.modules.impl.model.methods
+Require-Bundle: com.togethersoft.modules.model

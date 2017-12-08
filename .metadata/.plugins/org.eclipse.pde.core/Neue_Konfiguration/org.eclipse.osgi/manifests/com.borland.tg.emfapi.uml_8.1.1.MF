@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.borland.tg.emfapi.uml; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: emfapi_uml.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.tg.emfapi.uml,
+ com.borland.tg.emfapi.uml.impl,
+ com.borland.tg.emfapi.uml.kernel,
+ com.borland.tg.emfapi.uml.kernel.impl,
+ com.borland.tg.emfapi.uml.kernel.packages,
+ com.borland.tg.emfapi.uml.kernel.packages.impl,
+ com.borland.tg.emfapi.uml.ocl,
+ com.borland.tg.emfapi.uml.ocl.impl,
+ com.borland.tg.emfapi.uml.together,
+ com.borland.tg.emfapi.uml.together.impl,
+ com.borland.tg.emfapi.uml_8.1.0
+Require-Bundle: com.borland.tg.emfapi.diagram;visibility:=reexport,
+ com.borland.tg.emfapi.bcore;visibility:=reexport,
+ com.tssap.selena.model
+Eclipse-LazyStart: true

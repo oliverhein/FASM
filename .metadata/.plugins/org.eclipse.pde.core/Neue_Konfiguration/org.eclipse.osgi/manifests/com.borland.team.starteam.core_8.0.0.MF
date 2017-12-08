@@ -1,0 +1,46 @@
+Manifest-Version: 1.0
+Generated-from: 1158785456000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam Core
+Bundle-SymbolicName: com.borland.team.starteam.core; singleton:=true
+Bundle-Version: 8.0.0
+Bundle-ClassPath: starteamcore.jar
+Bundle-Activator: org.eclipse.core.internal.compatibility.PluginActivator
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Export-Package: com.borland.starteam.eclipse.core.utils,
+ com.borland.team.starteam.core,
+ com.borland.team.starteam.core.autorefresh,
+ com.borland.team.starteam.core.common,
+ com.borland.team.starteam.core.debug,
+ com.borland.team.starteam.core.elite,
+ com.borland.team.starteam.core.file,
+ com.borland.team.starteam.core.filter,
+ com.borland.team.starteam.core.handle,
+ com.borland.team.starteam.core.internal.adapters,
+ com.borland.team.starteam.core.internal.model,
+ com.borland.team.starteam.core.items,
+ com.borland.team.starteam.core.jobs,
+ com.borland.team.starteam.core.model,
+ com.borland.team.starteam.core.operations,
+ com.borland.team.starteam.core.options,
+ com.borland.team.starteam.core.progress,
+ com.borland.team.starteam.core.resman,
+ com.borland.team.starteam.core.sort,
+ com.borland.team.starteam.core.state,
+ com.borland.team.starteam.core.utility,
+ com.borland.team.starteam.core.utils,
+ com.borland.team.starteam.ui.internal.synchronize.interim.team_core_sync,
+ com.starbase.starteam.gui_core.dialogs,
+ com.starbase.starteam.gui_core.dialogs.renderer,
+ com.starbase.starteam.gui_core.sort,
+ com.starbase.starteam.gui_core.utility
+Require-Bundle: org.eclipse.core.runtime.compatibility,
+ org.eclipse.core.runtime;bundle-version="3.0.0",
+ org.eclipse.core.resources;bundle-version="3.0.0",
+ org.eclipse.core.runtime.compatibility;bundle-version="[3.0.0,4.0.0)";resolution:=optional,
+ org.eclipse.team.core;bundle-version="3.0.0",
+ com.starbase.starteam.eclipse.team.sdk;bundle-version="[8.0.0,8.1.0)",
+ com.borland.starteam.idk;bundle-version="[8.0.0,8.1.0)"
+Eclipse-LazyStart: true
+Plugin-Class: com.borland.team.starteam.core.StarTeamProviderPlugin

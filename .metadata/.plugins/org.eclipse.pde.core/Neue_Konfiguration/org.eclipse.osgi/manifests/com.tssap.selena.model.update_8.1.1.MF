@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.tssap.selena.model.update
+Bundle-Version: 8.1.1
+Bundle-ClassPath: plugin.jar
+Bundle-Activator: com.tssap.selena.model.b.c
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.tssap.selena.model.b,
+ com.tssap.selena.model.b.a,
+ com.tssap.selena.model.b.b
+Require-Bundle: org.eclipse.core.runtime,
+ com.tssap.selena.model
+Eclipse-LazyStart: true

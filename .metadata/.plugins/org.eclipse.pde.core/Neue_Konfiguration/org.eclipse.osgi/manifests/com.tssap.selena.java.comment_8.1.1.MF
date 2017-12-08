@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.tssap.selena.java.comment; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: plugin.jar
+Bundle-Activator: com.tssap.selena.c.a.a.g
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.tssap.selena.c.a,
+ com.tssap.selena.c.a.a
+Require-Bundle: org.eclipse.core.runtime
+Eclipse-LazyStart: true

@@ -4,8 +4,6 @@ import java.util.Arrays;
 
 public class test {
 	
-	public static int anzahlPersonen;         // statische Klassenvariablen
-	public static double durchschnittsAlter; 
 	public static Person [] register = new Person[4];		
 	
 	public static void main(String [] args) {	
@@ -25,10 +23,5 @@ public class test {
 		System.out.println(zahl.fuenf_Ausgabe());
 	}
 	
-	public static void berechneAltersDurchschnitt() {
-		durchschnittsAlter=0;
-		for(int i=0;i<=3;i++) 
-			durchschnittsAlter += register[i].getAlter();
-		durchschnittsAlter = durchschnittsAlter / anzahlPersonen;		
-	}
+	
 }

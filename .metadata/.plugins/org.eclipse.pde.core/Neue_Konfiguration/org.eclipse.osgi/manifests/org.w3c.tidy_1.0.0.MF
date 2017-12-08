@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Generated-from: 1181610686000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.w3c.tidy
+Bundle-Version: 1.0.0
+Bundle-ClassPath: Tidy.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.w3c.tidy
+Require-Bundle: org.apache.xerces;visibility:=reexport

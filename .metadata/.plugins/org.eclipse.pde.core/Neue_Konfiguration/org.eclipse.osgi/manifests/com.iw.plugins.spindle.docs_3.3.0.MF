@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Generated-from: 1179244760000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: Spindle 3 Documentation
+Bundle-SymbolicName: com.iw.plugins.spindle.docs; singleton:=true
+Bundle-Version: 3.3.0
+Bundle-Vendor: Geoffrey Longman
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.help
+Eclipse-LazyStart: true

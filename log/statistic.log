@@ -1,0 +1,5 @@
+00:54:51:473: [STATISTIC][main]ERROR - Error in test
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.charAt(String.java:558)
+	at de.marketsim.util.MsgLogger.ggg(MsgLogger.java:63)
+	at de.marketsim.util.MsgLogger.main(MsgLogger.java:109)

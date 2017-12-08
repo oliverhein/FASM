@@ -1,0 +1,80 @@
+package de.marketsim.util;
+
+/**
+ * <p>Überschrift: Market Simulator</p>
+ * <p>Beschreibung: </p>
+ * <p>Copyright: Copyright (c) 2004</p>
+ * <p>Organisation: </p>
+ * @author Xining Wang
+ * @version 1.0
+ */
+
+import java.io.*;
+
+public class FileTool
+{
+    public static void createDirectory (String pDirName)
+    {
+        try
+        {
+            File  ff = new File( pDirName );
+            ff.mkdir();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void DeleteFile(String pFileName)
+    {
+          File  ff = new File( pFileName );
+          ff.delete();
+          System.out.println( "File is "+ pFileName + " is deleted.");
+    }
+
+    public static void DeleteOldDepotFile(String pDirName)
+    {
+         File ff = new File(pDirName);
+         File tempff[] = ff.listFiles();
+         if ( tempff != null )
+         {
+           for (int i=0; i<tempff.length;i++)
+           {
+              String fname = tempff[i].getName().toUpperCase();
+              if ( fname.startsWith("F") || fname.startsWith("N") || fname.startsWith("R"))
+              {
+                 tempff[i].delete();
+              }
+           }
+         }
+    }
+
+    public static void DeleteOldStatusExchangeFile(String pDirName)
+    {
+      File ff = new File(pDirName);
+      File tempff[] = ff.listFiles();
+      if ( tempff != null )
+      {
+        for (int i=0; i<tempff.length;i++)
+        {
+           String fname = tempff[i].getName().toUpperCase();
+           if ( fname.startsWith("F") || fname.startsWith("N") )
+           {
+                 tempff[i].delete();
+                 //System.out.println( "File is "+ fname + " is deleted.");
+           }
+        }
+      }
+    }
+
+    public static void main(String[] args)
+    {
+
+        String ss = args[0];
+        System.out.println("trying to delete " + ss);
+        DeleteFile(ss);
+
+    }
+
+}

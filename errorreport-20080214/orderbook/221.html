@@ -1,0 +1,231 @@
+<html><Head><Title>221. day Order Book</title></head>
+<Body> <h4>
+<H2>
+Handelstag 221:
+</H2>
+<br>
+Order oerview:<br>
+<table border=1 >
+<tr><td>KaufMenge aus BuyOrder mit Limit</td><td>1792</td></tr>
+<tr><td>KaufMenge aus Cheapest Buy Order</td><td>1</td></tr>
+<tr><td>VerkaufMenge aus SellOrder mit Limit</td><td>644</td></tr>
+<tr><td>VerkaufMenge aus BestSell Order</td><td>0</td></tr>
+</table>
+Decision base for the new Kurs<br>
+<table border=1 ><tr><td><H3>Limit</H3></td><td><H3>Possilbe<br>Buy<br>Menge</H3></td><td><H3>Possible<br>Sell<br>Menge</H3></td><td><H3>Possible<br>Trade<br>Menge</H3></td><td><H3>Possible<br>Trade<br>Volume</H3></td></tr>
+<tr><td>1013.0</td><td>1793</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1023.0</td><td>1723</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1027.0</td><td>1653</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1028.0</td><td>1583</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1031.0</td><td>1513</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1033.0</td><td>1443</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1034.0</td><td>1373</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1058.0</td><td>1303</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1059.0</td><td>1301</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1066.0</td><td>1299</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1071.0</td><td>1297</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1082.0</td><td>1282</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1084.0</td><td>1265</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1085.0</td><td>1263</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1086.0</td><td>1248</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1090.0</td><td>1233</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1091.0</td><td>1214</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1092.0</td><td>1199</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1106.0</td><td>1184</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1117.0</td><td>1179</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1119.0</td><td>1174</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1121.0</td><td>1169</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1125.0</td><td>1164</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1126.0</td><td>1159</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1127.0</td><td>1154</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1129.0</td><td>1149</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1140.0</td><td>1147</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1143.0</td><td>1145</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1144.0</td><td>1143</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1148.0</td><td>1141</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1149.0</td><td>1139</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1150.0</td><td>1137</td><td>0</td><td>0</td><td>0.0</td></tr>
+<tr><td>1170.0</td><td>1135</td><td>2</td><td>2</td><td>2340.0</td></tr>
+<tr><td>1177.0</td><td>1135</td><td>4</td><td>4</td><td>4708.0</td></tr>
+<tr><td>1178.0</td><td>1135</td><td>6</td><td>6</td><td>7068.0</td></tr>
+<tr><td>1181.0</td><td>1135</td><td>8</td><td>8</td><td>9448.0</td></tr>
+<tr><td>1182.0</td><td>1135</td><td>10</td><td>10</td><td>11820.0</td></tr>
+<tr><td>1191.0</td><td>1135</td><td>12</td><td>12</td><td>14292.0</td></tr>
+<tr><td>1193.0</td><td>1135</td><td>19</td><td>19</td><td>22667.0</td></tr>
+<tr><td>1200.0</td><td>1135</td><td>24</td><td>24</td><td>28800.0</td></tr>
+<tr><td>1202.0</td><td>1135</td><td>29</td><td>29</td><td>34858.0</td></tr>
+<tr><td>1204.0</td><td>1135</td><td>34</td><td>34</td><td>40936.0</td></tr>
+<tr><td>1206.0</td><td>1135</td><td>39</td><td>39</td><td>47034.0</td></tr>
+<tr><td>1214.0</td><td>1135</td><td>44</td><td>44</td><td>53416.0</td></tr>
+<tr><td>1216.0</td><td>1135</td><td>49</td><td>49</td><td>59584.0</td></tr>
+<tr><td>1228.0</td><td>1135</td><td>64</td><td>64</td><td>78592.0</td></tr>
+<tr><td>1235.0</td><td>1135</td><td>79</td><td>79</td><td>97565.0</td></tr>
+<tr><td>1236.0</td><td>1135</td><td>94</td><td>94</td><td>116184.0</td></tr>
+<tr><td>1239.0</td><td>1135</td><td>109</td><td>109</td><td>135051.0</td></tr>
+<tr><td>1241.0</td><td>1135</td><td>124</td><td>124</td><td>153884.0</td></tr>
+<tr><td>1249.0</td><td>1135</td><td>139</td><td>139</td><td>173611.0</td></tr>
+<tr><td>1251.0</td><td>1135</td><td>154</td><td>154</td><td>192654.0</td></tr>
+<tr><td>1286.0</td><td>1135</td><td>224</td><td>224</td><td>288064.0</td></tr>
+<tr><td>1294.0</td><td>1135</td><td>364</td><td>364</td><td>471016.0</td></tr>
+<tr><td>1297.0</td><td>1135</td><td>434</td><td>434</td><td>562898.0</td></tr>
+<tr><td>1299.0</td><td>1135</td><td>504</td><td>504</td><td>654696.0</td></tr>
+<tr><td>1307.0</td><td>1135</td><td>574</td><td>574</td><td>750218.0</td></tr>
+<tr><td>1309.0</td><td>1135</td><td>644</td><td>644</td><td>842996.0</td></tr>
+<tr><td>1342.0</td><td>1135</td><td>644</td><td>644</td><td>864248.0</td></tr>
+<tr><td>1343.0</td><td>1130</td><td>644</td><td>644</td><td>864892.0</td></tr>
+<tr><td>1344.0</td><td>1107</td><td>644</td><td>644</td><td>865536.0</td></tr>
+<tr><td>1345.0</td><td>1067</td><td>644</td><td>644</td><td>866180.0</td></tr>
+<tr><td>1346.0</td><td>1047</td><td>644</td><td>644</td><td>866824.0</td></tr>
+<tr><td>1347.0</td><td>1027</td><td>644</td><td>644</td><td>867468.0</td></tr>
+<tr><td>1348.0</td><td>987</td><td>644</td><td>644</td><td>868112.0</td></tr>
+<tr><td>1349.0</td><td>986</td><td>644</td><td>644</td><td>868756.0</td></tr>
+<tr><td>1350.0</td><td>925</td><td>644</td><td>644</td><td>869400.0</td></tr>
+<tr><td>1353.0</td><td>905</td><td>644</td><td>644</td><td>871332.0</td></tr>
+<tr><td>1354.0</td><td>840</td><td>644</td><td>644</td><td>871976.0</td></tr>
+<tr><td><h4>1355.0</h4></td><td><h4>740</h4></td><td><h4>644</h4></td><td><h4>644</h4></td><td><h4>872620.0</h4></td></tr>
+<tr><td>1356.0</td><td>600</td><td>644</td><td>600</td><td>813600.0</td></tr>
+<tr><td>1357.0</td><td>515</td><td>644</td><td>515</td><td>698855.0</td></tr>
+<tr><td>1358.0</td><td>407</td><td>644</td><td>407</td><td>552706.0</td></tr>
+<tr><td>1359.0</td><td>357</td><td>644</td><td>357</td><td>485163.0</td></tr>
+<tr><td>1360.0</td><td>292</td><td>644</td><td>292</td><td>397120.0</td></tr>
+<tr><td>1361.0</td><td>232</td><td>644</td><td>232</td><td>315752.0</td></tr>
+<tr><td>1362.0</td><td>132</td><td>644</td><td>132</td><td>179784.0</td></tr>
+<tr><td>1363.0</td><td>61</td><td>644</td><td>61</td><td>83143.0</td></tr>
+</table>
+NeuKurs ist aufgrund Maximal Tradevolume 872620.0 bestimmt.<br>
+<BR><H3>Umsatz=644,NeuKurs=1355<BR>InnererWert =1105.0,VortagKurs  =1353.0<BR>IngesamtKaufMenge=1793,KaufMenge mit Limit=1792,KaufMenge Billigestkauf=1<BR>IngesamtVerkaufMenge=644<BR>VerkaufMenge mit Limit=644,VerkaufMenge Bestverkauf=0<BR>OffenKaufMenge=1149,OffenVerkaufMenge=0,Kurszusatz=G</H3><BR>
+<BR>NoiseTrader: Prozent = ( VortagKurs - AVG ) * 100 / VortagKurs <BR>NoiseTrader: ProzentGrenz 1: 2.0<BR>NoiseTrader: ProzentGrenz 2: 2.0<BR>NoiseTrader: ProzentGrenz 3: 2.0<BR>NoiseTrader: Prozent-Stufe 1: (-infinitive ~~2.0) <BR>NoiseTrader: Prozent-Stufe 2: [2.0~4.0 ) <BR>NoiseTrader: Prozent-Stufe 3: [4.0~7.0 ) <BR>NoiseTrader: Prozent-Stufe 4: [7.0~ Infinitive ) <BR>Investor Basic Rule: <BR> BuyLimit  = IndividuellInnererwert * ( 1 - AbschlagProzent/100 ) <BR> SellLimit = IndividuellInnererwert * ( 1 + AbschlagProzent/100 ) <BR> Kurszusatz-Bestimmungsverfahren:<br>  1) wenn kein Umsatz, dann Kurszusatz = T <BR> 2) wenn OffenKaufMenge=0 und OffenVerkaufMenge=0, dann Kurszusatz = b <BR> 3) wenn OffenKaufMenge >= OffenSellMenge, dann Kurszusatz = G <BR> 4) Ansonsten Kurszusatz = B <BR><Table border=1 ><TR><TD><H3>Name<H3></TD><TD><H3>AgentType<H3></TD><TD><H3>Order<BR>Type<H3></TD><TD><H3>Limit<H3></TD><TD><H3>Order<BR>Menge<H3></TD><TD><H3>Performed<br>Menge<H3></TD><TD><H3>Involved<br>into Trade<H3></TD><TD><H3>LimitReason<H3></TD><TD><H3>Original AgentType </H3></TD></TR><br>
+<TR><TD>RandomTrader1</TD><TD>RandomTrader</TD><TD>B</TD><TD>Cheapest Buy</TD><TD>1</TD><TD>1</TD><TD>X</TD><TD>Cheapest buy</TD><TD>RandomTrader</TD></TR>
+<TR><TD>V58</TD><TD>Investor</TD><TD>B</TD><TD>1013.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1161,4885 AbschlagProz=2,7522</TD><TD>Investor</TD></TR>
+<TR><TD>V43</TD><TD>Investor</TD><TD>B</TD><TD>1023.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1165,8201 AbschlagProz=2,1715</TD><TD>Investor</TD></TR>
+<TR><TD>V6</TD><TD>Investor</TD><TD>B</TD><TD>1027.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1160,9692 AbschlagProz=1,5347</TD><TD>Investor</TD></TR>
+<TR><TD>V30</TD><TD>Investor</TD><TD>B</TD><TD>1028.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1163,0134 AbschlagProz=1,6024</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>B</TD><TD>1031.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1165,7096 AbschlagProz=1,475</TD><TD>Investor</TD></TR>
+<TR><TD>V95</TD><TD>Investor</TD><TD>B</TD><TD>1033.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1159,8862 AbschlagProz=0,9121</TD><TD>Investor</TD></TR>
+<TR><TD>V56</TD><TD>Investor</TD><TD>B</TD><TD>1034.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1164,0742 AbschlagProz=1,1618</TD><TD>Investor</TD></TR>
+<TR><TD>V93</TD><TD>Investor</TD><TD>B</TD><TD>1058.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IW * ( 1- 4.01)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V61</TD><TD>Investor</TD><TD>B</TD><TD>1059.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IW * ( 1- 4.49)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V85</TD><TD>Investor</TD><TD>B</TD><TD>1066.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IW * ( 1- 1.42)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V58</TD><TD>Investor</TD><TD>B</TD><TD>1071.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1161,4885 AbschlagProz=2,7522</TD><TD>Investor</TD></TR>
+<TR><TD>V43</TD><TD>Investor</TD><TD>B</TD><TD>1082.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1165,8201 AbschlagProz=2,1715</TD><TD>Investor</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>B</TD><TD>1082.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IW * ( 1- 1.8)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V89</TD><TD>Investor</TD><TD>B</TD><TD>1084.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IW * ( 1- 2.19)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V6</TD><TD>Investor</TD><TD>B</TD><TD>1085.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1160,9692 AbschlagProz=1,5347</TD><TD>Investor</TD></TR>
+<TR><TD>V30</TD><TD>Investor</TD><TD>B</TD><TD>1086.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1163,0134 AbschlagProz=1,6024</TD><TD>Investor</TD></TR>
+<TR><TD>V10</TD><TD>Investor</TD><TD>B</TD><TD>1090.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IW * ( 1- 1.1400000000000001)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>B</TD><TD>1090.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1165,7096 AbschlagProz=1,475</TD><TD>Investor</TD></TR>
+<TR><TD>V41</TD><TD>Investor</TD><TD>B</TD><TD>1090.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IW * ( 1- 1.51)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V95</TD><TD>Investor</TD><TD>B</TD><TD>1091.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1159,8862 AbschlagProz=0,9121</TD><TD>Investor</TD></TR>
+<TR><TD>V56</TD><TD>Investor</TD><TD>B</TD><TD>1092.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1164,0742 AbschlagProz=1,1618</TD><TD>Investor</TD></TR>
+<TR><TD>V58</TD><TD>Investor</TD><TD>B</TD><TD>1106.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1161,4885 AbschlagProz=2,7522</TD><TD>Investor</TD></TR>
+<TR><TD>V43</TD><TD>Investor</TD><TD>B</TD><TD>1117.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1165,8201 AbschlagProz=2,1715</TD><TD>Investor</TD></TR>
+<TR><TD>V6</TD><TD>Investor</TD><TD>B</TD><TD>1119.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1160,9692 AbschlagProz=1,5347</TD><TD>Investor</TD></TR>
+<TR><TD>V30</TD><TD>Investor</TD><TD>B</TD><TD>1121.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1163,0134 AbschlagProz=1,6024</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>B</TD><TD>1125.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1165,7096 AbschlagProz=1,475</TD><TD>Investor</TD></TR>
+<TR><TD>V95</TD><TD>Investor</TD><TD>B</TD><TD>1126.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1159,8862 AbschlagProz=0,9121</TD><TD>Investor</TD></TR>
+<TR><TD>V56</TD><TD>Investor</TD><TD>B</TD><TD>1127.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1164,0742 AbschlagProz=1,1618</TD><TD>Investor</TD></TR>
+<TR><TD>V58</TD><TD>Investor</TD><TD>B</TD><TD>1129.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1161,4885 AbschlagProz=2,7522</TD><TD>Investor</TD></TR>
+<TR><TD>V43</TD><TD>Investor</TD><TD>B</TD><TD>1140.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1165,8201 AbschlagProz=2,1715</TD><TD>Investor</TD></TR>
+<TR><TD>V6</TD><TD>Investor</TD><TD>B</TD><TD>1143.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1160,9692 AbschlagProz=1,5347</TD><TD>Investor</TD></TR>
+<TR><TD>V30</TD><TD>Investor</TD><TD>B</TD><TD>1144.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1163,0134 AbschlagProz=1,6024</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>B</TD><TD>1148.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1165,7096 AbschlagProz=1,475</TD><TD>Investor</TD></TR>
+<TR><TD>V95</TD><TD>Investor</TD><TD>B</TD><TD>1149.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1159,8862 AbschlagProz=0,9121</TD><TD>Investor</TD></TR>
+<TR><TD>V56</TD><TD>Investor</TD><TD>B</TD><TD>1150.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1164,0742 AbschlagProz=1,1618</TD><TD>Investor</TD></TR>
+<TR><TD>V39</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1342.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.741%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V28</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1343.0</TD><TD>3</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.736%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V12</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1343.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.727%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V3</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1344.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.665%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V80</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1344.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.639%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V82</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1345.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.552%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V31</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1346.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.474%) Vortag KursZusag=G </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V5</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1347.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.398%) Vortag KursZusag=G </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V25</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1347.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.406%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V11</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1348.0</TD><TD>1</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.345%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V55</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1349.0</TD><TD>1</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.232%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V13</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1349.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.229%) Vortag KursZusag=G </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V9</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1349.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.25%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V33</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1349.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.232%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V16</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1350.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.195%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V75</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1353.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.035%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V45</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1353.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.069%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V8</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1353.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.0070%) Vortag KursZusag=G </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V34</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1353.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.039%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V66</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1354.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.081%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V29</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1354.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.143%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V68</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1354.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.129%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V73</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1354.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.122%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V26</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1354.0</TD><TD>20</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1353.0) * ( 1 + 0.112%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V74</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1355.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.211%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V59</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1355.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.199%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V22</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1355.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.19%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V36</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1355.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.214%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V64</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1355.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.167%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V100</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1355.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.219%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V15</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1355.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.167%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V99</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1356.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.265%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V4</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1356.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.247%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V47</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1356.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.27%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V62</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1356.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.266%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V17</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1356.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.248%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V42</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1357.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.35%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V87</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1357.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.314%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V88</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1357.0</TD><TD>3</TD><TD>2</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.323%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V51</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1357.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.3%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V1</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1357.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.305%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V18</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1357.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.319%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V21</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1357.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.344%) Vortag KursZusag=G </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V70</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1358.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.371%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V48</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1358.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.42%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V52</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1358.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.384%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V46</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1358.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.405%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V69</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1359.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.467%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V19</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1359.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.495%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V54</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1359.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.498%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V7</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1359.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.478%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V90</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1360.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.557%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V50</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1360.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.56%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V14</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1360.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.543%) Vortag KursZusag=G </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V44</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1361.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.616%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V40</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1361.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.621%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V24</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1361.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.627%) Vortag KursZusag=G </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V79</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1361.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.624%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V91</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1361.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.64%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V71</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1362.0</TD><TD>3</TD><TD>3</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.716%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V63</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1362.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.702%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V2</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1362.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.731%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V23</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1362.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.702%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V60</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1362.0</TD><TD>3</TD><TD>2</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.669%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V20</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1362.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.691%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V78</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1363.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.742%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V37</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1363.0</TD><TD>20</TD><TD>18</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.748%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V49</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1363.0</TD><TD>20</TD><TD>17</TD><TD>X</TD><TD>VortagKurs(1353.0) * ( 1 + 0.747%) Vortag KursZusatz=G </TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V95</TD><TD>Investor</TD><TD>S</TD><TD>1170.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=1159,8862 AbschlagProz=0,9121</TD><TD>Investor</TD></TR>
+<TR><TD>V56</TD><TD>Investor</TD><TD>S</TD><TD>1177.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=1164,0742 AbschlagProz=1,1618</TD><TD>Investor</TD></TR>
+<TR><TD>V6</TD><TD>Investor</TD><TD>S</TD><TD>1178.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=1160,9692 AbschlagProz=1,5347</TD><TD>Investor</TD></TR>
+<TR><TD>V30</TD><TD>Investor</TD><TD>S</TD><TD>1181.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=1163,0134 AbschlagProz=1,6024</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>S</TD><TD>1182.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=1165,7096 AbschlagProz=1,475</TD><TD>Investor</TD></TR>
+<TR><TD>V43</TD><TD>Investor</TD><TD>S</TD><TD>1191.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=1165,8201 AbschlagProz=2,1715</TD><TD>Investor</TD></TR>
+<TR><TD>V95</TD><TD>Investor</TD><TD>S</TD><TD>1193.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1159,8862 AbschlagProz=0,9121</TD><TD>Investor</TD></TR>
+<TR><TD>V58</TD><TD>Investor</TD><TD>S</TD><TD>1193.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=1161,4885 AbschlagProz=2,7522</TD><TD>Investor</TD></TR>
+<TR><TD>V56</TD><TD>Investor</TD><TD>S</TD><TD>1200.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1164,0742 AbschlagProz=1,1618</TD><TD>Investor</TD></TR>
+<TR><TD>V6</TD><TD>Investor</TD><TD>S</TD><TD>1202.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1160,9692 AbschlagProz=1,5347</TD><TD>Investor</TD></TR>
+<TR><TD>V30</TD><TD>Investor</TD><TD>S</TD><TD>1204.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1163,0134 AbschlagProz=1,6024</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>S</TD><TD>1206.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1165,7096 AbschlagProz=1,475</TD><TD>Investor</TD></TR>
+<TR><TD>V43</TD><TD>Investor</TD><TD>S</TD><TD>1214.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1165,8201 AbschlagProz=2,1715</TD><TD>Investor</TD></TR>
+<TR><TD>V58</TD><TD>Investor</TD><TD>S</TD><TD>1216.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1161,4885 AbschlagProz=2,7522</TD><TD>Investor</TD></TR>
+<TR><TD>V95</TD><TD>Investor</TD><TD>S</TD><TD>1228.0</TD><TD>15</TD><TD>15</TD><TD>X</TD><TD>IndividuellerInnererWert=1159,8862 AbschlagProz=0,9121</TD><TD>Investor</TD></TR>
+<TR><TD>V56</TD><TD>Investor</TD><TD>S</TD><TD>1235.0</TD><TD>15</TD><TD>15</TD><TD>X</TD><TD>IndividuellerInnererWert=1164,0742 AbschlagProz=1,1618</TD><TD>Investor</TD></TR>
+<TR><TD>V6</TD><TD>Investor</TD><TD>S</TD><TD>1236.0</TD><TD>15</TD><TD>15</TD><TD>X</TD><TD>IndividuellerInnererWert=1160,9692 AbschlagProz=1,5347</TD><TD>Investor</TD></TR>
+<TR><TD>V30</TD><TD>Investor</TD><TD>S</TD><TD>1239.0</TD><TD>15</TD><TD>15</TD><TD>X</TD><TD>IndividuellerInnererWert=1163,0134 AbschlagProz=1,6024</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>S</TD><TD>1241.0</TD><TD>15</TD><TD>15</TD><TD>X</TD><TD>IndividuellerInnererWert=1165,7096 AbschlagProz=1,475</TD><TD>Investor</TD></TR>
+<TR><TD>V43</TD><TD>Investor</TD><TD>S</TD><TD>1249.0</TD><TD>15</TD><TD>15</TD><TD>X</TD><TD>IndividuellerInnererWert=1165,8201 AbschlagProz=2,1715</TD><TD>Investor</TD></TR>
+<TR><TD>V58</TD><TD>Investor</TD><TD>S</TD><TD>1251.0</TD><TD>15</TD><TD>15</TD><TD>X</TD><TD>IndividuellerInnererWert=1161,4885 AbschlagProz=2,7522</TD><TD>Investor</TD></TR>
+<TR><TD>V95</TD><TD>Investor</TD><TD>S</TD><TD>1286.0</TD><TD>70</TD><TD>70</TD><TD>X</TD><TD>IndividuellerInnererWert=1159,8862 AbschlagProz=0,9121</TD><TD>Investor</TD></TR>
+<TR><TD>V56</TD><TD>Investor</TD><TD>S</TD><TD>1294.0</TD><TD>70</TD><TD>70</TD><TD>X</TD><TD>IndividuellerInnererWert=1164,0742 AbschlagProz=1,1618</TD><TD>Investor</TD></TR>
+<TR><TD>V6</TD><TD>Investor</TD><TD>S</TD><TD>1294.0</TD><TD>70</TD><TD>70</TD><TD>X</TD><TD>IndividuellerInnererWert=1160,9692 AbschlagProz=1,5347</TD><TD>Investor</TD></TR>
+<TR><TD>V30</TD><TD>Investor</TD><TD>S</TD><TD>1297.0</TD><TD>70</TD><TD>70</TD><TD>X</TD><TD>IndividuellerInnererWert=1163,0134 AbschlagProz=1,6024</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>S</TD><TD>1299.0</TD><TD>70</TD><TD>70</TD><TD>X</TD><TD>IndividuellerInnererWert=1165,7096 AbschlagProz=1,475</TD><TD>Investor</TD></TR>
+<TR><TD>V43</TD><TD>Investor</TD><TD>S</TD><TD>1307.0</TD><TD>70</TD><TD>70</TD><TD>X</TD><TD>IndividuellerInnererWert=1165,8201 AbschlagProz=2,1715</TD><TD>Investor</TD></TR>
+<TR><TD>V58</TD><TD>Investor</TD><TD>S</TD><TD>1309.0</TD><TD>70</TD><TD>70</TD><TD>X</TD><TD>IndividuellerInnererWert=1161,4885 AbschlagProz=2,7522</TD><TD>Investor</TD></TR>
+</Table><br>
+</Body>

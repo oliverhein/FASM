@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.borland.tg.gsd.common; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: common.jar
+Bundle-Activator: com.borland.tg.gsd.common.GsdCommonPlugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.tg.gsd.common,
+ com.borland.tg.gsd.common.monitor,
+ com.borland.tg.gsd.common.ui
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.borland.tg.gsd,
+ com.tssap.selena.model
+Eclipse-LazyStart: true

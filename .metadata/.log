@@ -1,0 +1,24 @@
+!SESSION 2008-02-28 09:47:02.785 -----------------------------------------------
+eclipse.buildId=M20060921-0945
+java.version=1.5.0_11
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=de_DE
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY com.borland.sanctuary.client.gateway 1 1 2008-02-28 09:47:56.903
+!MESSAGE [!!SantLicenseController!!] creating new named slip manager instance: 1
+
+!ENTRY csdl.jupiter 1 0 2008-02-28 09:48:31.524
+!MESSAGE Jupiter Review Plugin is up.
+
+!ENTRY com.borland.licenseagent 1 1 2008-02-28 09:48:33.604
+!MESSAGE Die Lizenz läuft in 25 Tagen ab ("Enterprise")
+
+!ENTRY com.borland.csf.license 1 1 2008-02-28 09:49:26.582
+!MESSAGE Lizenz läuft in 25 Tagen ab ("Enterprise")
+
+!ENTRY org.eclipse.jst.jsf.core 1 0 2008-02-28 09:50:34.895
+!MESSAGE Could not load JSF Library Registry; creating new registry
+
+!ENTRY org.eclipse.update.configurator 2008-02-28 09:53:01.564
+!MESSAGE Die Datei 'feature.xml' wurde im Verzeichnis nicht gefunden: C:\JBuilder2007\features\org.eclipse.cdt

@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.tssap.selena.model.undo; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: plugin.jar
+Bundle-Activator: com.tssap.selena.model.undo.a
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.tssap.selena.model.a.a.a.a,
+ com.tssap.selena.model.a.a.a.b,
+ com.tssap.selena.model.impl.undo.providers.resource,
+ com.tssap.selena.model.undo,
+ com.tssap.selena.model.undo.providers
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ com.tssap.selena.model
+Eclipse-LazyStart: true

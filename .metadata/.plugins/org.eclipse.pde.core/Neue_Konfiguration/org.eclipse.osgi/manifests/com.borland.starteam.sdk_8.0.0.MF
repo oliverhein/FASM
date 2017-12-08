@@ -1,0 +1,37 @@
+Manifest-Version: 1.0
+Generated-from: 1158785446000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam SDK
+Bundle-SymbolicName: com.borland.starteam.sdk
+Bundle-Version: 8.0.0
+Bundle-ClassPath: jsafePure.zip,
+ ss.jar,
+ starteam80.jar,
+ starteam80-resources.jar,
+ sdk-ext.jar
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Export-Package: COM.rsa.asn1,
+ COM.rsa.jsafe,
+ System,
+ com.borland.starteam.util,
+ com.borland.starteam.xml,
+ com.smartsockets,
+ com.smartsockets.link.tcp,
+ com.starbase.diff,
+ com.starbase.starteam,
+ com.starbase.starteam._private_.keywords,
+ com.starbase.starteam._private_.notify,
+ com.starbase.starteam._private_.toolbar,
+ com.starbase.starteam._private_.util,
+ com.starbase.starteam.commandline,
+ com.starbase.starteam.names,
+ com.starbase.starteam.vts.comm,
+ com.starbase.starteam.vts.commands,
+ com.starbase.starteam.vts.pickle,
+ com.starbase.util,
+ com.starbase.util.collections,
+ com.starbase.util.swing,
+ com.starbase.util.swing.metalthemes,
+ com.starbase.visdiff,
+ com.starbase.visdiff.images

@@ -1,0 +1,323 @@
+#-1)Kurszusatz  G: Geld, Kauf>Verkauf; B: Brief, Kauf < Verkauf; b: bezahlt, Kauf=Verkauf; T: Taxe, kein Buy/Sell Order
+#-2)Auftragtyp  B: Kauf,  S:Verkauf,  N:Wart  M: Mixed Order,  Order contains Buy and Sell Wish, it is created by Investor  
+#-3)Limit=-1, -1 hat spezielle Bedeutung: billigsten Kauf bzw. Besten Verkauf
+#-4)GewinnStatus *:Balance +:Gewinn -:Verlust 
+#-5) Achtung: 
+#-5) Wenn ReferenzTag = 0,  GewinnStatus ist jeden Tag gegen InitDepot ausgewertet.
+#-6) Wenn ReferenzTag > 0,  GewinnStatus ist jeden Tag gegen Depot vor  X Tagen ausgewertet.
+#-7) Investor BuyLimit  = IndividuellInnererWert * ( 1 - AbschlagProzent ) 
+     Investor SellLimit = IndividuellInnererWert * ( 1 + AbschlagProzent ) 
+#-8) Investor: Maximal Abweichung zu System InnererWert 0.5
+     Investor: Minimal Abweichung zu System InnererWert -0.5
+#-9) Investor: Eingesetztes Potenzial = PotenzialBase * ProzentialCounter  
+     - Wenn ProzentialCounter Minus Wert ist, dann ist das Potenzial auch ein Minus Wert.
+     - Wenn ProzentialCounter Plus Wert ist,  dann ist das Potenzial auch ein Plus Wert.
+     - PotenzialProzent ist ein Parameter.
+     - PotenzialBase wird nur bei (PozentialCounter=0) and (KursÄnderung ist größer als Threshold) berechnet, PotenzialBase = AktuellerSystemInnererWert * 0.2 * PotenuialProcent 
+     - PotenzialProzent ist ein Parameter.
+#-10) Investor Individuell InnererWert= SystemInnererWert + ZufallAbweichung + Potenzial 
+      ZufallAbweichung kann minus/plus sein. 
+
+Name;Tag;Type;State;ChangedReason;AktienAnzahl;Cash;Depot;RelativGewinn;RelativeGewinnProzent;AbsoluteGewinn;AbsoluteGewinnProzent;Order;BuyMenge;BuyLimit;SellMenge;SellLimit;Kurs;Kurszusatz;PerformedMenge;
+V58; ;BlankoAgent; Individuelle Parameter: TimeWindowForAverageBuyLimit(Day)=36;ActivationThreshold(%)=8.120000000000001;DeactivationThreshold(%)=14.6;
+V58;0000;BlankoAgent;initstate;;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;0;
+V58;0001;BlankoAgent;initstate;;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;984;
+V58;0002;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;984;
+V58;0003;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;978;
+V58;0004;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;977;
+V58;0005;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;982;
+V58;0006;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;977;
+V58;0007;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;974;
+V58;0008;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;986;
+V58;0009;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;991;
+V58;0010;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;991;
+V58;0011;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;991;
+V58;0012;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;994;
+V58;0013;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;993;
+V58;0014;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1009;
+V58;0015;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1019;
+V58;0016;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1022;
+V58;0017;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1022;
+V58;0018;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1037;
+V58;0019;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1037;
+V58;0020;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1037;
+V58;0021;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1047;
+V58;0022;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1053;
+V58;0023;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1055;
+V58;0024;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1049;
+V58;0025;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1050;
+V58;0026;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1046;
+V58;0027;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1048;
+V58;0028;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1042;
+V58;0029;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1048;
+V58;0030;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1044;
+V58;0031;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1033;
+V58;0032;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1027;
+V58;0033;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1026;
+V58;0034;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1026;
+V58;0035;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1029;
+V58;0036;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1039;
+V58;0037;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1032;
+V58;0038;BlankoAgent;initstate;PriceWindow needs at least 36 days prices as basis.;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1031;
+V58;0039;BlankoAgent;initstate;CurPrice=1031.0 Ref.Price=978,00 UpProcent=5,4192;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1025;
+V58;0040;BlankoAgent;initstate;CurPrice=1025.0 Ref.Price=977,00 UpProcent=4,913;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1017;
+V58;0041;BlankoAgent;initstate;CurPrice=1017.0 Ref.Price=982,00 UpProcent=3,5642;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;979;
+V58;0042;BlankoAgent;initstate;CurPrice=979.0 Ref.Price=977,00 UpProcent=0,2047;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;988;
+V58;0043;BlankoAgent;initstate;CurPrice=988.0 Ref.Price=974,00 UpProcent=1,4374;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;950;
+V58;0044;BlankoAgent;initstate;CurpPrice=950.0 Ref.Price=986,00 DownProcent=3,6511;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;959;
+V58;0045;BlankoAgent;initstate;CurpPrice=959.0 Ref.Price=991,00 DownProcent=3,2291;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;953;
+V58;0046;BlankoAgent;initstate;CurpPrice=953.0 Ref.Price=991,00 DownProcent=3,8345;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;962;
+V58;0047;BlankoAgent;initstate;CurpPrice=962.0 Ref.Price=991,00 DownProcent=2,9263;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;949;
+V58;0048;BlankoAgent;initstate;CurpPrice=949.0 Ref.Price=994,00 DownProcent=4,5272;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;953;
+V58;0049;BlankoAgent;initstate;CurpPrice=953.0 Ref.Price=993,00 DownProcent=4,0282;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;949;
+V58;0050;BlankoAgent;initstate;CurpPrice=949.0 Ref.Price=1009,00 DownProcent=5,9465;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;950;
+V58;0051;BlankoAgent;initstate;CurpPrice=950.0 Ref.Price=1019,00 DownProcent=6,7713;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;948;
+V58;0052;BlankoAgent;initstate;CurpPrice=948.0 Ref.Price=1022,00 DownProcent=7,2407;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;948;
+V58;0053;BlankoAgent;initstate;CurpPrice=948.0 Ref.Price=1022,00 DownProcent=7,2407;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;947;
+V58;0054;BlankoAgent;initstate;CurpPrice=947.0 Ref.Price=1037,00 DownProcent=8,6789;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;955;
+V58;0055;BlankoAgent;initstate;CurpPrice=955.0 Ref.Price=1037,00 DownProcent=7,9074;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;961;
+V58;0056;BlankoAgent;initstate;CurpPrice=961.0 Ref.Price=1037,00 DownProcent=7,3288;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;959;
+V58;0057;BlankoAgent;initstate;CurpPrice=959.0 Ref.Price=1047,00 DownProcent=8,405;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;965;
+V58;0058;BlankoAgent;initstate;CurpPrice=965.0 Ref.Price=1053,00 DownProcent=8,3571;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;958;
+V58;0059;BlankoAgent;initstate;CurpPrice=958.0 Ref.Price=1055,00 DownProcent=9,1943;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;958;
+V58;0060;BlankoAgent;initstate;CurpPrice=958.0 Ref.Price=1049,00 DownProcent=8,6749;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;957;
+V58;0061;BlankoAgent;initstate;CurpPrice=957.0 Ref.Price=1050,00 DownProcent=8,8571;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;965;
+V58;0062;BlankoAgent;initstate;CurpPrice=965.0 Ref.Price=1046,00 DownProcent=7,7438;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;987;
+V58;0063;BlankoAgent;initstate;CurpPrice=987.0 Ref.Price=1048,00 DownProcent=5,8206;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1009;
+V58;0064;BlankoAgent;initstate;CurpPrice=1009.0 Ref.Price=1042,00 DownProcent=3,167;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1019;
+V58;0065;BlankoAgent;initstate;CurpPrice=1019.0 Ref.Price=1048,00 DownProcent=2,7672;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1020;
+V58;0066;BlankoAgent;initstate;CurpPrice=1020.0 Ref.Price=1044,00 DownProcent=2,2989;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1027;
+V58;0067;BlankoAgent;initstate;CurpPrice=1027.0 Ref.Price=1033,00 DownProcent=0,5808;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1027;
+V58;0068;BlankoAgent;initstate;CurpPrice=1027.0 Ref.Price=1027,00 DownProcent=0,00;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1033;
+V58;0069;BlankoAgent;initstate;CurPrice=1033.0 Ref.Price=1026,00 UpProcent=0,6823;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1034;
+V58;0070;BlankoAgent;initstate;CurPrice=1034.0 Ref.Price=1026,00 UpProcent=0,7797;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1035;
+V58;0071;BlankoAgent;initstate;CurPrice=1035.0 Ref.Price=1029,00 UpProcent=0,5831;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1041;
+V58;0072;BlankoAgent;initstate;CurPrice=1041.0 Ref.Price=1039,00 UpProcent=0,1925;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1041;
+V58;0073;BlankoAgent;initstate;CurPrice=1041.0 Ref.Price=1032,00 UpProcent=0,8721;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1042;
+V58;0074;BlankoAgent;initstate;CurPrice=1042.0 Ref.Price=1031,00 UpProcent=1,0669;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1046;
+V58;0075;BlankoAgent;initstate;CurPrice=1046.0 Ref.Price=1025,00 UpProcent=2,0488;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1042;
+V58;0076;BlankoAgent;initstate;CurPrice=1042.0 Ref.Price=1017,00 UpProcent=2,4582;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1040;
+V58;0077;BlankoAgent;initstate;CurPrice=1040.0 Ref.Price=979,00 UpProcent=6,2308;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1041;
+V58;0078;BlankoAgent;initstate;CurPrice=1041.0 Ref.Price=988,00 UpProcent=5,3644;0;478977;478977;0;0,00;0;0,00;  ;   ;   ;   ;  ;1034;
+V58;0079;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1027;G;994,00;0,00;0;0;0; ;0;0;
+V58;0080;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1023;B;984,00;0,00;0;0;0; ;0;0;
+V58;0081;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1017;B;986,00;0,00;0;0;0; ;0;0;
+V58;0082;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1006;B;981,00;0,00;0;0;0; ;0;0;
+V58;0083;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;999;B;985,00;0,00;0;0;0; ;0;0;
+V58;0084;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;996;B;999,00;0,00;0;0;0; ;0;0;
+V58;0085;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;994;B;1000,00;0,00;0;0;0; ;0;0;
+V58;0086;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;984;B;984,00;0,00;0;0;0; ;0;0;
+V58;0087;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;980;B;994,00;0,00;0;0;0; ;0;0;
+V58;0088;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;975;B;989,00;0,00;0;0;0; ;0;0;
+V58;0089;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;972;B;994,00;0,00;0;0;0; ;0;0;
+V58;0090;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;968;B;985,00;0,00;0;0;0; ;0;0;
+V58;0091;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;964;G;991,00;0,00;0;0;0; ;0;0;
+V58;0092;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;968;B;976,00;0,00;0;0;0; ;0;0;
+V58;0093;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;963;B;975,00;0,00;0;0;0; ;0;0;
+V58;0094;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;958;B;965,00;0,00;0;0;0; ;0;0;
+V58;0095;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;951;B;954,00;0,00;0;0;0; ;0;0;
+V58;0096;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;944;B;949,00;0,00;0;0;0; ;0;0;
+V58;0097;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;937;B;943,00;0,00;0;0;0; ;0;0;
+V58;0098;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;933;B;938,00;0,00;0;0;0; ;0;0;
+V58;0099;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;929;B;952,00;0,00;0;0;0; ;0;0;
+V58;0100;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;922;B;950,00;0,00;0;0;0; ;0;0;
+V58;0101;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;922;G;957,00;0,00;0;0;0; ;0;0;
+V58;0102;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;928;G;961,00;0,00;0;0;0; ;0;0;
+V58;0103;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;936;B;960,00;0,00;0;0;0; ;0;0;
+V58;0104;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;933;b;954,00;0,00;0;0;0; ;0;0;
+V58;0105;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;935;B;961,00;0,00;0;0;0; ;0;0;
+V58;0106;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;933;b;956,00;0,00;0;0;0; ;0;0;
+V58;0107;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;936;B;961,00;0,00;0;0;0; ;0;0;
+V58;0108;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;938;B;961,00;0,00;0;0;0; ;0;0;
+V58;0109;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;938;G;971,00;0,00;0;0;0; ;0;0;
+V58;0110;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;942;B;965,00;0,00;0;0;0; ;0;0;
+V58;0111;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;939;B;956,00;0,00;0;0;0; ;0;0;
+V58;0112;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;936;B;951,00;0,00;0;0;0; ;0;0;
+V58;0113;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;938;G;963,00;0,00;0;0;0; ;0;0;
+V58;0114;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;943;G;966,00;0,00;0;0;0; ;0;0;
+V58;0115;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;950;G;969,00;0,00;0;0;0; ;0;0;
+V58;0116;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;956;B;975,00;0,00;0;0;0; ;0;0;
+V58;0117;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;952;B;960,00;0,00;0;0;0; ;0;0;
+V58;0118;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;946;B;960,00;0,00;0;0;0; ;0;0;
+V58;0119;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;949;G;969,00;0,00;0;0;0; ;0;0;
+V58;0120;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;958;B;971,00;0,00;0;0;0; ;0;0;
+V58;0121;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;970;G;982,00;0,00;0;0;0; ;0;0;
+V58;0122;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;979;b;980,00;0,00;0;0;0; ;0;0;
+V58;0123;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;989;G;992,00;0,00;0;0;0; ;0;0;
+V58;0124;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;994;G;976,00;0,00;0;0;0; ;0;0;
+V58;0125;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;998;G;977,00;0,00;0;0;0; ;0;0;
+V58;0126;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;999;b;968,00;0,00;0;0;0; ;0;0;
+V58;0127;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;999;G;980,00;0,00;0;0;0; ;0;0;
+V58;0128;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1004;G;983,00;0,00;0;0;0; ;0;0;
+V58;0129;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1007;G;972,00;0,00;0;0;0; ;0;0;
+V58;0130;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1013;G;985,00;0,00;0;0;0; ;0;0;
+V58;0131;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1018;G;990,00;0,00;0;0;0; ;0;0;
+V58;0132;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1019;G;972,00;0,00;0;0;0; ;0;0;
+V58;0133;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1023;G;984,00;0,00;0;0;0; ;0;0;
+V58;0134;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1024;G;969,00;0,00;0;0;0; ;0;0;
+V58;0135;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1024;G;962,00;0,00;0;0;0; ;0;0;
+V58;0136;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1024;B;960,00;0,00;0;0;0; ;0;0;
+V58;0137;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1016;B;952,00;0,00;0;0;0; ;0;0;
+V58;0138;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1013;G;961,00;0,00;0;0;0; ;0;0;
+V58;0139;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1009;B;945,00;0,00;0;0;0; ;0;0;
+V58;0140;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1004;G;947,00;0,00;0;0;0; ;0;0;
+V58;0141;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1000;B;936,00;0,00;0;0;0; ;0;0;
+V58;0142;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;994;G;953,00;0,00;0;0;0; ;0;0;
+V58;0143;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;997;B;963,00;0,00;0;0;0; ;0;0;
+V58;0144;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;989;b;948,00;0,00;0;0;0; ;0;0;
+V58;0145;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;988;B;937,00;0,00;0;0;0; ;0;0;
+V58;0146;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;980;B;950,00;0,00;0;0;0; ;0;0;
+V58;0147;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;970;B;947,00;0,00;0;0;0; ;0;0;
+V58;0148;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;960;B;935,00;0,00;0;0;0; ;0;0;
+V58;0149;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;960;T;931,00;0,00;0;0;0; ;0;0;
+V58;0150;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;960;B;944,00;0,00;0;0;0; ;0;0;
+V58;0151;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;950;G;944,00;0,00;0;0;0; ;0;0;
+V58;0152;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;959;B;942,00;0,00;0;0;0; ;0;0;
+V58;0153;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;949;B;938,00;0,00;0;0;0; ;0;0;
+V58;0154;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;939;G;947,00;0,00;0;0;0; ;0;0;
+V58;0155;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;937;b;945,00;0,00;0;0;0; ;0;0;
+V58;0156;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;937;B;940,00;0,00;0;0;0; ;0;0;
+V58;0157;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;931;B;942,00;0,00;0;0;0; ;0;0;
+V58;0158;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;926;B;934,00;0,00;0;0;0; ;0;0;
+V58;0159;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;923;B;945,00;0,00;0;0;0; ;0;0;
+V58;0160;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;924;B;951,00;0,00;0;0;0; ;0;0;
+V58;0161;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;931;B;955,00;0,00;0;0;0; ;0;0;
+V58;0162;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;930;B;951,00;0,00;0;0;0; ;0;0;
+V58;0163;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;926;B;950,00;0,00;0;0;0; ;0;0;
+V58;0164;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;923;B;945,00;0,00;0;0;0; ;0;0;
+V58;0165;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;933;b;956,00;0,00;0;0;0; ;0;0;
+V58;0166;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;955;G;968,00;0,00;0;0;0; ;0;0;
+V58;0167;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;956;B;955,00;0,00;0;0;0; ;0;0;
+V58;0168;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;954;B;947,00;0,00;0;0;0; ;0;0;
+V58;0169;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;950;G;954,00;0,00;0;0;0; ;0;0;
+V58;0170;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;955;G;967,00;0,00;0;0;0; ;0;0;
+V58;0171;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;956;G;961,00;0,00;0;0;0; ;0;0;
+V58;0172;BlankoAgent;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;963;b;970,00;0,00;0;0;0; ;0;0;
+V58;0173;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;966;G;972,00;0,00;0;0;0; ;0;0;
+V58;0174;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;977;G;983,00;0,00;0;0;0; ;0;0;
+V58;0175;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;991;b;993,00;0,00;0;0;0; ;0;0;
+V58;0176;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;998;G;1003,00;0,00;0;0;0; ;0;0;
+V58;0177;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1004;b;1000,00;0,00;0;0;0; ;0;0;
+V58;0178;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1003;G;985,00;0,00;0;0;0; ;0;0;
+V58;0179;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1003;G;987,00;0,00;0;0;0; ;0;0;
+V58;0180;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;1004;B;984,00;0,00;0;0;0; ;0;0;
+V58;0181;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;997;G;979,00;0,00;0;0;0; ;0;0;
+V58;0182;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;998;G;983,00;0,00;0;0;0; ;0;0;
+V58;0183;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;998;B;977,00;0,00;0;0;0; ;0;0;
+V58;0184;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;995;G;981,00;0,00;0;0;0; ;0;0;
+V58;0185;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;997;G;983,00;0,00;0;0;0; ;0;0;
+V58;0186;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;990;B;971,00;0,00;0;0;0; ;0;0;
+V58;0187;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;990;b;986,00;0,00;0;0;0; ;0;0;
+V58;0188;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;989;B;969,00;0,00;0;0;0; ;0;0;
+V58;0189;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;985;b;974,00;0,00;0;0;0; ;0;0;
+V58;0190;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;985;G;985,00;0,00;0;0;0; ;0;0;
+V58;0191;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;989;b;977,00;0,00;0;0;0; ;0;0;
+V58;0192;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;N;0;0;0;0;988;G;972,00;0,00;0;0;0; ;0;0;
+V58;0193;Investor;active   ;already active but no strategy;0;478977;478977;0;0,00;0;0,00;B;2;952;0;0;992;G;985,00;983,1285;-0,19;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0194;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;962;0;0;999;B;996,00;993,2012;-0,281;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0195;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;948;0;0;998;G;981,00;978,7143;-0,233;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0196;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;956;0;0;1003;B;989,00;986,5868;-0,244;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0197;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;961;0;0;1005;G;995,00;991,6468;-0,337;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0198;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;973;0;0;1011;G;1007,00;1004,4926;-0,249;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0199;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;979;0;0;1018;G;1011,00;1010,8888;-0,011;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0200;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;981;0;0;1025;G;1017,00;1012,6167;-0,431;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0201;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;974;0;0;1030;G;1008,00;1005,853;-0,213;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0202;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;980;0;0;1036;B;1013,00;1011,1158;-0,186;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0203;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;978;0;0;1035;G;1008,00;1009,9253;0,191;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0204;Investor;active   ;Active with strategy for 12 days;0;478977;478977;0;0,00;0;0,00;B;2;968;0;0;1037;B;1001,00;999,008;-0,199;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0205;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;977;0;0;1036;G;1008,00;1008,4536;0,045;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0206;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;982;0;0;1040;G;1015,00;1014,1271;-0,086;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0207;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;987;0;0;1045;b;1021,00;1018,2739;-0,267;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0208;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;1000;0;0;1045;G;1031,00;1031,6908;0,067;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0209;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;1001;0;0;1052;G;1030,00;1033,0282;0,294;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0210;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;980;0;0;1056;B;1015,00;1011,5896;-0,336;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0211;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;995;0;0;1062;b;1029,00;1027,4771;-0,148;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0212;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;994;0;0;1062;G;1028,00;1026,0262;-0,192;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0213;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;990;0;0;1065;G;1021,00;1021,5718;0,056;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0214;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;1003;0;0;1070;G;1030,00;1034,841;0,47;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0215;Investor;active   ;Active with strategy for 23 days;0;478977;478977;0;0,00;0;0,00;B;2;986;0;0;1074;G;1016,00;1018,225;0,219;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0216;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;478977;478977;0;0,00;0;0,00;B;2;993;0;0;1080;G;1029,00;1024,8017;-0,408;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0217;Investor;active   ;Active with strategy for 25 days;0;478977;478977;0;0,00;0;0,00;B;2;981;0;0;1085;G;1018,00;1012,9304;-0,498;0,00;0; ;0;3,07;NA;NA;0;Decision is Sell But no stock available SELL is not possible BUY possible.
+V58;0218;NoiseTrader;active   ;Active with strategy for 26 days;3;475707;478977;0;0,00;0;0,00;B;5;1091;0;0;1090;G;1029,00;1012,9304;0;0;0;B;3;NA;1019,1364;44;0,602;;MyAveragePrice=1019,1364 YesterdayPrice=1085,00;BuyLimit increased 0.602%;
+V58;0219;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;3;475707;478998;21;0,0044;21;0,0044;B;5;1092;0;0;1097;G;1041,00;1012,9304;0;0;0; ;0;NA;1021,7045;44;0,227;;MyAveragePrice=1021,7045 YesterdayPrice=1090,00;BuyLimit increased 0.227%;
+V58;0220;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;3;475707;479016;39;0,0081;39;0,0081;B;20;1091;0;0;1103;G;1049,00;1012,9304;0;0;0; ;0;NA;1024,1136;44;0,501;;MyAveragePrice=1024,1136 YesterdayPrice=1097,00;BuyLimit increased 0.501%;
+V58;0221;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;3;475707;479034;57;0,0119;57;0,0119;B;20;1100;0;0;1109;G;1044,00;1012,9304;0;0;0; ;0;NA;1026,50;44;0,23;;MyAveragePrice=1026,50 YesterdayPrice=1103,00;BuyLimit increased 0.23%;
+V58;0222;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;3;475707;479043;66;0,0138;66;0,0138;B;20;1109;0;0;1112;G;1029,00;1012,9304;0;0;0; ;0;NA;1028,8864;44;0,075;;MyAveragePrice=1028,8864 YesterdayPrice=1109,00;BuyLimit increased 0.075%;
+V58;0223;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;3;475707;479058;81;0,0169;81;0,0169;B;20;1115;0;0;1117;G;1037,00;1012,9304;0;0;0; ;0;NA;1031,3636;44;0,323;;MyAveragePrice=1031,3636 YesterdayPrice=1112,00;BuyLimit increased 0.323%;
+V58;0224;NoiseTrader;active   ;Active with strategy for 32 days;23;453227;479079;102;0,0213;102;0,0213;B;20;1125;0;0;1124;G;1050,00;1012,9304;0;0;0;B;20;NA;1033,9545;44;0,731;;MyAveragePrice=1033,9545 YesterdayPrice=1117,00;BuyLimit increased 0.731%;
+V58;0225;NoiseTrader;active   ;Active with strategy for 33 days;37;437435;479171;194;0,0405;194;0,0405;B;20;1129;0;0;1128;G;1032,00;1012,9304;0;0;0;B;14;NA;1036,6818;44;0,483;;MyAveragePrice=1036,6818 YesterdayPrice=1124,00;BuyLimit increased 0.483%;
+V58;0226;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;37;437435;479356;379;0,0791;379;0,0791;B;20;1132;0;0;1133;G;1036,00;1012,9304;0;0;0; ;0;NA;1039,6591;44;0,368;;MyAveragePrice=1039,6591 YesterdayPrice=1128,00;BuyLimit increased 0.368%;
+V58;0227;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;37;437435;479541;564;0,1178;564;0,1178;B;20;1135;0;0;1138;G;1023,00;1012,9304;0;0;0; ;0;NA;1042,7273;44;0,191;;MyAveragePrice=1042,7273 YesterdayPrice=1133,00;BuyLimit increased 0.191%;
+V58;0228;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;37;437435;479615;638;0,1332;638;0,1332;B;20;1133;0;0;1140;G;1024,00;1012,9304;0;0;0; ;0;NA;1045,9091;44;0,396;;MyAveragePrice=1045,9091 YesterdayPrice=1138,00;BuyLimit increased 0.396%;
+V58;0229;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;54;417953;479837;860;0,1795;860;0,1795;B;20;1146;0;0;1146;G;1038,00;1012,9304;0;0;0;B;17;NA;1049,2045;44;0,535;;MyAveragePrice=1049,2045 YesterdayPrice=1140,00;BuyLimit increased 0.535%;
+V58;0230;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;54;417953;480107;1130;0,2359;1130;0,2359;B;20;1147;0;0;1151;G;1037,00;1012,9304;0;0;0; ;0;NA;1052,5909;44;0,147;;MyAveragePrice=1052,5909 YesterdayPrice=1146,00;BuyLimit increased 0.147%;
+V58;0231;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;54;417953;479999;1022;0,2134;1022;0,2134;B;20;1145;0;0;1149;G;1023,00;1012,9304;0;0;0; ;0;NA;1056,25;44;0,504;;MyAveragePrice=1056,25 YesterdayPrice=1151,00;BuyLimit increased 0.504%;
+V58;0232;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;74;394993;479945;968;0,2021;968;0,2021;B;20;1152;0;0;1148;B;1022,00;1012,9304;0;0;0;B;20;NA;1059,8636;44;0,344;;MyAveragePrice=1059,8636 YesterdayPrice=1149,00;BuyLimit increased 0.344%;
+V58;0233;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;74;394993;480315;1338;0,2793;1338;0,2793;B;20;1140;0;0;1153;B;1037,00;1012,9304;0;0;0; ;0;NA;1063,4773;44;0,611;;MyAveragePrice=1063,4773 YesterdayPrice=1148,00;BuyLimit decreased 0.611%;
+V58;0234;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;93;373219;479797;820;0,1712;820;0,1712;B;20;1149;0;0;1146;G;1020,00;1012,9304;0;0;0;B;19;NA;1067,2955;44;0,278;;MyAveragePrice=1067,2955 YesterdayPrice=1153,00;BuyLimit decreased 0.278%;
+V58;0235;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;93;373219;480262;1285;0,2683;1285;0,2683;B;20;1148;0;0;1151;G;1033,00;1012,9304;0;0;0; ;0;NA;1070,9545;44;0,255;;MyAveragePrice=1070,9545 YesterdayPrice=1146,00;BuyLimit increased 0.255%;
+V58;0236;NoiseTrader;active   ;Active with strategy for 44 days;108;355879;480727;1750;0,3654;1750;0,3654;B;20;1157;0;0;1156;G;1041,00;1012,9304;0;0;0;B;15;NA;1074,6364;44;0,555;;MyAveragePrice=1074,6364 YesterdayPrice=1151,00;BuyLimit increased 0.555%;
+V58;0237;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;128;332719;480943;1966;0,4105;1966;0,4105;B;20;1161;0;0;1158;B;1033,00;1012,9304;0;0;0;B;20;NA;1078,4545;44;0,463;;MyAveragePrice=1078,4545 YesterdayPrice=1156,00;BuyLimit increased 0.463%;
+V58;0238;NoiseTrader;active   ;Active with strategy for 46 days;128;332719;480047;1070;0,2234;1070;0,2234;B;20;1149;0;0;1151;G;1024,00;1012,9304;0;0;0; ;0;NA;1058,6833;60;0,692;;MyAveragePrice=1058,6833 YesterdayPrice=1158,00;BuyLimit decreased 0.692%;
+V58;0239;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;141;317678;480815;1838;0,3837;1838;0,3837;B;20;1159;0;0;1157;G;1043,00;1012,9304;0;0;0;B;13;NA;1061,15;60;0,749;;MyAveragePrice=1061,15 YesterdayPrice=1151,00;BuyLimit increased 0.749%;
+V58;0240;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;156;300278;481238;2261;0,472;2261;0,472;B;20;1161;0;0;1160;G;1049,00;1012,9304;0;0;0;B;15;NA;1063,7167;60;0,349;;MyAveragePrice=1063,7167 YesterdayPrice=1157,00;BuyLimit increased 0.349%;
+V58;0241;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;167;287452;482174;3197;0,6675;3197;0,6675;B;20;1166;0;0;1166;G;1053,00;1012,9304;0;0;0;B;11;NA;1066,3167;60;0,574;;MyAveragePrice=1066,3167 YesterdayPrice=1160,00;BuyLimit increased 0.574%;
+V58;0242;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;185;266518;481673;2696;0,5629;2696;0,5629;B;20;1168;0;0;1163;G;1041,00;1012,9304;0;0;0;B;18;NA;1069,1333;60;0,22;;MyAveragePrice=1069,1333 YesterdayPrice=1166,00;BuyLimit increased 0.22%;
+V58;0243;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;205;243338;480933;1956;0,4084;1956;0,4084;B;20;1167;0;0;1159;B;1032,00;1012,9304;0;0;0;B;20;NA;1071,8833;60;0,418;;MyAveragePrice=1071,8833 YesterdayPrice=1163,00;BuyLimit increased 0.418%;
+V58;0244;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;225;220338;479088;90;0,0188;111;0,0232;B;20;1158;0;0;1150;B;1026,00;1012,9304;0;0;0;B;20;NA;1074,5667;60;0,043;;MyAveragePrice=1074,5667 YesterdayPrice=1159,00;BuyLimit decreased 0.043%;
+V58;0245;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;225;220338;478638;-378;-0,0789;-339;-0,0708;B;5;1147;0;0;1148;G;1035,00;1012,9304;0;0;0; ;0;NA;1077,15;60;0,208;;MyAveragePrice=1077,15 YesterdayPrice=1150,00;BuyLimit decreased 0.208%;
+V58;0246;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;230;214643;476613;-2421;-0,5054;-2364;-0,4936;B;5;1144;0;0;1139;B;1022,00;1012,9304;0;0;0;B;5;NA;1079,6667;60;0,338;;MyAveragePrice=1079,6667 YesterdayPrice=1148,00;BuyLimit increased 0.338%;
+V58;0247;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;235;209008;473853;-5190;-1,0834;-5124;-1,0698;B;5;1137;0;0;1127;B;1021,00;1012,9304;0;0;0;B;5;NA;1082,15;60;0,107;;MyAveragePrice=1082,15 YesterdayPrice=1139,00;BuyLimit decreased 0.107%;
+V58;0248;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;238;205663;471033;-8025;-1,6752;-7944;-1,6585;B;3;1135;0;0;1115;B;1027,00;1012,9304;0;0;0;B;3;NA;1084,4333;60;0,731;;MyAveragePrice=1084,4333 YesterdayPrice=1127,00;BuyLimit decreased 0.731%;
+V58;0249;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;241;202345;468891;-10188;-2,1266;-10086;-2,1057;B;3;1121;0;0;1106;B;1033,00;1012,9304;0;0;0;B;3;NA;1086,5333;60;0,553;;MyAveragePrice=1086,5333 YesterdayPrice=1115,00;BuyLimit decreased 0.553%;
+V58;0250;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;242;201247;466963;-12208;-2,5477;-12014;-2,5083;B;1;1099;0;0;1098;B;1045,00;1012,9304;0;0;0;B;1;NA;1088,55;60;0,617;;MyAveragePrice=1088,55 YesterdayPrice=1106,00;BuyLimit decreased 0.617%;
+V58;0251;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;243;200157;465027;-14329;-2,9892;-13950;-2,9125;B;1;1097;0;0;1090;B;1050,00;1012,9304;0;0;0;B;1;NA;1090,4333;60;0,012;;MyAveragePrice=1090,4333 YesterdayPrice=1098,00;BuyLimit decreased 0.012%;
+V58;0252;NoiseTrader;active   ;Active with strategy for 60 days;243;200157;462354;-17187;-3,5841;-16623;-3,4705;S;0;0;1;1088;1079;B;1062,00;1012,9304;0;0;0; ;0;NA;1092,1167;60;0,15;;MyAveragePrice=1092,1167 YesterdayPrice=1090,00;SellLimit decreased 0.15%;
+V58;0253;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1079.0 Ref.Price=1085,00 DownProcent=0,553 Threshold=14,60 MindesActiveDays=15;243;200157;459681;-19934;-4,1563;-19296;-4,0286;S;0;0;1;1071;1068;B;1074,00;1012,9304;0;0;0; ;0;NA;1093,6333;60;0,666;;MyAveragePrice=1093,6333 YesterdayPrice=1079,00;SellLimit decreased 0.666%;
+V58;0254;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1068.0 Ref.Price=1090,00 DownProcent=2,0183 Threshold=14,60 MindesActiveDays=15;243;200157;457980;-21857;-4,5551;-20997;-4,3837;S;0;0;3;1063;1061;B;1081,00;1012,9304;0;0;0; ;0;NA;1094,90;60;0,396;;MyAveragePrice=1094,90 YesterdayPrice=1068,00;SellLimit decreased 0.396%;
+V58;0255;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1061.0 Ref.Price=1097,00 DownProcent=3,2817 Threshold=14,60 MindesActiveDays=15;243;200157;457008;-23099;-4,8112;-21969;-4,5867;S;0;0;3;1062;1057;B;1083,00;1012,9304;0;0;0; ;0;NA;1095,9333;60;0,185;;MyAveragePrice=1095,9333 YesterdayPrice=1061,00;SellLimit decreased 0.185%;
+V58;0256;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1057.0 Ref.Price=1103,00 DownProcent=4,1704 Threshold=14,60 MindesActiveDays=15;243;200157;455550;-24449;-5,0936;-23427;-4,891;S;0;0;3;1056;1051;B;1078,00;1012,9304;0;0;0; ;0;NA;1096,9167;60;0,038;;MyAveragePrice=1096,9167 YesterdayPrice=1057,00;SellLimit decreased 0.038%;
+V58;0257;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1051.0 Ref.Price=1109,00 DownProcent=5,2299 Threshold=14,60 MindesActiveDays=15;238;205427;456279;-23666;-4,931;-22698;-4,7388;S;0;0;5;1049;1054;G;1093,00;1012,9304;0;0;0;S;5;NA;1097,7167;60;0,173;;MyAveragePrice=1097,7167 YesterdayPrice=1051,00;SellLimit decreased 0.173%;
+V58;0258;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1054.0 Ref.Price=1112,00 DownProcent=5,2158 Threshold=14,60 MindesActiveDays=15;233;210702;456517;-23798;-4,9547;-22460;-4,6892;S;0;0;5;1047;1055;G;1079,00;1012,9304;0;0;0;S;5;NA;1098,5333;60;0,616;;MyAveragePrice=1098,5333 YesterdayPrice=1054,00;SellLimit increased 0.616%;
+V58;0259;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1055.0 Ref.Price=1117,00 DownProcent=5,5506 Threshold=14,60 MindesActiveDays=15;233;210702;456750;-23047;-4,8035;-22227;-4,6405;S;0;0;5;1062;1056;B;1070,00;1012,9304;0;0;0; ;0;NA;1099,2667;60;0,70;;MyAveragePrice=1099,2667 YesterdayPrice=1055,00;SellLimit increased 0.7%;
+V58;0260;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1056.0 Ref.Price=1124,00 DownProcent=6,0498 Threshold=14,60 MindesActiveDays=15;233;210702;456284;-23978;-4,9927;-22693;-4,7378;S;0;0;3;1061;1054;B;1079,00;1012,9304;0;0;0; ;0;NA;1099,90;60;0,52;;MyAveragePrice=1099,90 YesterdayPrice=1056,00;SellLimit decreased 0.52%;
+V58;0261;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1054.0 Ref.Price=1128,00 DownProcent=6,5603 Threshold=14,60 MindesActiveDays=15;233;210702;455818;-24909;-5,1815;-23159;-4,8351;S;0;0;5;1055;1052;G;1089,00;1012,9304;0;0;0; ;0;NA;1100,3833;60;0,133;;MyAveragePrice=1100,3833 YesterdayPrice=1054,00;SellLimit decreased 0.133%;
+V58;0262;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1052.0 Ref.Price=1133,00 DownProcent=7,1492 Threshold=14,60 MindesActiveDays=15;228;216062;460478;-20465;-4,2552;-18499;-3,8622;S;0;0;5;1044;1072;b;1100,00;1012,9304;0;0;0;S;5;NA;1100,75;60;0,674;;MyAveragePrice=1100,75 YesterdayPrice=1052,00;SellLimit increased 0.674%;
+V58;0263;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1072.0 Ref.Price=1138,00 DownProcent=5,7996 Threshold=14,60 MindesActiveDays=15;228;216062;460250;-19797;-4,124;-18727;-3,9098;S;0;0;3;1072;1071;G;1085,00;1012,9304;0;0;0; ;0;NA;1101,35;60;0,253;;MyAveragePrice=1101,35 YesterdayPrice=1072,00
+V58;0264;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1071.0 Ref.Price=1140,00 DownProcent=6,0526 Threshold=14,60 MindesActiveDays=15;226;218210;460934;-19881;-4,1349;-18043;-3,767;S;0;0;3;1063;1074;B;1092,00;1012,9304;0;0;0;S;2;NA;1101,95;60;0,729;;MyAveragePrice=1101,95 YesterdayPrice=1071,00;SellLimit increased 0.729%;
+V58;0265;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1074.0 Ref.Price=1146,00 DownProcent=6,2827 Threshold=14,60 MindesActiveDays=15;223;221462;463194;-18044;-3,7495;-15783;-3,2951;S;0;0;3;1073;1084;G;1105,00;1012,9304;0;0;0;S;3;NA;1102,5667;60;0,018;;MyAveragePrice=1102,5667 YesterdayPrice=1074,00;SellLimit decreased 0.018%;
+V58;0266;NoiseTrader;active   ;Active with strategy for 74 daysCurPrice=1084.0 Ref.Price=1151,00 DownProcent=5,821 Threshold=14,60 MindesActiveDays=15;222;222552;464532;-17642;-3,6588;-14445;-3,0158;S;0;0;1;1082;1090;G;1111,00;1012,9304;0;0;0;S;1;NA;1103,3667;60;0,145;;MyAveragePrice=1103,3667 YesterdayPrice=1084,00;SellLimit increased 0.145%;
+V58;0267;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1090.0 Ref.Price=1149,00 DownProcent=5,1349 Threshold=14,60 MindesActiveDays=15;222;222552;464754;-16919;-3,5125;-14223;-2,9695;S;0;0;1;1093;1091;B;1094,00;1012,9304;0;0;0; ;0;NA;1104,20;60;0,282;;MyAveragePrice=1104,20 YesterdayPrice=1090,00;SellLimit increased 0.282%;
+V58;0268;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1091.0 Ref.Price=1148,00 DownProcent=4,9652 Threshold=14,60 MindesActiveDays=15;221;223642;464532;-16401;-3,4102;-14445;-3,0158;S;0;0;1;1086;1090;G;1103,00;1012,9304;0;0;0;S;1;NA;1104,9667;60;0,376;;MyAveragePrice=1104,9667 YesterdayPrice=1091,00;SellLimit decreased 0.376%;
+V58;0269;NoiseTrader;active   ;Active with strategy for 77 daysCurPrice=1090.0 Ref.Price=1153,00 DownProcent=5,464 Threshold=14,60 MindesActiveDays=15;220;224738;465858;-13230;-2,7615;-13119;-2,739;S;0;0;1;1090;1096;B;1111,00;1012,9304;0;0;0;S;1;NA;1105,7167;60;0,088;;MyAveragePrice=1105,7167 YesterdayPrice=1090,00;SellLimit increased 0.088%;
+V58;0270;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1096.0 Ref.Price=1146,00 DownProcent=4,363 Threshold=14,60 MindesActiveDays=15;219;225848;468938;-9700;-2,0266;-10039;-2,0959;S;0;0;1;1100;1110;G;1123,00;1012,9304;0;0;0;S;1;NA;1106,45;60;0,414;;MyAveragePrice=1106,45 YesterdayPrice=1096,00;SellLimit decreased 0.414%;
+V58;0271;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1110.0 Ref.Price=1151,00 DownProcent=3,5621 Threshold=14,60 MindesActiveDays=15;219;225848;469595;-7018;-1,4725;-9382;-1,9588;B;1;1112;0;0;1113;b;1102,00;1012,9304;0;0;0; ;0;NA;1107,35;60;0,24;;MyAveragePrice=1107,35 YesterdayPrice=1110,00;BuyLimit increased 0.24%;
+V58;0272;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1113.0 Ref.Price=1156,00 DownProcent=3,7197 Threshold=14,60 MindesActiveDays=15;219;225848;470690;-3163;-0,6675;-8287;-1,7301;B;1;1112;0;0;1118;G;1121,00;1012,9304;0;0;0; ;0;NA;1108,20;60;-0,475;;MyAveragePrice=1108,20 YesterdayPrice=1113,00
+V58;0273;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1118.0 Ref.Price=1158,00 DownProcent=3,4542 Threshold=14,60 MindesActiveDays=15;220;224727;471347;314;0,0667;-7630;-1,593;B;1;1124;0;0;1121;B;1110,00;1012,9304;0;0;0;B;1;NA;1109,1333;60;0,556;;MyAveragePrice=1109,1333 YesterdayPrice=1118,00;BuyLimit increased 0.556%;
+V58;0274;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1121.0 Ref.Price=1151,00 DownProcent=2,6064 Threshold=14,60 MindesActiveDays=15;220;224727;472007;3116;0,6645;-6970;-1,4552;B;1;1116;0;0;1124;B;1114,00;1012,9304;0;0;0; ;0;NA;1110,0667;60;0,367;;MyAveragePrice=1110,0667 YesterdayPrice=1121,00;BuyLimit decreased 0.367%;
+V58;0275;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1124.0 Ref.Price=1157,00 DownProcent=2,8522 Threshold=14,60 MindesActiveDays=15;220;224727;472667;5704;1,2215;-6310;-1,3174;B;1;1130;0;0;1127;G;1129,00;1012,9304;0;0;0; ;0;NA;1110,9667;60;0,544;;MyAveragePrice=1110,9667 YesterdayPrice=1124,00;BuyLimit decreased 0.544%;
+V58;0276;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1127.0 Ref.Price=1160,00 DownProcent=2,8448 Threshold=14,60 MindesActiveDays=15;221;223600;472667;7640;1,6429;-6310;-1,3174;B;1;1130;0;0;1127;B;1109,00;1012,9304;0;0;0;B;1;NA;1111,85;60;0,343;;MyAveragePrice=1111,85 YesterdayPrice=1127,00;BuyLimit increased 0.343%;
+V58;0277;Investor;active   ;Active with strategy for 85 daysCurPrice=1127.0 Ref.Price=1166,00 DownProcent=3,3448 Threshold=14,60 MindesActiveDays=15;220;224718;470678;8324;1,8004;-8299;-1,7327; ;0;0;0;0;1118;B;1099,00;1093,9556;-0,459;0,00;0;S;1;1,85;NA;NA;0;
+V58;0278;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1118.0 Ref.Price=1163,00 DownProcent=3,8693 Threshold=14,60 MindesActiveDays=15;220;224718;472218;12537;2,7273;-6759;-1,4111; ;0;0;0;0;1125;B;1117,00;1117,2122;0,019;0,00;0; ;0;1,85;NA;NA;0;
+V58;0279;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1125.0 Ref.Price=1159,00 DownProcent=2,9336 Threshold=14,60 MindesActiveDays=15;220;224718;473098;15118;3,301;-5879;-1,2274; ;0;0;0;0;1129;G;1119,00;1113,5393;-0,488;0,00;0; ;0;1,85;NA;NA;0;
+V58;0280;Investor;active   ;Active with strategy for 88 daysCurPrice=1129.0 Ref.Price=1150,00 DownProcent=1,8261 Threshold=14,60 MindesActiveDays=15;220;224718;474638;17630;3,8577;-4339;-0,9059; ;0;0;0;0;1136;G;1130,00;1125,5591;-0,393;0,00;0; ;0;1,85;NA;NA;0;
+V58;0281;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=1136.0 Ref.Price=1148,00 DownProcent=1,0453 Threshold=14,60 MindesActiveDays=15;220;224718;476398;20848;4,5764;-2579;-0,5384; ;0;0;0;0;1144;b;1135,00;1131,5496;-0,304;0,00;0; ;0;1,85;NA;NA;0;
+V58;0282;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;220;224718;477058;20779;4,554;-1919;-0,4006; ;0;0;0;0;1147;B;1140,00;1137,0588;-0,258;0,00;0; ;0;1,85;NA;NA;0;
+V58;0283;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;220;224718;478598;22081;4,8368;-379;-0,0791; ;0;0;0;0;1154;G;1154,00;1149,384;-0,40;0,00;0; ;0;1,85;NA;NA;0;
+V58;0284;Investor;active   ;Active with strategy for 92 days;220;224718;480138;23388;5,1205;1161;0,2424; ;0;0;0;0;1161;b;1148,00;1147,9426;-0,005;0,00;0; ;0;1,85;NA;NA;0;
+V58;0285;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;218;227040;480138;23854;5,2279;1161;0,2424; ;0;0;0;0;1161;G;1140,00;1137,1728;-0,248;0,00;0;S;2;1,85;NA;NA;0;
+V58;0286;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;218;227040;481882;26064;5,7181;2905;0,6065; ;0;0;0;0;1169;G;1160,00;1163,306;0,285;0,00;0; ;0;1,85;NA;NA;0;
+V58;0287;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;216;229382;482318;21840;4,7429;3341;0,6975; ;0;0;0;0;1171;G;1140,00;1144,4004;0,386;0,00;0;S;2;1,85;NA;NA;0;
+V58;0288;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;215;230558;483398;23148;5,0294;4421;0,923; ;0;0;0;0;1176;B;1144,00;1148,2671;0,373;0,00;0;S;1;1,85;NA;NA;0;
+V58;0289;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;213;232908;483183;22249;4,8269;4206;0,8781; ;0;0;0;0;1175;G;1154,00;1153,5961;-0,035;0,00;0;S;2;1,85;NA;NA;0;
+V58;0290;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;209;237608;483183;19989;4,3155;4206;0,8781; ;0;0;0;0;1175;B;1133,00;1130,2468;-0,243;0,00;0;S;4;1,85;NA;NA;0;
+V58;0291;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;204;243443;481511;16979;3,6551;2534;0,529; ;0;0;0;0;1167;G;1129,00;1129,2258;0,02;0,00;0;S;5;1,85;NA;NA;0;
+V58;0292;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;200;248079;479879;15125;3,2544;902;0,1883; ;0;0;0;0;1159;B;1118,00;1113,1702;-0,432;0,00;0;S;4;1,85;NA;NA;0;
+V58;0293;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;198;250391;479279;14747;3,1746;302;0,0631; ;0;0;0;0;1156;G;1127,00;1129,8626;0,254;0,00;0;S;2;1,85;NA;NA;0;
+V58;0294;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;196;252705;479477;13619;2,9234;500;0,1044; ;0;0;0;0;1157;G;1128,00;1129,8612;0,165;0,00;0;S;2;1,85;NA;NA;0;
+V58;0295;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;194;255019;479477;10539;2,2474;500;0,1044; ;0;0;0;0;1157;G;1124,00;1122,9772;-0,091;0,00;0;S;2;1,85;NA;NA;0;
+V58;0296;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;192;257337;479865;10270;2,187;888;0,1854; ;0;0;0;0;1159;G;1133,00;1133,8271;0,073;0,00;0;S;2;1,85;NA;NA;0;
+V58;0297;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;191;258499;480441;9751;2,0716;1464;0,3057; ;0;0;0;0;1162;B;1137,00;1141,2865;0,377;0,00;0;S;1;1,85;NA;NA;0;
+V58;0298;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;190;259662;480632;9285;1,9699;1655;0,3455; ;0;0;0;0;1163;B;1142,00;1138,0258;-0,348;0,00;0;S;1;1,85;NA;NA;0;
+V58;0299;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;188;261982;480062;8055;1,7065;1085;0,2265; ;0;0;0;0;1160;G;1134,00;1136,1206;0,187;0,00;0;S;2;1,85;NA;NA;0;
+V58;0300;Investor;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;186;264304;480250;7583;1,6043;1273;0,2658; ;0;0;0;0;1161;G;1130,00;1130,1582;0,014;0,00;0;S;2;1,85;NA;NA;0;

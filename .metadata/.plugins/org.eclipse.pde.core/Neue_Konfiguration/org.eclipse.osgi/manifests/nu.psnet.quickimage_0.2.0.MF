@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Generated-from: 1179244806000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: QuickImage
+Bundle-SymbolicName: nu.psnet.quickimage; singleton:=true
+Bundle-Version: 0.2.0
+Bundle-ClassPath: quickimage.jar
+Bundle-Activator: nu.psnet.quickimage.QuickImagePlugin
+Bundle-Vendor: psnet.nu
+Bundle-Localization: plugin
+Export-Package: nu.psnet.quickimage,
+ nu.psnet.quickimage.core,
+ nu.psnet.quickimage.editors,
+ nu.psnet.quickimage.utils,
+ nu.psnet.quickimage.widgets
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.editors,
+ org.eclipse.core.resources
+Eclipse-LazyStart: true

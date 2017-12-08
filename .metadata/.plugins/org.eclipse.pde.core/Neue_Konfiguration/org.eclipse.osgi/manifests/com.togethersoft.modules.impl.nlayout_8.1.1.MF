@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %layoutImplPluginName
+Bundle-SymbolicName: com.togethersoft.modules.impl.nlayout; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: plugin.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.togethersoft.modules.impl.b,
+ com.togethersoft.modules.impl.b.a,
+ com.togethersoft.modules.impl.b.b,
+ com.togethersoft.modules.impl.b.c,
+ com.togethersoft.modules.impl.b.d,
+ com.togethersoft.modules.impl.b.d.a,
+ com.togethersoft.modules.impl.b.d.b,
+ com.togethersoft.modules.impl.b.d.b.a.a,
+ com.togethersoft.modules.impl.b.f,
+ com.togethersoft.modules.impl.b.f.a,
+ com.togethersoft.modules.impl.b.g,
+ com.togethersoft.modules.impl.b.h,
+ com.togethersoft.modules.impl.nlayout,
+ com.togethersoft.modules.impl.nlayout.graph
+Require-Bundle: com.borland.tg.gde.layout,
+ com.togethersoft.platform.modulemanager
+Eclipse-LazyStart: true

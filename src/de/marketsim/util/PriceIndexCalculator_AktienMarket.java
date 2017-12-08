@@ -1,0 +1,1373 @@
+/**
+ * Überschrift:  Markt Simulator
+ * Beschreibung:
+ *
+ * The program for calculating the new trade price
+ *
+ * Copyright (c) 2003,2004,2005,2006,2007,2008
+ * Organisation: Hain Venture GmbH
+ *
+ * @author  Xining Wang
+ * @version 1.0
+ */
+
+package de.marketsim.util;
+
+import java.util.*;
+import java.io.*;
+import jade.core.AID;
+import de.marketsim.SystemConstant;
+import de.marketsim.message.AktienTrade_Order;
+import de.marketsim.config.*;
+import de.marketsim.util.HTMLCreator;
+
+public class PriceIndexCalculator_AktienMarket extends PriceIndexCalculatorBase
+{
+
+ private  int      mMaxTradeMenge   = 0;
+
+ public PriceIndexCalculator_AktienMarket( int pDay, boolean pAppend )
+ {
+     super( pDay, pAppend );
+ }
+
+ public double getPrice()
+ {
+     return this.mPrice;
+ }
+
+ public void setLastPrice( double pLastPrice )
+ {
+     this.mLastPrice = pLastPrice;
+ }
+
+ private String createHTMLTableRow(String pName, String pValue )
+ {
+   return   "<tr>"+
+            "<td>" + pName + "</td>" +
+            "<td>" + pValue + "</td>" +
+            "</tr>";
+ }
+
+ private void PrintOderOverview()
+ {
+   HTMLCreator.putHTMLLine   ( this.mDailyOrderBookHTMLFile, "Order oerview:" );
+   HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,    "<table border=1 >");
+   HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,    createHTMLTableRow( "KaufMenge aus BuyOrder mit Limit", ""+this.mDailyOrderStatistic.mBuyMenge_With_Limit) );
+   HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,    createHTMLTableRow( "KaufMenge aus Cheapest Buy Order"  , ""+ this.mDailyOrderStatistic.mCheapestBuyMenge) );
+   HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,    createHTMLTableRow( "VerkaufMenge aus SellOrder mit Limit", ""+this.mDailyOrderStatistic.mSellMenge_With_Limit) );
+   HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,    createHTMLTableRow( "VerkaufMenge aus BestSell Order", ""+this.mDailyOrderStatistic.mBestenSellMenge) );
+   HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,    "</table>" );
+ }
+
+
+  /*
+  Common Subprogramm
+  Behandel Orders und garantieren ihre Buy Menge
+  */
+
+  private void GarantierenBuyMenge( Vector pOrderList, double pKurs)
+  {
+      for ( int i=0; i< pOrderList.size(); i ++)
+      {
+         SingleOrder so = ( SingleOrder ) pOrderList.elementAt(i);
+         if ( so.mLimit >= pKurs )
+         {
+             so.mTradeMenge = so.mMenge;
+         }
+      }
+  }
+
+  /**
+   * Distribute BuyMenge
+   * All Order habe the same chance
+   */
+  private void GleichDistributeBuyMenge( Vector pOrderList,  double Ratio, int ToBeDistributedBuyMenge )
+  {
+      int AlreadyDistributedMenge = 0;
+      for ( int i=0; i< pOrderList.size(); i ++)
+      {
+         SingleOrder so = ( SingleOrder ) pOrderList.elementAt(i);
+         so.mTradeMenge = ( int ) ( so.mMenge * Ratio ) ;
+         AlreadyDistributedMenge = AlreadyDistributedMenge + so.mTradeMenge;
+      }
+      int rest = ToBeDistributedBuyMenge - AlreadyDistributedMenge;
+
+      int i=0;
+      while ( rest > 0 )
+      {
+         SingleOrder so = ( SingleOrder ) pOrderList.elementAt(i);
+         if ( so.mTradeMenge < so.mMenge )
+         {
+            so.mTradeMenge = so.mTradeMenge + 1;
+            rest = rest -1;
+         }
+         i = i + 1;
+         if ( i == pOrderList.size() )
+         {
+           i=0;
+         }
+      }
+  }
+
+  /**
+   * Distribute SellMenge
+   * All Order habe the same chance
+   */
+  private void GleichDistributeSellMenge( Vector pOrderList,  double Ratio, int ToBeDistributedSellMenge )
+  {
+      int AlreadyDistributedMenge = 0;
+      for ( int i=0; i< pOrderList.size(); i ++)
+      {
+         SingleOrder so = ( SingleOrder ) pOrderList.elementAt(i);
+         so.mTradeMenge = (int) ( so.mMenge * Ratio ) ;
+         AlreadyDistributedMenge = AlreadyDistributedMenge + so.mTradeMenge;
+      }
+      int rest = ToBeDistributedSellMenge - AlreadyDistributedMenge;
+
+      int i=0;
+      while ( rest > 0 )
+      {
+         SingleOrder so = ( SingleOrder ) pOrderList.elementAt(i);
+         if ( so.mTradeMenge < so.mMenge )
+         {
+            so.mTradeMenge = so.mTradeMenge + 1;
+            rest = rest -1;
+         }
+         i=i+1;
+         if ( i == pOrderList.size() )
+         {
+            i = 0;
+         }
+      }
+  }
+
+  /*
+  Common Subprogramm
+  Behandel Orders und garantieren ihre Buy Menge
+  */
+
+  private void GarantierenSellMenge( Vector pOrderList, double pLimit)
+  {
+      for ( int i=0; i< pOrderList.size(); i ++)
+      {
+         SingleOrder so = ( SingleOrder ) pOrderList.elementAt(i);
+         if ( so.mLimit <= pLimit )
+         {
+             so.mTradeMenge = so.mMenge;
+         }
+      }
+  }
+
+  private void makeSumSingleSellOrders()
+  {
+
+      // für Behalten von allen SellLimits.
+      Hashtable TempSellLimitList = new Hashtable();
+
+      // process all Sell Orders
+      for (int i=0; i<this.mSellOrderList.size(); i++)
+      {
+        SingleOrder so = (SingleOrder) mSellOrderList.elementAt(i);
+        if ( mLimitList.containsKey( new Double ( so.mLimit )  ) )
+        {
+           PriceCalcBase onebase = (PriceCalcBase) mLimitList.get( new Double( so.mLimit ) );
+           onebase.mSellMenge = onebase.mSellMenge + so.mMenge;
+        }
+        else
+        {
+           PriceCalcBase onebase = new PriceCalcBase( so.mLimit );
+           onebase.mSellMenge = so.mMenge;
+           mCalcBase.add( onebase );
+           mLimitList.put( new Double ( so.mLimit  ), onebase );
+        }
+
+        // Das ist ein neuer SellLimit, so speicher es in die Liste
+        if ( ! TempSellLimitList.containsKey( new Double ( so.mLimit ) ) )
+        {
+             TempSellLimitList.put( new Double ( so.mLimit ), "" );
+        }
+        this.mDailyOrderStatistic.mSellMenge_With_Limit  = this.mDailyOrderStatistic.mSellMenge_With_Limit + so.mMenge;
+      }
+
+      // make sume of all Besten Sell Orders
+      for ( int i=0; i< this.mBestenSellOrderList.size(); i++)
+      {
+         SingleOrder so = (SingleOrder) this.mBestenSellOrderList.elementAt(i);
+         this.mDailyOrderStatistic.mBestenSellMenge = this.mDailyOrderStatistic.mBestenSellMenge + so.mMenge;
+      }
+
+      // Get all SellLimits
+      Object sellLimitObject[] = TempSellLimitList.keySet().toArray();
+      double selllimitdouble[] = new double[ sellLimitObject.length ];
+
+      for ( int i=0; i< sellLimitObject.length; i++ )
+      {
+         selllimitdouble[i] = ( (Double) sellLimitObject[i]).doubleValue();
+      }
+
+      // sorted : small --> Big
+      double sortedselllimits[] = SortTool.sortascent( selllimitdouble );
+
+      // Manchmal gibt es weniger als 5 Lowest SellLimit:
+      if ( sortedselllimits.length < DailyOrderStatistic.mBasicDataBumber )
+      {
+          this.mDailyOrderStatistic.mLowestSellLimitNumber_Real = sortedselllimits.length;
+      }
+      else
+      {
+        this.mDailyOrderStatistic.mLowestSellLimitNumber_Real =DailyOrderStatistic.mBasicDataBumber;
+      }
+
+      for ( int i=0; i<this.mDailyOrderStatistic.mLowestSellLimitNumber_Real; i++)
+      {
+        this.mDailyOrderStatistic.mLowestSellLimitList[i] = sortedselllimits[i];
+        PriceCalcBase tempbase = (PriceCalcBase) mLimitList.get( new Double( sortedselllimits[i] ) );
+        this.mDailyOrderStatistic.mLowestSellMengeList[i] = tempbase.mSellMenge;
+        this.mDailyOrderStatistic.mLowestSellMengeSumme = this.mDailyOrderStatistic.mLowestSellMengeSumme + tempbase.mSellMenge;
+      }
+      this.mDailyOrderStatistic.mLowesSellLimit = sortedselllimits[0];
+
+  }
+
+  private void makeSumSingleBuyOrders()
+  {
+      // für Behalten von allen BuyLimits.
+      Hashtable TempBuyLimitList = new Hashtable();
+
+      // make sum of all BuyMenge of all normal Buy Order with Limit
+      // According to the Limit, make sum of Buy-Orders and Sell Orders
+      // then combine all sumed Buy-Sum and Sell-Sum into a CalcBase according
+      // to Limit
+
+      for (int i=0; i<this.mBuyOrderList.size(); i++)
+      {
+        SingleOrder so = (SingleOrder) mBuyOrderList.elementAt(i);
+        if ( mLimitList.containsKey( new Double ( so.mLimit )  ) )
+        {
+           PriceCalcBase onebase = (PriceCalcBase) mLimitList.get( new  Double( so.mLimit ) );
+           onebase.mBuyMenge = onebase.mBuyMenge + so.mMenge;
+        }
+        else
+        {
+           PriceCalcBase onebase = new PriceCalcBase( so.mLimit );
+           onebase.mBuyMenge = so.mMenge;
+           mCalcBase.add( onebase );
+           mLimitList.put( new Double ( so.mLimit  ), onebase );
+        }
+
+        // Speicher neue Limit in eine seperate Liste
+        if ( ! TempBuyLimitList.containsKey( new Double ( so.mLimit )  ) )
+        {
+          TempBuyLimitList.put(new Double ( so.mLimit ), "");
+        }
+
+        this.mDailyOrderStatistic.mBuyMenge_With_Limit  = this.mDailyOrderStatistic.mBuyMenge_With_Limit + so.mMenge;
+      }
+
+      // make sume of all Cheapest Buy Orders
+      for ( int i=0; i< this.mCheapestBuyOrderList.size(); i++)
+      {
+         SingleOrder so = (SingleOrder ) this.mCheapestBuyOrderList.elementAt(i);
+         this.mDailyOrderStatistic.mCheapestBuyMenge =  this.mDailyOrderStatistic.mCheapestBuyMenge + so.mMenge;
+      }
+
+      Object buyLimitObject[] = TempBuyLimitList.keySet().toArray();
+      double buylimitdouble[] = new double[ buyLimitObject.length];
+      for ( int i=0; i< buyLimitObject.length; i++ )
+      {
+         buylimitdouble[i] = ( (Double) buyLimitObject[i]).doubleValue();
+      }
+      double sortedbuylimits[] = SortTool.sortdescent( buylimitdouble );
+
+      // Manchmal gibt es weniger als 5 Highest BuyLimit
+      if ( sortedbuylimits.length < DailyOrderStatistic.mBasicDataBumber )
+      {
+          this.mDailyOrderStatistic.mHighestBuyLimitNumber_Real = sortedbuylimits.length;
+      }
+      else
+      {
+          this.mDailyOrderStatistic.mHighestBuyLimitNumber_Real =DailyOrderStatistic.mBasicDataBumber;
+      }
+
+      for ( int i=0; i<this.mDailyOrderStatistic.mHighestBuyLimitNumber_Real; i++ )
+      {
+          this.mDailyOrderStatistic.mHighestBuyLimitList[i] =sortedbuylimits[i];
+          PriceCalcBase tempbase = (PriceCalcBase) mLimitList.get( new  Double( sortedbuylimits[i] ) );
+          this.mDailyOrderStatistic.mHighestBuyMengeList[i] = tempbase.mBuyMenge;
+          this.mDailyOrderStatistic.mHighestBuyMengeSumme = this.mDailyOrderStatistic.mHighestBuyMengeSumme + tempbase.mBuyMenge;
+      }
+
+      this.mDailyOrderStatistic.mHighestBuyLimit = sortedbuylimits[0];
+
+  }
+
+  private void setNewPreisToAllOrder_WhenNoTradePossible()
+  {
+    // All Buy Sell Orders
+    Vector AllOrders = this.getOrderList();
+    for (int i=0; i< AllOrders.size(); i++)
+    {
+       SingleOrder  so = (SingleOrder) AllOrders.elementAt(i);
+       so.mFinalPrice  = this.mPrice;
+       so.mTradeResult = this.mTradeStatus;
+
+       AktienTrade_Order original_order = (AktienTrade_Order) this.mOriginalOrderList.get( so.mAID.getLocalName() );
+
+       original_order.mFinalPrice  = this.mPrice;
+       original_order.mTradeResult = this.mTradeStatus;
+
+       if ( so.mTradeMenge > 0 )
+       {
+           // 2007-12-12
+           // neue hinzugefügte Logik
+           if ( so.mOrderOfFundamentalInvestor )
+           {
+              if ( so.mOrderWish == SystemConstant.WishType_Buy )
+              {
+                original_order.setPerformedBuyMenge( so.mOrderInternalNo, so.mTradeMenge );
+                original_order.mBuyPerformed  = true;
+                original_order.mSellPerformed = false;
+
+              }
+              else
+              {
+                original_order.setPerformedSellMenge( so.mOrderInternalNo, so.mTradeMenge );
+                original_order.mBuyPerformed  = false;
+                original_order.mSellPerformed = true;
+              }
+              // Here muss sum machen wegen mehrere Orders
+              // 2007-12-12
+              original_order.mTradeMenge = original_order.mTradeMenge + so.mTradeMenge;
+
+           }
+           // old logik
+           else
+           {
+               if ( so.mOrderWish == SystemConstant.WishType_Buy )
+               {
+                 original_order.mBuyPerformed  = true;
+                 original_order.mSellPerformed = false;
+               }
+               else
+               {
+                 original_order.mBuyPerformed  = false;
+                 original_order.mSellPerformed = true;
+               }
+               original_order.mTradeMenge   = so.mTradeMenge;
+           }
+       }
+    }
+
+    // All Wait Orders
+    for (int i=0; i< this.mNoneOrderList.size(); i++)
+    {
+      SingleOrder  so = (SingleOrder) this.mNoneOrderList.elementAt(i);
+      so.mFinalPrice  = this.mPrice;
+      so.mTradeResult = this.mTradeStatus;
+      AktienTrade_Order original_order = (AktienTrade_Order) this.mOriginalOrderList.get( so.mAID.getLocalName() );
+      original_order.mFinalPrice  = this.mPrice;
+      original_order.mTradeResult = this.mTradeStatus;
+    }
+
+  }
+
+  /**
+   * Select Buy Orders with a defined Limit
+   * @param pLimit
+   * @return
+   */
+
+  private Vector getBuyOrderAtLimit( double pLimit)
+  {
+       Vector vv = new Vector();
+       for ( int i=0; i< this.mBuyOrderList.size(); i++ )
+       {
+           SingleOrder so = ( SingleOrder ) this.mBuyOrderList.elementAt(i) ;
+           if ( so.mLimit == pLimit )
+           {
+              vv.add( so );
+           }
+       }
+       return vv;
+  }
+
+  /**
+   * Select Buy Orders whose BuyLimit is >= defined Limit
+   * @param pLimit
+   * @return
+   */
+
+  private Vector getBuyOrderAboveAndAtLimit( double pLimit)
+  {
+       Vector vv = new Vector();
+       for ( int i=0; i< this.mBuyOrderList.size(); i++ )
+       {
+           SingleOrder so = ( SingleOrder ) this.mBuyOrderList.elementAt(i) ;
+           if ( so.mLimit >= pLimit )
+           {
+              vv.add( so );
+           }
+       }
+       return vv;
+  }
+
+  /**
+   * Select Sell Orders with a defined Limit
+   * @param pLimit
+   * @return
+   */
+
+  private Vector getSellOrderAtLimit( double pLimit)
+  {
+       Vector vv = new Vector();
+       for ( int i=0; i< this.mSellOrderList.size(); i++ )
+       {
+           SingleOrder so = ( SingleOrder ) this.mSellOrderList.elementAt(i) ;
+           if ( so.mLimit == pLimit )
+           {
+              vv.add( so );
+           }
+       }
+       return vv;
+  }
+
+  private Vector getSellOrderUnderAndAtLimit( double pLimit)
+  {
+       Vector vv = new Vector();
+       for ( int i=0; i< this.mSellOrderList.size(); i++ )
+       {
+           SingleOrder so = ( SingleOrder ) this.mSellOrderList.elementAt(i) ;
+           if ( so.mLimit <= pLimit )
+           {
+              vv.add( so );
+           }
+       }
+       return vv;
+  }
+
+  private void setPriceAndTradeStatusintoAllBuy_Sell_Orders_and_NonOrders()
+  {
+    Vector AllOrders = this.getOrderList();
+    for (int i=0; i< AllOrders.size(); i++)
+    {
+       SingleOrder  so = (SingleOrder) AllOrders.elementAt(i);
+       so.mFinalPrice  = this.mPrice;
+       so.mTradeResult = this.mTradeStatus;
+
+       AktienTrade_Order original_order = (AktienTrade_Order) this.mOriginalOrderList.get( so.mAID.getLocalName() );
+
+       original_order.mFinalPrice  = this.mPrice;
+       original_order.mTradeResult = this.mTradeStatus;
+
+       if ( so.mTradeMenge > 0 )
+       {
+           // 2007-12-12
+           // neue hinzugefügte Logik
+           if ( so.mOrderOfFundamentalInvestor )
+           {
+              if ( so.mOrderWish == SystemConstant.WishType_Buy )
+              {
+                original_order.setPerformedBuyMenge( so.mOrderInternalNo, so.mTradeMenge );
+                original_order.mBuyPerformed  = true;
+                original_order.mSellPerformed = false;
+
+              }
+              else
+              {
+                original_order.setPerformedSellMenge( so.mOrderInternalNo, so.mTradeMenge );
+                original_order.mBuyPerformed  = false;
+                original_order.mSellPerformed = true;
+              }
+              // Here muss sum machen wegen mehrere Orders
+              // 2007-12-12
+              original_order.mTradeMenge = original_order.mTradeMenge + so.mTradeMenge;
+           }
+           // old logik
+           else
+           {
+               if ( so.mOrderWish == SystemConstant.WishType_Buy )
+               {
+                 original_order.mBuyPerformed  = true;
+                 original_order.mSellPerformed = false;
+               }
+               else
+               {
+                 original_order.mBuyPerformed  = false;
+                 original_order.mSellPerformed = true;
+               }
+               original_order.mTradeMenge   = so.mTradeMenge;
+           }
+       }
+    }
+
+    for (int i=0; i< this.mNoneOrderList.size(); i++)
+    {
+      SingleOrder  so = (SingleOrder) this.mNoneOrderList.elementAt(i);
+      so.mFinalPrice  = this.mPrice;
+      so.mTradeResult = this.mTradeStatus;
+      AktienTrade_Order original_order = (AktienTrade_Order) this.mOriginalOrderList.get( so.mAID.getLocalName() );
+      original_order.mFinalPrice  = this.mPrice;
+      original_order.mTradeResult = this.mTradeStatus;
+    }
+  }
+
+  /**
+   * Auf Kaufseite   : Kein BuyOrder mit Limits
+   * Auf Verkaufseite: Kein SellOrders mit Limits
+   */
+
+  private void DoCalculationWithOnlyCheapestBuyAndOnlyBestSell()
+  {
+
+     PrintOderOverview();
+     // Nur CheapestBuy Orders und BestSell Orders
+     if ( (  this.mDailyOrderStatistic.mCheapestBuyMenge > 0 )  && ( this.mDailyOrderStatistic.mBestenSellMenge > 0 ) )
+     {
+        System.out.println ( this.mDay + " Special Processing: only CheapestBuy Orders and BestSell Orders "  );
+        // Neu Kurs: Gestern Preis als neu Kurs
+        this.mPrice                         = (int)this.mLastPrice;
+        this.mUmsatz                        = Math.min(this.mDailyOrderStatistic.mCheapestBuyMenge,  this.mDailyOrderStatistic.mBestenSellMenge );
+        this.mMaxTradeVolume                = this.mUmsatz * this.mPrice;
+
+        this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total  = this.mDailyOrderStatistic.mCheapestBuyMenge - this.mUmsatz;
+        this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total = this.mDailyOrderStatistic.mBestenSellMenge  - this.mUmsatz;
+
+        //checkTradeStatus(int pTotalBuyMenge, int pTotalSellMenge, int pOpenBuyMenge, int pOpenSellMenge)
+
+        if ( this.mDailyOrderStatistic.mCheapestBuyMenge == this.mDailyOrderStatistic.mBestenSellMenge )
+        {
+          this.mTradeStatus = 'b';
+        }
+        else
+        if ( this.mDailyOrderStatistic.mCheapestBuyMenge > this.mDailyOrderStatistic.mBestenSellMenge )
+        {
+            this.mTradeStatus = 'G';
+        }
+        else
+        {
+            this.mTradeStatus = 'B';
+        }
+
+        HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Neu Umsatz = "  + this.mUmsatz );
+        HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "TradeVolume = "  + this.mMaxTradeVolume );
+        HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Neu Kurs = "  + this.mPrice );
+        HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Offene Kaufmenge=" + this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total );
+        HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Offene Verkaufmenge=" + this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total );
+        HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Kurszusatz =" + this.mTradeStatus );
+        HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Kurs vom Vortag=" + this.mLastPrice );
+
+        if (  this.mDailyOrderStatistic.mCheapestBuyMenge == this.mDailyOrderStatistic.mBestenSellMenge )
+        {
+            // All CheapestBuy Order werden komplett ausgeführt. Rate = 1.0
+            this.GleichDistributeBuyMenge( this.mBestenSellOrderList, 1.0, this.mDailyOrderStatistic.mBestenSellMenge  );
+            // All BestSell Order werden komplett ausgeführt Rate = 1.0
+            this.GleichDistributeBuyMenge( this.mCheapestBuyOrderList, 1.0, this.mDailyOrderStatistic.mCheapestBuyMenge  );
+        }
+        else
+        if (  this.mDailyOrderStatistic.mCheapestBuyMenge > this.mDailyOrderStatistic.mBestenSellMenge )
+        {
+            // All BestSell Order werden komplett ausgeführt Rate = 1.0
+            this.GleichDistributeBuyMenge( this.mBestenSellOrderList, 1.0, this.mDailyOrderStatistic.mBestenSellMenge  );
+            // Cheapest Buy wird mit einer Rate ausgeführt.
+            double rate = this.mDailyOrderStatistic.mBestenSellMenge * 1.0 / this.mDailyOrderStatistic.mCheapestBuyMenge;
+            this.GleichDistributeBuyMenge( this.mCheapestBuyOrderList, rate, this.mUmsatz );
+        }
+        else
+        {
+          // All CheapestBuy Order werden komplett ausgeführt. Rate = 1.0
+          this.GleichDistributeBuyMenge( this.mCheapestBuyOrderList, 1.0, this.mDailyOrderStatistic.mCheapestBuyMenge  );
+          double rate = this.mDailyOrderStatistic.mCheapestBuyMenge * 1.0 /  this.mDailyOrderStatistic.mBestenSellMenge;
+          this.GleichDistributeSellMenge( this.mBestenSellOrderList, rate,  this.mUmsatz );
+        }
+     }
+     else
+     {
+
+       HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Handeln ist nicht möglich." );
+       // Neu Kurs: Gestern Preis als neu Kurs
+       this.mPrice                         = (int)this.mLastPrice;
+       this.mUmsatz                        = 0;
+       this.mMaxTradeVolume                = 0;
+       this.mTradeStatus                   = SystemConstant.TradeResult_Taxe;
+       this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total = this.mDailyOrderStatistic.mCheapestBuyMenge - this.mUmsatz;
+       this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total = this.mDailyOrderStatistic.mBestenSellMenge  - this.mUmsatz;
+       this.mTradeStatus                   = SystemConstant.TradeResult_Taxe;
+
+       HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Neu Umsatz = "  + this.mUmsatz );
+       HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "TradeVolume = "  + this.mMaxTradeVolume );
+       HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Neu Kurs = "  + this.mPrice );
+       HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Kurszusatz =" + this.mTradeStatus );
+       HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Kurs vom Vortag=" + this.mLastPrice );
+
+     }
+
+     this.setPriceAndTradeStatusintoAllBuy_Sell_Orders_and_NonOrders();
+  }
+
+  /**
+   * Auf Kaufseite   : Es gibt nur CheapestBuy Orders
+   * Auf Verkaufseite: Es gibt SellOrders mit Limit + possible BestSell Orders
+   */
+
+  private void DoCalculationWithCheapestBuyAndLimitSellOrdersOrBestSellOrders()
+  {
+        System.out.println ( this.mDay + " Auf Kaufseit: Nur Cheapest Buy "  );
+        PrintOderOverview();
+        // SellOrder with lowerest Price
+        int VerkaufMenge_mit_lowestLimit_und_BestSellOrder = 0;
+
+        PriceCalcBase order_lowerestlimit              = ( PriceCalcBase ) mCalcBase.elementAt( 0 );
+        VerkaufMenge_mit_lowestLimit_und_BestSellOrder = order_lowerestlimit.mSellMenge;
+
+        if ( this.mDailyOrderStatistic.mCheapestBuyMenge <= order_lowerestlimit.mSellMenge )
+        {
+              this.mUmsatz         = this.mDailyOrderStatistic.mCheapestBuyMenge;
+              this.mMaxTradeVolume = this.mDailyOrderStatistic.mCheapestBuyMenge * order_lowerestlimit.mLimit ;
+              this.mPrice          = (int)order_lowerestlimit.mLimit;
+
+              if ( this.mDailyOrderStatistic.mCheapestBuyMenge == order_lowerestlimit.mSellMenge)
+              {
+                this.mTradeStatus = 'b';
+              }
+              else
+              {
+                this.mTradeStatus = 'B';
+              }
+
+              this.GleichDistributeBuyMenge( this.mCheapestBuyOrderList, 1.0, this.mDailyOrderStatistic.mCheapestBuyMenge );
+
+              // Sell Menge Distribution Rate:
+              double distributionrate = this.mDailyOrderStatistic.mCheapestBuyMenge * 1.0 / order_lowerestlimit.mSellMenge;
+
+              // BestSell Order hat Vorrang:
+              if (   this.mDailyOrderStatistic.mCheapestBuyMenge <= this.mDailyOrderStatistic.mBestenSellMenge )
+              {
+                  double rate = this.mDailyOrderStatistic.mCheapestBuyMenge *1.0 / this.mDailyOrderStatistic.mBestenSellMenge;
+                  this.GleichDistributeSellMenge( this.mBestenSellOrderList, rate, this.mDailyOrderStatistic.mCheapestBuyMenge );
+              }
+              else
+              {
+                  // BestSell Order hat Vorrang:
+                  this.GleichDistributeSellMenge( this.mBestenSellOrderList, 1.0, this.mDailyOrderStatistic.mBestenSellMenge );
+
+                  int restmenge = this.mDailyOrderStatistic.mCheapestBuyMenge - this.mDailyOrderStatistic.mBestenSellMenge;
+                  double rate = restmenge * 1.0 / order_lowerestlimit.mOriginalSellMenge;
+                  // dann SellOrder mit niedrigest Limit
+                  Vector vv = this.getSellOrderAtLimit( order_lowerestlimit.mLimit);
+                  this.GleichDistributeSellMenge( vv, rate, restmenge );
+              }
+        }
+        else
+        {
+           // Cheapest Buy Menge > Lowest Limit Sell Order Menge + BestSellOrder menge
+           // Cheapest Buy Menge will be distributed
+           this.mUmsatz         = order_lowerestlimit.mSellMenge;
+           this.mMaxTradeVolume = this.mUmsatz * order_lowerestlimit.mLimit ;
+           this.mPrice          = (int)order_lowerestlimit.mLimit;
+
+           this.mTradeStatus = 'G';
+
+           // get the Lowest Limit Sell Order and BestSellOrders
+           Vector vv = this.getSellOrderAtLimit( this.mPrice  );
+           this.GleichDistributeSellMenge( vv, 1.0, order_lowerestlimit.mOriginalSellMenge );
+           this.GleichDistributeSellMenge( this.mBestenSellOrderList, 1.0,  this.mDailyOrderStatistic.mBestenSellMenge );
+
+           double rate = this.mUmsatz * 1.0  / this.mDailyOrderStatistic.mCheapestBuyMenge ;
+           this.GleichDistributeBuyMenge ( this.mCheapestBuyOrderList, rate, this.mUmsatz);
+        }
+
+          HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Neu Umsatz = "  + this.mUmsatz );
+          HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "TradeVolume = "  + this.mMaxTradeVolume );
+          HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Neu Kurs = "  + this.mPrice );
+          HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Kurs vom Vortag=" + this.mLastPrice );
+
+          this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total = this.mDailyOrderStatistic.mBuyMenge_Of_AllBuyOrder   - this.mUmsatz;
+          this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total = this.mDailyOrderStatistic.mSellMenge_Of_AllSellOrder - this.mUmsatz;
+
+          HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "OffenKaufMenge="    + this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total );
+          HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "OffenverkaufMenge=" + this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total );
+          HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "TradeStatus=" + this.mTradeStatus );
+
+          ///////////
+          this.setPriceAndTradeStatusintoAllBuy_Sell_Orders_and_NonOrders();
+          this.DisplayDistribution();
+  }
+
+
+  /**
+   * Stufeweise Zuteilung von Buy Orders
+   * BuyOrders mit höher Limit hat Vorrang.
+   *
+   * Das ist Börse Verfahren.
+   *
+   */
+
+  private void StufenzuteilenBuyOrders( int pMenge )
+  {
+       int nochavailablemenge = pMenge;
+       PriceCalcBase thisbase;
+       int i = mCalcBase.size()-1 ;
+       do
+       {
+         thisbase =( PriceCalcBase) mCalcBase.elementAt( i );
+         Vector vv = this.getBuyOrderAtLimit( thisbase.mLimit );
+         if ( nochavailablemenge <= thisbase.mOriginalBuyMenge )
+         {
+            double ratio = (1.0*nochavailablemenge) / thisbase.mOriginalBuyMenge;
+            this.GleichDistributeBuyMenge( vv, ratio, nochavailablemenge );
+            nochavailablemenge = 0;
+         }
+         else
+         {
+            this.GarantierenBuyMenge( vv, thisbase.mLimit );
+            nochavailablemenge = nochavailablemenge - thisbase.mOriginalBuyMenge;
+            i--;
+         }
+       }
+       while ( nochavailablemenge>0 );
+  }
+
+  /**
+   * Stufeweise Zuteilung von Buy Orders
+   * SellOrders mit niedrigest Limit hat Vorrang.
+   *
+   * Das ist Börse Verfahren.
+   *
+   */
+  private void StufenzuteilenSellOrders( int pMenge )
+  {
+       // zuteilen nach SellLimit: Kleinest Sell-Limit wird zuerst berücksichtigt
+       // dann weiter bis pMenge fertig zugeteilt wird.
+       int nochavailablemenge = pMenge;
+       PriceCalcBase thisbase;
+       int i = 0 ;
+       do
+       {
+         thisbase =( PriceCalcBase) mCalcBase.elementAt( i );
+         Vector vv = this.getSellOrderAtLimit( thisbase.mLimit );
+         if ( nochavailablemenge <= thisbase.mOriginalSellMenge )
+         {
+            double ratio = (1.0*nochavailablemenge) / thisbase.mOriginalSellMenge;
+            this.GleichDistributeSellMenge( vv, ratio, nochavailablemenge );
+            nochavailablemenge = 0;
+         }
+         else
+         {
+            this.GarantierenSellMenge( vv, thisbase.mLimit );
+            nochavailablemenge = nochavailablemenge - thisbase.mOriginalSellMenge;
+            i++;
+         }
+       }
+       while ( nochavailablemenge>0 );
+  }
+
+
+  public  DailyOrderStatistic getDailyOrderStatistic()
+  {
+	  return this.mDailyOrderStatistic;
+  }
+
+  /**
+   * Die meisten Situationen
+   */
+
+  public void doCalculationNormalSituation()
+  {
+
+    PrintOderOverview();
+
+    // BöseGesetz: Neu Kurs wird aufgrund Maximal-TradeVolume bestimmt.
+    // TradeVolume = TradeMenge * Preis
+
+    mLogger.debug ("Searching Max TradeVolume ---------" );
+
+    this.mMaxTradeMenge  = 0;
+    this.mMaxTradeVolume = 0;
+    int Neukurs_Position = -1;
+
+    mLogger.debug("Price, PossilbeBuyMenge, PossibleSellMenge, PossibleTradeMenge, PossibleTradeVolume" );
+
+    boolean multimaximaltradevolume = false;
+
+    PriceCalcBase FinalKurs_PriceCalcBase = null;
+
+    String Decision_Description = "";
+
+    for ( int i=0; i< mCalcBase.size(); i++)
+    {
+         PriceCalcBase thisbase        =( PriceCalcBase) mCalcBase.elementAt( i );
+         thisbase.mPossibleTradeMenge  = Math.min( thisbase.mBuyMenge, thisbase.mSellMenge );
+         thisbase.mPossibleTradeVolume = thisbase.mPossibleTradeMenge * thisbase.mLimit;
+
+         /* according to Maximal Tradevolume to decide the new price */
+         if ( thisbase.mPossibleTradeVolume > this.mMaxTradeVolume )
+         {
+             this.mMaxTradeVolume  = thisbase.mPossibleTradeVolume;
+             this.mPrice = (int) thisbase.mLimit;
+             this.mUmsatz = thisbase.mPossibleTradeMenge;
+             FinalKurs_PriceCalcBase = thisbase;
+             Neukurs_Position = i;
+             Decision_Description ="NeuKurs ist aufgrund Maximal Tradevolume " + this.mMaxTradeVolume + " bestimmt.";
+         }
+         else
+         if ( ( thisbase.mPossibleTradeMenge == mMaxTradeMenge ) && ( mMaxTradeMenge > 0 ) )
+         {
+               multimaximaltradevolume = true;
+         }
+     }
+
+     // 2008.01
+     // New statistic from Daily Order Book
+
+     ///////////////////////////////////////////////////////////////
+     // search the Record for the highest BuyLimit
+     ///////////////////////////////////////////////////////////////
+     for ( int i=0; i< mCalcBase.size(); i++)
+     {
+       PriceCalcBase tt =( PriceCalcBase) mCalcBase.elementAt( i );
+       if ( tt.mLimit == this.mDailyOrderStatistic.mHighestBuyLimit )
+       {
+         this.mDailyOrderStatistic.mHighestBuyLimit_Aktien  = tt.mPossibleTradeMenge;
+         this.mDailyOrderStatistic.mHighestBuyLimit_Volume  = tt.mPossibleTradeVolume;
+         break;
+       }
+     }
+
+     ///////////////////////////////////////////////////////////////
+     // search the record for the lowest SellLimit
+     ///////////////////////////////////////////////////////////////
+     for ( int i=0; i<mCalcBase.size(); i++ )
+     {
+       PriceCalcBase tt =( PriceCalcBase) mCalcBase.elementAt( i );
+       if ( tt.mLimit == this.mDailyOrderStatistic.mLowesSellLimit )
+       {
+         this.mDailyOrderStatistic.mLowesSellLimit_Aktien  = tt.mPossibleTradeMenge;
+         this.mDailyOrderStatistic.mLowesSellLimit_Volume  = tt.mPossibleTradeVolume;
+         break;
+       }
+     }
+
+     ///////////////////////////////////////////////////////////////
+     // Calculation of average                                    //
+     ///////////////////////////////////////////////////////////////
+
+     this.mDailyOrderStatistic.mHighBuyAndLowSell_Average =
+     ( this.mDailyOrderStatistic.mHighestBuyLimit + this.mDailyOrderStatistic.mLowesSellLimit ) / 2.0;
+
+     this.mDailyOrderStatistic.mHighBuyAndLowSell_Difference =
+    	 this.mDailyOrderStatistic.mHighestBuyLimit - this.mDailyOrderStatistic.mLowesSellLimit;
+
+     this.mDailyOrderStatistic.mHighBuyAndLowSell_Difference_Procent =
+         this.mDailyOrderStatistic.mHighBuyAndLowSell_Difference * 100.0 /this.mDailyOrderStatistic.mLowesSellLimit;
+
+     ///////////////////////////////////////////////////////////////
+     // Calculation of average Deviation of Buy Side              //
+     ///////////////////////////////////////////////////////////////
+     double  sum_deviation = 0.0;
+     for ( int i=0; i< this.mDailyOrderStatistic.mHighestBuyLimitNumber_Real; i++)
+     {
+         double limit_delta_to_average = this.mDailyOrderStatistic.mHighestBuyLimitList[i] - this.mDailyOrderStatistic.mHighBuyAndLowSell_Average;
+         sum_deviation = sum_deviation + limit_delta_to_average;
+     }
+     this.mDailyOrderStatistic.mAverageDeviation_BuySide = sum_deviation / this.mDailyOrderStatistic.mHighestBuyLimitNumber_Real;
+
+    ///////////////////////////////////////////////////////////////
+    // Calculation of average Deviation at Sell Side             //
+    ///////////////////////////////////////////////////////////////
+
+    sum_deviation = 0.0;
+
+    for ( int i=0; i< this.mDailyOrderStatistic.mLowestSellLimitNumber_Real; i++)
+    {
+        double limit_delta_to_average = this.mDailyOrderStatistic.mLowestSellLimitList[i] - this.mDailyOrderStatistic.mHighBuyAndLowSell_Average;
+        sum_deviation = sum_deviation + limit_delta_to_average;
+    }
+    this.mDailyOrderStatistic.mAverageDeviation_SellSide = sum_deviation / this.mDailyOrderStatistic.mLowestSellLimitNumber_Real;
+
+    ////////////////////////////////////////////////////////
+
+    PriceCalcBase tt =( PriceCalcBase) mCalcBase.elementAt( 0 );
+
+    this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total = tt.mOriginalBuyMenge;  // gesamte BuyWish
+
+    tt =( PriceCalcBase) mCalcBase.elementAt( mCalcBase.size() -1 );
+
+    this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total = tt.mOriginalSellMenge;  // gesamte SellWish;
+
+    // the value - PerformedMenge is "Not Performed Menge in Total "
+
+   /////////////////////////////////////////////////////////
+
+    if ( FinalKurs_PriceCalcBase != null )
+    {
+
+     // Step 1:
+     // Check if only CheapestBuy will involve into Trade
+     // 2006-11-06
+     if ( this.mDailyOrderStatistic.mCheapestBuyMenge >= FinalKurs_PriceCalcBase.mPossibleTradeMenge )
+     {
+
+        this.mTradeStatus = 'G';
+
+        // check if only BestSell Order will involve into Trade
+        if ( FinalKurs_PriceCalcBase.mPossibleTradeMenge == this.mDailyOrderStatistic.mBestenSellMenge )
+        {
+            //
+            // so there is no trade !!!
+            // It brings Price very high !!!
+            this.mPrice  = (int) this.mLastPrice;
+            this.mUmsatz = 0;
+            this.mMaxTradeVolume = 0;
+
+            this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_At_NewPrice =
+                    FinalKurs_PriceCalcBase.mBuyMenge - this.mUmsatz;
+            this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_At_NewPrice =
+                    FinalKurs_PriceCalcBase.mSellMenge - this.mUmsatz;
+
+            Neukurs_Position = -1;
+            Decision_Description="Obwohl es Order mit Limits gibt, aber nur BilligestKauf Order und BestSell Order sind an dem Trade beteiligt, so Vortagkurs wird als neuer Kurs genommen.";
+            FinalKurs_PriceCalcBase = null;
+
+        }
+        else
+        {
+
+            int temptrademenge = FinalKurs_PriceCalcBase.mPossibleTradeMenge;
+            // der maximal Preis darf nicht als neu Kurs gelten.
+            // Wir muessen speziell behandeln
+            // suche nach den kleinsten Preis mit gleiche TradeMenge
+            for ( int i=0; i< mCalcBase.size(); i++)
+            {
+              PriceCalcBase thisbase        =( PriceCalcBase) mCalcBase.elementAt( i );
+              if ( thisbase.mPossibleTradeMenge == temptrademenge )
+              {
+                FinalKurs_PriceCalcBase = thisbase;
+                // weil mCalcBase is sorted nach Preis
+                Neukurs_Position = i;
+                Decision_Description="Weil nur CheapestBuy Order auf Kaufseite an dem Trade beteiligt sind, wird der niedrigeste Limit mit gleich Umsatz zum neuen Kurs ausgewählt.";
+                break;
+              }
+            }
+
+            this.mPrice  = (int) FinalKurs_PriceCalcBase.mLimit;
+            this.mUmsatz = FinalKurs_PriceCalcBase.mPossibleTradeMenge;
+            this.mMaxTradeVolume =  this.mUmsatz * this.mPrice;
+
+            this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_At_NewPrice =
+            	FinalKurs_PriceCalcBase.mBuyMenge - this.mUmsatz;
+            this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_At_NewPrice =
+            	FinalKurs_PriceCalcBase.mSellMenge - this.mUmsatz;
+
+        }
+     }
+     else
+     // check if there is multi-max-volume.
+     if ( multimaximaltradevolume )
+     {
+
+       // find the exact Record
+       double deltapreis = Integer.MAX_VALUE;
+       Neukurs_Position = -1;
+       for ( int i=0; i< this.mCalcBase.size(); i++)
+       {
+            PriceCalcBase thisbase =( PriceCalcBase) mCalcBase.elementAt( i );
+            if ( thisbase.mPossibleTradeVolume == mMaxTradeVolume )
+            {
+                if (  Math.abs( thisbase.mLimit - this.mLastPrice ) < deltapreis )
+                {
+                  Neukurs_Position = i;
+                  deltapreis = Math.abs(  (int)thisbase.mLimit - this.mLastPrice );
+                }
+            }
+       }
+
+       FinalKurs_PriceCalcBase = ( PriceCalcBase) mCalcBase.elementAt( Neukurs_Position );
+
+       Decision_Description="Weil mehrere Limits gleichzeitig zu maximal Tradevolume führen, wird der Limit, der kleinste Abweichung zum Kurs am Vortag hat, als neu Kurs gewählt.";
+       this.mPrice  = (int) FinalKurs_PriceCalcBase.mLimit;
+       this.mUmsatz = FinalKurs_PriceCalcBase.mPossibleTradeMenge;
+       this.mMaxTradeVolume =  this.mUmsatz * this.mPrice;
+
+       // 2008.01
+       this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_At_NewPrice  = FinalKurs_PriceCalcBase.mBuyMenge - this.mUmsatz;
+       this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_At_NewPrice = FinalKurs_PriceCalcBase.mSellMenge - this.mUmsatz;
+
+       if ( FinalKurs_PriceCalcBase.mBuyMenge == FinalKurs_PriceCalcBase.mSellMenge )
+       {
+           this.mTradeStatus = 'b';
+       }
+       else
+       if ( FinalKurs_PriceCalcBase.mBuyMenge > FinalKurs_PriceCalcBase.mSellMenge )
+       {
+           this.mTradeStatus = 'G';
+       }
+       else
+       {
+           this.mTradeStatus = 'B';
+       }
+
+       mLogger.debug("There are multi-records with the same maximal TradeMenge=" + this.mMaxTradeMenge);
+       mLogger.debug("Final Kurs=" + this.mPrice + " Kurs vom Vortag=" + this.mLastPrice  + " TradeMenge=" + this.mUmsatz + " maximal Tradevolume=" + this.mMaxTradeVolume  );
+
+     };
+
+    };
+
+
+     // write to daily order book in HTML Format
+     HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "Decision base for the new price" );
+
+     String tabletitel="<table border=1 >"+
+                       "<tr>"+
+                        "<td><H3>Limit</H3></td>"+
+                        "<td><H3>Possilbe<br>Buy<br>Menge</H3></td>" +
+                       "<td><H3>Possible<br>Sell<br>Menge</H3></td>" +
+                       "<td><H3>Possible<br>Trade<br>Menge</H3></td>" +
+                       "<td><H3>Possible<br>Trade<br>Volume</H3></td>" +
+                        "</tr>";
+
+     HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile, tabletitel );
+
+     for ( int i=0; i< mCalcBase.size(); i++)
+     {
+          PriceCalcBase thisbase        =( PriceCalcBase) mCalcBase.elementAt( i );
+
+          mLogger.debug(  thisbase.mLimit +",  " +
+                          thisbase.mBuyMenge + ",              " +
+                          thisbase.mSellMenge + ",             " +
+                          thisbase.mPossibleTradeMenge+",              "+
+                          thisbase.mPossibleTradeVolume
+                        );
+          String ss = "";
+          if ( i == Neukurs_Position )
+          {
+                 ss= "<tr>"+
+                      "<td><h4>" + thisbase.mLimit + "</h4></td>"+
+                      "<td><h4>" + thisbase.mBuyMenge + "</h4></td>" +
+                      "<td><h4>" + thisbase.mSellMenge +"</h4></td>" +
+                      "<td><h4>" + thisbase.mPossibleTradeMenge+"</h4></td>" +
+                      "<td><h4>" + thisbase.mPossibleTradeVolume+"</h4></td>" +
+                      "</tr>";
+          }
+          else
+          {
+            ss= "<tr>"+
+                 "<td>" + thisbase.mLimit + "</td>"+
+                 "<td>" + thisbase.mBuyMenge + "</td>" +
+                 "<td>" + thisbase.mSellMenge +"</td>" +
+                 "<td>" + thisbase.mPossibleTradeMenge+"</td>" +
+                 "<td>" + thisbase.mPossibleTradeVolume+"</td>" +
+                 "</tr>";
+          }
+          HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile, ss );
+     }
+
+     // write the end tag of Table
+     HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,"</table>" );
+
+     if (  Neukurs_Position >=0 )
+     {
+         HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "" + Decision_Description );
+     }
+
+     // 2006-10-16:
+     // new definition of TradeStatus "B" and "G"
+     // ausgeführte Menge = this.mUmsatz
+     // OpenBuy Menge = TotalBuyMenge - ausgeführte Menge
+     // OpenSellMenge = TotalSellMenge - ausgeführte Menge
+
+     // T:          wenn No Trade, i.e. Umsatz = 0;
+     // b:          when OpenBuyMenge == O  and  OpenSellMenge=0
+     // B--> Brief, when OpenBuyMenge < OpenSellMenge
+     // G--> Geld,  when OpenBuyMenge > OpenSellMenge
+
+     this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total_ExcludeCheapestBuy =  this.mDailyOrderStatistic.mBuyMenge_With_Limit - this.mUmsatz;
+     this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total_ExcludeBestSell = this.mDailyOrderStatistic.mSellMenge_With_Limit -  this.mUmsatz;
+
+     this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total = this.mDailyOrderStatistic.mBuyMenge_Of_AllBuyOrder  - this.mUmsatz;
+     this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total= this.mDailyOrderStatistic.mSellMenge_Of_AllSellOrder - this.mUmsatz;
+
+     if ( FinalKurs_PriceCalcBase != null )
+     {
+         this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_At_NewPrice  = FinalKurs_PriceCalcBase.mBuyMenge - this.mUmsatz;
+         this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_At_NewPrice = FinalKurs_PriceCalcBase.mSellMenge - this.mUmsatz;
+     }
+     else
+     {
+         // weil wir nicht wissen: wo ist der neue Preis-Record
+         this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_At_NewPrice  = 0;
+         this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_At_NewPrice = 0;
+     }
+
+     // 2007-12-16:
+     // changed definition:
+     // T:          wenn No Trade, i.e. Umsatz = 0;
+     // b:          when OpenBuyMenge == O  and  OpenSellMenge=0
+     // B--> Brief, when TotalBuyMenge < TotalSellMenge
+     // G--> Geld,  when TotalBuyMenge > TotalSellMenge
+
+     /****************************************************************************/
+     /* Es gibt zwei möglichkeiten:
+           1) No Trade heute
+           2) Es gibt Trade
+     *********************************************/
+     if ( mMaxTradeVolume == 0 )
+     {
+          // 1) No-Trade
+          this.mTradeStatus = 'T';
+          this.mPrice =(int) this.mLastPrice;
+          this.mTradeStatus = SystemConstant.TradeResult_Taxe;
+          HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,
+                                   "<BR>"+
+                                   "<H2>"+
+                                   "Trade is not possible, let new price to the yesterday price: " + this.mLastPrice+
+                                   "</H2><BR>"
+                                   );
+          this.setPriceAndTradeStatusintoAllBuy_Sell_Orders_and_NonOrders();
+     }
+     else
+     {
+           //There are Trade (Umsatz)
+           mLogger.debug("Trade is performed with following data");
+           mLogger.debug("Umsatz=" + this.mUmsatz + ", NeuKurs=" + this.mPrice + ", Kurszusatz=" + this.mTradeStatus + ", VortagKurs=" + this.mLastPrice )  ;
+
+           FinalKurs_PriceCalcBase = ( PriceCalcBase) mCalcBase.elementAt( Neukurs_Position );
+
+           if ( FinalKurs_PriceCalcBase.mBuyMenge == FinalKurs_PriceCalcBase.mSellMenge )
+           {
+             this.mTradeStatus = 'b';
+           }
+           else
+           if ( FinalKurs_PriceCalcBase.mBuyMenge > FinalKurs_PriceCalcBase.mSellMenge )
+           {
+             this.mTradeStatus = 'G';
+           }
+           else
+           {
+               this.mTradeStatus = 'B';
+           }
+
+           HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile,
+                                    "<BR>"+
+                                    "<H3>"+
+                                    "Umsatz=" + this.mUmsatz + "," +
+                                    "NeuKurs=" + this.mPrice + "<BR>" +
+                                    "InnererWert =" + this.mInnererWert +","+
+                                    "VortagKurs  =" + this.mLastPrice +"<BR>"+
+                                    "IngesamtKaufMenge=" + this.mDailyOrderStatistic.mBuyMenge_Of_AllBuyOrder + "," +
+                                    "KaufMenge mit Limit=" + this.mDailyOrderStatistic.mBuyMenge_With_Limit + "," +
+                                    "KaufMenge Billigestkauf=" + this.mDailyOrderStatistic.mCheapestBuyMenge + "<BR>" +
+
+                                    "IngesamtVerkaufMenge=" + this.mDailyOrderStatistic.mSellMenge_Of_AllSellOrder + "<BR>" +
+                                    "VerkaufMenge mit Limit=" + this.mDailyOrderStatistic.mSellMenge_With_Limit + "," +
+                                    "VerkaufMenge Bestverkauf=" + this.mDailyOrderStatistic.mBestenSellMenge + "<BR>" +
+
+                                    "OffenKaufMenge=" + this.mDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total + "," +
+                                    "OffenVerkaufMenge=" + this.mDailyOrderStatistic.mNotPerformedAktien_SellWish_Total + "," +
+                                    "Kurszusatz=" + this.mTradeStatus+"</H3><BR>"
+                                    );
+
+           // 2006-10-21:
+           // Wichtige Änderungen wegen Änderungen an der Defintion von'B'.'b', 'G'
+           if  ( FinalKurs_PriceCalcBase.mBuyMenge  ==  FinalKurs_PriceCalcBase.mSellMenge )
+           {
+               mLogger.debug(" BuyMenge=SellMenge auf der Stelle Limit=" + this.mPrice);
+               this.GarantierenBuyMenge( this.mCheapestBuyOrderList, SystemConstant.Limit_CheapestBuy  );
+               this.GarantierenSellMenge( this.mBestenSellOrderList, SystemConstant.Limit_BestenSell );
+               this.GarantierenSellMenge( this.mSellOrderList, this.mPrice );
+               this.GarantierenBuyMenge( this.mBuyOrderList, this.mPrice );
+           }
+           else
+           if  ( FinalKurs_PriceCalcBase.mBuyMenge > FinalKurs_PriceCalcBase.mSellMenge )
+           {
+
+               mLogger.debug( "Mehr Kauf, wenige Verkauf auf der Limit= " + this.mPrice );
+               mLogger.debug( "All SellOrder mit Limit <=" + this.mPrice + " werden ausgeführt." );
+
+               this.GarantierenSellMenge( this.mBestenSellOrderList, SystemConstant.Limit_BestenSell );
+               this.GarantierenSellMenge( this.mSellOrderList, this.mPrice );
+
+               // BuyOrder muss behandelt werden nach folgende Reihenfolge:
+
+               // Cheapest Buy Order hat Vorrang
+               // 1. Consider Cheapest Buy Order
+               if ( this.mUmsatz <= this.mDailyOrderStatistic.mCheapestBuyMenge )
+               {
+                       double ratio = (1.0*this.mUmsatz) / this.mDailyOrderStatistic.mCheapestBuyMenge;
+                       this.GleichDistributeBuyMenge( this.mCheapestBuyOrderList, ratio, this.mUmsatz);
+               }
+               else
+               {
+                       // Umsatz > this.mCheapestBuyMenge
+                       // zuesrt garantieren CheapestBuyMenge
+                       this.GarantierenBuyMenge( this.mCheapestBuyOrderList, SystemConstant.Limit_CheapestBuy );
+
+                       int nochavailablemenge = this.mUmsatz - this.mDailyOrderStatistic.mCheapestBuyMenge;
+
+                       Vector vv = this.getBuyOrderAboveAndAtLimit( this.mPrice );
+                       int totalbuymenge_AboveAndAtKurs = FinalKurs_PriceCalcBase.mBuyMenge - this.mDailyOrderStatistic.mCheapestBuyMenge;
+                       double zuteilungsrate = nochavailablemenge * 1.0 / totalbuymenge_AboveAndAtKurs;
+                       this.GleichDistributeBuyMenge( vv, zuteilungsrate, nochavailablemenge  );
+                     }
+           }
+           else
+           {
+             // Gesamte Sell Menge > Gesamte Buy Menge
+             mLogger.debug( "wenige Kauf, mehr Verkauf auf der Limit= " + this.mPrice );
+
+             this.GarantierenBuyMenge( this.mCheapestBuyOrderList, SystemConstant.Limit_CheapestBuy );
+             this.GarantierenBuyMenge( this.mBuyOrderList, this.mPrice );
+
+             // Zuteilungs-Verfahren von Sell Orders
+             // zuerst  Besten Sell Orders werden berücksichtigt.
+             if ( this.mUmsatz <= this.mDailyOrderStatistic.mBestenSellMenge )
+             {
+                double zuteilungsratio = (1.0*this.mUmsatz) / this.mDailyOrderStatistic.mBestenSellMenge;
+                this.GleichDistributeSellMenge( this.mBestenSellOrderList, zuteilungsratio, this.mUmsatz );
+             }
+             else
+             {
+               // Umsatz > this.mBestenSellMenge
+               // zuesrt garantieren BestenSellMenge
+               this.GarantierenSellMenge( this.mBestenSellOrderList, SystemConstant.Limit_BestenSell );
+               // der Rest
+               int nochavailablemenge = this.mUmsatz - this.mDailyOrderStatistic.mBestenSellMenge;
+               Vector vv = this.getSellOrderUnderAndAtLimit( this.mPrice );
+               int totalsellmenge_UnderAndAtKurs = FinalKurs_PriceCalcBase.mSellMenge - this.mDailyOrderStatistic.mBestenSellMenge;
+               double zuteilungsratio = nochavailablemenge * 1.0 / totalsellmenge_UnderAndAtKurs;
+               this.GleichDistributeSellMenge( vv, zuteilungsratio, nochavailablemenge );
+           }
+        }
+        this.setPriceAndTradeStatusintoAllBuy_Sell_Orders_and_NonOrders();
+     }
+  }
+
+  public void calcindex()
+  {
+      mLogger.debug("Order overview: Buy-Order "  + this.mBuyOrderCounter + ", Sell-Order " + this.mSellOrderCounter  );
+
+      mLogger.debug("AgentName; Type; OrderWish; Limit;  Menge"  );
+
+      displayAllOrderStatus( "INIT" );
+
+      // process all Buy Orders
+      makeSumSingleBuyOrders();
+      // process all Sell Orders
+      makeSumSingleSellOrders();
+
+      // make sum of all Buy Orders
+      // BuyOrder with Limit und CheapestBuy
+      this.mDailyOrderStatistic.mBuyMenge_Of_AllBuyOrder = this.mDailyOrderStatistic.mBuyMenge_With_Limit  + this.mDailyOrderStatistic.mCheapestBuyMenge;
+
+      // make sum of all Sell Orders
+      // SellOrder with Limit und BestSell
+      this.mDailyOrderStatistic.mSellMenge_Of_AllSellOrder = this.mDailyOrderStatistic.mSellMenge_With_Limit + this.mDailyOrderStatistic.mBestenSellMenge;
+
+      displaycontext( this.mCalcBase, "before sorting ---- " );
+
+      // 1. Eintrag/Element mit kleinstem Limit
+      // Letzte Eintrag/Element mit großestem Limit
+      mCalcBase = DataSorting.AcendSorting( mCalcBase );
+
+      displaycontext( this.mCalcBase, "after sorting ---- " );
+
+      // save the count value to Original Sell/Buy Menge
+      for ( int i=0; i< mCalcBase.size(); i++ )
+      {
+          PriceCalcBase pricecalcbase      = ( PriceCalcBase) mCalcBase.elementAt( i );
+          pricecalcbase.mOriginalBuyMenge  = pricecalcbase.mBuyMenge;
+          pricecalcbase.mOriginalSellMenge = pricecalcbase.mSellMenge;
+      }
+
+      // Considering Cheapest and Best Menge
+      // Add Cheapest Buy Meng to the last Element
+      if ( mCalcBase.size() > 0 )
+      {
+          // Add Cheapest Buy Meng to the last Element
+          PriceCalcBase lastcalcbase = ( PriceCalcBase) mCalcBase.elementAt( mCalcBase.size()-1 );
+          lastcalcbase.mBuyMenge = lastcalcbase.mBuyMenge + this.mDailyOrderStatistic.mCheapestBuyMenge;
+
+          // Add Besten Sell to the 1. Element
+          PriceCalcBase firstcalcbase = ( PriceCalcBase) mCalcBase.elementAt( 0 );
+          firstcalcbase.mSellMenge = firstcalcbase.mSellMenge + this.mDailyOrderStatistic.mBestenSellMenge;
+      }
+
+      displaycontext( this.mCalcBase, "After consideration of Cheapest-Buy and Best Sell" );
+
+      // make sum of VolumeBuy:  Von Last-Zeile zu 1. Zeile
+      for ( int i=1; i< mCalcBase.size(); i++)
+      {
+          PriceCalcBase thisbase    = ( PriceCalcBase) mCalcBase.elementAt( mCalcBase.size()-i-1 );
+          PriceCalcBase hisnextbase = ( PriceCalcBase) mCalcBase.elementAt( mCalcBase.size()-i );
+          thisbase.mBuyMenge        = thisbase.mBuyMenge + hisnextbase.mBuyMenge;
+      }
+
+      displaycontext( this.mCalcBase, "after BuyMenge is processed" );
+
+      // make sum of VolumeSell: Von 1. Zeile zu Last-Zeile
+      for ( int i=1; i< mCalcBase.size(); i++)
+      {
+          PriceCalcBase lastbase = ( PriceCalcBase)mCalcBase.elementAt(i-1);
+          PriceCalcBase thisbase = ( PriceCalcBase)mCalcBase.elementAt( i );
+          thisbase.mSellMenge = thisbase.mSellMenge + lastbase.mSellMenge;
+      }
+
+     displaycontext( this.mCalcBase, "after SellMenge is processed" );
+
+     // Case 1:
+     if (  mCalcBase.size() == 0 )
+     {
+         // Kein Order mit Limit
+         // Nur CheapestBuy Orders und BestSell Orders
+         this.DoCalculationWithOnlyCheapestBuyAndOnlyBestSell();
+     }
+     else
+     // Case 2:
+     if ( ( this.mDailyOrderStatistic.mBuyMenge_With_Limit == 0 ) && ( this.mDailyOrderStatistic.mCheapestBuyMenge > 0 ) )
+     {
+         // CheapestBuy Order + ( VerkaufOrder mit Limit + possible BestSell Orders )
+         this.DoCalculationWithCheapestBuyAndLimitSellOrdersOrBestSellOrders();
+     }
+     else
+     {
+         // Normale Situation:
+         // Auf Kaufseite: There are at least BuyOrder with Limits, there may be also CheapestBuy, or not.
+         // Auf SellSeite: 1)  Kein BestSell Order, kein Normal Sell
+         //                2)  Best Sell, kein Normal Sell
+         //                3)  Kein BestSell, normal Sell
+         //                4)  BestSell + Normal Sell
+         this.doCalculationNormalSituation();
+     }
+
+     DisplayDistribution();
+
+     mLogger.debug( mDay + ". Log Ending -----------------------------------------");
+  }
+
+  public int getMaxTradeVolume()
+  {
+    return (int)this.mMaxTradeVolume;
+  }
+
+ public double  getFestTobintax_In_Cash1()
+ {
+   return 0;
+ }
+
+ public double  getExtraTobintax_In_Cash1()
+ {
+   return 0;
+ }
+
+ public double getFestTobintax_In_Cash2()
+ {
+   return 0;
+ }
+
+ public double getExtraTobintax_In_Cash2()
+ {
+   return 0;
+ }
+
+}

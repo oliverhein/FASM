@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %converterJDT
+Bundle-SymbolicName: com.borland.sapient.converter.jdt
+Bundle-Version: 8.1.1
+Bundle-ClassPath: converter.jdt.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.sapient.b.a
+Require-Bundle: com.borland.sapient.util.java,
+ org.eclipse.jdt.core,
+ org.eclipse.core.runtime,
+ com.borland.sapient.core,
+ org.eclipse.core.resources

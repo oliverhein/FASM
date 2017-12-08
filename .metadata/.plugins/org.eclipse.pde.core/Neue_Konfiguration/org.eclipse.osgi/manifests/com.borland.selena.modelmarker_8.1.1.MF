@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.borland.selena.modelmarker; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: modelmarker.jar
+Bundle-Activator: com.borland.selena.modelmarker.ModelmarkerPlugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.selena.internal.modelmarker,
+ com.borland.selena.internal.modelmarker.bookmarks,
+ com.borland.selena.internal.modelmarker.bookmarks.actions,
+ com.borland.selena.internal.modelmarker.core,
+ com.borland.selena.modelmarker,
+ com.borland.selena.modelmarker.bookmarks,
+ com.borland.selena.modelmarker.core,
+ com.borland.selena.modelmarker.ui
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.tssap.selena.model,
+ com.tssap.selena.model.ui,
+ com.tssap.selena.model.ui.navigator,
+ org.eclipse.core.resources,
+ com.borland.csf.license,
+ com.borland.tg.gde
+Eclipse-LazyStart: true

@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Generated-from: 1158785452000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam IDK
+Bundle-SymbolicName: com.borland.starteam.idk
+Bundle-Version: 8.0.0
+Bundle-ClassPath: starteam-idk.jar
+Bundle-Activator: org.eclipse.core.internal.compatibility.PluginActivator
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Export-Package: com.borland.starteam.debug,
+ com.borland.starteam.handle,
+ com.borland.starteam.integrations,
+ com.borland.starteam.processitem,
+ com.starbase.starteam.gui,
+ com.starbase.starteam.gui.license,
+ com.starbase.starteam.gui_core,
+ com.starbase.starteam.gui_core.file
+Require-Bundle: org.eclipse.core.runtime.compatibility,
+ com.starbase.starteam.eclipse.team.sdk;bundle-version="[8.0.0,8.1.0)"

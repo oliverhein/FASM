@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %detectAudit
+Bundle-SymbolicName: com.borland.sapient.detect; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: detect.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.sapient.d.c.a,
+ com.borland.sapient.internal.plugin.detect
+Require-Bundle: com.borland.sapient.core,
+ com.borland.sapient.metric,
+ com.borland.sapient.util.java

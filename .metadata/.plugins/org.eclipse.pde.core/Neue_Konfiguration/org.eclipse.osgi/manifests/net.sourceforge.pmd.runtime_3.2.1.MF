@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Generated-from: 1179245154000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: PMD For Eclipse Runtime Plug-in
+Bundle-SymbolicName: net.sourceforge.pmd.runtime; singleton:=true
+Bundle-Version: 3.2.1
+Bundle-ClassPath: pmd-runtime.jar
+Bundle-Activator: net.sourceforge.pmd.runtime.PMDRuntimePlugin
+Bundle-Vendor: PMD Development Team
+Bundle-Localization: plugin
+Export-Package: name.herlin.command,
+ net.sourceforge.pmd.runtime,
+ net.sourceforge.pmd.runtime.builder,
+ net.sourceforge.pmd.runtime.cmd,
+ net.sourceforge.pmd.runtime.preferences,
+ net.sourceforge.pmd.runtime.preferences.impl,
+ net.sourceforge.pmd.runtime.properties,
+ net.sourceforge.pmd.runtime.properties.impl,
+ net.sourceforge.pmd.runtime.writer,
+ net.sourceforge.pmd.runtime.writer.impl,
+ properties
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.jdt.core,
+ net.sourceforge.pmd.core
+Eclipse-LazyStart: true

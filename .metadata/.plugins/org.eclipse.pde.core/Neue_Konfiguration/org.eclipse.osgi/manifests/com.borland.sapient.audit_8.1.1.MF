@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.borland.sapient.audit; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: audit.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.sapient.audit,
+ com.borland.sapient.c,
+ com.borland.sapient.c.a,
+ com.borland.sapient.c.b,
+ com.borland.sapient.c.c,
+ com.borland.sapient.c.d
+Require-Bundle: com.borland.sapient.core,
+ com.borland.sapient.util.java

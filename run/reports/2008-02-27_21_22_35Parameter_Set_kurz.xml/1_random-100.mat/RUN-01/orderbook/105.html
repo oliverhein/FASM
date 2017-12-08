@@ -1,0 +1,177 @@
+<html><Head><Title>105. day Order Book</title></head>
+<Body> <h4>
+<H2>
+Handelstag 105:
+</H2>
+<br>
+Order oerview:<br>
+<table border=1 >
+<tr><td>KaufMenge aus BuyOrder mit Limit</td><td>671</td></tr>
+<tr><td>KaufMenge aus Cheapest Buy Order</td><td>0</td></tr>
+<tr><td>VerkaufMenge aus SellOrder mit Limit</td><td>702</td></tr>
+<tr><td>VerkaufMenge aus BestSell Order</td><td>1</td></tr>
+</table>
+Decision base for the new price<br>
+<table border=1 ><tr><td><H3>Limit</H3></td><td><H3>Possilbe<br>Buy<br>Menge</H3></td><td><H3>Possible<br>Sell<br>Menge</H3></td><td><H3>Possible<br>Trade<br>Menge</H3></td><td><H3>Possible<br>Trade<br>Volume</H3></td></tr>
+<tr><td>842.0</td><td>671</td><td>1</td><td>1</td><td>842.0</td></tr>
+<tr><td>845.0</td><td>601</td><td>1</td><td>1</td><td>845.0</td></tr>
+<tr><td>847.0</td><td>531</td><td>1</td><td>1</td><td>847.0</td></tr>
+<tr><td>848.0</td><td>461</td><td>1</td><td>1</td><td>848.0</td></tr>
+<tr><td>850.0</td><td>321</td><td>1</td><td>1</td><td>850.0</td></tr>
+<tr><td>852.0</td><td>251</td><td>1</td><td>1</td><td>852.0</td></tr>
+<tr><td>890.0</td><td>181</td><td>1</td><td>1</td><td>890.0</td></tr>
+<tr><td>893.0</td><td>166</td><td>1</td><td>1</td><td>893.0</td></tr>
+<tr><td>895.0</td><td>151</td><td>1</td><td>1</td><td>895.0</td></tr>
+<tr><td>896.0</td><td>136</td><td>1</td><td>1</td><td>896.0</td></tr>
+<tr><td>897.0</td><td>121</td><td>1</td><td>1</td><td>897.0</td></tr>
+<tr><td>898.0</td><td>106</td><td>1</td><td>1</td><td>898.0</td></tr>
+<tr><td>900.0</td><td>91</td><td>1</td><td>1</td><td>900.0</td></tr>
+<tr><td>919.0</td><td>76</td><td>1</td><td>1</td><td>919.0</td></tr>
+<tr><td>922.0</td><td>71</td><td>1</td><td>1</td><td>922.0</td></tr>
+<tr><td>924.0</td><td>64</td><td>1</td><td>1</td><td>924.0</td></tr>
+<tr><td>926.0</td><td>52</td><td>1</td><td>1</td><td>926.0</td></tr>
+<tr><td>927.0</td><td>47</td><td>1</td><td>1</td><td>927.0</td></tr>
+<tr><td>929.0</td><td>42</td><td>2</td><td>2</td><td>1858.0</td></tr>
+<tr><td>930.0</td><td>37</td><td>2</td><td>2</td><td>1860.0</td></tr>
+<tr><td>932.0</td><td>33</td><td>12</td><td>12</td><td>11184.0</td></tr>
+<tr><td>933.0</td><td>33</td><td>39</td><td>33</td><td>30789.0</td></tr>
+<tr><td><h4>935.0</h4></td><td><h4>33</h4></td><td><h4>39</h4></td><td><h4>33</h4></td><td><h4>30855.0</h4></td></tr>
+<tr><td>937.0</td><td>31</td><td>39</td><td>31</td><td>29047.0</td></tr>
+<tr><td>938.0</td><td>29</td><td>39</td><td>29</td><td>27202.0</td></tr>
+<tr><td>941.0</td><td>27</td><td>39</td><td>27</td><td>25407.0</td></tr>
+<tr><td>943.0</td><td>25</td><td>39</td><td>25</td><td>23575.0</td></tr>
+<tr><td>944.0</td><td>23</td><td>39</td><td>23</td><td>21712.0</td></tr>
+<tr><td>945.0</td><td>19</td><td>39</td><td>19</td><td>17955.0</td></tr>
+<tr><td>946.0</td><td>15</td><td>39</td><td>15</td><td>14190.0</td></tr>
+<tr><td>947.0</td><td>13</td><td>39</td><td>13</td><td>12311.0</td></tr>
+<tr><td>949.0</td><td>11</td><td>39</td><td>11</td><td>10439.0</td></tr>
+<tr><td>950.0</td><td>9</td><td>39</td><td>9</td><td>8550.0</td></tr>
+<tr><td>955.0</td><td>5</td><td>39</td><td>5</td><td>4775.0</td></tr>
+<tr><td>962.0</td><td>0</td><td>41</td><td>0</td><td>0.0</td></tr>
+<tr><td>967.0</td><td>0</td><td>43</td><td>0</td><td>0.0</td></tr>
+<tr><td>974.0</td><td>0</td><td>45</td><td>0</td><td>0.0</td></tr>
+<tr><td>975.0</td><td>0</td><td>47</td><td>0</td><td>0.0</td></tr>
+<tr><td>976.0</td><td>0</td><td>49</td><td>0</td><td>0.0</td></tr>
+<tr><td>977.0</td><td>0</td><td>51</td><td>0</td><td>0.0</td></tr>
+<tr><td>978.0</td><td>0</td><td>55</td><td>0</td><td>0.0</td></tr>
+<tr><td>979.0</td><td>0</td><td>57</td><td>0</td><td>0.0</td></tr>
+<tr><td>980.0</td><td>0</td><td>61</td><td>0</td><td>0.0</td></tr>
+<tr><td>981.0</td><td>0</td><td>63</td><td>0</td><td>0.0</td></tr>
+<tr><td>982.0</td><td>0</td><td>67</td><td>0</td><td>0.0</td></tr>
+<tr><td>987.0</td><td>0</td><td>69</td><td>0</td><td>0.0</td></tr>
+<tr><td>988.0</td><td>0</td><td>71</td><td>0</td><td>0.0</td></tr>
+<tr><td>991.0</td><td>0</td><td>73</td><td>0</td><td>0.0</td></tr>
+<tr><td>993.0</td><td>0</td><td>78</td><td>0</td><td>0.0</td></tr>
+<tr><td>994.0</td><td>0</td><td>83</td><td>0</td><td>0.0</td></tr>
+<tr><td>996.0</td><td>0</td><td>88</td><td>0</td><td>0.0</td></tr>
+<tr><td>997.0</td><td>0</td><td>93</td><td>0</td><td>0.0</td></tr>
+<tr><td>998.0</td><td>0</td><td>98</td><td>0</td><td>0.0</td></tr>
+<tr><td>999.0</td><td>0</td><td>103</td><td>0</td><td>0.0</td></tr>
+<tr><td>1002.0</td><td>0</td><td>108</td><td>0</td><td>0.0</td></tr>
+<tr><td>1022.0</td><td>0</td><td>123</td><td>0</td><td>0.0</td></tr>
+<tr><td>1023.0</td><td>0</td><td>138</td><td>0</td><td>0.0</td></tr>
+<tr><td>1024.0</td><td>0</td><td>153</td><td>0</td><td>0.0</td></tr>
+<tr><td>1026.0</td><td>0</td><td>168</td><td>0</td><td>0.0</td></tr>
+<tr><td>1027.0</td><td>0</td><td>183</td><td>0</td><td>0.0</td></tr>
+<tr><td>1028.0</td><td>0</td><td>198</td><td>0</td><td>0.0</td></tr>
+<tr><td>1031.0</td><td>0</td><td>213</td><td>0</td><td>0.0</td></tr>
+<tr><td>1070.0</td><td>0</td><td>353</td><td>0</td><td>0.0</td></tr>
+<tr><td>1073.0</td><td>0</td><td>423</td><td>0</td><td>0.0</td></tr>
+<tr><td>1074.0</td><td>0</td><td>493</td><td>0</td><td>0.0</td></tr>
+<tr><td>1075.0</td><td>0</td><td>563</td><td>0</td><td>0.0</td></tr>
+<tr><td>1076.0</td><td>0</td><td>633</td><td>0</td><td>0.0</td></tr>
+<tr><td>1079.0</td><td>0</td><td>703</td><td>0</td><td>0.0</td></tr>
+</table>
+NeuKurs ist aufgrund Maximal Tradevolume 30855.0 bestimmt.<br>
+<BR><H3>Umsatz=33,NeuKurs=935<BR>InnererWert =961.0,VortagKurs  =933.0<BR>IngesamtKaufMenge=671,KaufMenge mit Limit=671,KaufMenge Billigestkauf=0<BR>IngesamtVerkaufMenge=703<BR>VerkaufMenge mit Limit=702,VerkaufMenge Bestverkauf=1<BR>OffenKaufMenge=638.0,OffenVerkaufMenge=670.0,Kurszusatz=B</H3><BR>
+<BR>NoiseTrader: Prozent = ( VortagKurs - AVG ) * 100 / VortagKurs <BR>NoiseTrader: ProzentGrenz 1: 2.0<BR>NoiseTrader: ProzentGrenz 2: 2.0<BR>NoiseTrader: ProzentGrenz 3: 2.0<BR>NoiseTrader: Prozent-Stufe 1: (-infinitive ~~2.0) <BR>NoiseTrader: Prozent-Stufe 2: [2.0~4.0 ) <BR>NoiseTrader: Prozent-Stufe 3: [4.0~7.0 ) <BR>NoiseTrader: Prozent-Stufe 4: [7.0~ Infinitive ) <BR>Investor Basic Rule: <BR> BuyLimit  = IndividuellInnererwert * ( 1 - AbschlagProzent/100 ) <BR> SellLimit = IndividuellInnererwert * ( 1 + AbschlagProzent/100 ) <BR> Kurszusatz-Bestimmungsverfahren:<br>  1) wenn kein Umsatz, dann Kurszusatz = T <BR> 2) wenn OffenKaufMenge=0 und OffenVerkaufMenge=0, dann Kurszusatz = b <BR> 3) wenn OffenKaufMenge >= OffenSellMenge, dann Kurszusatz = G <BR> 4) Ansonsten Kurszusatz = B <BR><Table border=1 ><TR><TD><H3>Name<H3></TD><TD><H3>AgentType<H3></TD><TD><H3>Order<BR>Type<H3></TD><TD><H3>Limit<H3></TD><TD><H3>Order<BR>Menge<H3></TD><TD><H3>Performed<br>Menge<H3></TD><TD><H3>Involved<br>into Trade<H3></TD><TD><H3>LimitReason<H3></TD><TD><H3>Original AgentType </H3></TD></TR><br>
+<TR><TD>V100</TD><TD>Investor</TD><TD>B</TD><TD>842.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,4528 AbschlagProz=2,156</TD><TD>Investor</TD></TR>
+<TR><TD>V82</TD><TD>Investor</TD><TD>B</TD><TD>845.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=958,1939 AbschlagProz=1,7706</TD><TD>Investor</TD></TR>
+<TR><TD>V86</TD><TD>Investor</TD><TD>B</TD><TD>847.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8168 AbschlagProz=1,8518</TD><TD>Investor</TD></TR>
+<TR><TD>V90</TD><TD>Investor</TD><TD>B</TD><TD>848.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=964,1425 AbschlagProz=1,9462</TD><TD>Investor</TD></TR>
+<TR><TD>V79</TD><TD>Investor</TD><TD>B</TD><TD>848.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,1357 AbschlagProz=1,5764</TD><TD>Investor</TD></TR>
+<TR><TD>V25</TD><TD>Investor</TD><TD>B</TD><TD>850.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8265 AbschlagProz=1,5626</TD><TD>Investor</TD></TR>
+<TR><TD>V51</TD><TD>Investor</TD><TD>B</TD><TD>852.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=963,6235 AbschlagProz=1,5024</TD><TD>Investor</TD></TR>
+<TR><TD>V100</TD><TD>Investor</TD><TD>B</TD><TD>890.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,4528 AbschlagProz=2,156</TD><TD>Investor</TD></TR>
+<TR><TD>V82</TD><TD>Investor</TD><TD>B</TD><TD>893.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=958,1939 AbschlagProz=1,7706</TD><TD>Investor</TD></TR>
+<TR><TD>V86</TD><TD>Investor</TD><TD>B</TD><TD>895.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8168 AbschlagProz=1,8518</TD><TD>Investor</TD></TR>
+<TR><TD>V79</TD><TD>Investor</TD><TD>B</TD><TD>896.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,1357 AbschlagProz=1,5764</TD><TD>Investor</TD></TR>
+<TR><TD>V90</TD><TD>Investor</TD><TD>B</TD><TD>897.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=964,1425 AbschlagProz=1,9462</TD><TD>Investor</TD></TR>
+<TR><TD>V25</TD><TD>Investor</TD><TD>B</TD><TD>898.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8265 AbschlagProz=1,5626</TD><TD>Investor</TD></TR>
+<TR><TD>V51</TD><TD>Investor</TD><TD>B</TD><TD>900.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=963,6235 AbschlagProz=1,5024</TD><TD>Investor</TD></TR>
+<TR><TD>V100</TD><TD>Investor</TD><TD>B</TD><TD>919.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,4528 AbschlagProz=2,156</TD><TD>Investor</TD></TR>
+<TR><TD>V82</TD><TD>Investor</TD><TD>B</TD><TD>922.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=958,1939 AbschlagProz=1,7706</TD><TD>Investor</TD></TR>
+<TR><TD>V8</TD><TD>Investor</TD><TD>B</TD><TD>922.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IW * ( 1- 4.34)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V54</TD><TD>Investor</TD><TD>B</TD><TD>924.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(956.35837)*( 1 -3.31/100) SellLimit = IndividuellInnWert(956.35837)*( 1 +3.31/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V79</TD><TD>Investor</TD><TD>B</TD><TD>924.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,1357 AbschlagProz=1,5764</TD><TD>Investor</TD></TR>
+<TR><TD>V86</TD><TD>Investor</TD><TD>B</TD><TD>924.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8168 AbschlagProz=1,8518</TD><TD>Investor</TD></TR>
+<TR><TD>V90</TD><TD>Investor</TD><TD>B</TD><TD>926.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=964,1425 AbschlagProz=1,9462</TD><TD>Investor</TD></TR>
+<TR><TD>V25</TD><TD>Investor</TD><TD>B</TD><TD>927.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8265 AbschlagProz=1,5626</TD><TD>Investor</TD></TR>
+<TR><TD>V51</TD><TD>Investor</TD><TD>B</TD><TD>929.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=963,6235 AbschlagProz=1,5024</TD><TD>Investor</TD></TR>
+<TR><TD>V92</TD><TD>Investor</TD><TD>B</TD><TD>930.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(961.2114200000001)*( 1 -3.19/100) SellLimit = IndividuellInnWert(961.2114200000001)*( 1 +3.19/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>B</TD><TD>930.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(958.9819)*( 1 -2.94/100) SellLimit = IndividuellInnWert(958.9819)*( 1 +2.94/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V34</TD><TD>Investor</TD><TD>B</TD><TD>935.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>BuyLimit = IndividuellInnWert(956.31993)*( 1 -2.1799999999999997/100) SellLimit = IndividuellInnWert(956.31993)*( 1 +2.1799999999999997/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>B</TD><TD>937.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>BuyLimit = IndividuellInnWert(960.0486099999999)*( 1 -2.37/100) SellLimit = IndividuellInnWert(960.0486099999999)*( 1 +2.37/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V100</TD><TD>Investor</TD><TD>B</TD><TD>938.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=959,4528 AbschlagProz=2,156</TD><TD>Investor</TD></TR>
+<TR><TD>V82</TD><TD>Investor</TD><TD>B</TD><TD>941.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=958,1939 AbschlagProz=1,7706</TD><TD>Investor</TD></TR>
+<TR><TD>V73</TD><TD>Investor</TD><TD>B</TD><TD>943.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>BuyLimit = IndividuellInnWert(962.6625300000001)*( 1 -1.96/100) SellLimit = IndividuellInnWert(962.6625300000001)*( 1 +1.96/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V79</TD><TD>Investor</TD><TD>B</TD><TD>944.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=959,1357 AbschlagProz=1,5764</TD><TD>Investor</TD></TR>
+<TR><TD>V86</TD><TD>Investor</TD><TD>B</TD><TD>944.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=961,8168 AbschlagProz=1,8518</TD><TD>Investor</TD></TR>
+<TR><TD>V90</TD><TD>Investor</TD><TD>B</TD><TD>945.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=964,1425 AbschlagProz=1,9462</TD><TD>Investor</TD></TR>
+<TR><TD>V23</TD><TD>Investor</TD><TD>B</TD><TD>945.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>BuyLimit = IndividuellInnWert(962.10515)*( 1 -1.75/100) SellLimit = IndividuellInnWert(962.10515)*( 1 +1.75/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V25</TD><TD>Investor</TD><TD>B</TD><TD>946.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=961,8265 AbschlagProz=1,5626</TD><TD>Investor</TD></TR>
+<TR><TD>V75</TD><TD>Investor</TD><TD>B</TD><TD>947.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>BuyLimit = IndividuellInnWert(964.0367600000001)*( 1 -1.74/100) SellLimit = IndividuellInnWert(964.0367600000001)*( 1 +1.74/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V51</TD><TD>Investor</TD><TD>B</TD><TD>949.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IndividuellerInnererWert=963,6235 AbschlagProz=1,5024</TD><TD>Investor</TD></TR>
+<TR><TD>V98</TD><TD>Investor</TD><TD>B</TD><TD>950.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>BuyLimit = IndividuellInnWert(956.20461)*( 1 -0.62/100) SellLimit = IndividuellInnWert(956.20461)*( 1 +0.62/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V16</TD><TD>Investor</TD><TD>B</TD><TD>950.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>IW * ( 1- 0.6)  No stock, only Buy</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V48</TD><TD>Investor</TD><TD>B</TD><TD>955.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>BuyLimit = IndividuellInnWert(961.6727)*( 1 -0.59/100) SellLimit = IndividuellInnWert(961.6727)*( 1 +0.59/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>RandomTrader1</TD><TD>RandomTrader</TD><TD>S</TD><TD>Best Sell</TD><TD>1</TD><TD>1</TD><TD>X</TD><TD></TD><TD>RandomTrader</TD></TR>
+<TR><TD>V93</TD><TD>BlankoAgent</TD><TD>S</TD><TD>929.0</TD><TD>1</TD><TD>0</TD><TD>-</TD><TD>BlankoAgent in deactivated state, try to sell with Limit=YesterDayPrice*( 1 - 0.44%)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V29</TD><TD>NoiseTrader</TD><TD>S</TD><TD>932.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs + ZufallAdjust(-0.528) </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V32</TD><TD>NoiseTrader</TD><TD>S</TD><TD>932.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs + ZufallAdjust(-0.47) </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>RandomTrader2</TD><TD>RandomTrader</TD><TD>S</TD><TD>933.0</TD><TD>2</TD><TD>2</TD><TD>X</TD><TD>Vortag</TD><TD>RandomTrader</TD></TR>
+<TR><TD>V88</TD><TD>NoiseTrader</TD><TD>S</TD><TD>933.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs + ZufallAdjust(0.627) </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V91</TD><TD>NoiseTrader</TD><TD>S</TD><TD>933.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs + ZufallAdjust(0.42199999999999993) </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V14</TD><TD>NoiseTrader</TD><TD>S</TD><TD>933.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs + ZufallAdjust(0.43300000000000005) </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V80</TD><TD>NoiseTrader</TD><TD>S</TD><TD>933.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs + ZufallAdjust(0.5800000000000001) </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V84</TD><TD>NoiseTrader</TD><TD>S</TD><TD>933.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>VortagKurs + ZufallAdjust(0.472) </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V98</TD><TD>Investor</TD><TD>S</TD><TD>962.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(956.20461)*( 1 -0.62/100) SellLimit = IndividuellInnWert(956.20461)*( 1 +0.62/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V48</TD><TD>Investor</TD><TD>S</TD><TD>967.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(961.6727)*( 1 -0.59/100) SellLimit = IndividuellInnWert(961.6727)*( 1 +0.59/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V79</TD><TD>Investor</TD><TD>S</TD><TD>974.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,1357 AbschlagProz=1,5764</TD><TD>Investor</TD></TR>
+<TR><TD>V82</TD><TD>Investor</TD><TD>S</TD><TD>975.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=958,1939 AbschlagProz=1,7706</TD><TD>Investor</TD></TR>
+<TR><TD>V25</TD><TD>Investor</TD><TD>S</TD><TD>976.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8265 AbschlagProz=1,5626</TD><TD>Investor</TD></TR>
+<TR><TD>V34</TD><TD>Investor</TD><TD>S</TD><TD>977.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(956.31993)*( 1 -2.1799999999999997/100) SellLimit = IndividuellInnWert(956.31993)*( 1 +2.1799999999999997/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V51</TD><TD>Investor</TD><TD>S</TD><TD>978.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=963,6235 AbschlagProz=1,5024</TD><TD>Investor</TD></TR>
+<TR><TD>V23</TD><TD>Investor</TD><TD>S</TD><TD>978.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(962.10515)*( 1 -1.75/100) SellLimit = IndividuellInnWert(962.10515)*( 1 +1.75/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V86</TD><TD>Investor</TD><TD>S</TD><TD>979.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8168 AbschlagProz=1,8518</TD><TD>Investor</TD></TR>
+<TR><TD>V75</TD><TD>Investor</TD><TD>S</TD><TD>980.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(964.0367600000001)*( 1 -1.74/100) SellLimit = IndividuellInnWert(964.0367600000001)*( 1 +1.74/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V100</TD><TD>Investor</TD><TD>S</TD><TD>980.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,4528 AbschlagProz=2,156</TD><TD>Investor</TD></TR>
+<TR><TD>V73</TD><TD>Investor</TD><TD>S</TD><TD>981.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(962.6625300000001)*( 1 -1.96/100) SellLimit = IndividuellInnWert(962.6625300000001)*( 1 +1.96/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V90</TD><TD>Investor</TD><TD>S</TD><TD>982.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=964,1425 AbschlagProz=1,9462</TD><TD>Investor</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>S</TD><TD>982.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(960.0486099999999)*( 1 -2.37/100) SellLimit = IndividuellInnWert(960.0486099999999)*( 1 +2.37/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>S</TD><TD>987.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(958.9819)*( 1 -2.94/100) SellLimit = IndividuellInnWert(958.9819)*( 1 +2.94/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V54</TD><TD>Investor</TD><TD>S</TD><TD>988.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(956.35837)*( 1 -3.31/100) SellLimit = IndividuellInnWert(956.35837)*( 1 +3.31/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V92</TD><TD>Investor</TD><TD>S</TD><TD>991.0</TD><TD>2</TD><TD>0</TD><TD>-</TD><TD>BuyLimit = IndividuellInnWert(961.2114200000001)*( 1 -3.19/100) SellLimit = IndividuellInnWert(961.2114200000001)*( 1 +3.19/100)</TD><TD>BlankoAgent</TD></TR>
+<TR><TD>V79</TD><TD>Investor</TD><TD>S</TD><TD>993.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,1357 AbschlagProz=1,5764</TD><TD>Investor</TD></TR>
+<TR><TD>V82</TD><TD>Investor</TD><TD>S</TD><TD>994.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=958,1939 AbschlagProz=1,7706</TD><TD>Investor</TD></TR>
+<TR><TD>V25</TD><TD>Investor</TD><TD>S</TD><TD>996.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8265 AbschlagProz=1,5626</TD><TD>Investor</TD></TR>
+<TR><TD>V51</TD><TD>Investor</TD><TD>S</TD><TD>997.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=963,6235 AbschlagProz=1,5024</TD><TD>Investor</TD></TR>
+<TR><TD>V86</TD><TD>Investor</TD><TD>S</TD><TD>998.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8168 AbschlagProz=1,8518</TD><TD>Investor</TD></TR>
+<TR><TD>V100</TD><TD>Investor</TD><TD>S</TD><TD>999.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,4528 AbschlagProz=2,156</TD><TD>Investor</TD></TR>
+<TR><TD>V90</TD><TD>Investor</TD><TD>S</TD><TD>1002.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=964,1425 AbschlagProz=1,9462</TD><TD>Investor</TD></TR>
+<TR><TD>V79</TD><TD>Investor</TD><TD>S</TD><TD>1022.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,1357 AbschlagProz=1,5764</TD><TD>Investor</TD></TR>
+<TR><TD>V82</TD><TD>Investor</TD><TD>S</TD><TD>1023.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=958,1939 AbschlagProz=1,7706</TD><TD>Investor</TD></TR>
+<TR><TD>V25</TD><TD>Investor</TD><TD>S</TD><TD>1024.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8265 AbschlagProz=1,5626</TD><TD>Investor</TD></TR>
+<TR><TD>V51</TD><TD>Investor</TD><TD>S</TD><TD>1026.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=963,6235 AbschlagProz=1,5024</TD><TD>Investor</TD></TR>
+<TR><TD>V86</TD><TD>Investor</TD><TD>S</TD><TD>1027.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8168 AbschlagProz=1,8518</TD><TD>Investor</TD></TR>
+<TR><TD>V100</TD><TD>Investor</TD><TD>S</TD><TD>1028.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,4528 AbschlagProz=2,156</TD><TD>Investor</TD></TR>
+<TR><TD>V90</TD><TD>Investor</TD><TD>S</TD><TD>1031.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=964,1425 AbschlagProz=1,9462</TD><TD>Investor</TD></TR>
+<TR><TD>V79</TD><TD>Investor</TD><TD>S</TD><TD>1070.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,1357 AbschlagProz=1,5764</TD><TD>Investor</TD></TR>
+<TR><TD>V82</TD><TD>Investor</TD><TD>S</TD><TD>1070.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=958,1939 AbschlagProz=1,7706</TD><TD>Investor</TD></TR>
+<TR><TD>V25</TD><TD>Investor</TD><TD>S</TD><TD>1073.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8265 AbschlagProz=1,5626</TD><TD>Investor</TD></TR>
+<TR><TD>V51</TD><TD>Investor</TD><TD>S</TD><TD>1074.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=963,6235 AbschlagProz=1,5024</TD><TD>Investor</TD></TR>
+<TR><TD>V86</TD><TD>Investor</TD><TD>S</TD><TD>1075.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=961,8168 AbschlagProz=1,8518</TD><TD>Investor</TD></TR>
+<TR><TD>V100</TD><TD>Investor</TD><TD>S</TD><TD>1076.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=959,4528 AbschlagProz=2,156</TD><TD>Investor</TD></TR>
+<TR><TD>V90</TD><TD>Investor</TD><TD>S</TD><TD>1079.0</TD><TD>70</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=964,1425 AbschlagProz=1,9462</TD><TD>Investor</TD></TR>
+</Table><br>
+</Body>

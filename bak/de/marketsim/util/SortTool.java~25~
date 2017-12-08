@@ -1,0 +1,206 @@
+package de.marketsim.util;
+
+/**
+ * <p>Überschrift: Market Simulator</p>
+ * <p>Beschreibung: </p>
+ * <p>Copyright: Copyright (c) 2005</p>
+ * <p>Organisation: </p>
+ * @author Xining Wang
+ * @version 1.0
+ */
+
+import java.util.*;
+
+
+public class SortTool
+{
+
+  public static Vector sortString(Vector pData)
+  {
+     if ( pData.size() <= 1 )
+     {
+       return pData;
+     }
+
+     Vector result = new Vector();
+     while ( pData.size() > 1 )
+     {
+         String  maxstr =" ";
+         int     maxstr_index = 0;
+         for (int i=0; i< pData.size(); i++)
+         {
+            String ss = (String) pData.elementAt(i);
+            if ( ss.compareTo( maxstr ) > 0 )
+            {
+               maxstr = ss;
+               maxstr_index =i;
+            }
+         }
+         if ( result.size() >0 )
+         {
+           result.add(0, pData.remove( maxstr_index )  );
+         }
+         else
+         {
+           result.add( pData.remove( maxstr_index )  );
+         }
+     }
+     // add the last String ( the smallest string )
+     result.add(0, pData.remove( 0 )  );
+     return result;
+  }
+
+
+  public static Vector sortTwoBarData(Vector pData)
+  {
+     if ( pData.size() <= 1 )
+     {
+       return pData;
+     }
+
+     Vector result = new Vector();
+     while ( pData.size() > 1 )
+     {
+         String  maxstr =" ";
+         int     maxstr_index = 0;
+         for (int i=0; i< pData.size(); i++)
+         {
+            TwoBarBaseData ss = ( TwoBarBaseData) pData.elementAt(i);
+            if ( ss.mData2Description.compareTo( maxstr ) > 0 )
+            {
+               maxstr = ss.mData2Description;
+               maxstr_index =i;
+            }
+         }
+         if ( result.size() >0 )
+         {
+           result.add(0, pData.remove( maxstr_index )  );
+         }
+         else
+         {
+           result.add( pData.remove( maxstr_index )  );
+         }
+     }
+     // add the last String ( the smallest string )
+     result.add(0, pData.remove( 0 )  );
+     return result;
+  }
+
+
+  public static Vector sortSingleBardata(Vector pData)
+  {
+     if ( pData.size() <= 1 )
+     {
+       return pData;
+     }
+
+     Vector result = new Vector();
+     while ( pData.size() > 1 )
+     {
+         String  maxstr =" ";
+         int     maxstr_index = 0;
+         for (int i=0; i< pData.size(); i++)
+         {
+            SingleBarData ss = ( SingleBarData) pData.elementAt(i);
+            if ( ss.mData1Description.compareTo( maxstr ) > 0 )
+            {
+               maxstr = ss.mData1Description;
+               maxstr_index =i;
+            }
+         }
+         if ( result.size() >0 )
+         {
+           result.add(0, pData.remove( maxstr_index )  );
+         }
+         else
+         {
+           result.add( pData.remove( maxstr_index )  );
+         }
+     }
+     // add the last String ( the smallest string )
+     result.add(0, pData.remove( 0 )  );
+     return result;
+  }
+
+  /**
+   * Small --> Big
+   * @param pSourceData
+   * @return
+   */
+  public static double[] sortascent( double pSourceData[] )
+  {
+       double result[] = new double[ pSourceData.length ];
+       for ( int i=0; i<pSourceData.length; i++)
+       {
+         result [ i ] =  pSourceData [ i ];
+       }
+
+       double temp;
+       for ( int i=0; i<pSourceData.length-1; i++)
+       for ( int j=i+1; i<pSourceData.length; i++)
+       {
+          if ( pSourceData[j] < pSourceData[i] )
+          {
+             temp = pSourceData[i];
+             pSourceData[i] = pSourceData[j] ;
+             pSourceData[j] = temp;
+          }
+       }
+       return result;
+  }
+
+  /**
+   * Big --> Small
+   * @param pSourceData
+   * @return
+   */
+  public static double[] sortdescent(double pSourceData[] )
+  {
+       double result[] = new double[ pSourceData.length ];
+
+       for ( int i=0; i<pSourceData.length; i++)
+       {
+         result [ i ] =  pSourceData [ i ];
+       }
+
+       double temp;
+       for ( int i=0; i<pSourceData.length-1; i++)
+       for ( int j=i+1; i<pSourceData.length; i++)
+       {
+          if ( pSourceData[j] > pSourceData[i] )
+          {
+             temp = pSourceData[i];
+             pSourceData[i] = pSourceData[j] ;
+             pSourceData[j] = temp;
+          }
+       }
+       return result;
+  }
+
+  public static void main(String[] args)
+  {
+    Vector dd = new Vector();
+    dd.add( "GGGG");
+    dd.add( "1222");
+    dd.add( "ZZZZ");
+    dd.add( "AAAA");
+    Vector ss = sortString( dd );
+    for ( int i=0; i<ss.size(); i++)
+    {
+       System.out.println( (String) ss.elementAt(i)  );
+    }
+    double pp1[]={3,10,1};
+    double[]  xx = sortascent(pp1);
+    for (int i=0; i< xx.length; i++)
+    {
+      System.out.println(  xx[i] );
+    }
+    System.out.println(  "------------------------" );
+    xx = sortascent(pp1);
+    for (int i=0; i< xx.length; i++)
+    {
+      System.out.println(  xx[i] );
+    }
+
+  }
+}

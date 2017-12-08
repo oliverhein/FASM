@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><!--JBuilder QuickDoc-->
+<HEAD>
+<TITLE>Class de.marketsim.config.CFGFilter</TITLE><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+</HEAD>
+<BODY>
+
+<H2>
+<FONT SIZE="-1">de.marketsim.config</FONT>
+<BR>Class CFGFilter</H2>
+<DL>
+<DT>public class <B>CFGFilter</B><DT>implements FilenameFilter
+</DL>
+<DL><DD>filter out all but *.xml files<DL><DD></DD></DL></DD>
+</DL>
+<DL></DL>
+<TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF"><TD COLSPAN=1><FONT SIZE="+2">
+<B>Constructor Detail</B>
+</FONT></TD></TR></TABLE>
+
+<H3>CFGFilter</H3>
+<PRE>
+public <B>CFGFilter</B>(String&nbsp;pExtension)</PRE>
+<DL><DD>Filename Extention: xml<DL><DD></DD></DL></DD>
+</DL>
+<DL><DT><B>Parameters:</B><DD><CODE>pExtension</CODE> - </DD>
+</DL>
+<HR>
+
+<TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF"><TD COLSPAN=1><FONT SIZE="+2">
+<B>Method Detail</B>
+</FONT></TD></TR></TABLE>
+
+<H3>accept</H3>
+<PRE>
+public boolean <B>accept</B>(File&nbsp;dir,
+                      String&nbsp;name)</PRE>
+<DL><DD>Select only *.xml files.<DL><DD></DD></DL></DD>
+</DL>
+<DL><DT><B>Parameters:</B><DD><CODE>dir</CODE> - the directory in which the file was found.</DD>
+<DD><CODE>name</CODE> - the name of the file</DD>
+<DT><B>Returns:</B><DD>true if and only if the name should be included in the file list; false otherwise.</DD>
+</DL>
+<HR>
+
+</BODY>
+</HTML>

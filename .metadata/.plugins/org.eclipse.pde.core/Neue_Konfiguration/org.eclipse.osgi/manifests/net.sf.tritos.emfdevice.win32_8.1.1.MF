@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: Win32 Plug-in
+Bundle-SymbolicName: net.sf.tritos.emfdevice.win32
+Bundle-Version: 8.1.1
+Bundle-ClassPath: win32.jar
+Bundle-Activator: net.sf.tritos.emfdevice.win32.Win32Plugin
+Bundle-Vendor: Sourceforge.net
+Bundle-Localization: plugin
+Export-Package: net.sf.tritos.emfdevice.win32
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.draw2d
+Eclipse-LazyStart: true

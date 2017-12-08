@@ -1,0 +1,596 @@
+<html><Head><Title>Agent Group Comparation</title></head>
+<Body> <h4>
+<Font color='blue' Size='16'>Group Statistic Comparation </Font> <Br> 
+<Table Border=2 >
+<TR>
+<TH>GroupName</TH>
+<TH>Agent number</TH>
+<TH>AVG Profit(%)</TH>
+<TH>AVG Buy</TH>
+<TH>AVG Sell</TH>
+<TH>AVG Count of type change</TH>
+<TH>Max Profit(%)</TH>
+<TH>AgentName of MaxProfit</TH>
+<TH>Min Profit(%)</TH>
+<TH>AgentName of MinProfit</TH>
+</TR>
+<TR>
+<TD>Fundamental</TD>
+<TD>7</TD>
+<TD>13,3849</TD>
+<TD>1052,7143</TD>
+<TD>1739,4286</TD>
+<TD>0,00</TD>
+<TD>15,1115</TD>
+<TD>
+<br>
+<a href='depot/F-V58.csv' Target='newwindow' ><H2>V58</a>
+<br>
+</TD><TD>11,1466</TH>
+<TD>
+<br>
+<a href='depot/F-V43.csv' Target='newwindow' ><H2>V43</a>
+<br>
+</TD></TR>
+<TR>
+<TD>Trend</TD>
+<TD>7</TD>
+<TD>14,891</TD>
+<TD>570,5714</TD>
+<TD>358,8571</TD>
+<TD>0,00</TD>
+<TD>16,2924</TD>
+<TD>
+<br>
+<a href='depot/N-V21.csv' Target='newwindow' ><H2>V21</a>
+<br>
+</TD><TD>14,1123</TH>
+<TD>
+<br>
+<a href='depot/N-V5.csv' Target='newwindow' ><H2>V5</a>
+<br>
+</TD></TR>
+<TR>
+<TD>Blanko</TD>
+<TD>86</TD>
+<TD>-0,9407</TD>
+<TD>163,4884</TD>
+<TD>125,593</TD>
+<TD>4,00</TD>
+<TD>40,8608</TD>
+<TD>
+<br>
+<a href='depot/B-V61.csv' Target='newwindow' ><H2>V61</a>
+<br>
+</TD><TD>-13,1288</TH>
+<TD>
+<br>
+<a href='depot/B-V79.csv' Target='newwindow' ><H2>V79</a>
+<br>
+</TD></TR>
+<TR>
+<TD>Random</TD>
+<TD>1</TD>
+<TD>24,6755</TD>
+<TD>247,00</TD>
+<TD>181,00</TD>
+<TD>0,00</TD>
+<TD>24,6755</TD>
+<TD>
+<br>
+<a href='depot/R-RandomTrader1.csv' Target='newwindow' ><H2>RandomTrader1</a>
+<br>
+</TD><TD>24,6755</TH>
+<TD>
+<br>
+<a href='depot/R-RandomTrader1.csv' Target='newwindow' ><H2>RandomTrader1</a>
+<br>
+</TD></TR>
+</Table>
+Remarks:<BR>
+1) AVG Profit(%)   =  ( Sum of Profit ) / AgentNumber <BR>
+2) AVG Buy         =  ( Sum of Buy of single agent ) / AgentNumber<BR>
+3) AVG Sell        =  ( Sum of Sell of single agent ) / AgentNumber<BR>
+4) AVG TypeChange  =  ( Sum of Typ change ) / AgentNumber<BR>
+5) Agent name of max profit is the Agent who has the maximal Profit in its group.<BR>
+6) Agent name of min profit is the Agent who has the minimal Profit in its group.<BR>
+7) Count of type change: If an agent changes its type to another type, count is increased with 1, <br>
+and when it changes back to its original type, count is also increased with 1. <BR>
+<Table Border=2 >
+<TR>
+<TD> <H4>Fundamental<H4> </TD>
+</TR>
+<TR>
+<TH>Nr</TH>
+<TH>Name</TH>
+<TH>InitType</TH>
+<TH>Profit(%)</TH>
+<TH>InitDepot</TH>
+<TH>EndDepot</TH>
+<TH>BuySumme</TH>
+<TH>SellSumme</TH>
+<TH>TypeChanges</TH>
+<TH>Detailed</TH>
+<TH>InitPrice</TH>
+<TH>InitMenge</TH>
+<TH>InitCash</TH>
+<TH>EndPreis</TH>
+<TH>EndMenge</TH>
+<TH>EndCash</TH>
+</TR><TR><TD>1</TD><TD>V58</TD><TD>Investor</TD><TD>15,1115</TD><TD>13148303</TD><TD>15135207</TD><TD>1002</TD><TD>1673</TD><TD>0</TD><TD><br>
+<a href='depot/F-V58.csv' Target='newwindow' ><H2>V58</a>
+<br>
+</TD><TD>1000</TD><TD>7715</TD><TD>5433303</TD><TD>1247</TD><TD>7044</TD><TD>6351339</TD></TR>
+<TR><TD>2</TD><TD>V6</TD><TD>Investor</TD><TD>14,3611</TD><TD>14196473</TD><TD>16235244</TD><TD>1115</TD><TD>1897</TD><TD>0</TD><TD><br>
+<a href='depot/F-V6.csv' Target='newwindow' ><H2>V6</a>
+<br>
+</TD><TD>1000</TD><TD>7949</TD><TD>6247473</TD><TD>1247</TD><TD>7167</TD><TD>7297995</TD></TR>
+<TR><TD>3</TD><TD>V53</TD><TD>Investor</TD><TD>13,8174</TD><TD>12889737</TD><TD>14670761</TD><TD>998</TD><TD>1671</TD><TD>0</TD><TD><br>
+<a href='depot/F-V53.csv' Target='newwindow' ><H2>V53</a>
+<br>
+</TD><TD>1000</TD><TD>6867</TD><TD>6022737</TD><TD>1247</TD><TD>6194</TD><TD>6946843</TD></TR>
+<TR><TD>4</TD><TD>V30</TD><TD>Investor</TD><TD>13,8072</TD><TD>14666671</TD><TD>16691731</TD><TD>1143</TD><TD>1893</TD><TD>0</TD><TD><br>
+<a href='depot/F-V30.csv' Target='newwindow' ><H2>V30</a>
+<br>
+</TD><TD>1000</TD><TD>7815</TD><TD>6851671</TD><TD>1247</TD><TD>7065</TD><TD>7881676</TD></TR>
+<TR><TD>5</TD><TD>V95</TD><TD>Investor</TD><TD>13,2784</TD><TD>13055843</TD><TD>14789451</TD><TD>971</TD><TD>1600</TD><TD>0</TD><TD><br>
+<a href='depot/F-V95.csv' Target='newwindow' ><H2>V95</a>
+<br>
+</TD><TD>1000</TD><TD>6674</TD><TD>6381843</TD><TD>1247</TD><TD>6045</TD><TD>7251336</TD></TR>
+<TR><TD>6</TD><TD>V56</TD><TD>Investor</TD><TD>12,172</TD><TD>13633139</TD><TD>15292561</TD><TD>1023</TD><TD>1537</TD><TD>0</TD><TD><br>
+<a href='depot/F-V56.csv' Target='newwindow' ><H2>V56</a>
+<br>
+</TD><TD>1000</TD><TD>6252</TD><TD>7381139</TD><TD>1247</TD><TD>5738</TD><TD>8137275</TD></TR>
+<TR><TD>7</TD><TD>V43</TD><TD>Investor</TD><TD>11,1466</TD><TD>13372436</TD><TD>14863007</TD><TD>1117</TD><TD>1905</TD><TD>0</TD><TD><br>
+<a href='depot/F-V43.csv' Target='newwindow' ><H2>V43</a>
+<br>
+</TD><TD>1000</TD><TD>5660</TD><TD>7712436</TD><TD>1247</TD><TD>4872</TD><TD>8787623</TD></TR>
+<TR><TD></TD><TD>Summe</TD><TD></TD><TD>13,3849</TD><TD>94962602</TD><TD>107677962</TD><TD>7369</TD><TD>12176</TD><TD>0</TD><TD></TD><TD>0</TD><TD>48932</TD><TD>46030602</TD><TD>0</TD><TD>44125</TD><TD>52654087</TD></TR>
+</Table>
+<Table Border=2 >
+<TR>
+<TD> <H4>Trend<H4> </TD>
+</TR>
+<TR>
+<TH>Nr</TH>
+<TH>Name</TH>
+<TH>InitType</TH>
+<TH>Profit(%)</TH>
+<TH>InitDepot</TH>
+<TH>EndDepot</TH>
+<TH>BuySumme</TH>
+<TH>SellSumme</TH>
+<TH>TypeChanges</TH>
+<TH>Detailed</TH>
+<TH>InitPrice</TH>
+<TH>InitMenge</TH>
+<TH>InitCash</TH>
+<TH>EndPreis</TH>
+<TH>EndMenge</TH>
+<TH>EndCash</TH>
+</TR><TR><TD>1</TD><TD>V21</TD><TD>NoiseTrader</TD><TD>16,2924</TD><TD>4071995</TD><TD>4735420</TD><TD>632</TD><TD>356</TD><TD>0</TD><TD><br>
+<a href='depot/N-V21.csv' Target='newwindow' ><H2>V21</a>
+<br>
+</TD><TD>1000</TD><TD>2814</TD><TD>1257995</TD><TD>1247</TD><TD>3090</TD><TD>882190</TD></TR>
+<TR><TD>2</TD><TD>V31</TD><TD>NoiseTrader</TD><TD>15,427</TD><TD>3567323</TD><TD>4117655</TD><TD>541</TD><TD>417</TD><TD>0</TD><TD><br>
+<a href='depot/N-V31.csv' Target='newwindow' ><H2>V31</a>
+<br>
+</TD><TD>1000</TD><TD>2413</TD><TD>1154323</TD><TD>1247</TD><TD>2537</TD><TD>954016</TD></TR>
+<TR><TD>3</TD><TD>V14</TD><TD>NoiseTrader</TD><TD>15,0323</TD><TD>3880056</TD><TD>4463318</TD><TD>359</TD><TD>217</TD><TD>0</TD><TD><br>
+<a href='depot/N-V14.csv' Target='newwindow' ><H2>V14</a>
+<br>
+</TD><TD>1000</TD><TD>2425</TD><TD>1455056</TD><TD>1247</TD><TD>2567</TD><TD>1262269</TD></TR>
+<TR><TD>4</TD><TD>V24</TD><TD>NoiseTrader</TD><TD>14,7364</TD><TD>3307444</TD><TD>3794843</TD><TD>777</TD><TD>452</TD><TD>0</TD><TD><br>
+<a href='depot/N-V24.csv' Target='newwindow' ><H2>V24</a>
+<br>
+</TD><TD>1000</TD><TD>2107</TD><TD>1200444</TD><TD>1247</TD><TD>2432</TD><TD>762139</TD></TR>
+<TR><TD>5</TD><TD>V8</TD><TD>NoiseTrader</TD><TD>14,4042</TD><TD>4652932</TD><TD>5323149</TD><TD>550</TD><TD>299</TD><TD>0</TD><TD><br>
+<a href='depot/N-V8.csv' Target='newwindow' ><H2>V8</a>
+<br>
+</TD><TD>1000</TD><TD>2813</TD><TD>1839932</TD><TD>1247</TD><TD>3064</TD><TD>1502341</TD></TR>
+<TR><TD>6</TD><TD>V13</TD><TD>NoiseTrader</TD><TD>14,2322</TD><TD>3666347</TD><TD>4188149</TD><TD>646</TD><TD>428</TD><TD>0</TD><TD><br>
+<a href='depot/N-V13.csv' Target='newwindow' ><H2>V13</a>
+<br>
+</TD><TD>1000</TD><TD>2312</TD><TD>1354347</TD><TD>1247</TD><TD>2530</TD><TD>1033239</TD></TR>
+<TR><TD>7</TD><TD>V5</TD><TD>NoiseTrader</TD><TD>14,1123</TD><TD>4462654</TD><TD>5092436</TD><TD>489</TD><TD>343</TD><TD>0</TD><TD><br>
+<a href='depot/N-V5.csv' Target='newwindow' ><H2>V5</a>
+<br>
+</TD><TD>1000</TD><TD>2706</TD><TD>1756654</TD><TD>1247</TD><TD>2852</TD><TD>1535992</TD></TR>
+<TR><TD></TD><TD>Summe</TD><TD></TD><TD>14,891</TD><TD>27608751</TD><TD>31714970</TD><TD>3994</TD><TD>2512</TD><TD>0</TD><TD></TD><TD>0</TD><TD>17590</TD><TD>10018751</TD><TD>0</TD><TD>19072</TD><TD>7932186</TD></TR>
+</Table>
+<Table Border=2 >
+<TR>
+<TD> <H4>Blanko<H4> </TD>
+</TR>
+<TR>
+<TH>Nr</TH>
+<TH>Name</TH>
+<TH>InitType</TH>
+<TH>Profit(%)</TH>
+<TH>InitDepot</TH>
+<TH>EndDepot</TH>
+<TH>BuySumme</TH>
+<TH>SellSumme</TH>
+<TH>TypeChanges</TH>
+<TH>Detailed</TH>
+<TH>InitPrice</TH>
+<TH>InitMenge</TH>
+<TH>InitCash</TH>
+<TH>EndPreis</TH>
+<TH>EndMenge</TH>
+<TH>EndCash</TH>
+</TR><TR><TD>1</TD><TD>V61</TD><TD>BlankoAgent</TD><TD>40,8608</TD><TD>381975</TD><TD>538053</TD><TD>720</TD><TD>627</TD><TD>1</TD><TD><br>
+<a href='depot/B-V61.csv' Target='newwindow' ><H2>V61</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>381975</TD><TD>1247</TD><TD>93</TD><TD>422082</TD></TR>
+<TR><TD>2</TD><TD>V19</TD><TD>BlankoAgent</TD><TD>24,2496</TD><TD>710652</TD><TD>882982</TD><TD>858</TD><TD>202</TD><TD>5</TD><TD><br>
+<a href='depot/B-V19.csv' Target='newwindow' ><H2>V19</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>710652</TD><TD>1247</TD><TD>656</TD><TD>64950</TD></TR>
+<TR><TD>3</TD><TD>V96</TD><TD>BlankoAgent</TD><TD>19,5352</TD><TD>508553</TD><TD>607900</TD><TD>400</TD><TD>334</TD><TD>10</TD><TD><br>
+<a href='depot/B-V96.csv' Target='newwindow' ><H2>V96</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>508553</TD><TD>1247</TD><TD>66</TD><TD>525598</TD></TR>
+<TR><TD>4</TD><TD>V52</TD><TD>BlankoAgent</TD><TD>11,0208</TD><TD>422899</TD><TD>469506</TD><TD>423</TD><TD>113</TD><TD>6</TD><TD><br>
+<a href='depot/B-V52.csv' Target='newwindow' ><H2>V52</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>422899</TD><TD>1247</TD><TD>310</TD><TD>82936</TD></TR>
+<TR><TD>5</TD><TD>V93</TD><TD>BlankoAgent</TD><TD>8,5485</TD><TD>653953</TD><TD>709856</TD><TD>385</TD><TD>299</TD><TD>7</TD><TD><br>
+<a href='depot/B-V93.csv' Target='newwindow' ><H2>V93</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>653953</TD><TD>1247</TD><TD>86</TD><TD>602614</TD></TR>
+<TR><TD>6</TD><TD>V99</TD><TD>BlankoAgent</TD><TD>6,5642</TD><TD>364967</TD><TD>388924</TD><TD>338</TD><TD>27</TD><TD>8</TD><TD><br>
+<a href='depot/B-V99.csv' Target='newwindow' ><H2>V99</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>364967</TD><TD>1247</TD><TD>311</TD><TD>1107</TD></TR>
+<TR><TD>7</TD><TD>V33</TD><TD>BlankoAgent</TD><TD>5,0354</TD><TD>487644</TD><TD>512199</TD><TD>267</TD><TD>219</TD><TD>5</TD><TD><br>
+<a href='depot/B-V33.csv' Target='newwindow' ><H2>V33</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>487644</TD><TD>1247</TD><TD>48</TD><TD>452343</TD></TR>
+<TR><TD>8</TD><TD>V28</TD><TD>BlankoAgent</TD><TD>5,0234</TD><TD>322155</TD><TD>338338</TD><TD>253</TD><TD>234</TD><TD>2</TD><TD><br>
+<a href='depot/B-V28.csv' Target='newwindow' ><H2>V28</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>322155</TD><TD>1247</TD><TD>19</TD><TD>314645</TD></TR>
+<TR><TD>9</TD><TD>V77</TD><TD>BlankoAgent</TD><TD>2,5888</TD><TD>303891</TD><TD>311758</TD><TD>94</TD><TD>94</TD><TD>3</TD><TD><br>
+<a href='depot/B-V77.csv' Target='newwindow' ><H2>V77</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>303891</TD><TD>1247</TD><TD>0</TD><TD>311758</TD></TR>
+<TR><TD>10</TD><TD>V78</TD><TD>BlankoAgent</TD><TD>2,3438</TD><TD>488559</TD><TD>500010</TD><TD>306</TD><TD>65</TD><TD>2</TD><TD><br>
+<a href='depot/B-V78.csv' Target='newwindow' ><H2>V78</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>488559</TD><TD>1247</TD><TD>241</TD><TD>199483</TD></TR>
+<TR><TD>11</TD><TD>V54</TD><TD>BlankoAgent</TD><TD>2,2708</TD><TD>439925</TD><TD>449915</TD><TD>117</TD><TD>47</TD><TD>1</TD><TD><br>
+<a href='depot/B-V54.csv' Target='newwindow' ><H2>V54</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>439925</TD><TD>1247</TD><TD>70</TD><TD>362625</TD></TR>
+<TR><TD>12</TD><TD>V76</TD><TD>BlankoAgent</TD><TD>1,8558</TD><TD>483457</TD><TD>492429</TD><TD>129</TD><TD>129</TD><TD>1</TD><TD><br>
+<a href='depot/B-V76.csv' Target='newwindow' ><H2>V76</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>483457</TD><TD>1247</TD><TD>0</TD><TD>492429</TD></TR>
+<TR><TD>13</TD><TD>V92</TD><TD>BlankoAgent</TD><TD>0,9133</TD><TD>558309</TD><TD>563408</TD><TD>56</TD><TD>56</TD><TD>8</TD><TD><br>
+<a href='depot/B-V92.csv' Target='newwindow' ><H2>V92</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>558309</TD><TD>1247</TD><TD>0</TD><TD>563408</TD></TR>
+<TR><TD>14</TD><TD>V41</TD><TD>BlankoAgent</TD><TD>0,8337</TD><TD>533141</TD><TD>537586</TD><TD>56</TD><TD>56</TD><TD>3</TD><TD><br>
+<a href='depot/B-V41.csv' Target='newwindow' ><H2>V41</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>533141</TD><TD>1247</TD><TD>0</TD><TD>537586</TD></TR>
+<TR><TD>15</TD><TD>V25</TD><TD>BlankoAgent</TD><TD>0,8237</TD><TD>439118</TD><TD>442735</TD><TD>119</TD><TD>59</TD><TD>4</TD><TD><br>
+<a href='depot/B-V25.csv' Target='newwindow' ><H2>V25</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>439118</TD><TD>1247</TD><TD>60</TD><TD>367915</TD></TR>
+<TR><TD>16</TD><TD>V85</TD><TD>BlankoAgent</TD><TD>0,7423</TD><TD>402811</TD><TD>405801</TD><TD>44</TD><TD>44</TD><TD>3</TD><TD><br>
+<a href='depot/B-V85.csv' Target='newwindow' ><H2>V85</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>402811</TD><TD>1247</TD><TD>0</TD><TD>405801</TD></TR>
+<TR><TD>17</TD><TD>V68</TD><TD>BlankoAgent</TD><TD>0,5845</TD><TD>632863</TD><TD>636562</TD><TD>47</TD><TD>47</TD><TD>2</TD><TD><br>
+<a href='depot/B-V68.csv' Target='newwindow' ><H2>V68</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>632863</TD><TD>1247</TD><TD>0</TD><TD>636562</TD></TR>
+<TR><TD>18</TD><TD>V89</TD><TD>BlankoAgent</TD><TD>0,5205</TD><TD>647033</TD><TD>650401</TD><TD>79</TD><TD>79</TD><TD>2</TD><TD><br>
+<a href='depot/B-V89.csv' Target='newwindow' ><H2>V89</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>647033</TD><TD>1247</TD><TD>0</TD><TD>650401</TD></TR>
+<TR><TD>19</TD><TD>V81</TD><TD>BlankoAgent</TD><TD>0,1249</TD><TD>440244</TD><TD>440794</TD><TD>24</TD><TD>24</TD><TD>1</TD><TD><br>
+<a href='depot/B-V81.csv' Target='newwindow' ><H2>V81</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>440244</TD><TD>1247</TD><TD>0</TD><TD>440794</TD></TR>
+<TR><TD>20</TD><TD>V88</TD><TD>BlankoAgent</TD><TD>0,0421</TD><TD>325238</TD><TD>325375</TD><TD>20</TD><TD>8</TD><TD>4</TD><TD><br>
+<a href='depot/B-V88.csv' Target='newwindow' ><H2>V88</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>325238</TD><TD>1247</TD><TD>12</TD><TD>310411</TD></TR>
+<TR><TD>21</TD><TD>V80</TD><TD>BlankoAgent</TD><TD>0,00</TD><TD>659116</TD><TD>659116</TD><TD>0</TD><TD>0</TD><TD>0</TD><TD><br>
+<a href='depot/B-V80.csv' Target='newwindow' ><H2>V80</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>659116</TD><TD>1247</TD><TD>0</TD><TD>659116</TD></TR>
+<TR><TD>22</TD><TD>V74</TD><TD>BlankoAgent</TD><TD>0,00</TD><TD>456269</TD><TD>456269</TD><TD>0</TD><TD>0</TD><TD>0</TD><TD><br>
+<a href='depot/B-V74.csv' Target='newwindow' ><H2>V74</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>456269</TD><TD>1247</TD><TD>0</TD><TD>456269</TD></TR>
+<TR><TD>23</TD><TD>V82</TD><TD>BlankoAgent</TD><TD>0,00</TD><TD>508398</TD><TD>508398</TD><TD>0</TD><TD>0</TD><TD>0</TD><TD><br>
+<a href='depot/B-V82.csv' Target='newwindow' ><H2>V82</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>508398</TD><TD>1247</TD><TD>0</TD><TD>508398</TD></TR>
+<TR><TD>24</TD><TD>V86</TD><TD>BlankoAgent</TD><TD>-0,0062</TD><TD>709751</TD><TD>709707</TD><TD>2</TD><TD>2</TD><TD>1</TD><TD><br>
+<a href='depot/B-V86.csv' Target='newwindow' ><H2>V86</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>709751</TD><TD>1247</TD><TD>0</TD><TD>709707</TD></TR>
+<TR><TD>25</TD><TD>V10</TD><TD>BlankoAgent</TD><TD>-0,0212</TD><TD>527549</TD><TD>527437</TD><TD>8</TD><TD>8</TD><TD>3</TD><TD><br>
+<a href='depot/B-V10.csv' Target='newwindow' ><H2>V10</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>527549</TD><TD>1247</TD><TD>0</TD><TD>527437</TD></TR>
+<TR><TD>26</TD><TD>V65</TD><TD>BlankoAgent</TD><TD>-0,0366</TD><TD>592958</TD><TD>592741</TD><TD>87</TD><TD>9</TD><TD>1</TD><TD><br>
+<a href='depot/B-V65.csv' Target='newwindow' ><H2>V65</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>592958</TD><TD>1247</TD><TD>78</TD><TD>495475</TD></TR>
+<TR><TD>27</TD><TD>V97</TD><TD>BlankoAgent</TD><TD>-0,0424</TD><TD>351406</TD><TD>351257</TD><TD>1</TD><TD>1</TD><TD>1</TD><TD><br>
+<a href='depot/B-V97.csv' Target='newwindow' ><H2>V97</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>351406</TD><TD>1247</TD><TD>0</TD><TD>351257</TD></TR>
+<TR><TD>28</TD><TD>V98</TD><TD>BlankoAgent</TD><TD>-0,1473</TD><TD>417633</TD><TD>417018</TD><TD>4</TD><TD>4</TD><TD>2</TD><TD><br>
+<a href='depot/B-V98.csv' Target='newwindow' ><H2>V98</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>417633</TD><TD>1247</TD><TD>0</TD><TD>417018</TD></TR>
+<TR><TD>29</TD><TD>V9</TD><TD>BlankoAgent</TD><TD>-0,2483</TD><TD>667322</TD><TD>665665</TD><TD>116</TD><TD>116</TD><TD>8</TD><TD><br>
+<a href='depot/B-V9.csv' Target='newwindow' ><H2>V9</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>667322</TD><TD>1247</TD><TD>0</TD><TD>665665</TD></TR>
+<TR><TD>30</TD><TD>V91</TD><TD>BlankoAgent</TD><TD>-0,2671</TD><TD>519695</TD><TD>518307</TD><TD>108</TD><TD>73</TD><TD>4</TD><TD><br>
+<a href='depot/B-V91.csv' Target='newwindow' ><H2>V91</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>519695</TD><TD>1247</TD><TD>35</TD><TD>474662</TD></TR>
+<TR><TD>31</TD><TD>V59</TD><TD>BlankoAgent</TD><TD>-0,3343</TD><TD>309336</TD><TD>308302</TD><TD>7</TD><TD>7</TD><TD>2</TD><TD><br>
+<a href='depot/B-V59.csv' Target='newwindow' ><H2>V59</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>309336</TD><TD>1247</TD><TD>0</TD><TD>308302</TD></TR>
+<TR><TD>32</TD><TD>V83</TD><TD>BlankoAgent</TD><TD>-0,3901</TD><TD>333497</TD><TD>332196</TD><TD>11</TD><TD>11</TD><TD>1</TD><TD><br>
+<a href='depot/B-V83.csv' Target='newwindow' ><H2>V83</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>333497</TD><TD>1247</TD><TD>0</TD><TD>332196</TD></TR>
+<TR><TD>33</TD><TD>V49</TD><TD>BlankoAgent</TD><TD>-0,5175</TD><TD>712642</TD><TD>708954</TD><TD>28</TD><TD>28</TD><TD>2</TD><TD><br>
+<a href='depot/B-V49.csv' Target='newwindow' ><H2>V49</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>712642</TD><TD>1247</TD><TD>0</TD><TD>708954</TD></TR>
+<TR><TD>34</TD><TD>V29</TD><TD>BlankoAgent</TD><TD>-0,757</TD><TD>644384</TD><TD>639506</TD><TD>87</TD><TD>57</TD><TD>6</TD><TD><br>
+<a href='depot/B-V29.csv' Target='newwindow' ><H2>V29</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>644384</TD><TD>1247</TD><TD>30</TD><TD>602096</TD></TR>
+<TR><TD>35</TD><TD>V51</TD><TD>BlankoAgent</TD><TD>-1,0685</TD><TD>501643</TD><TD>496283</TD><TD>135</TD><TD>47</TD><TD>4</TD><TD><br>
+<a href='depot/B-V51.csv' Target='newwindow' ><H2>V51</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>501643</TD><TD>1247</TD><TD>88</TD><TD>386547</TD></TR>
+<TR><TD>36</TD><TD>V17</TD><TD>BlankoAgent</TD><TD>-1,1351</TD><TD>681776</TD><TD>674037</TD><TD>55</TD><TD>55</TD><TD>3</TD><TD><br>
+<a href='depot/B-V17.csv' Target='newwindow' ><H2>V17</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>681776</TD><TD>1247</TD><TD>0</TD><TD>674037</TD></TR>
+<TR><TD>37</TD><TD>V22</TD><TD>BlankoAgent</TD><TD>-1,1813</TD><TD>589357</TD><TD>582395</TD><TD>211</TD><TD>180</TD><TD>16</TD><TD><br>
+<a href='depot/B-V22.csv' Target='newwindow' ><H2>V22</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>589357</TD><TD>1247</TD><TD>31</TD><TD>543738</TD></TR>
+<TR><TD>38</TD><TD>V69</TD><TD>BlankoAgent</TD><TD>-1,4037</TD><TD>611726</TD><TD>603139</TD><TD>104</TD><TD>104</TD><TD>2</TD><TD><br>
+<a href='depot/B-V69.csv' Target='newwindow' ><H2>V69</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>611726</TD><TD>1247</TD><TD>0</TD><TD>603139</TD></TR>
+<TR><TD>39</TD><TD>V64</TD><TD>BlankoAgent</TD><TD>-1,4262</TD><TD>708374</TD><TD>698271</TD><TD>86</TD><TD>86</TD><TD>5</TD><TD><br>
+<a href='depot/B-V64.csv' Target='newwindow' ><H2>V64</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>708374</TD><TD>1247</TD><TD>0</TD><TD>698271</TD></TR>
+<TR><TD>40</TD><TD>V87</TD><TD>BlankoAgent</TD><TD>-1,435</TD><TD>381809</TD><TD>376330</TD><TD>32</TD><TD>32</TD><TD>2</TD><TD><br>
+<a href='depot/B-V87.csv' Target='newwindow' ><H2>V87</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>381809</TD><TD>1247</TD><TD>0</TD><TD>376330</TD></TR>
+<TR><TD>41</TD><TD>V71</TD><TD>BlankoAgent</TD><TD>-1,4506</TD><TD>681768</TD><TD>671878</TD><TD>119</TD><TD>82</TD><TD>5</TD><TD><br>
+<a href='depot/B-V71.csv' Target='newwindow' ><H2>V71</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>681768</TD><TD>1247</TD><TD>37</TD><TD>625739</TD></TR>
+<TR><TD>42</TD><TD>V1</TD><TD>BlankoAgent</TD><TD>-1,6333</TD><TD>703113</TD><TD>691629</TD><TD>85</TD><TD>85</TD><TD>10</TD><TD><br>
+<a href='depot/B-V1.csv' Target='newwindow' ><H2>V1</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>703113</TD><TD>1247</TD><TD>0</TD><TD>691629</TD></TR>
+<TR><TD>43</TD><TD>V38</TD><TD>BlankoAgent</TD><TD>-1,6986</TD><TD>474576</TD><TD>466515</TD><TD>135</TD><TD>78</TD><TD>3</TD><TD><br>
+<a href='depot/B-V38.csv' Target='newwindow' ><H2>V38</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>474576</TD><TD>1247</TD><TD>57</TD><TD>395436</TD></TR>
+<TR><TD>44</TD><TD>V20</TD><TD>BlankoAgent</TD><TD>-1,7396</TD><TD>365025</TD><TD>358675</TD><TD>167</TD><TD>93</TD><TD>5</TD><TD><br>
+<a href='depot/B-V20.csv' Target='newwindow' ><H2>V20</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>365025</TD><TD>1247</TD><TD>74</TD><TD>266397</TD></TR>
+<TR><TD>45</TD><TD>V66</TD><TD>BlankoAgent</TD><TD>-2,0093</TD><TD>615900</TD><TD>603525</TD><TD>157</TD><TD>101</TD><TD>11</TD><TD><br>
+<a href='depot/B-V66.csv' Target='newwindow' ><H2>V66</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>615900</TD><TD>1247</TD><TD>56</TD><TD>533693</TD></TR>
+<TR><TD>46</TD><TD>V46</TD><TD>BlankoAgent</TD><TD>-2,0691</TD><TD>651886</TD><TD>638398</TD><TD>84</TD><TD>84</TD><TD>4</TD><TD><br>
+<a href='depot/B-V46.csv' Target='newwindow' ><H2>V46</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>651886</TD><TD>1247</TD><TD>0</TD><TD>638398</TD></TR>
+<TR><TD>47</TD><TD>V63</TD><TD>BlankoAgent</TD><TD>-2,1656</TD><TD>612762</TD><TD>599492</TD><TD>79</TD><TD>79</TD><TD>1</TD><TD><br>
+<a href='depot/B-V63.csv' Target='newwindow' ><H2>V63</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>612762</TD><TD>1247</TD><TD>0</TD><TD>599492</TD></TR>
+<TR><TD>48</TD><TD>V90</TD><TD>BlankoAgent</TD><TD>-2,3574</TD><TD>533733</TD><TD>521151</TD><TD>78</TD><TD>78</TD><TD>1</TD><TD><br>
+<a href='depot/B-V90.csv' Target='newwindow' ><H2>V90</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>533733</TD><TD>1247</TD><TD>0</TD><TD>521151</TD></TR>
+<TR><TD>49</TD><TD>V73</TD><TD>BlankoAgent</TD><TD>-2,5765</TD><TD>730142</TD><TD>711330</TD><TD>157</TD><TD>157</TD><TD>3</TD><TD><br>
+<a href='depot/B-V73.csv' Target='newwindow' ><H2>V73</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>730142</TD><TD>1247</TD><TD>0</TD><TD>711330</TD></TR>
+<TR><TD>50</TD><TD>V11</TD><TD>BlankoAgent</TD><TD>-2,6953</TD><TD>502137</TD><TD>488603</TD><TD>99</TD><TD>99</TD><TD>5</TD><TD><br>
+<a href='depot/B-V11.csv' Target='newwindow' ><H2>V11</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>502137</TD><TD>1247</TD><TD>0</TD><TD>488603</TD></TR>
+<TR><TD>51</TD><TD>V36</TD><TD>BlankoAgent</TD><TD>-2,802</TD><TD>727850</TD><TD>707456</TD><TD>187</TD><TD>132</TD><TD>3</TD><TD><br>
+<a href='depot/B-V36.csv' Target='newwindow' ><H2>V36</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>727850</TD><TD>1247</TD><TD>55</TD><TD>638871</TD></TR>
+<TR><TD>52</TD><TD>V15</TD><TD>BlankoAgent</TD><TD>-2,8921</TD><TD>556904</TD><TD>540798</TD><TD>144</TD><TD>144</TD><TD>8</TD><TD><br>
+<a href='depot/B-V15.csv' Target='newwindow' ><H2>V15</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>556904</TD><TD>1247</TD><TD>0</TD><TD>540798</TD></TR>
+<TR><TD>53</TD><TD>V50</TD><TD>BlankoAgent</TD><TD>-2,925</TD><TD>421886</TD><TD>409546</TD><TD>203</TD><TD>107</TD><TD>8</TD><TD><br>
+<a href='depot/B-V50.csv' Target='newwindow' ><H2>V50</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>421886</TD><TD>1247</TD><TD>96</TD><TD>289834</TD></TR>
+<TR><TD>54</TD><TD>V32</TD><TD>BlankoAgent</TD><TD>-2,9852</TD><TD>730507</TD><TD>708700</TD><TD>179</TD><TD>156</TD><TD>4</TD><TD><br>
+<a href='depot/B-V32.csv' Target='newwindow' ><H2>V32</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>730507</TD><TD>1247</TD><TD>23</TD><TD>680019</TD></TR>
+<TR><TD>55</TD><TD>V84</TD><TD>BlankoAgent</TD><TD>-3,1899</TD><TD>506885</TD><TD>490716</TD><TD>94</TD><TD>94</TD><TD>5</TD><TD><br>
+<a href='depot/B-V84.csv' Target='newwindow' ><H2>V84</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>506885</TD><TD>1247</TD><TD>0</TD><TD>490716</TD></TR>
+<TR><TD>56</TD><TD>V35</TD><TD>BlankoAgent</TD><TD>-3,263</TD><TD>651312</TD><TD>630060</TD><TD>148</TD><TD>148</TD><TD>4</TD><TD><br>
+<a href='depot/B-V35.csv' Target='newwindow' ><H2>V35</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>651312</TD><TD>1247</TD><TD>0</TD><TD>630060</TD></TR>
+<TR><TD>57</TD><TD>V23</TD><TD>BlankoAgent</TD><TD>-3,2744</TD><TD>698350</TD><TD>675483</TD><TD>142</TD><TD>142</TD><TD>3</TD><TD><br>
+<a href='depot/B-V23.csv' Target='newwindow' ><H2>V23</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>698350</TD><TD>1247</TD><TD>0</TD><TD>675483</TD></TR>
+<TR><TD>58</TD><TD>V94</TD><TD>BlankoAgent</TD><TD>-3,4572</TD><TD>600424</TD><TD>579666</TD><TD>150</TD><TD>150</TD><TD>2</TD><TD><br>
+<a href='depot/B-V94.csv' Target='newwindow' ><H2>V94</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>600424</TD><TD>1247</TD><TD>0</TD><TD>579666</TD></TR>
+<TR><TD>59</TD><TD>V12</TD><TD>BlankoAgent</TD><TD>-3,5174</TD><TD>415050</TD><TD>400451</TD><TD>172</TD><TD>117</TD><TD>5</TD><TD><br>
+<a href='depot/B-V12.csv' Target='newwindow' ><H2>V12</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>415050</TD><TD>1247</TD><TD>55</TD><TD>331866</TD></TR>
+<TR><TD>60</TD><TD>V40</TD><TD>BlankoAgent</TD><TD>-3,523</TD><TD>596709</TD><TD>575687</TD><TD>138</TD><TD>138</TD><TD>2</TD><TD><br>
+<a href='depot/B-V40.csv' Target='newwindow' ><H2>V40</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>596709</TD><TD>1247</TD><TD>0</TD><TD>575687</TD></TR>
+<TR><TD>61</TD><TD>V57</TD><TD>BlankoAgent</TD><TD>-3,6392</TD><TD>681912</TD><TD>657096</TD><TD>147</TD><TD>147</TD><TD>1</TD><TD><br>
+<a href='depot/B-V57.csv' Target='newwindow' ><H2>V57</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>681912</TD><TD>1247</TD><TD>0</TD><TD>657096</TD></TR>
+<TR><TD>62</TD><TD>V18</TD><TD>BlankoAgent</TD><TD>-3,7084</TD><TD>307062</TD><TD>295675</TD><TD>164</TD><TD>92</TD><TD>5</TD><TD><br>
+<a href='depot/B-V18.csv' Target='newwindow' ><H2>V18</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>307062</TD><TD>1247</TD><TD>72</TD><TD>205891</TD></TR>
+<TR><TD>63</TD><TD>V34</TD><TD>BlankoAgent</TD><TD>-3,7333</TD><TD>608176</TD><TD>585471</TD><TD>143</TD><TD>143</TD><TD>3</TD><TD><br>
+<a href='depot/B-V34.csv' Target='newwindow' ><H2>V34</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>608176</TD><TD>1247</TD><TD>0</TD><TD>585471</TD></TR>
+<TR><TD>64</TD><TD>V55</TD><TD>BlankoAgent</TD><TD>-3,8039</TD><TD>416492</TD><TD>400649</TD><TD>100</TD><TD>100</TD><TD>2</TD><TD><br>
+<a href='depot/B-V55.csv' Target='newwindow' ><H2>V55</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>416492</TD><TD>1247</TD><TD>0</TD><TD>400649</TD></TR>
+<TR><TD>65</TD><TD>V62</TD><TD>BlankoAgent</TD><TD>-3,8994</TD><TD>421758</TD><TD>405312</TD><TD>219</TD><TD>159</TD><TD>24</TD><TD><br>
+<a href='depot/B-V62.csv' Target='newwindow' ><H2>V62</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>421758</TD><TD>1247</TD><TD>60</TD><TD>330492</TD></TR>
+<TR><TD>66</TD><TD>V27</TD><TD>BlankoAgent</TD><TD>-3,9025</TD><TD>554288</TD><TD>532657</TD><TD>147</TD><TD>147</TD><TD>1</TD><TD><br>
+<a href='depot/B-V27.csv' Target='newwindow' ><H2>V27</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>554288</TD><TD>1247</TD><TD>0</TD><TD>532657</TD></TR>
+<TR><TD>67</TD><TD>V72</TD><TD>BlankoAgent</TD><TD>-4,0984</TD><TD>386080</TD><TD>370257</TD><TD>405</TD><TD>189</TD><TD>1</TD><TD><br>
+<a href='depot/B-V72.csv' Target='newwindow' ><H2>V72</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>386080</TD><TD>1247</TD><TD>216</TD><TD>100905</TD></TR>
+<TR><TD>68</TD><TD>V100</TD><TD>BlankoAgent</TD><TD>-4,4856</TD><TD>422376</TD><TD>403430</TD><TD>128</TD><TD>128</TD><TD>9</TD><TD><br>
+<a href='depot/B-V100.csv' Target='newwindow' ><H2>V100</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>422376</TD><TD>1247</TD><TD>0</TD><TD>403430</TD></TR>
+<TR><TD>69</TD><TD>V39</TD><TD>BlankoAgent</TD><TD>-4,647</TD><TD>528082</TD><TD>503542</TD><TD>295</TD><TD>178</TD><TD>10</TD><TD><br>
+<a href='depot/B-V39.csv' Target='newwindow' ><H2>V39</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>528082</TD><TD>1247</TD><TD>117</TD><TD>357643</TD></TR>
+<TR><TD>70</TD><TD>V70</TD><TD>BlankoAgent</TD><TD>-4,6586</TD><TD>459153</TD><TD>437763</TD><TD>177</TD><TD>145</TD><TD>5</TD><TD><br>
+<a href='depot/B-V70.csv' Target='newwindow' ><H2>V70</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>459153</TD><TD>1247</TD><TD>32</TD><TD>397859</TD></TR>
+<TR><TD>71</TD><TD>V47</TD><TD>BlankoAgent</TD><TD>-4,7875</TD><TD>680015</TD><TD>647459</TD><TD>243</TD><TD>243</TD><TD>4</TD><TD><br>
+<a href='depot/B-V47.csv' Target='newwindow' ><H2>V47</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>680015</TD><TD>1247</TD><TD>0</TD><TD>647459</TD></TR>
+<TR><TD>72</TD><TD>V45</TD><TD>BlankoAgent</TD><TD>-5,0709</TD><TD>507878</TD><TD>482124</TD><TD>207</TD><TD>179</TD><TD>4</TD><TD><br>
+<a href='depot/B-V45.csv' Target='newwindow' ><H2>V45</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>507878</TD><TD>1247</TD><TD>28</TD><TD>447208</TD></TR>
+<TR><TD>73</TD><TD>V2</TD><TD>BlankoAgent</TD><TD>-5,1908</TD><TD>700282</TD><TD>663932</TD><TD>240</TD><TD>240</TD><TD>8</TD><TD><br>
+<a href='depot/B-V2.csv' Target='newwindow' ><H2>V2</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>700282</TD><TD>1247</TD><TD>0</TD><TD>663932</TD></TR>
+<TR><TD>74</TD><TD>V42</TD><TD>BlankoAgent</TD><TD>-5,3742</TD><TD>336218</TD><TD>318149</TD><TD>174</TD><TD>138</TD><TD>4</TD><TD><br>
+<a href='depot/B-V42.csv' Target='newwindow' ><H2>V42</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>336218</TD><TD>1247</TD><TD>36</TD><TD>273257</TD></TR>
+<TR><TD>75</TD><TD>V48</TD><TD>BlankoAgent</TD><TD>-5,4141</TD><TD>406995</TD><TD>384960</TD><TD>165</TD><TD>165</TD><TD>13</TD><TD><br>
+<a href='depot/B-V48.csv' Target='newwindow' ><H2>V48</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>406995</TD><TD>1247</TD><TD>0</TD><TD>384960</TD></TR>
+<TR><TD>76</TD><TD>V3</TD><TD>BlankoAgent</TD><TD>-5,4767</TD><TD>524626</TD><TD>495894</TD><TD>216</TD><TD>216</TD><TD>11</TD><TD><br>
+<a href='depot/B-V3.csv' Target='newwindow' ><H2>V3</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>524626</TD><TD>1247</TD><TD>0</TD><TD>495894</TD></TR>
+<TR><TD>77</TD><TD>V37</TD><TD>BlankoAgent</TD><TD>-5,5885</TD><TD>566498</TD><TD>534839</TD><TD>225</TD><TD>225</TD><TD>3</TD><TD><br>
+<a href='depot/B-V37.csv' Target='newwindow' ><H2>V37</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>566498</TD><TD>1247</TD><TD>0</TD><TD>534839</TD></TR>
+<TR><TD>78</TD><TD>V67</TD><TD>BlankoAgent</TD><TD>-6,026</TD><TD>465949</TD><TD>437871</TD><TD>167</TD><TD>167</TD><TD>1</TD><TD><br>
+<a href='depot/B-V67.csv' Target='newwindow' ><H2>V67</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>465949</TD><TD>1247</TD><TD>0</TD><TD>437871</TD></TR>
+<TR><TD>79</TD><TD>V7</TD><TD>BlankoAgent</TD><TD>-6,059</TD><TD>378657</TD><TD>355714</TD><TD>167</TD><TD>167</TD><TD>10</TD><TD><br>
+<a href='depot/B-V7.csv' Target='newwindow' ><H2>V7</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>378657</TD><TD>1247</TD><TD>0</TD><TD>355714</TD></TR>
+<TR><TD>80</TD><TD>V26</TD><TD>BlankoAgent</TD><TD>-6,4815</TD><TD>367617</TD><TD>343790</TD><TD>169</TD><TD>169</TD><TD>5</TD><TD><br>
+<a href='depot/B-V26.csv' Target='newwindow' ><H2>V26</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>367617</TD><TD>1247</TD><TD>0</TD><TD>343790</TD></TR>
+<TR><TD>81</TD><TD>V75</TD><TD>BlankoAgent</TD><TD>-7,2843</TD><TD>403581</TD><TD>374183</TD><TD>201</TD><TD>201</TD><TD>3</TD><TD><br>
+<a href='depot/B-V75.csv' Target='newwindow' ><H2>V75</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>403581</TD><TD>1247</TD><TD>0</TD><TD>374183</TD></TR>
+<TR><TD>82</TD><TD>V44</TD><TD>BlankoAgent</TD><TD>-8,1204</TD><TD>485187</TD><TD>445788</TD><TD>263</TD><TD>263</TD><TD>5</TD><TD><br>
+<a href='depot/B-V44.csv' Target='newwindow' ><H2>V44</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>485187</TD><TD>1247</TD><TD>0</TD><TD>445788</TD></TR>
+<TR><TD>83</TD><TD>V60</TD><TD>BlankoAgent</TD><TD>-9,0155</TD><TD>314826</TD><TD>286443</TD><TD>185</TD><TD>185</TD><TD>2</TD><TD><br>
+<a href='depot/B-V60.csv' Target='newwindow' ><H2>V60</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>314826</TD><TD>1247</TD><TD>0</TD><TD>286443</TD></TR>
+<TR><TD>84</TD><TD>V4</TD><TD>BlankoAgent</TD><TD>-9,4573</TD><TD>471054</TD><TD>426505</TD><TD>312</TD><TD>312</TD><TD>4</TD><TD><br>
+<a href='depot/B-V4.csv' Target='newwindow' ><H2>V4</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>471054</TD><TD>1247</TD><TD>0</TD><TD>426505</TD></TR>
+<TR><TD>85</TD><TD>V16</TD><TD>BlankoAgent</TD><TD>-9,6918</TD><TD>343495</TD><TD>310204</TD><TD>278</TD><TD>267</TD><TD>8</TD><TD><br>
+<a href='depot/B-V16.csv' Target='newwindow' ><H2>V16</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>343495</TD><TD>1247</TD><TD>11</TD><TD>296487</TD></TR>
+<TR><TD>86</TD><TD>V79</TD><TD>BlankoAgent</TD><TD>-13,1288</TD><TD>425279</TD><TD>369445</TD><TD>389</TD><TD>389</TD><TD>7</TD><TD><br>
+<a href='depot/B-V79.csv' Target='newwindow' ><H2>V79</a>
+<br>
+</TD><TD>1000</TD><TD>0</TD><TD>425279</TD><TD>1247</TD><TD>0</TD><TD>369445</TD></TR>
+<TR><TD></TD><TD>Summe</TD><TD></TD><TD>-0,9407</TD><TD>44372483</TD><TD>43968771</TD><TD>14060</TD><TD>10801</TD><TD>386</TD><TD></TD><TD>0</TD><TD>0</TD><TD>44372483</TD><TD>0</TD><TD>3259</TD><TD>39904798</TD></TR>
+</Table>
+<Table Border=2 >
+<TR>
+<TD> <H4>Random<H4> </TD>
+</TR>
+<TR>
+<TH>Nr</TH>
+<TH>Name</TH>
+<TH>InitType</TH>
+<TH>Profit(%)</TH>
+<TH>InitDepot</TH>
+<TH>EndDepot</TH>
+<TH>BuySumme</TH>
+<TH>SellSumme</TH>
+<TH>TypeChanges</TH>
+<TH>Detailed</TH>
+<TH>InitPrice</TH>
+<TH>InitMenge</TH>
+<TH>InitCash</TH>
+<TH>EndPreis</TH>
+<TH>EndMenge</TH>
+<TH>EndCash</TH>
+</TR><TR><TD>1</TD><TD>RandomTrader1</TD><TD>RandomTrader</TD><TD>24,6755</TD><TD>10009998999</TD><TD>12480011819</TD><TD>247</TD><TD>181</TD><TD>0</TD><TD><br>
+<a href='depot/R-RandomTrader1.csv' Target='newwindow' ><H2>RandomTrader1</a>
+<br>
+</TD><TD>1000</TD><TD>9999999</TD><TD>9999999</TD><TD>1247</TD><TD>10000065</TD><TD>9930764</TD></TR>
+<TR><TD></TD><TD>Summe</TD><TD></TD><TD>24,6755</TD><TD>10009998999</TD><TD>12480011819</TD><TD>247</TD><TD>181</TD><TD>0</TD><TD></TD><TD>0</TD><TD>9999999</TD><TD>9999999</TD><TD>0</TD><TD>10000065</TD><TD>9930764</TD></TR>
+</Table>
+</Body>
+</HTML>

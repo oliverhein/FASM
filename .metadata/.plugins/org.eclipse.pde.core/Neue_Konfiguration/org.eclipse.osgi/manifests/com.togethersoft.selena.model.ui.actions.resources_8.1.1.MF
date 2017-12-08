@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugInName
+Bundle-SymbolicName: com.togethersoft.selena.model.ui.actions.resources; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: plugin.jar
+Bundle-Activator: com.togethersoft.selena.internal.model.a.a.l
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.togethersoft.selena.internal.model.a.a,
+ com.togethersoft.selena.internal.model.ui.actions
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.team.ui,
+ com.borland.csf.license,
+ com.tssap.selena.model.ui,
+ com.tssap.selena.model.providers.resources,
+ com.tssap.selena.model.preferences
+Eclipse-LazyStart: true

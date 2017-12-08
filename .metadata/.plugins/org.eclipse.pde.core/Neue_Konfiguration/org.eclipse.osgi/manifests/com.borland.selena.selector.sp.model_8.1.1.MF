@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugInName
+Bundle-SymbolicName: com.borland.selena.selector.sp.model; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: plugin.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.selena.internal.selector.sp.model,
+ com.borland.selena.selector.sp.model
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ com.tssap.selena.model,
+ com.tssap.selena.model.ui,
+ com.tssap.selena.model.ui.navigator,
+ com.borland.csf.selector,
+ com.borland.selena.model.hyperlinks
+Eclipse-LazyStart: true

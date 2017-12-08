@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Generated-from: 1179244740000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: XML Development Tools UI
+Bundle-SymbolicName: net.sf.solareclipse.xml.ui; singleton:=true
+Bundle-Version: 0.4.0.spindle-dep-7
+Bundle-ClassPath: xmlui.jar
+Bundle-Activator: net.sf.solareclipse.xml.ui.XMLPlugin
+Bundle-Vendor: SolarEclipse Project
+Bundle-Localization: plugin
+Export-Package: net.sf.solareclipse.xml.internal.ui.preferences,
+ net.sf.solareclipse.xml.internal.ui.text,
+ net.sf.solareclipse.xml.ui,
+ net.sf.solareclipse.xml.ui.text
+Require-Bundle: org.eclipse.ui.ide,
+ org.eclipse.ui.views,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.editors,
+ net.sf.solareclipse.ui,
+ org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.jface.text,
+ org.eclipse.core.runtime
+Eclipse-LazyStart: true

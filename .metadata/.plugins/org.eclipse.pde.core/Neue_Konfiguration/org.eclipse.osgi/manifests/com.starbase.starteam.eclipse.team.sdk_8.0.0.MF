@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Generated-from: 1158785988000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam SDK
+Bundle-SymbolicName: com.starbase.starteam.eclipse.team.sdk
+Bundle-Version: 8.0.0
+Bundle-ClassPath: jaxp-api-transform.jar,
+ starteam-synchronization.jar
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Export-Package: com.borland.starteam.sync_sdk,
+ com.borland.starteam.synchronization,
+ com.borland.starteam.synchronization.spi,
+ com.borland.starteam.synchronization.spi.filesystem,
+ com.borland.starteam.synchronization.spi.starteam,
+ com.borland.starteam.synchronization.util
+Require-Bundle: com.borland.starteam.sdk;bundle-version="[8.0.0,8.1.0)";visibility:=reexport,
+ com.borland.starteam.gui;bundle-version="[8.0.0,8.1.0)";visibility:=reexport,
+ com.borland.starteam.extensions;visibility:=reexport

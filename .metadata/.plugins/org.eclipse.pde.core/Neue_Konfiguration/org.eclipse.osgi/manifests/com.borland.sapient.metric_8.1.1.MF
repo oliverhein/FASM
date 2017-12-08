@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %sapientMetrics
+Bundle-SymbolicName: com.borland.sapient.metric; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: metric.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.sapient.a.a,
+ com.borland.sapient.a.b,
+ com.borland.sapient.a.c,
+ com.borland.sapient.metric.impl
+Require-Bundle: com.borland.sapient.util.java,
+ com.borland.sapient.core

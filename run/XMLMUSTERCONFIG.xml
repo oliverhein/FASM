@@ -1,0 +1,177 @@
+<SimulationConfig>
+<BaseConfig>
+<!-- //////////////////////////////////////////////////////////////// -->
+<!-- //                                                            // -->
+<!-- // General Parameter                                          // -->
+<!-- //                                                            // -->
+<!-- //////////////////////////////////////////////////////////////// -->
+<!-- # Market Mode definition -->
+<!-- # =1  AktienMarket -->
+<!-- # =2  CashMarket -->
+<MarketMode>2</MarketMode>
+<!-- # Tobintax Agent active or not -->
+<TobintaxAgentActive>true</TobintaxAgentActive>
+<!-- #Days for simulation -->
+<!-- #Default: 300  -->
+<Handelsday>300</Handelsday>
+<!-- #InnererWertMuster definiert eine Datei in der InnererWert vorher erzeugt werden  -->
+<InnerWert_Muster>innererwertmuster2.txt</InnerWert_Muster>
+<!-- #Die maximale Abweichung in % von Innererwert am Tag  -->
+<MaximalTagAbweichnung>5.0</MaximalTagAbweichnung>
+<!-- #Der minimale Innererwert  -->
+<InnerWert_Min>500</InnerWert_Min>
+<!-- #Der maximale Innererwert  -->
+<InnerWert_Max>3000</InnerWert_Max>
+<!-- #Der StartWert von InnererWert  -->
+<InnerWert_Begin>1000</InnerWert_Begin>
+<!-- #Der Interval von Tagen fuer Gewinnstatusaustausch zwischen Agenten -->
+<!-- #Dieser Wert ist wichtig fuer Agent-Kommunikation -->
+<GewinnstatusaustauschInterval>10</GewinnstatusaustauschInterval>
+<!-- #Anzahl der Tage mit Verlust, nach denen der Agent seinen Typ versuchen zu anderen Typ zu wechseln soll -->
+<!-- #Der Verlust soll nach nacheinander sein. -->
+<DaysOfContinuedLost>2</DaysOfContinuedLost>
+<!-- # Tage innerhalb einer Sinus Funktion  -->
+DaysOfOnePeriod=1500
+<!-- #Die maximal erlaubte Abweichung zwischen Preis und Innererwert  -->
+<!-- #Dieser Parameter regelt den Ablauf einer Simulation, -->
+<!-- #Wenn ein Tag die Abweichung diese Grenz ueberschreitet, wird die Simulation abgebrochen. -->
+<AllowedAbweichungPreis2InnererWert>5000</AllowedAbweichungPreis2InnererWert>
+<!-- # ReferenceTag, gegen den die Gewinn berechnet werden soll.  -->
+<ReferenceDaysForGewinnCalculation>20</ReferenceDaysForGewinnCalculation>
+<!-- # Prozent von HillEstimation Berechnung  -->
+<HillEstimatorProcent>5.0</HillEstimatorProcent>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Parameter for Agent Communication                          ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<StatusExchangeProbabiliy>10</StatusExchangeProbabiliy>
+<LostNumberSeed>5</LostNumberSeed>
+<BaseDeviation4PriceLimit>10</BaseDeviation4PriceLimit>
+<AbschlagFactor>10</AbschlagFactor>
+<Orders4AverageLimit>10</Orders4AverageLimit>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Investor Parameter                                         ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #Investor Minimal Init Cash  bzw.  Cash1 -->
+<Investor_InitCash_Min>100000</Investor_InitCash_Min>
+<!-- #Investor Maximal Init Cash  bzw.  Cash1 -->
+<Investor_InitCash_Max>150000</Investor_InitCash_Max>
+<!-- #Investor Minimal Init Aktien  bzw.  Cash2 -->
+<Investor_InitStock_Min>2500</Investor_InitStock_Min>
+<!-- #Investor Maximal Init Aktien  bzw.  Cash2 -->
+<Investor_InitStock_Max>3000</Investor_InitStock_Max>
+<!-- #AbschlagProzent Parameter  -->
+<Investor_DynamischAbschlagProzent_Min>0.0</Investor_DynamischAbschlagProzent_Min>
+<Investor_DynamischAbschlagProzent_Max>7.5</Investor_DynamischAbschlagProzent_Max>
+<!-- #Investor OrderMenge Stufe1 -->
+<Investor_Order_Stufe1>1</Investor_Order_Stufe1>
+<!-- #Investor OrderMenge Stufe2 -->
+<Investor_Order_Stufe2>3</Investor_Order_Stufe2>
+<!-- #Investor OrderMenge Stufe3 -->
+<Investor_Order_Stufe3>6</Investor_Order_Stufe3>
+<!-- #Investor OrderMenge Stufe4 -->
+<Investor_Order_Stufe4>10</Investor_Order_Stufe4>
+<!-- # SchlafenProzent: definier wie haeufig Investor kein Buy/Sell-Order stellt -->
+<Investor_SleepProcent>0</Investor_SleepProcent>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ##  NoiseTrader Parameter                                     ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #Noisetrader Minimal Init Cash  bzw.  Cash1 -->
+<NoiseTrader_InitCash_Min>100000</NoiseTrader_InitCash_Min>
+<!-- #Noisetrader Maximal Init Cash  bzw.  Cash1 -->
+<NoiseTrader_InitCash_Max>150000</NoiseTrader_InitCash_Max>
+<!-- #Noisetrader Minial Init Aktien  bzw.  Cash2 -->
+<NoiseTrader_InitStock_Min>1000</NoiseTrader_InitStock_Min>
+<!-- #Noisetrader Maximal Init Aktien  bzw.  Cash2 -->
+<NoiseTrader_InitStock_Max>1500</NoiseTrader_InitStock_Max>
+<!-- #NoiserTrader OrderMenge Stufe1 -->
+<NoiseTrader_Order_Stufe1>1</NoiseTrader_Order_Stufe1>
+<!-- #NoiserTrader OrderMenge Stufe2 -->
+<NoiseTrader_Order_Stufe2>3</NoiseTrader_Order_Stufe2>
+<!-- #NoiserTrader OrderMenge Stufe3 -->
+<NoiseTrader_Order_Stufe3>6</NoiseTrader_Order_Stufe3>
+<!-- #NoiserTrader OrderMenge Stufe4 -->
+<NoiseTrader_Order_Stufe4>10</NoiseTrader_Order_Stufe4>
+<!-- #NoiserTrader Parameter fuer MovingAveragePrice-Berechnung -->
+<!-- #NoiserTrader Jeder NoiseTrader bekommt einen zufaellig generierter MovingDays zwischen Min und Max -->
+<NoiseTrader_MinMovingDays4AveragePrice>10</NoiseTrader_MinMovingDays4AveragePrice>
+<NoiseTrader_MaxMovingDays4AveragePrice>50</NoiseTrader_MaxMovingDays4AveragePrice>
+<!-- #NoiserTrader LimitAdjust  -->
+<!-- #NoiserTrader MinLimitAdjust and MaxAdjust are used for Limit-Generating  Limit = InnererWert * ( 1 + or - x %), x is [LimitMinAdjust, LimitMaxAdjust] -->
+<NoiseTrader_MinLimitAdjust>0.0</NoiseTrader_MinLimitAdjust>
+<NoiseTrader_MaxLimitAdjust>3.0</NoiseTrader_MaxLimitAdjust>
+<!-- # SchlafenProzent: definier wie haeufig NoiseTrader kein Buy/Sell-Order stellt -->
+<NoiseTrader_SleepProcent>0</NoiseTrader_SleepProcent>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ##  RandomTrader Parameter                                    ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #RandomTrader Init Cash bzw. Cash1 -->
+<RandomTrader_InitCash>300000000</RandomTrader_InitCash>
+<!-- #RandomTrader Init Aktien bzw. Cash2 -->
+<RandomTrader_InitStock>2000000</RandomTrader_InitStock>
+<!-- #RandomTrader Kauf-Wahrscheinlichkeit in Prozent  -->
+<!-- # Achtung: Kauf-Wahrschlichkeit + Verkauf-Wahrscheinlichkeit muss 100 sein -->
+<RandomTraderBuyProbability>40</RandomTraderBuyProbability>
+<!-- #RandomTrader Kauf-Wahrscheinlichkeit 'Chepest' in Prozent -->
+<!-- #Dieser Parameter steuert wie hauefig der RandomTrader den Order mit Chepest-Buy zu stellen -->
+<!-- # Achtung: Chepest + Indexbased muss 100 sein  -->
+<RandomTraderBuyProbabilityChepest>50</RandomTraderBuyProbabilityChepest>
+<!-- #RandomTrader Kauf-Wahrscheinlichkeit 'Indexbased' in Prozent -->
+<RandomTraderBuyProbabilityIndexBased>50</RandomTraderBuyProbabilityIndexBased>
+<!-- #RandomTrader Verkauf-Wahrscheinlichkeit in Prozent -->
+<RandomTraderSellProbability>40</RandomTraderSellProbability>
+<!-- #RandomTrader Verkauf-Wahrscheinlichkeit 'IndexBased' in Prozent -->
+<!-- # Achtung: IndexBased + Best muss 100 sein.  -->
+<RandomTraderSellProbabilityIndexBased>50</RandomTraderSellProbabilityIndexBased>
+<!-- #RandomTrader Verkauf-Wahrscheinlichkeit 'Best' in Prozent -->
+<RandomTraderSellProbabilityBest>50</RandomTraderSellProbabilityBest>
+<!-- #RandomTrader Schlafen-Wahrscheinlichkeit in Prozent -->
+<RandomTraderWaitProbability>20</RandomTraderWaitProbability>
+<!-- #RandomTrader Minimal und Maximal OrderMenge steuert die Menge in Order -->
+<!-- #RandomTrader Minimal OrderMenge -->
+<RandomTraderMinMenge>1</RandomTraderMinMenge>
+<!-- #RandomTrader Maximal OrderMenge -->
+<RandomTraderMaxMenge>3</RandomTraderMaxMenge>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Tobintax Agent Parameter                                   ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #Interventionsband in % -->
+<TobintaxInterventionsband>5.0</TobintaxInterventionsband>
+<!-- #Tage fuer Berechnung der Mittelwert der Kurs -->
+<TobintaxTag4AverageKurs>20</TobintaxTag4AverageKurs>
+<!-- #Tradeprozent von Tobintax Agent -->
+<!-- #wenn er kauft, benutzt er     K% von seinem CASH1 -->
+<!-- #wenn er verkauft, verkauft er K% von seinem CASH2 -->
+<TobintaxTradeProzent>20.0</TobintaxTradeProzent>
+<Cash1_Name>Euro</Cash1_Name>
+<Cash2_Name>Dollar</Cash2_Name>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Common parts of Agent Network Node->AgentType Mapping      ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #Repeat Times of every Netzwork -->
+<RepeatTimes>2</RepeatTimes>
+<!-- # definiere ob alle Netzwerk die gemeinsame Node->Type Distribution verwenden  -->
+<UseCommonNode2TypeDistribution>true</UseCommonNode2TypeDistribution>
+<!-- # InvestorProzent und NoiseTraderProzent von der Netzwerknodes: % -->
+<!-- # InvestorProzent + NoiseTraderProzent soll 100 sein  -->
+<!-- # These parameter make sense only when 'UseCommonNode2TypeDistribution' is set to true -->
+<InvestorProcent>80</InvestorProcent>
+<NoiseTraderProcent>20</NoiseTraderProcent>
+<!-- # Absolute Anzahl von RandomTrader  -->
+<RandomTrader>2</RandomTrader>
+<!-- # if Random-Zuordnung des Nodes zu AgentType verwendet ist. -->
+<NetworkNodeDistributionRandomMode>true</NetworkNodeDistributionRandomMode>
+</BaseConfig>
+
+</SimulationConfig>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugin.name
+Bundle-SymbolicName: com.borland.gendoc.requirements; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: gendoc-requirements.jar
+Bundle-Activator: com.borland.gendoc.internal.requirements.RequirementsGendocPlugin
+Bundle-Vendor: %plugin.providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.gendoc.internal.requirements
+Require-Bundle: org.eclipse.core.runtime,
+ com.borland.tg.requirements,
+ com.borland.gendoc.core
+Eclipse-LazyStart: true

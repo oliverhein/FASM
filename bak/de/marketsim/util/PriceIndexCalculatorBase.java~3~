@@ -1,0 +1,444 @@
+package de.marketsim.util;
+
+/**
+ * <p>Überschrift: Mircomarket Simulator</p>
+ * <p>Beschreibung: </p>
+ * <p>Copyright: Copyright (c) 2006</p>
+ * <p>Organisation: </p>
+ * @author Xining Wang
+ * @version 1.0
+ */
+
+import java.util.*;
+import de.marketsim.config.*;
+import de.marketsim.util.HTMLCreator;
+
+import jade.core.AID;
+import java.io.*;
+import de.marketsim.SystemConstant;
+import org.apache.log4j.*;
+
+public abstract class PriceIndexCalculatorBase
+{
+
+  protected Hashtable  mOriginalOrderList    = new Hashtable();
+  // Operator List with OK Wish (No Buy, No Sell)
+  protected Vector     mNoneOrderList        = new Vector();
+  protected Vector     mBuyOrderList         = new Vector();
+  protected Vector     mCheapestBuyOrderList = new Vector();
+  protected Vector     mSellOrderList        = new Vector();
+  protected Vector     mBestenSellOrderList  = new Vector();
+
+  public DailyOrderStatistic  mDailyOrderStatistic = new DailyOrderStatistic();
+
+  /*
+  protected int mBuyMenge_Of_AllBuyOrder   = 0;
+  protected int mBuyMenge_With_Limit       = 0;
+  protected int mCheapestBuyMenge          = 0;
+
+  protected int mSellMenge_Of_AllSellOrder = 0;
+  protected int mSellMenge_With_Limit      = 0;
+  protected int mBestenSellMenge           = 0;
+
+  protected int mOpenBuyMenge_Of_AllBuyOrder   = 0;
+  protected int mOpenSellMenge_Of_AllSellOrder = 0;
+  */
+
+  protected Vector     mCalcBase   = new Vector();
+  protected Hashtable  mLimitList  = new Hashtable();
+
+  protected int mPrice           = 0;
+
+  protected double mLastPrice    = 0;
+  protected double mInnererWert  = 0;
+
+  protected int mUmsatz          = 0;  // in AktienStück
+
+  public double  mMaxTradeVolume= 0;  // in Wert
+
+  protected int mBuyOrderCounter  = 0;
+  protected int mSellOrderCounter = 0;
+
+  protected char mTradeStatus     = 'T';
+
+  //protected java.io.PrintWriter  mFileLogger = null;
+
+  protected java.io.PrintStream  mDailyOrderBookHTMLFile = null;
+
+  protected int mDay = 0;
+
+  protected Logger mLogger = MsgLogger.getMsgLogger("KURSRECHNER");
+
+  public   DailyOrderStatistic mDailyOrderStatistic = new DailyOrderStatistic();
+
+  public void setInnererWert(double pInnererWert)
+  {
+     this.mInnererWert = pInnererWert;
+  }
+
+  /**
+   * will be implemented in Unterklasse
+   * @return
+   */
+  public abstract DailyOrderStatistic getDailyOrderStatistic();
+
+  public PriceIndexCalculatorBase( int pDay, boolean pAppend )
+  {
+    mDay = pDay;
+    mLogger.debug(" mDay = "  +  mDay);
+    String filename = null;
+    String orderbookhtmlfilename = null;
+
+    try
+    {
+       filename = Configurator.mConfData.getLogFileDirectory()+
+                         Configurator.mConfData.mPfadSeperator+
+                         "indexcalculator.txt";
+
+       orderbookhtmlfilename = Configurator.mConfData.getLogFileDirectory()+
+                               Configurator.mConfData.mPfadSeperator+
+                               "orderbook" +
+                               Configurator.mConfData.mPfadSeperator+
+                               mDay+".html" ;
+
+       Configurator.mConfData.mCurrentOrderBookHTMLFile =orderbookhtmlfilename;
+
+       /*
+       System.out.println("creating indexcalculator log file:" + filename );
+       mFileLogger = new PrintWriter(new java.io.FileOutputStream( filename , pAppend) );
+       */
+
+       System.out.println("creating daily orderbook:" + orderbookhtmlfilename );
+
+       if (  Configurator.mConfData.mLogDailyTradeBook )
+       {
+         mDailyOrderBookHTMLFile = new PrintStream(new java.io.FileOutputStream( orderbookhtmlfilename ) );
+       }
+       else
+       {
+         mDailyOrderBookHTMLFile = null;
+       }
+
+       // create HTML File Head
+
+       HTMLCreator.putHtmlHeadwithTitel(mDailyOrderBookHTMLFile, mDay + ". day Order Book");
+       HTMLCreator.putHtmlBodyBegin(mDailyOrderBookHTMLFile);
+       HTMLCreator.putHTMLContent(mDailyOrderBookHTMLFile, "<H2>");
+       HTMLCreator.putHTMLContent(mDailyOrderBookHTMLFile, "Handelstag " +  mDay + ":");
+       HTMLCreator.putHTMLContent(mDailyOrderBookHTMLFile, "</H2>");
+       HTMLCreator.putHTMLLine(mDailyOrderBookHTMLFile, "");
+
+       //mFileLogger.println( mDay + ". Log Beginning -----------------------------------------");
+
+    }
+    catch (Exception ex)
+    {
+       System.out.println("Error: Can not open "  + filename );
+       ex.printStackTrace();
+       //mFileLogger = null;
+    }
+  }
+
+  public void addOriginalOrder( Object pAgentName, Object pOrder)
+  {
+     this.mOriginalOrderList.put(pAgentName, pOrder);
+  }
+
+
+  public Vector getOriginalOrders()
+  {
+     Enumeration ee = this.mOriginalOrderList.elements();
+     Vector vv = new Vector();
+     while ( ee.hasMoreElements() )
+     {
+        vv.add( ee.nextElement() );
+     }
+     return vv;
+
+  }
+
+  public Vector getNoneOrderList()
+  {
+     return this.mNoneOrderList;
+  }
+
+  public Vector getOrderList()
+  {
+     Vector  AllOrders = new Vector();
+     AllOrders.addAll( this.mBuyOrderList );
+     AllOrders.addAll( this.mCheapestBuyOrderList );
+     AllOrders.addAll( this.mSellOrderList );
+     AllOrders.addAll( this.mBestenSellOrderList );
+     return AllOrders;
+  }
+
+  public void addNoneOrder( Object pObj )
+  {
+     mNoneOrderList.add( pObj );
+  }
+
+  /**
+   * Format:  AgentName;AgentType;OrderState;xx
+   * Type: 1: Investor, 2: NoiseTrader, 5:BlankoAgent
+   *
+   * V1;1;B;xx
+   * V2;2;S;xx
+   * V3;5;N;xx
+   *
+   * @return
+   */
+
+
+  public Vector getAllOrderResult()
+  {
+       Vector pp = new Vector();
+       Vector AllOrder = this.getOrderList();
+
+       // Format:  AgentName;AgentType;OrderState;xx
+       //
+       for (int i=0; i<AllOrder.size();i++)
+       {
+         SingleOrder oneorder = (SingleOrder)AllOrder.elementAt(i);
+         if (  oneorder.mOrderWish  == SystemConstant.WishType_Buy  )
+         {
+           if ( oneorder.mTradeMenge > 0 )
+           {
+              pp.add(  oneorder.mAID.getLocalName()+ ";" + oneorder.mAgentType + ";B;" );
+           }
+           else
+           {
+              // want to buy, but Buy-Wish is not performed,
+              pp.add(  oneorder.mAID.getLocalName()+";" + oneorder.mAgentType + ";W;B;" );
+           }
+         }
+         else if (oneorder.mOrderWish  == SystemConstant.WishType_Sell)
+         {
+           if ( oneorder.mTradeMenge > 0 )
+           {
+              pp.add(  oneorder.mAID.getLocalName()+ ";" +oneorder.mAgentType + ";S;" );
+           }
+           else
+           {
+             // want to Sell, but Sell-Wish is not performed,
+              pp.add(  oneorder.mAID.getLocalName()+ ";" +oneorder.mAgentType + ";W;S;" );
+           }
+         }
+       }
+
+       for (int i=0; i<this.mNoneOrderList.size();i++)
+       {
+         SingleOrder oneorder = (SingleOrder)mNoneOrderList.elementAt(i);
+         pp.add(  oneorder.mAID.getLocalName()+ ";" +oneorder.mAgentType + ";N;" );
+       }
+       return pp;
+  }
+
+  public void addOneOrder( SingleOrder pOrder )
+  {
+     if ( pOrder.mOrderWish == SystemConstant.WishType_Buy )
+     {
+       this.mBuyOrderCounter++;
+       //if ( pOrder.mLimit == SystemConstant.Limit_CheapestBuy )
+       if (  pOrder.mLimit < 0  )
+       {
+         this.mCheapestBuyOrderList.add( pOrder );
+       }
+       else
+       {
+         this.mBuyOrderList.add( pOrder );
+       }
+     }
+     else
+     {
+       this.mSellOrderCounter++;
+       //if ( pOrder.mLimit == SystemConstant.Limit_BestenSell )
+       if (  pOrder.mLimit < 0 )
+       {
+         this.mBestenSellOrderList.add( pOrder );
+       }
+       else
+       {
+         this.mSellOrderList.add( pOrder );
+       }
+     }
+  }
+
+  public void displaycontext( Vector pData, String pTitel )
+  {
+
+     mLogger.debug( pTitel );
+     mLogger.debug("Price, BuyMenge, SellMenge, TradeVolume" );
+     for ( int i=0; i< mCalcBase.size(); i++)
+     {
+          PriceCalcBase thisbase =(PriceCalcBase) mCalcBase.elementAt( i );
+          mLogger.debug(    thisbase.mLimit +",  " +
+                            thisbase.mBuyMenge + ",        " +
+                            thisbase.mSellMenge + ",        " +
+                            thisbase.mPossibleTradeVolume     );
+      }
+  }
+
+  public char getTradeStatus()
+  {
+     return this.mTradeStatus;
+  }
+
+  public abstract void calcindex();
+  public abstract double getPrice();
+
+  public abstract double   getFestTobintax_In_Cash1();
+  public abstract double   getExtraTobintax_In_Cash1();
+  public abstract double   getFestTobintax_In_Cash2();
+  public abstract double   getExtraTobintax_In_Cash2();
+
+  public int getTradeMenge()
+  {
+    return this.mUmsatz;
+  }
+
+  public double getTradeVolume()
+  {
+    return this.mMaxTradeVolume;
+  }
+
+ public void displayAllOrderStatus(String pDisplayedContent)
+ {
+   dipslayorderstatus( this.mBuyOrderList, pDisplayedContent );
+   dipslayorderstatus( this.mCheapestBuyOrderList , pDisplayedContent);
+   dipslayorderstatus( this.mSellOrderList , pDisplayedContent);
+   dipslayorderstatus( this.mBestenSellOrderList, pDisplayedContent );
+ }
+
+ public void dipslayorderstatus(Vector pOrderList, String pDisplayedContent)
+ {
+   if ( pDisplayedContent.equalsIgnoreCase( "INIT") )
+   {
+       for (int i=0; i< pOrderList.size(); i++)
+       {
+           SingleOrder so = (SingleOrder) pOrderList.elementAt(i);
+           mLogger.debug( so.mAID.getLocalName()+";" +
+                          SystemConstant.getOperatorTypeName( so.mAgentType )+";" +
+                          so.mOrderWish+";" +
+                          so.mLimit +";"+
+                          so.mMenge + ";"
+                         );
+       }
+   }
+   else
+   if ( pDisplayedContent.equalsIgnoreCase( "PERFORMED") )
+   {
+         Vector sortedorderlist = SingleOrderSorting.AcendSorting( pOrderList, "" ) ;
+         for (int i=0; i< sortedorderlist.size(); i++)
+         {
+             SingleOrder so = (SingleOrder) sortedorderlist.elementAt(i);
+             if (  Configurator.mConfData.mLogDailyTradeBook )
+             {
+                   mLogger.debug( so.mAID.getLocalName()+";" +
+                                  SystemConstant.getOperatorTypeName( so.mAgentType )+";" +
+                                  so.mOrderWish+";" +
+                                  so.mLimit +";" +
+                                  so.mMenge + ";------;" +
+                                  ( Configurator.istAktienMarket() ? ( so.mFinalPrice + ";" ) : ( so.mFinalKurs + ";") ) +
+                                  so.mTradeMenge +";" + so.mTradeResult
+                                 );
+
+                   String tt ="-";
+                   if ( so.mTradeMenge>0 )
+                   {
+                     tt = "X";
+                   }
+
+                   String ss =
+                   "<TR>"+
+                   "<TD>" + so.mAID.getLocalName()+"</TD>"+
+                   "<TD>" + SystemConstant.getOperatorTypeName( so.mAgentType ) +"</TD>"+
+                   "<TD>" + so.mOrderWish + "</TD>" +
+                   "<TD>" + SystemConstant.getLimitString( so.mOrderWish , so.mLimit)+ "</TD>" +
+                   "<TD>" + so.mMenge + "</TD>" +
+                   "<TD>" + so.mTradeMenge + "</TD>"+
+                   "<TD>" + tt + "</TD>"+
+                   "<TD>" + so.mLimitReason + "</TD>"+
+                   "<TD>" + SystemConstant.getOperatorTypeName( so.mOriginalAgentType ) + "</TD>"+
+
+                   "</TR>";
+                   HTMLCreator.putHTMLContent( this.mDailyOrderBookHTMLFile, ss );
+             }
+         }
+   }
+ }
+
+  public void DisplayDistribution()
+  {
+     mLogger.debug("Menge Verteilungen ------------------------------------------");
+     mLogger.debug( "Name, AgentType,Rule, OrderTyp, Limit, Menge,  Newkurs, Ausgefuehrte Menge, Kurszusatz" );
+
+     String tabletitel = "<BR>"+
+                         "NoiseTrader: Prozent = ( VortagKurs - AVG ) * 100 / VortagKurs <BR>"+
+                         "NoiseTrader: ProzentGrenz 1: " + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit1+"<BR>"+
+                         "NoiseTrader: ProzentGrenz 2: " + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit1+"<BR>"+
+                         "NoiseTrader: ProzentGrenz 3: " + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit1+"<BR>"+
+
+                         "NoiseTrader: Prozent-Stufe 1: (-infinitive ~~" + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit1+") <BR>"+
+                         "NoiseTrader: Prozent-Stufe 2: [" + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit1+"~" + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit2 +" ) <BR>"+
+                         "NoiseTrader: Prozent-Stufe 3: [" + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit2+"~" + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit3 +" ) <BR>"+
+                         "NoiseTrader: Prozent-Stufe 4: [" + Configurator.mConfData.mNoiseTraderKurschangedprocentlimit3+"~ Infinitive ) <BR>"+
+
+                         "Investor Basic Rule: <BR>"+
+                         " BuyLimit  = IndividuellInnererwert * ( 1 - AbschlagProzent/100 ) <BR>"+
+                         " SellLimit = IndividuellInnererwert * ( 1 + AbschlagProzent/100 ) <BR>"+
+
+                         " Kurszusatz-Bestimmungsverfahren:<br> "+
+                         " 1) wenn kein Umsatz, dann Kurszusatz = T <BR>" +
+                         " 2) wenn OffenKaufMenge=0 und OffenVerkaufMenge=0, dann Kurszusatz = b <BR>" +
+                         " 3) wenn OffenKaufMenge >= OffenSellMenge, dann Kurszusatz = G <BR>" +
+                         " 4) Ansonsten Kurszusatz = B <BR>" +
+
+                         "<Table border=1 >"+
+                         "<TR>"+
+                         "<TD><H3>Name<H3></TD>"+
+                         "<TD><H3>AgentType<H3></TD>"+
+                         "<TD><H3>Order<BR>Type<H3></TD>"+
+                         "<TD><H3>Limit<H3></TD>"+
+                         "<TD><H3>Order<BR>Menge<H3></TD>"+
+                         "<TD><H3>Performed<br>Menge<H3></TD>"+
+                         "<TD><H3>Involved<br>into Trade<H3></TD>"+
+                         "<TD><H3>LimitReason<H3></TD>"+
+                         "<TD><H3>Original AgentType </H3></TD>"+
+
+                         "</TR>";
+
+     HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, tabletitel );
+
+     dipslayorderstatus( this.mCheapestBuyOrderList, "PERFORMED" );
+     dipslayorderstatus( this.mBuyOrderList,"PERFORMED" );
+
+     dipslayorderstatus( this.mBestenSellOrderList, "PERFORMED" );
+     dipslayorderstatus( this.mSellOrderList, "PERFORMED" );
+
+     // write table end tag
+     HTMLCreator.putHTMLLine( this.mDailyOrderBookHTMLFile, "</Table>" );
+     // write HTML Boyd End
+     HTMLCreator.putHtmlBodyEnd( this.mDailyOrderBookHTMLFile );
+
+     // close HTML file
+     if ( mDailyOrderBookHTMLFile!= null )
+     {
+       this.mDailyOrderBookHTMLFile.close();
+     }
+
+     for (int i=0; i< this.mNoneOrderList.size(); i++)
+     {
+        SingleOrder  so = (SingleOrder) this.mNoneOrderList.elementAt(i);
+        mLogger.debug( so.mAID.getLocalName() + ",N,0,0," + so.mTradeResult );
+     }
+     mLogger.debug("Menge Verteilungen End -----------------------------------");
+
+  }
+
+  public void setLastPrice( double pLastPrice )
+  {
+      this.mLastPrice = pLastPrice;
+  }
+
+
+}

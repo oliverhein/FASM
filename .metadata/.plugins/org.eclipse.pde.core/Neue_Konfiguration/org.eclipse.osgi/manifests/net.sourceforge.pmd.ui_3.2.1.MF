@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Generated-from: 1179245152000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: PMD For Eclipse UI Plug-in
+Bundle-SymbolicName: net.sourceforge.pmd.ui; singleton:=true
+Bundle-Version: 3.2.1
+Bundle-ClassPath: pmd-ui.jar
+Bundle-Activator: net.sourceforge.pmd.ui.PMDUiPlugin
+Bundle-Vendor: PMD Development Team
+Bundle-Localization: plugin
+Export-Package: net.sourceforge.pmd.ui,
+ net.sourceforge.pmd.ui.actions,
+ net.sourceforge.pmd.ui.dialogs,
+ net.sourceforge.pmd.ui.model,
+ net.sourceforge.pmd.ui.nls,
+ net.sourceforge.pmd.ui.preferences,
+ net.sourceforge.pmd.ui.properties,
+ net.sourceforge.pmd.ui.quickfix,
+ net.sourceforge.pmd.ui.views,
+ net.sourceforge.pmd.ui.views.actions
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
+ net.sourceforge.pmd.runtime,
+ org.eclipse.jdt.core,
+ net.sourceforge.pmd.core,
+ org.eclipse.jface.text,
+ org.eclipse.ui.workbench.texteditor
+Eclipse-LazyStart: true

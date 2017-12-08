@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Generated-from: 1179244796000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: FindBugs Plug-in
+Bundle-SymbolicName: edu.umd.cs.findbugs.plugin.eclipse; singleton:=true
+Bundle-Version: 1.2.0.20070425
+Bundle-ClassPath: findbugs-plugin.jar,
+ bcel.jar,
+ dom4j-full.jar,
+ findbugs.jar,
+ asm-tree-3.0.jar,
+ asm-3.0.jar
+Bundle-Activator: de.tobject.findbugs.FindbugsPlugin
+Bundle-Vendor: FindBugs Project
+Bundle-Localization: plugin
+Export-Package: org.objectweb.asm,
+ org.objectweb.asm.signature,
+ org.objectweb.asm.tree
+Require-Bundle: org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.editors,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.ui,
+ org.eclipse.jface.text,
+ org.eclipse.jdt.launching,
+ org.eclipse.jdt
+Eclipse-LazyStart: true

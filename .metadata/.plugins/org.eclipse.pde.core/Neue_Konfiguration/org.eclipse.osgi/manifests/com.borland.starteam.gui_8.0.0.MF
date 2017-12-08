@@ -1,0 +1,37 @@
+Manifest-Version: 1.0
+Generated-from: 1158785438000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam GUI Components
+Bundle-SymbolicName: com.borland.starteam.gui
+Bundle-Version: 8.0.0
+Bundle-ClassPath: starteam-gui.jar
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Export-Package: com.borland.starteam.cacheagent,
+ com.borland.starteam.gui,
+ com.borland.starteam.gui.model,
+ com.borland.starteam.gui.model.action,
+ com.borland.starteam.gui.model.customlayout,
+ com.borland.starteam.gui.model.sort,
+ com.borland.starteam.gui.swing,
+ com.borland.starteam.gui.swing.customlayout,
+ com.borland.starteam.gui.util,
+ com.borland.starteam.gui.view,
+ com.borland.starteam.url,
+ com.starbase.cae,
+ com.starbase.starteam.gui,
+ com.starbase.starteam.gui.basic,
+ com.starbase.starteam.gui.basic.images,
+ com.starbase.starteam.gui.dialogs,
+ com.starbase.starteam.gui.dialogs.renderer,
+ com.starbase.starteam.gui.dialogs.renderer.layout,
+ com.starbase.starteam.gui.file,
+ com.starbase.starteam.gui.images,
+ com.starbase.starteam.gui.license,
+ com.starbase.starteam.gui.menus,
+ com.starbase.starteam.gui.sort,
+ com.starbase.starteam.gui.toolbars,
+ com.starbase.starteam.gui.utility,
+ com.starbase.starteam.gui.visdiff,
+ com.starbase.starteam.gui.wizard
+Require-Bundle: com.borland.starteam.sdk;visibility:=reexport

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<introContent>
+  <!-- Extension to the SDK Samples Page. -->
+  <extensionContent id="org.eclipse.pde.swt" name= "SWT-Beispiele" alt-style="css/swt.properties" style="css/samples.css" path="samples/@">
+     <group label="SWT" id="swt" style-id="content-group">
+     	<text style-id="group-description">Die SWT-Beispiele können Sie entweder über das eigenständige SWT-Startprogramm oder als integrierte Workbench-Sicht ausführen.</text>
+        <link label="Workbench-Sichten und eigenständige Anwendungen" url="http://org.eclipse.ui.intro/runAction?pluginId=org.eclipse.pde.ui&amp;class=org.eclipse.pde.internal.ui.samples.ShowSampleAction&amp;id=org.eclipse.sdk.samples.swt.examples" id="swt-examples" style-id="content-link">
+        	<text>Mit dem Startprogramm für SWT-Beispiele können Sie eine Gruppe von SWT-Beispielen starten.  Einige Beispiele können unabhängig von der Eclipse-Plattform ausgeführt werden, während andere als Sichten innerhalb der Workbench verfügbar sind.</text>
+		</link>
+        <anchor id="swtGroupAnchor"/>
+     </group>
+  </extensionContent>
+</introContent>

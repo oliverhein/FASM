@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Generated-from: 1179194596000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: Optimizeit Model
+Bundle-SymbolicName: com.borland.optimizeit.model; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: model.jar
+Bundle-Activator: com.borland.optimizeit.model.ModelPlugin$Implementation
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Export-Package: com.borland.optimizeit.model,
+ com.borland.optimizeit.model.internal.util,
+ com.borland.optimizeit.model.profile,
+ com.borland.optimizeit.model.profile.impl,
+ com.borland.optimizeit.model.profile.util,
+ model
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources;visibility:=reexport;resolution:=optional,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.tptp.platform.models;visibility:=reexport,
+ com.borland.optimizeit.core;visibility:=reexport
+Eclipse-LazyStart: true

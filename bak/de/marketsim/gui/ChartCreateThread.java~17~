@@ -1,0 +1,439 @@
+package de.marketsim.gui;
+
+import java.awt.*;
+import java.awt.Toolkit;
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+
+import de.marketsim.util.FileChecker;
+import de.marketsim.util.FileTool;
+import de.marketsim.util.HelpTool;
+//import de.marketsim.config.ConfData;
+import de.marketsim.config.Configurator;
+
+public class ChartCreateThread extends Thread
+{
+   String mDirName = null;
+   Vector pricelist             = new Vector();
+   Vector innererwertlist       = new Vector();
+   Vector pricedeviationlist    = new Vector();
+   Vector mengelist             = new Vector();
+   Vector umsatzlist            = new Vector();
+   Vector logrenditenlist       = new Vector();
+   Vector investoranzahllist    = new Vector();
+   Vector noisetraderanzahllist = new Vector();
+   Vector blankoanzahllist      = new Vector();
+   int mExpectedChart_Width   = 500;  // Default
+   int mExpectedChart_Height = 700;  // Default
+
+   java.awt.Component  mMotherWindow;
+
+   Vector mchartlist      = new Vector();
+   String ChartViewFileName =  Configurator.mConfData.mChartOverviewHTML;
+
+   boolean mOpenChartOverviewAtEnd = false;
+
+
+   public  ChartCreateThread (String pDir , java.awt.Component pMotherWindow   )
+   {
+       this.mDirName = pDir;
+       this.mMotherWindow =  pMotherWindow;
+   }
+
+   public void setOpenChartOverview( boolean pOpenChartOverview)
+   {
+        this.mOpenChartOverviewAtEnd = pOpenChartOverview;
+   }
+   public void setPreferedChartSize(int pWidth, int pHeight )
+   {
+     this.mExpectedChart_Width  = pWidth;
+     this.mExpectedChart_Height = pHeight;
+   }
+
+
+   public void run()
+   {
+          // process all subdirectories
+          // while
+          try
+          {
+                 File ff = new File( this.mDirName );
+                 File[] subfiles = ff.listFiles();
+                 for ( int i=0; i< subfiles.length; i++)
+                 {
+                     // every subdirectory corresponds to a Network file
+                     if ( subfiles[i].isDirectory() )
+                     {
+                        String network_name = subfiles[i].getName();
+                        processoneNetwork( subfiles[i].getPath(), network_name );
+
+                     }
+                 }
+
+                 System.out.println( "All test cases are processed." );
+
+                 // create chartoverview.html
+                 CreateChartview();
+
+                 if ( this.mOpenChartOverviewAtEnd )
+                 {
+                     JOptionPane.showMessageDialog( this.mMotherWindow, "Charts for all test cases are created. Press OK to display the chart overview.","Info", JOptionPane.INFORMATION_MESSAGE);
+                     try{
+                     java.lang.Runtime.getRuntime().exec("iexplore.exe " + mDirName + "/" + ChartViewFileName);
+                     }catch(Exception e)
+                     {
+                       e.printStackTrace();
+                     }
+                 }
+
+           }
+           catch (Exception ex)
+           {
+                 ex.printStackTrace();
+           }
+
+   }
+
+    private void  processoneNetwork(String pDirName, String pNetworkName )
+    {
+        System.out.println( "processing network " + pDirName );
+        // process every RUN-x subdirectory
+        // while
+        File ff = new File( pDirName );
+        File[] subfiles = ff.listFiles();
+        for ( int i=0; i< subfiles.length; i++)
+        {
+          // every subdirectory RUN-x  corresponds to a RUN
+          if ( subfiles[i].isDirectory() )
+          {
+             processoneRUNDirectory( subfiles[i].getPath(), pNetworkName, subfiles[i].getName() );
+             mchartlist.add(subfiles[i].getPath()+"");
+          }
+        }
+    }
+
+      private void processoneRUNDirectory(String pDirName, String pNetworkName, String RUNNO)
+      {
+
+      System.out.println (  "processing subdirectory " + RUNNO );
+
+      // Laden alle Daten in die Vectors
+      this.loadPrice_Innervalue_Umsatz ( pDirName + "/tradedailystatistic.csv" );
+
+      // Laden alle Angent-Anzahl Daten in Vector
+      this.loadAgentAnzahl( pDirName + "/agentanzahl.csv" );
+
+      // Laden alle Logrenditen Daten in Vector
+      this.loadLogRenditen( pDirName + "/logrenditen.csv" );
+
+      ChartShow chart = new ChartShow(pNetworkName, RUNNO );
+      chart.setChartSize(this.mExpectedChart_Width, this.mExpectedChart_Height);
+
+      // convert daten aus Vector into Array
+      int datacc = this.pricelist.size();
+      double price_innervalue[][]  = new double[datacc][2];
+      double price_deviation []    = new double[datacc];
+      double umsatz[]              = new double[datacc];
+      double logrenditen[]         = new double[datacc];
+      double agentanzahl[][]       = new double[datacc][3];
+
+      for ( int i=0; i< datacc; i++)
+      {
+        Double dd = ( Double ) this.pricelist.elementAt(i);
+        price_innervalue[i][0] = dd.doubleValue();
+
+        dd = ( Double ) this.innererwertlist.elementAt(i);
+        price_innervalue[i][1] = dd.doubleValue();
+
+        dd = ( Double ) this.umsatzlist.elementAt(i);
+        umsatz[i] = dd.doubleValue();
+
+        dd = ( Double ) this.pricedeviationlist.elementAt(i);
+        price_deviation[i] = dd.doubleValue();
+
+        Integer JJ = ( Integer )  this.investoranzahllist.elementAt(i);
+        agentanzahl[i][0] = JJ.intValue();
+
+        JJ = ( Integer )  this.noisetraderanzahllist.elementAt(i);
+        agentanzahl[i][1] = JJ.intValue();
+
+        JJ = ( Integer )  this.blankoanzahllist.elementAt(i);
+        agentanzahl[i][2] = JJ.intValue();
+
+        if ( i == 0 )
+        {
+          logrenditen[i] = 0;
+        }
+        else
+        {
+          dd = ( Double ) this.logrenditenlist.elementAt(i);
+          logrenditen[i] = dd.doubleValue();
+        }
+      }
+
+      chart.setLocation(10, 20);
+      chart.setFasmData(
+             price_innervalue,
+             price_deviation,
+             umsatz,
+             agentanzahl,
+             logrenditen);
+
+      // Save JPG File into the different Test Case Directory
+      System.out.println ("saving JPG into " + pDirName+ "\\"+Configurator.mConfData.mChartName );
+
+      HelpTool.pause(2000);
+
+      //JOptionPane.showMessageDialog(mChartGenerator, "Press OK to save Chart into a JPG file","Info", JOptionPane.INFORMATION_MESSAGE);
+      chart.saveFrame2File( pDirName+"\\"+ Configurator.mConfData.mChartName);
+
+      HelpTool.pause(100);
+
+      chart.hide();
+      chart.dispose();
+
+      //chart.setVisible( false );
+      }
+
+      /**
+       *
+       * @param pchartlist
+       */
+      private void CreateChartview()
+      {
+        try{
+              java.io.PrintStream  fh = new java.io.PrintStream( new java.io.FileOutputStream( mDirName + "/" + ChartViewFileName  ) );
+              fh.println( "<html><title>the Chart view</title><body>" );
+              for (int i=0; i<mchartlist.size(); i++)
+              {
+                String  dd = (String)(mchartlist.get(i)) ;
+                fh.println( "<img src=" + "'" + dd  +"\\" + Configurator.mConfData.mChartName+"'>" );
+              }
+              fh.println("</body></html>");
+              fh.close();
+              }catch (Exception ex )
+              {
+                System.out.println("Error while saving the beginning 300 Innererwerte.");
+                ex.printStackTrace();
+              }
+      }
+
+      /**
+       *
+       * @param pPriceFile
+       * @return true when successful, otherwise false
+       */
+
+
+      private boolean loadPrice_Innervalue_Umsatz(String pPriceFile)
+      {
+
+       this.pricelist.clear();
+       this.innererwertlist.clear();
+       this.mengelist.clear();
+       this.umsatzlist.clear();
+       this.pricedeviationlist.clear();
+
+       //System.out.println("tring to load " + pPriceFile );
+
+       try
+       {
+           java.io.BufferedReader bins = new BufferedReader( new InputStreamReader( new FileInputStream (pPriceFile )) );
+           String ss = null;
+           boolean goon = true;
+
+           // jump all line starting with #
+
+           while ( goon )
+           {
+             ss= bins.readLine();
+             ss = ss.trim();
+             if ( ! ss.startsWith("#") )
+             {
+                 goon = false;
+             }
+           }
+
+           System.out.println("loading price history ");
+
+           do
+           {
+              //#Handeltag; Preis ; Kurszusatz; Umsatz;     Volume;  InnererWert;  Differenz;DifferenzProzent;.......
+              //         1; 996,00;          G;     21;   1.000,00;        -4,00;       0,00;
+              //         j1      j2          j3      j4          j5            j6          j7               j8
+
+              int j1 = ss.indexOf(";") ;
+              int j2 = ss.indexOf(";", j1+1) ;
+              int j3 = ss.indexOf(";", j2+1) ;
+              int j4 = ss.indexOf(";", j3+1) ;
+              int j5 = ss.indexOf(";", j4+1) ;
+              int j6 = ss.indexOf(";", j5+1) ;
+              int j7 = ss.indexOf(";", j6+1) ;
+              int j8 = ss.indexOf(";", j7+1) ;
+
+              String dd =  ss.substring(j1+1, j2);
+              dd =  HelpTool.TrimString( dd, '.');
+              dd =  dd.replace(',','.');
+
+              this.pricelist.add( new Double( dd ) );
+
+              dd =  ss.substring(j4+1, j5);
+              dd =  HelpTool.TrimString( dd, '.');
+              dd =  dd.replace(',','.');
+              this.mengelist      .add( new Double( dd ) );
+
+              dd =  ss.substring(j5+1, j6);
+              dd =  HelpTool.TrimString( dd, '.');
+              dd =  dd.replace(',','.');
+              this.umsatzlist      .add( new Double( dd ) );
+
+              dd =  ss.substring(j6+1, j7);
+              dd =  HelpTool.TrimString( dd, '.');
+              dd =  dd.replace(',','.');
+              this.innererwertlist.add( new Double( dd   ) );
+
+              dd =  ss.substring(j7+1, j8);
+              dd =  HelpTool.TrimString( dd, '.');
+              dd =  dd.replace(',','.');
+              this.pricedeviationlist.add( new Double(dd)  );
+
+              ss = bins.readLine();
+           }
+           while (  ( ss!=null ) && ( ss.length() >0 ) );
+           bins.close();
+
+           System.out.println("price history is loaded successfully. ");
+
+       }
+       catch (Exception ex)
+       {
+         ex.printStackTrace();
+         JOptionPane.showMessageDialog(null, "Runtime Error while loading price, innervalue from data file. Simulation will be broken. Please check " + pPriceFile,"Error", JOptionPane.ERROR_MESSAGE);
+         return false;
+       }
+       return true;
+
+      }
+
+      /**
+       *
+       * @param pFile
+       * @return true when successful, otherwise false
+       */
+
+      private boolean loadAgentAnzahl(String pFile)
+      {
+
+      this.investoranzahllist.clear();
+      this.noisetraderanzahllist.clear();
+      this.blankoanzahllist.clear();
+
+      //Handeltag;Investor;NoiseTrader;BlankoAgent;Investor->NoiseTrader;NoiseTrader->Investor;TotalChanges;
+      //0;   12;7;81;0;0;0;
+      // j1    j2   j3
+
+      java.io.BufferedReader bins = null;
+      try
+      {
+          bins = new BufferedReader( new InputStreamReader( new FileInputStream (pFile )) );
+      }
+      catch (IOException ex)
+      {
+        JOptionPane.showMessageDialog(null, "The directory does not contain the agent number files.","Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+      }
+
+      try
+      {
+          bins.readLine();
+          String ss = null;
+          do
+          {
+             ss = bins.readLine();
+             if ( ss!= null )
+             {
+                 int j1 = ss.indexOf(";") ;
+                 int j2 = ss.indexOf(";", j1+1) ;
+                 int j3 = ss.indexOf(";", j2+1) ;
+                 int j4 = ss.indexOf(";", j3+1) ;
+                 int investor = Integer.parseInt( ss.substring(j1+1, j2)  );
+                 this.investoranzahllist.add( new Integer ( investor) );
+                 int noisetrader = Integer.parseInt( ss.substring(j2+1, j3)  );
+                 this.noisetraderanzahllist.add( new Integer ( noisetrader) );
+                 int blanko = Integer.parseInt( ss.substring(j3+1, j4)  );
+                 this.blankoanzahllist.add( new Integer ( blanko ) );
+            }
+          }
+          while ( (ss!=null) && ( ss.length() >0 ) );
+          bins.close();
+      }
+      catch (Exception ex)
+      {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "There is an error while loading Agent number.","Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+      }
+      return true;
+
+      }
+
+      /**
+       *
+       * @param pFile
+       * @return true when successful otherwise false
+       */
+      private boolean loadLogRenditen(String pFile)
+      {
+
+      this.logrenditenlist.clear();
+
+      java.io.BufferedReader bins = null;
+      try
+      {
+          bins = new BufferedReader( new InputStreamReader( new FileInputStream ( pFile )) );
+      }
+      catch (IOException ex)
+      {
+        JOptionPane.showMessageDialog(null, "Runtime Error, the directory does not contain the logrenditen file, Simulation will be broken. \r\n Please check " + pFile ,"Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+      }
+
+      try
+      {
+          String ss = null;
+          do
+          {
+             ss = bins.readLine();
+          }
+
+          while ( ! ss.startsWith("1;") );
+          // jetzt 1. Zeil ist gelesen.
+          do
+          {
+             int j1 = ss.indexOf(";") ;
+             String ss2 = ss.substring(j1+1).trim();
+             ss2 = ss2.replace(',','.'); // German format zu English Format
+             Double dd = new  Double ( ss2 );
+             this.logrenditenlist.add( dd );
+             ss = bins.readLine();
+          }
+          while ( (ss!=null) && ( ss.length()>0 ) );
+          bins.close();
+      }
+      catch (Exception ex)
+      {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "There is an error while loading LogRenditen.","Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+      }
+      this.logrenditenlist.add(0, new Double(0) );
+      return true;
+
+      }
+
+}

@@ -1,0 +1,40 @@
+http://www.jcontrol.org/download/readme_eclipse_de.html
+================================================================
+
+Installationshinweise für Eclipse/SWT
+
+Die JControl/IDE verwendet das Standard Widget Toolkit (http://www.eclipse.org/swt) des Eclipse Projektes als grafische Benutzeroberfläche.
+
+HINWEIS: Sie müssen SWT lediglich separat installieren, falls Sie die JAVA™-Distribution der JControl/IDE verwenden wollen. In den systemspezifischen Paketen ist SWT bereits enthalten.
+
+
+
+Windows 98/NT/2000/XP:
+Für Windows-Systeme laden Sie bitte das SWT-Paket für Windows 98/NT/2000/XP aus dem JControl-Download-Bereich herunter.
+
+Installationsablauf:
+
+
+ entpacken Sie das Archiv swt-*-win32.zip,
+
+ kopieren Sie die Datei swt*.dll in das Verzeichnis %JAVA_HOME%\bin,
+(%JAVA_HOME% ist das Verzeichnis, in dem Ihr JRE installiert ist, z.B. c:\Programme\Java\j2re1.4.1_01)
+
+ kopieren Sie die Datei swt.jar in das Verzeichnis %JAVA_HOME%\lib\ext
+
+
+
+
+Linux:
+Bitte beachten Sie, dass SWT unter Linux das GTK2 Toolkit (http://www.gtk.org) verwendet. Bevor Sie SWT installieren, stellen Sie sicher, dass GTK2 auf Ihrem System installiert ist. Anschließend laden Sie die Linux-Version von SWT vom JControl-Download-Bereich herunter.
+
+Installationsablauf:
+
+
+ entpacken Sie das Archiv swt-*-linux-gtk.zip,
+
+ kopieren Sie die Datei libswt*.so in das Verzeichnis %JAVA_HOME%/jre/lib/i386,
+(%JAVA_HOME% ist das Verzeichnis, in dem Ihr JRE installiert ist, z.B. /usr/local/j2sdk1.4.1_01),
+
+ kopieren Sie die Datei swt.jar in das Verzeichnis %JAVA_HOME%/jre/lib/ext
+

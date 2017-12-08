@@ -1,0 +1,902 @@
+package de.marketsim.agent.stockstore;
+
+/**
+ * <p>Überschrift: </p>
+ * <p>Beschreibung: </p>
+ * <p>Copyright: Copyright (c) 2003</p>
+ * <p>Organisation: </p>
+ * @author Xining Wang
+ * @version 1.0
+ *
+ */
+
+import java.text.*;
+import java.util.*;
+import java.text.*;
+import java.io.*;
+
+import org.apache.log4j.*;
+
+import jade.core.*;
+import jade.core.behaviours.*;
+import jade.lang.acl.ACLMessage;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+
+import de.marketsim.agent.AgentCommandlineParameterConst;
+import de.marketsim.agent.stockstore.stockdata.*;
+import de.marketsim.util.*;
+import de.marketsim.config.Configurator;
+import de.marketsim.config.NetworkConfig;
+
+import de.marketsim.SystemConstant;
+import de.marketsim.message.*;
+
+public class DataLoggerBehavior extends CyclicBehaviour
+{
+   Logger mLogger = null;
+   ACLMessage msg = null;
+   protected DataFormatter nff =new de.marketsim.util.DataFormatter( Configurator.mConfData.mDataFormatLanguage );
+
+   java.io.PrintStream   pw_price       = null;
+   java.io.PrintStream   pw_agentnumber = null;
+
+   // speicher nur java.io.PrintStream für jede Datei in String
+
+   Hashtable   mDepotfileList  = new Hashtable();
+   Hashtable   mStatusExchangefileList  = new Hashtable();
+
+   // speicher nur FileName in String
+   Vector   mDepotFileNameList = new Vector();
+   Vector   mStatusExchangeFileNameList  = new Vector();
+
+   //int  mTradeDayAgentNumber  = 1;
+   int  mTradeDayPrice    = 1;
+   int  mTradeDayInnererwert = 1;
+
+  private void PrintDepotTitle(PrintStream pw, String pAgentType)
+  {
+    pw.println("#-1)Kurszusatz  G: Geld, Kauf>Verkauf; B: Brief, Kauf < Verkauf; b: bezahlt, Kauf=Verkauf; T: Taxe, kein Buy/Sell Order");
+    pw.println("#-2)Auftragtyp  B: Kauf,  S:Verkauf,  N:Wart  M: Mixed Order,  Order contains Buy and Sell Wish, it is created by Investor  ");
+    pw.println("#-3)Limit=-1, -1 hat spezielle Bedeutung: billigsten Kauf bzw. Besten Verkauf");
+    pw.println("#-4)GewinnStatus *:Balance +:Gewinn -:Verlust ");
+    pw.println("#-5) Achtung: ");
+    pw.println("#-5) Wenn ReferenzTag = 0,  GewinnStatus ist jeden Tag gegen InitDepot ausgewertet.");
+    pw.println("#-6) Wenn ReferenzTag > 0,  GewinnStatus ist jeden Tag gegen Depot vor  X Tagen ausgewertet.");
+    pw.println("#-7) Investor BuyLimit  = IndividuellInnererWert * ( 1 - AbschlagProzent ) ");
+    pw.println("     Investor SellLimit = IndividuellInnererWert * ( 1 + AbschlagProzent ) ");
+    pw.println("#-8) Investor: Maximal Abweichung zu System InnererWert "  + Configurator.mConfData.mInvestor_InnererWertIntervall_Obengrenz );
+    pw.println("     Investor: Minimal Abweichung zu System InnererWert "  + Configurator.mConfData.mInvestor_InnererWertIntervall_Untergrenz );
+    pw.println("#-9) Investor: Eingesetztes Potenzial = PotenzialBase * ProzentialCounter  ");
+    pw.println("     - Wenn ProzentialCounter Minus Wert ist, dann ist das Potenzial auch ein Minus Wert.");
+    pw.println("     - Wenn ProzentialCounter Plus Wert ist,  dann ist das Potenzial auch ein Plus Wert.");
+    pw.println("     - PotenzialProzent ist ein Parameter.");
+    pw.println("     - PotenzialBase wird nur bei (PozentialCounter=0) and (KursÄnderung ist größer als Threshold) berechnet, PotenzialBase = AktuellerSystemInnererWert * 0.2 * PotenuialProcent ");
+    pw.println("     - PotenzialProzent ist ein Parameter.");
+    pw.println("#-10) Investor Individuell InnererWert= SystemInnererWert + ZufallAbweichung + Potenzial ");
+    pw.println("      ZufallAbweichung kann minus/plus sein. ");
+
+    pw.println();
+
+    if ( pAgentType.equalsIgnoreCase("Investor") ||  pAgentType.equalsIgnoreCase("NoiseTrader")  )
+    {
+        if ( Configurator.istAktienMarket() )
+        {
+           pw.println("AgentName;Handelstag;AgentTyp;AktienAnzahl;Cash;Depot;Relative ;Relative     ;Absolute ;Absolute     ;Order;BuyMenge;BuyLimit;Order;SellMenge;SellLimit;Kurs;Kurszusatz;System     ; Individuell; Zufaellige ;Kurs         ;Potenzal                 ;Eingesetztes; Potenzial  ;Potenzial ;DayCounter            ;Performed;Performed; Investor        ;NoiseTrader       ;NoiseTrader       ;NoiseTrader ; Bemerkung;         ;");
+           pw.println("         ;          ;        ;            ;    ;     ;Gewinn   ;GewinnProzent;Gewinn   ;GewinnProzent;     ;        ;        ;     ;         ;         ;    ;          ;InnererWert; InnererWert; Abweichung%;ChangeProzent;AktivationThreshold(%)   ;Potenzial   ; Counter    ;Base      ;seit letzte Anpassung ;Action   ;Menge    ; AbschlagProzent ;Used_AveragePrice ;DaysOfAveragePrice;LimitAdjust%;          ;         ;");
+        }
+        else
+        {
+          pw.println("Included FixedTax und ExtraTax: For Seller: FinalCash1 = TradeMenge * Kurs - FixedTax - ExtraTax      ");
+          pw.println("                                For Buyer:  FinalCash1 = TradeMenge * Kurs + FixedTax + ExtraTax      ");
+          pw.println("                                Geld CASH1 that Buyer has paid more,  will be converted to CASH2, then transfered to Tobintax");
+          pw.println("                                Geld CASH1 that are taken away from Seller, are transfered to TobinTax Agent ");
+
+          pw.println();
+
+          pw.println("Name;Tag;Type;Cash1;Cash2;Depot;Relative ;Relativ      ;Absolute ;Absolute     ;Order;Cash2;BuyLimit;SellLimit;Kurs;Kurszusatz;InnererWert;Performed;Final    ;Included;Included;Performed;Investor       ;NoiseTrader     ;NoiseTrader       ;Limit        ;Bemerkung;");
+          pw.println("    ;   ;    ;     ;     ;     ;Gewinn   ;GewinnProzent;Gewinn   ;GewinnProzent;     ;     ;        ;         ;    ;          ;           ;Wish     ;Cash1    ;FixedTax;ExtraTax;Cash2    ;AbschlagProzent;UsedAveragePrice;DaysOfAveragePrice;AdjustProzent;         ;");
+        }
+    }
+    else
+    if ( pAgentType.equalsIgnoreCase("RandomTrader")  )
+    {
+        if ( Configurator.istAktienMarket() )
+        {
+           pw.println("Name;Tag;Type;AktienAnzahl;Cash;Depot;RelativGewinn;RelativeGewinnProzent;AbsoluteGewinn;AbsoluteGewinnProzent;Order;Menge;Limit;Kurs;Kurszusatz;PerformedMenge;");
+        }
+        else
+        {
+           pw.println("Name;Tag;Type;Cash1;Cash2;Depot;RelativeGewinn;RelativeGewinnProzent;AbsoluteGewinn;AbsoluteGewinnProzent;Order;Cash2;Limit;Kurs;Kurszusatz;PerformedCash1;TradeCash2;");
+        }
+    }
+    else
+    if ( pAgentType.equalsIgnoreCase("BlankoAgent")  )
+    {
+        pw.println("Name;Tag;Type;State;ChangedReason;AktienAnzahl;Cash;Depot;RelativGewinn;RelativeGewinnProzent;AbsoluteGewinn;AbsoluteGewinnProzent;Order;BuyMenge;BuyLimit;SellMenge;SellLimit;Kurs;Kurszusatz;PerformedMenge;");
+    }
+    else
+    {
+        // Tobintax Agent
+        pw.println("DailyTobintaxCash1 = DailyFixedTaxCash1 + DailyExtraTaxCash1  DailyTobintaxCash2 = DailyFixedTaxCash2 + DailyExtraTaxCash2");
+        pw.println();
+        pw.println("Name;Tag;Type;DepotCash1;DepotCash2;DepotSum(converted to cash1);DailyTobintax_Cash1;DailyFixedTax(Cash1);DailyExtraTax(Cash1);DailyTobintax_Cash2;DailyFixedTax(Cash2);DailyExtraTax(Cash2);OrderWish;Cash2;Limit;Kurs;Kurszusatz;PerformedCash1;TradeCash2;");
+    }
+
+  }
+
+  public DataLoggerBehavior()
+  {
+      mLogger = MsgLogger.getMsgLogger("DATALOGGER");;
+      mLogger.info("DataLogger Agent constructor is successful");
+  }
+
+  public void PrepareDirectoryandFileHandler()
+  {
+    try
+     {
+         // create the log directory for this one test
+         // String depot_dir = Configurator.mConfData.getLogFileDirectory() +
+         //                 Configurator.mConfData.mPfadSeperator +
+         //                 "depot";
+         // create the depot subdirectory under the main log directory
+         // FileTool.createDirectory( depot_dir );
+
+         // String  statusexchangehistory_dir = Configurator.mConfData.getLogFileDirectory() +
+         //          Configurator.mConfData.mPfadSeperator +
+         //          "statusexchange";
+
+         // create the statusexchange subdirectory under the main log directory
+         // FileTool.createDirectory( statusexchangehistory_dir );
+
+         // 2006-08-21 changed
+         //  directory is prepared by the StockStore
+
+         // remove all old files
+         // FileTool.DeleteOldDepotFile("depot");
+         // remove all old files
+         // FileTool.DeleteOldDepotFile("statusexchange");
+
+         String targetfilename = Configurator.getTradeDailyStatisticLogFile();
+         targetfilename = FileTool.getUnixFileName(targetfilename);
+
+         this.pw_price = new java.io.PrintStream( new java.io.FileOutputStream( targetfilename  ) );
+
+         this.pw_price.println( "#Kurszusatz G: Geld, Kauf>Verkauf;  B: Brief, Kauf<Verkauf;  b: bezahlt, Kauf=Verkauf, T: Taxe, Keine Buy/Sell Order" );
+         this.pw_price.println( "#Differenz        = Kurs - InnererWert" );
+         this.pw_price.println( "#DifferenzProzent = (Kurs - InnererWert)*100 / InnererWert " );
+         this.pw_price.println( "# AVG: Average " );
+         this.pw_price.println( "# NPBW_NP: Not Performed Buy Wish at new Price  = BuyWish at NewPrice - PerformedWish" );
+         this.pw_price.println( "# NPSW_NP: Not Performed Sell Wish at new Price = SellWish at NewPrice - PerformedWish" );
+         this.pw_price.println( "# NPBW_NP and NPSW_NP will not get minus value. Minial value is 0." );
+         this.pw_price.println( "# " );
+         this.pw_price.println( "# NPBW_ALL: Not Performed Buy Wish total = Total BuyWish - PerformedWish" );
+         this.pw_price.println( "# NPSW_ALL: Not Performed Sell Wish total = Total SellWish - PerformedWish " );
+
+         this.pw_price.println( "#Handeltag;"+
+        		                 "Preis;"+
+        		                 "Kurszusatz;"+
+        		                 "Umsatz;"+      // Umsatz is defined as Menge
+        		                 "TradeVolume;"+
+        		                 "InnererWert;"+
+        		                 "Differ;"+
+        		                 "DifferProzent;"+
+
+        		                 // New Statistic Werte
+
+        		                 "HighestBuyLimit;"+
+        		                 "LowestSellLimit;"+
+        		                 "Differ;"+
+        		                 "DifferProzent;"+
+        		                 "Average;"+
+        		                 "AVGDeviation_BuyLimit;"+
+        		                 "AVGDeviation_SellLimit;"+
+
+        		                 "MengeAtHighestBuyLimit;"+
+        		                 "VolumeAtHighestBuyLimit;"+
+        		                 "MengeAtLowestSellLimit;"+
+        		                 "VolumeAtLowestSellLimit;"+
+        		                 "Umsatz;"+
+        		                 "TradeVolume;"+
+        		                 "NPBW_NEWPRICE;"+
+        		                 "NPSW_NEWPRICE;"+
+        		                 "NPBW_ALL;"+
+        		                 "NPSW_ALL;"+
+                                         "BuyLimitH1;"+
+                                         "Volume1;"+
+                                         "BuyLimitH2;"+
+                                         "Volume2;"+
+
+                                         "BuyLimitH3;"+
+                                         "Volume3;"+
+
+                                         "BuyLimitH4;"+
+                                         "Volume4;"+
+
+                                         "BuyLimitH5;"+
+                                         "Volume5;"+
+
+                                         "SellLimitL1;"+
+                                         "Volume1;"+
+
+                                         "SellLimitL2;"+
+                                         "Volume2;"+
+
+                                         "SellLimitL3;"+
+                                         "Volume3;"+
+
+                                         "SellLimitL4;"+
+                                         "Volume4;"+
+
+                                         "SellLimitL5;"
+                                         "Volume5;"+
+
+        		                 );
+
+         targetfilename = Configurator.getAgentnumberLogFile();
+         targetfilename = FileTool.getUnixFileName(targetfilename);
+
+         this.pw_agentnumber = new java.io.PrintStream( new java.io.FileOutputStream( targetfilename ) );
+         this.pw_agentnumber.println( "#Handeltag;Investor;NoiseTrader;BlankoAgent;Investor->NoiseTrader;NoiseTrader->Investor;TotalChanges;" );
+
+         System.out.println("4 file streams are ready !");
+         mLogger.info("4 file streams are ready !");
+     }
+     catch (Exception ex)
+     {
+        // logging this unexpected error
+       this.mLogger.error("There is error while preparing Directory and Logging Files", ex);
+     }
+  }
+
+  public void setParameter(String name, Object value)
+  {
+    /**@todo Diese de.marketsim.agent.BaseAgent Abstrakt-Methode implementieren*/
+  }
+  public Object getParameter(String parameter)
+  {
+    /**@todo Diese de.marketsim.agent.BaseAgent Abstrakt-Methode implementieren*/
+    throw new java.lang.UnsupportedOperationException("Methode getParameter() noch nicht implementiert.");
+  }
+
+  public void updateGUI()
+  {
+     return;
+  }
+
+  public void action()
+  {
+    msg = this.myAgent.blockingReceive(100);
+    if (msg == null)
+    {
+      return;
+    }
+
+    // To do
+    // get a message
+    // save a message
+    // AgentName,Index,Depot,Cash,Menge
+
+    AID  aid = msg.getSender();
+
+   MessageWrapper msgwrp = null;
+   try
+    {
+        msgwrp= ( MessageWrapper ) msg.getContentObject();
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+      System.out.println( "ErrorMessage from: "  + msg.getSender().getLocalName() );
+      System.out.println( "ErrorMessage= "  + msg.getContent() );
+    }
+
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_InterruptCommand )
+    {
+        long t1 = System.currentTimeMillis();
+        // close all opened files
+        this.closeFiles();
+        // nnregister from DFService
+        try
+        {
+            DFAgentDescription dfd = new DFAgentDescription();
+            dfd.setName( myAgent.getAID() );
+            try
+            {
+               DFService.deregister( myAgent, dfd );
+            }
+            catch (Exception ex)
+            {
+               ex.printStackTrace();
+            }
+          // Kill itself
+          this.myAgent.doDelete();
+          System.out.println(" DataLogger is deregistered. Delay=" + ( System.currentTimeMillis() - t1 ) + " ms");
+
+        }
+        catch (Exception ex )
+        {
+          ex.printStackTrace();
+        }
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_INITCOMMAND )
+    {
+        this.PrepareDirectoryandFileHandler();
+        this.mLogger.info("Subdirectory is prepared.");
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_Innererwert )
+    {
+        // nicht speichern
+         double dd = Double.parseDouble( (String) msgwrp.mMessageContent );
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_StoreDailyTradeSummary )
+    {
+        StoreDailyTradeSummary tt = (StoreDailyTradeSummary) msgwrp.mMessageContent;
+
+        // save DailyOrderStatistic and TradeSummary to the data file
+        this.saveTradeSummaryAndDailyOrderStatistic( tt.mKurs,
+        		                                     tt.mTradeStatus,
+        		                                     tt.mTradeMenge,
+        		                                     tt.mTradeVolume,
+        		                                     tt.mInnererWert,
+        		                                     tt.mDifferenz,
+        		                                     tt.mDifferenzProzent,
+        		                                     tt.mDailyOrderStatistic
+                                                    );
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_300InitData )
+    {
+        // first 300 Innererwert
+        // save to file
+        Vector myData = new Vector();
+        First300InitData  first300 =( First300InitData ) msgwrp.mMessageContent;
+
+        if ( Configurator.istAktienMarket() )
+        {
+           for (int i=0; i<first300.mIntData.length; i++)
+           {
+             myData.add( ""+ nff.format2str( first300.mIntData[i] ) );
+           }
+        }
+        else
+        {
+          for (int i=0; i<first300.mDoubleData.length; i++)
+          {
+            myData.add( ""+ nff.format2str( first300.mDoubleData[i] ) );
+          }
+        }
+        this.saveInnerwert( myData );
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_InvestorDepotstate )
+    {
+      if ( Configurator.mConfData.mLogAgentDailyDepot )
+      {
+           // Singel Depot
+           DepotInfoContainer container = ( DepotInfoContainer ) msgwrp.mMessageContent;
+           String DepotInfoBundel[] = container.myDepotInfo;
+           for ( int i=0; i<DepotInfoBundel.length; i++)
+           {
+               this.saveDepot( aid,  DepotInfoBundel[i] );
+           }
+      }
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_Depotstate )
+    {
+      if ( Configurator.mConfData.mLogAgentDailyDepot )
+      {
+          this.saveDepot( aid,  ( String ) msgwrp.mMessageContent );
+      }
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_AgentStatistik )
+    {
+      // AGENTNUMBER
+      this.saveAgentNumber( (String) msgwrp.mMessageContent );
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_XState )
+    {
+      if ( Configurator.mConfData.mLogAgentExchangeHistoy )
+      {
+        // save the hostory of Status Exchange
+        GewinnStatusExchangeRecord exchange = ( GewinnStatusExchangeRecord ) msgwrp.mMessageContent;
+        this.saveStatusExchangeHistory( aid, exchange );
+      }
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_DepotRecord )
+    {
+          // Save into the DeporRecord List
+          DepotRecord depotrec = ( DepotRecord )  msgwrp.mMessageContent;
+          GewinnProcessor.addDepotRecord( depotrec.mAgentName,  depotrec );
+    }
+    else
+    if (  msgwrp.mMessageType == SystemConstant.MessageType_Close )
+    {
+        // close command
+        this.closeFiles();
+        // create Statistic based on the Price History
+        this.CreateStatisticBasedOnPriceHistory();
+        // create Statistic based on End-DepotRecords of all agents.
+        this.createDepotRecordStatistic();
+        this.sendFinishSignal();
+
+         try
+         {
+              DFAgentDescription dfd = new DFAgentDescription();
+              dfd.setName( myAgent.getAID() );
+              try
+              {
+                 DFService.deregister( myAgent, dfd );
+              }
+              catch (Exception ex)
+              {
+                 ex.printStackTrace();
+              }
+
+              this.myAgent.doDelete();
+          }
+          catch (Exception ex )
+          {
+            ex.printStackTrace();
+          }
+    }
+
+  }
+
+  private void saveTradeSummaryAndDailyOrderStatistic(double pKurs,
+		                                              char   pTradeStatus,
+		                                              double pTradeMenge,  // in Stück
+		                                              double pTradeVolume,
+		                                              double pInnererWert,
+		                                              double pDiff,
+		                                              double pDiffProzent,
+		                                              DailyOrderStatistic pDailyOrderStatistic)
+  {
+
+     try
+     {
+
+                  String ss =  mTradeDayPrice+";"+
+        	               nff.format2str( pKurs ) + ";" +
+        	               pTradeStatus+";"+
+        	               nff.format2str( pTradeMenge ) +";" +
+        	               nff.format2str( pTradeVolume ) +";" +
+                               nff.format2str( pInnererWert ) +";" +
+                               nff.format2str( pDiff) +";" +
+                               nff.format2str( pDiffProzent) +";" +
+
+                               nff.format2str( pDailyOrderStatistic.mHighestBuyLimit  )+";" +
+                               nff.format2str( pDailyOrderStatistic.mLowesSellLimit  )+";" +
+                               nff.format2str( pDailyOrderStatistic.mHighBuyAndLowSell_Difference  )+";" +
+                               nff.format2str( pDailyOrderStatistic.mHighBuyAndLowSell_Difference_Procent )+";" +
+                               nff.format2str( pDailyOrderStatistic.mHighBuyAndLowSell_Average )+";" +
+
+                               nff.format2str( pDailyOrderStatistic.mAverageDeviation_BuySide )+";" +
+                               nff.format2str( pDailyOrderStatistic.mAverageDeviation_SellSide )+";" +
+
+                               nff.format2str( pDailyOrderStatistic.mHighestBuyLimit_Aktien )+";" +
+                               nff.format2str( pDailyOrderStatistic.mHighestBuyLimit_Volume  )+";" +
+
+                               nff.format2str( pDailyOrderStatistic.mLowesSellLimit_Aktien  )+";" +
+                               nff.format2str( pDailyOrderStatistic.mLowesSellLimit_Volume  )+";" +
+
+        		       nff.format2str( pTradeMenge ) +";" +
+        		       nff.format2str( pTradeVolume ) +";" +
+
+                               nff.format2str( pDailyOrderStatistic.mNotPerformedAktien_BuyWish_At_NewPrice )+";" +
+                               nff.format2str( pDailyOrderStatistic.mNotPerformedAktien_SellWish_At_NewPrice )+";" +
+
+                               nff.format2str( pDailyOrderStatistic.mNotPerformedAktien_BuyWish_Total )+";" +
+                               nff.format2str( pDailyOrderStatistic.mNotPerformedAktien_SellWish_Total )+";";
+
+
+         String ss1 = "";
+         for ( int i=0; i<pDailyOrderStatistic.mHighestBuyLimitNumber_Real; i++)
+         {
+            ss1 = ss1 + nff.format2str( pDailyOrderStatistic.mHighestBuyLimitList[i] ) + ";";
+         }
+
+         for ( int i=pDailyOrderStatistic.mHighestBuyLimitNumber_Real; i<pDailyOrderStatistic.mBasicDataBumber; i++ )
+         {
+           ss1 = ss1 + " ;" ;
+         }
+         // Print 5 Low SellLimit
+         for ( int i=0; i<pDailyOrderStatistic.mLowestSellLimitNumber_Real; i++)
+         {
+            ss1 = ss1 + nff.format2str( pDailyOrderStatistic.mLowestSellLimitList[i] ) + ";";
+         }
+
+         for ( int i=pDailyOrderStatistic.mLowestSellLimitNumber_Real; i<pDailyOrderStatistic.mBasicDataBumber; i++ )
+         {
+           ss1 = ss1 + " ;" ;
+         }
+         ss = ss + ss1 ;
+        this.pw_price.println( ss );
+
+        mTradeDayPrice=mTradeDayPrice+1;
+     }
+     catch (Exception ex )
+     {
+          ex.printStackTrace();
+     }
+
+  }
+
+  // Save the begining 300 Prices
+  private void savePrice(Vector pPrice )
+  {
+     try
+     {
+        for (int i=0; i<pPrice.size(); i++)
+        {
+           Integer  dd = (Integer) pPrice.elementAt(i);
+           this.pw_price.println(mTradeDayPrice+";" + dd.intValue()+";"  + SystemConstant.TradeResult_Taxe + ";0;" );
+           mTradeDayPrice=mTradeDayPrice+1;
+        }
+
+     }
+    catch (Exception ex )
+    {
+        ex.printStackTrace();
+    }
+  }
+
+  // Save only begining 301 Innererwerte: Vector contains 301 Datas.
+  private void saveInnerwert(Vector pInnererwert )
+  {
+    // aber first 300 Innererwert in eine sperate datei.
+    try
+    {
+        int day = 1;
+        String targetfilename =  Configurator.getInnererwert300LogFile();
+        targetfilename = FileTool.getUnixFileName(targetfilename);
+        java.io.PrintStream  fh = new java.io.PrintStream( new java.io.FileOutputStream(  targetfilename ) );
+        fh.println( "Handeltag;Innererwert;" );
+        for (int i=0; i<pInnererwert.size(); i++)
+        {
+           String  dd = (String) pInnererwert.elementAt(i);
+           fh.println( day+";" + dd +";" );
+           day++;
+        }
+        fh.close();
+     }
+    catch (Exception ex )
+    {
+        System.out.println("Error while saving the beginning 300 Innererwerte.");
+        ex.printStackTrace();
+    }
+  }
+
+
+  // Save AgentNumber of one Day
+  private void saveAgentNumber(String pAgentNumberStatistic )
+  {
+     try
+     {
+           this.pw_agentnumber.println( pAgentNumberStatistic );
+     }
+     catch (Exception ex )
+     {
+        ex.printStackTrace();
+     }
+  }
+
+  // Save Status Exchnage History
+  // pHistory Format:
+  // 003;V22;Investor;blabbla
+  private void saveStatusExchangeHistory( AID pAID,  GewinnStatusExchangeRecord pRecord )
+  {
+       String Agname = pAID.getLocalName();
+       java.io.PrintStream fw =( java.io.PrintStream ) this.mStatusExchangefileList.get(Agname);
+
+       String FirstLine = pRecord.mInfoList[0];
+       int j1 = FirstLine.indexOf(";");
+       int j2 = FirstLine.indexOf(";",j1+1);
+       int j3 = FirstLine.indexOf(";", j2+1);
+       String Agtype = FirstLine.substring(j2+1,j3);
+
+       //System.out.println("agtype=" + Agtype);
+       //System.out.println("depotinfo=" + pHistory);
+
+       if (fw == null)
+       {
+         String fname = null;
+         if ( Agtype.equalsIgnoreCase("Investor") )
+         {
+            fname = "statusexchange/F" + Agname+".csv";
+         }
+         else
+         if ( Agtype.equalsIgnoreCase("NoiseTrader") )
+         {
+            fname = "statusexchange/N" + Agname+".csv";
+         }
+         else
+         if ( Agtype.equalsIgnoreCase("BlankoAgent") )
+         {
+            fname = "statusexchange/B" + Agname+".csv";
+         }
+         else
+         {
+            fname = "statusexchange/R" + Agname+".csv";
+         }
+
+         this.mStatusExchangeFileNameList.add(fname);
+
+         fname = Configurator.mConfData.getLogFileDirectory()+
+                 Configurator.mConfData.mPfadSeperator+
+                 fname;
+
+         String targetfilename = fname ;
+         targetfilename = FileTool.getUnixFileName(targetfilename);
+
+         try
+         {
+            fw = new java.io.PrintStream( new java.io.FileOutputStream( targetfilename ) );
+            // Print Title
+            fw.println( "#Partner hier bedeutet die Partner, von denen der Agent Status Info bekommt." );
+            //fw.println( "#Handeltag;AgentName;Typ;Abschlag;MovingDays;RelativeGewinn;RelativeGewinnPozent;AbsoluteGewinn;AbsoluteGewinnPozent;PartnerName;Typ;AbschlagProzent;Movingsdays;RelativeGewinn;RelativeGewinnProzent;(Wiederholung)" );
+
+            //New Format
+            fw.println( "#Handeltag;AgentName;Typ;Kommunikation;Beschreibung;Abschlag;MovingDays;RelativeGewinn;RelativeGewinnPozent;AbsoluteGewinn;AbsoluteGewinnPozent;PartnerName;Typ;AbschlagProzent;Movingsdays;RelativeGewinn;RelativeGewinnProzent;" );
+
+         }
+         catch (Exception ex)
+         {
+            ex.printStackTrace();
+         }
+         this.mStatusExchangefileList.put(Agname, fw);
+       }
+
+       try
+       {
+          for ( int i=0; i< pRecord.mInfoList.length; i++ )
+          {
+             fw.println( pRecord.mInfoList[i] );
+          }
+
+       }
+       catch (Exception ex)
+       {
+          ex.printStackTrace();
+       }
+  }
+
+  private void saveDepot( AID  pAID, String pMsg )
+  {
+
+       String Agname = pAID.getLocalName();
+
+       java.io.PrintStream fw =( java.io.PrintStream ) mDepotfileList.get( Agname );
+
+       // Depot,Tag;Type;****************
+       //     |    |    |
+       //     |    |    |-->  j3
+       //     |    |------->  j2
+       //     |------------>  j1
+
+       int j1 = pMsg.indexOf(",");
+       String ss = pMsg.substring( j1+1 ) ;
+
+       if ( fw == null )
+       {
+
+         int j2 = ss.indexOf(";");
+         int j3 = ss.indexOf(";",j2+1);
+         String Agtype = ss.substring(j2+1,j3);
+
+         System.out.println("AgentType=" + Agtype + " =====" +  ss );
+
+         String fnameforwriting     = null;
+         String fnameforhtmlprofile = null;
+
+         if ( Agtype.equalsIgnoreCase("Investor") )
+         {
+            fnameforhtmlprofile = "F-"+Agname+".csv";
+         }
+         else
+         if ( Agtype.equalsIgnoreCase("NoiseTrader") )
+         {
+            fnameforhtmlprofile = "N-"+Agname+".csv";
+         }
+         else
+         if ( Agtype.startsWith("Random") )
+         {
+            fnameforhtmlprofile = "R-"+Agname+".csv";
+         }
+         else
+         if ( Agtype.startsWith("Blanko") )
+         {
+            fnameforhtmlprofile = "B-"+Agname+".csv";
+         }
+         else
+         {
+            fnameforhtmlprofile = "tobintax.csv";
+         }
+
+         fnameforhtmlprofile = "depot/"+fnameforhtmlprofile;
+
+         this.mDepotFileNameList.add(fnameforhtmlprofile);
+
+         fnameforwriting = Configurator.mConfData.getLogFileDirectory()+
+                 Configurator.mConfData.mPfadSeperator+
+                 fnameforhtmlprofile;
+
+         String targetfilename = FileTool.getUnixFileName(fnameforwriting);
+
+         try
+         {
+            fw = new java.io.PrintStream( new java.io.FileOutputStream( targetfilename ) );
+            this.PrintDepotTitle( fw, Agtype);
+         }
+         catch (Exception ex)
+         {
+            ex.printStackTrace();
+         }
+         mDepotfileList.put(Agname, fw);
+       }
+
+       try
+       {
+          fw.println( Agname+";"+ss );
+       }
+       catch (Exception ex)
+       {
+
+       }
+  }
+
+  private void closeFiles()
+  {
+     try
+     {
+        this.pw_price.close();
+        this.pw_agentnumber.close();
+
+        System.out.println("All datas are saved to files.");
+
+        java.util.Enumeration  keys =  this.mDepotfileList.keys();
+        while ( keys.hasMoreElements() )
+        {
+           String agname =(String) keys.nextElement();
+           java.io.PrintStream pr = (java.io.PrintStream) this.mDepotfileList.get( agname );
+           pr.close();
+        }
+
+        keys =  this.mStatusExchangefileList.keys();
+        while ( keys.hasMoreElements() )
+        {
+           String agname =(String) keys.nextElement();
+           java.io.PrintStream pr = (java.io.PrintStream) this.mStatusExchangefileList.get( agname );
+           pr.close();
+        }
+     }
+     catch (Exception ex)
+     {
+       ex.printStackTrace();
+     }
+  }
+
+  /**
+   *
+   * Call GewinnProcessor to generate the statistic and html report
+   * of sorted Depot of all Agent and agent groups.
+   *
+   */
+  private void createDepotRecordStatistic()
+  {
+	    System.out.println("*********************************************************");
+	    System.out.println("* Creating depot statistic and sorting the End-Depot    *");
+	    System.out.println("*********************************************************");
+	    // creating statistic
+	    GewinnProcessor.createDepotStatistic();
+	    // !!!!!!!!!!!!!!!!!!
+	    // Old Data ( Single DepotRecord has to removed from Static Vector )
+	    // !!!!!!!!!!!!!!!!!!
+	    GewinnProcessor.clearOldData();
+
+ }
+
+  private void CreateStatisticBasedOnPriceHistory()
+  {
+
+    String ss = System.getProperty("DIALOG", "true");
+    de.marketsim.gui.WaitStateFrame  waitframe = null;
+    if ( ss.equalsIgnoreCase("true") )
+    {
+      waitframe = new de.marketsim.gui.WaitStateFrame();
+    }
+    else
+    {
+       System.out.println("********************************************************* ");
+       System.out.println("*  Creating statistic based on the price history ....... *");
+       System.out.println("********************************************************* ");
+    }
+
+    // creating the statistic data for this simulation
+    ProcessPrice ppp = null;
+    try
+    {
+       ppp = new ProcessPrice( Configurator.getTradeDailyStatisticLogFile() );
+    }
+    catch (Exception ex)
+    {
+       ex.printStackTrace();
+       this.mLogger.debug("Runtime Error while processing daily price file.", ex);
+    }
+
+    Configurator.setDepotFileList( this.mDepotFileNameList );
+    Configurator.setExchangeHistoryFileList( this.mStatusExchangeFileNameList );
+    Configurator.createTestSummaryInHtml();
+
+    HTMLProfileLink link   = new HTMLProfileLink();
+
+    NetworkConfig  network = Configurator.mNetworkConfigManager.getNetworkConfig( Configurator.mNetworkConfigCurrentIndex ) ;
+
+    String runserienummer = HelpTool.covertInt2StringWithPrefixZero( network.mCurrentRunningNo, 2 );
+
+    link.LinkName          = network.mNetworkfilenameOhnePfad + "   RUN-"+ runserienummer;
+
+    link.HtmlFilePath      = Configurator.mNetworkConfigCurrentIndex+"_"+
+                             network.mNetworkfilenameOhnePfad +
+                             Configurator.mConfData.mPfadSeperator +
+                             "RUN-"+ runserienummer +
+                             Configurator.mConfData.mPfadSeperator +
+                             "Profile.html";
+
+    //
+    // save into the list
+    // the items will be read for generating the overview.
+    //
+
+    SimulationReportProcessor.addOneHtmlFileLink( link );
+
+    if ( ss.equalsIgnoreCase("true") )
+    {
+      waitframe.setVisible(false);
+    }
+
+  }
+
+ private void sendFinishSignal()
+ {
+    // Send Finish Command only to DAX
+    String[] receiverlist = {"DAX"};
+    this.sendFinishSignal2Someone( receiverlist );
+ }
+
+  private void sendFinishSignal2Someone ( String[] pReceiverList )
+  {
+    ACLMessage sendmsg = new ACLMessage( ACLMessage.INFORM );
+
+    MessageWrapper msgwrp = new MessageWrapper();
+    msgwrp.mMessageType = SystemConstant.MessageType_FinishCommand;
+    msgwrp.mMessageContent="DataLogger";
+    try
+    {
+       sendmsg.setContentObject( msgwrp );
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
+
+    String receivernames = "";
+    for ( int i=0; i< pReceiverList.length; i++)
+    {
+      sendmsg.addReceiver( new AID ( pReceiverList[i] , false) );
+      receivernames = receivernames + pReceiverList[i] + ";";
+    }
+    myAgent.send( sendmsg );
+    System.out.println( "DataLogger: Finish Signal has been sent to " + receivernames );
+  }
+
+}

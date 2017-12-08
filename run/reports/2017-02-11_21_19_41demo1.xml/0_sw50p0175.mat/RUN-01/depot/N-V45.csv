@@ -1,0 +1,423 @@
+#-1)Kurszusatz  G: Geld, Kauf>Verkauf; B: Brief, Kauf < Verkauf; b: bezahlt, Kauf=Verkauf; T: Taxe, kein Buy/Sell Order
+#-2)Auftragtyp  B: Kauf,  S:Verkauf,  N:Wart  M: Mixed Order,  Order contains Buy and Sell Wish, it is created by Investor  
+#-3)Limit=-1, -1 hat spezielle Bedeutung: billigsten Kauf bzw. Besten Verkauf
+#-4)GewinnStatus *:Balance +:Gewinn -:Verlust 
+#-5) Achtung: 
+#-5) Wenn ReferenzTag = 0,  GewinnStatus ist jeden Tag gegen InitDepot ausgewertet.
+#-6) Wenn ReferenzTag > 0,  GewinnStatus ist jeden Tag gegen Depot vor  X Tagen ausgewertet.
+#-7) Investor BuyLimit  = IndividuellInnererWert * ( 1 - AbschlagProzent ) 
+     Investor SellLimit = IndividuellInnererWert * ( 1 + AbschlagProzent ) 
+#-8) Investor: Maximal Abweichung zu System InnererWert 5.0
+     Investor: Minimal Abweichung zu System InnererWert -5.0
+#-9) Investor: Eingesetztes Potenzial = PotenzialBase * ProzentialCounter  
+     - Wenn ProzentialCounter Minus Wert ist, dann ist das Potenzial auch ein Minus Wert.
+     - Wenn ProzentialCounter Plus Wert ist,  dann ist das Potenzial auch ein Plus Wert.
+     - PotenzialProzent ist ein Parameter.
+     - PotenzialBase wird nur bei (PozentialCounter=0) and (KursÄnderung ist größer als Threshold) berechnet, PotenzialBase = AktuellerSystemInnererWert * 0.2 * PotenuialProcent 
+     - PotenzialProzent ist ein Parameter.
+#-10) Investor Individuell InnererWert= SystemInnererWert + ZufallAbweichung + Potenzial 
+      ZufallAbweichung kann minus/plus sein. 
+
+AgentName;Handelstag;AgentTyp;AktienAnzahl;Cash;Depot;Relative ;Relative     ;Absolute ;Absolute     ;Order;BuyMenge;BuyLimit;Order;SellMenge;SellLimit;Kurs;Kurszusatz;System     ; Individuell; Zufaellige ;Kurs         ;Potenzal                 ;Eingesetztes; Potenzial  ;Potenzial ;DayCounter            ;Performed;Performed; Investor        ;NoiseTrader       ;NoiseTrader       ;NoiseTrader ; Bemerkung;         ;
+         ;          ;        ;            ;    ;     ;Gewinn   ;GewinnProzent;Gewinn   ;GewinnProzent;     ;        ;        ;     ;         ;         ;    ;          ;InnererWert; InnererWert; Abweichung%;ChangeProzent;AktivationThreshold(%)   ;Potenzial   ; Counter    ;Base      ;seit letzte Anpassung ;Action   ;Menge    ; AbschlagProzent ;Used_AveragePrice ;DaysOfAveragePrice;LimitAdjust%;          ;         ;
+V45;0000;NoiseTrader;1018;842208;1860208;0;0,00;0;0,00;N;0;0;0;0;1000; ;0;0;0;0;0;0;0;0;0; ;0;NA;0,00;34;0,00;
+V45;0001;NoiseTrader;1023;837188;1864280;0;0,00;4072;0,2189;B;5;1004;0;0;1004;B;1000;0;0;0;0;0;0;0;0;B;5;NA;981,00;34;0,073;;MyAveragePrice=981,00 YesterdayPrice=1004,00
+V45;0002;NoiseTrader;1027;833200;1857119;0;0,00;-3089;-0,1661;B;5;1000;0;0;997;G;1000;0;0;0;0;0;0;0;0;B;4;NA;980,6471;34;0,304;;MyAveragePrice=980,6471 YesterdayPrice=1004,00;BuyLimit decreased 0.304%;
+V45;0003;NoiseTrader;1027;833200;1864308;0;0,00;4100;0,2204;B;5;999;0;0;1004;B;1010;0;0;0;0;0;0;0;0; ;0;NA;980,1176;34;0,25;;MyAveragePrice=980,1176 YesterdayPrice=997,00;BuyLimit increased 0.25%;
+V45;0004;NoiseTrader;1032;828230;1854038;0;0,00;-6170;-0,3317;B;5;994;0;0;994;G;1007;0;0;0;0;0;0;0;0;B;5;NA;979,7941;34;0,988;;MyAveragePrice=979,7941 YesterdayPrice=1004,00;BuyLimit decreased 0.988%;
+V45;0005;NoiseTrader;1032;828230;1862294;0;0,00;2086;0,1121;B;5;998;0;0;1002;G;1016;0;0;0;0;0;0;0;0; ;0;NA;979,3824;34;0,416;;MyAveragePrice=979,3824 YesterdayPrice=994,00;BuyLimit increased 0.416%;
+V45;0006;NoiseTrader;1032;828230;1884998;0;0,00;24790;1,3326;B;5;1006;0;0;1024;G;1023;0;0;0;0;0;0;0;0; ;0;NA;979,3529;34;0,439;;MyAveragePrice=979,3529 YesterdayPrice=1002,00;BuyLimit increased 0.439%;
+V45;0007;NoiseTrader;1040;820182;1866422;0;0,00;6214;0,334;B;8;1035;0;0;1006;B;1009;0;0;0;0;0;0;0;0;B;8;NA;980,1176;34;1,117;;MyAveragePrice=980,1176 YesterdayPrice=1024,00;BuyLimit increased 1.117%;
+V45;0008;NoiseTrader;1040;820182;1865382;0;0,00;5174;0,2781;B;5;1002;0;0;1005;G;1003;0;0;0;0;0;0;0;0; ;0;NA;980,4118;34;0,371;;MyAveragePrice=980,4118 YesterdayPrice=1006,00;BuyLimit decreased 0.371%;
+V45;0009;NoiseTrader;1044;816190;1858102;0;0,00;-2106;-0,1132;B;5;1009;0;0;998;G;1000;0;0;0;0;0;0;0;0;B;4;NA;980,8824;34;0,488;;MyAveragePrice=980,8824 YesterdayPrice=1005,00;BuyLimit increased 0.488%;
+V45;0010;NoiseTrader;1049;811190;1860190;0;0,00;-18;-0,001;B;5;1005;0;0;1000;B;998;0;0;0;0;0;0;0;0;B;5;NA;981,3529;34;0,772;;MyAveragePrice=981,3529 YesterdayPrice=998,00;BuyLimit increased 0.772%;
+V45;0011;NoiseTrader;1054;806235;1850749;0;0,00;-9459;-0,5085;B;5;997;0;0;991;B;996;0;0;0;0;0;0;0;0;B;5;NA;982,0588;34;0,247;;MyAveragePrice=982,0588 YesterdayPrice=1000,00;BuyLimit decreased 0.247%;
+V45;0012;NoiseTrader;1054;806235;1856019;0;0,00;-4189;-0,2252;B;5;989;0;0;996;G;1000;0;0;0;0;0;0;0;0; ;0;NA;982,2647;34;0,102;;MyAveragePrice=982,2647 YesterdayPrice=991,00;BuyLimit decreased 0.102%;
+V45;0013;NoiseTrader;1058;802235;1860235;0;0,00;27;0,0015;B;5;1005;0;0;1000;G;1001;0;0;0;0;0;0;0;0;B;4;NA;982,7353;34;0,978;;MyAveragePrice=982,7353 YesterdayPrice=996,00;BuyLimit increased 0.978%;
+V45;0014;NoiseTrader;1058;802235;1871873;0;0,00;11665;0,6271;B;5;1008;0;0;1011;B;1008;0;0;0;0;0;0;0;0; ;0;NA;983,3529;34;0,862;;MyAveragePrice=983,3529 YesterdayPrice=1000,00;BuyLimit increased 0.862%;
+V45;0015;NoiseTrader;1063;797235;1860235;0;0,00;27;0,0015;B;5;1016;0;0;1000;B;1006;0;0;0;0;0;0;0;0;B;5;NA;984,4412;34;0,504;;MyAveragePrice=984,4412 YesterdayPrice=1011,00;BuyLimit decreased 0.504%;
+V45;0016;NoiseTrader;1068;792240;1859172;0;0,00;-1036;-0,0557;B;5;1001;0;0;999;B;1012;0;0;0;0;0;0;0;0;B;5;NA;985,4706;34;0,121;;MyAveragePrice=985,4706 YesterdayPrice=1000,00;BuyLimit decreased 0.121%;
+V45;0017;NoiseTrader;1068;792240;1883736;0;0,00;23528;1,2648;B;5;1005;0;0;1022;G;1019;0;0;0;0;0;0;0;0; ;0;NA;986,3529;34;0,672;;MyAveragePrice=986,3529 YesterdayPrice=999,00;BuyLimit decreased 0.672%;
+V45;0018;NoiseTrader;1068;792240;1891212;0;0,00;31004;1,6667;B;5;1018;0;0;1029;B;1021;0;0;0;0;0;0;0;0; ;0;NA;988,2059;34;0,384;;MyAveragePrice=988,2059 YesterdayPrice=1022,00;BuyLimit increased 0.384%;
+V45;0019;NoiseTrader;1068;792240;1885872;0;0,00;25664;1,3796;B;5;1021;0;0;1024;G;1017;0;0;0;0;0;0;0;0; ;0;NA;990,0588;34;0,76;;MyAveragePrice=990,0588 YesterdayPrice=1029,00;BuyLimit decreased 0.76%;
+V45;0020;NoiseTrader;1073;787110;1888008;27800;1,4945;27800;1,4945;B;5;1030;0;0;1026;B;1011;0;0;0;0;0;0;0;0;B;5;NA;991,8235;34;0,653;;MyAveragePrice=991,8235 YesterdayPrice=1024,00;BuyLimit increased 0.653%;
+V45;0021;NoiseTrader;1078;782030;1877278;12998;0,6972;17070;0,9176;B;5;1023;0;0;1016;b;1003;0;0;0;0;0;0;0;0;B;5;NA;993,3529;34;0,201;;MyAveragePrice=993,3529 YesterdayPrice=1026,00;BuyLimit decreased 0.201%;
+V45;0022;NoiseTrader;1083;776965;1874044;16925;0,9114;13836;0,7438;B;5;1015;0;0;1013;B;1004;0;0;0;0;0;0;0;0;B;5;NA;994,6176;34;-0,348;;MyAveragePrice=994,6176 YesterdayPrice=1016,00
+V45;0023;NoiseTrader;1088;771910;1871878;7570;0,406;11670;0,6273;B;5;1017;0;0;1011;B;1003;0;0;0;0;0;0;0;0;B;5;NA;995,8824;34;0,412;;MyAveragePrice=995,8824 YesterdayPrice=1013,00;BuyLimit decreased 0.412%;
+V45;0024;NoiseTrader;1093;766915;1858822;4784;0,258;-1386;-0,0745;B;5;1002;0;0;999;B;995;0;0;0;0;0;0;0;0;B;5;NA;997,1176;34;0,873;;MyAveragePrice=997,1176 YesterdayPrice=1011,00;BuyLimit decreased 0.873%;
+V45;0025;NoiseTrader;1093;766915;1852264;-10030;-0,5386;-7944;-0,427;B;5;990;0;0;993;B;996;0;0;0;0;0;0;0;0; ;0;NA;997,9118;34;0,805;;MyAveragePrice=997,9118 YesterdayPrice=999,00;BuyLimit decreased 0.805%;
+V45;0026;NoiseTrader;1088;771880;1852264;-32734;-1,7366;-7944;-0,427;S;0;0;5;990;993;G;1002;0;0;0;0;0;0;0;0;S;5;NA;998,5294;34;0,21;;MyAveragePrice=998,5294 YesterdayPrice=993,00;SellLimit decreased 0.21%;
+V45;0027;NoiseTrader;1085;774868;1855528;-10894;-0,5837;-4680;-0,2516;S;0;0;5;993;996;B;999;0;0;0;0;0;0;0;0;S;3;NA;999,3824;34;0,063;;MyAveragePrice=999,3824 YesterdayPrice=993,00;SellLimit increased 0.063%;
+V45;0028;NoiseTrader;1082;777868;1859868;-5514;-0,2956;-340;-0,0183;S;0;0;5;994;1000;B;1004;0;0;0;0;0;0;0;0;S;3;NA;1000,2941;34;0,11;;MyAveragePrice=1000,2941 YesterdayPrice=996,00;SellLimit decreased 0.11%;
+V45;0029;NoiseTrader;1078;781856;1856622;-1480;-0,0797;-3586;-0,1928;S;0;0;5;989;997;B;993;0;0;0;0;0;0;0;0;S;4;NA;1001,2941;34;1,068;;MyAveragePrice=1001,2941 YesterdayPrice=1000,00;SellLimit decreased 1.068%;
+V45;0030;NoiseTrader;1078;781856;1853388;-6802;-0,3657;-6820;-0,3666;S;0;0;5;996;994;b;1001;0;0;0;0;0;0;0;0; ;0;NA;1002,3235;34;0,085;;MyAveragePrice=1002,3235 YesterdayPrice=997,00;SellLimit decreased 0.085%;
+V45;0031;NoiseTrader;1078;781856;1851232;483;0,0261;-8976;-0,4825;S;0;0;5;993;992;b;996;0;0;0;0;0;0;0;0; ;0;NA;1003,0882;34;-0,145;;MyAveragePrice=1003,0882 YesterdayPrice=994,00
+V45;0032;NoiseTrader;1077;782848;1851232;-4787;-0,2579;-8976;-0,4825;S;0;0;5;992;992;B;994;0;0;0;0;0;0;0;0;S;1;NA;1003,50;34;0,56;;MyAveragePrice=1003,50 YesterdayPrice=992,00
+V45;0033;NoiseTrader;1077;782848;1846924;-13311;-0,7156;-13284;-0,7141;S;0;0;5;991;988;B;998;0;0;0;0;0;0;0;0; ;0;NA;1003,6765;34;0,016;;MyAveragePrice=1003,6765 YesterdayPrice=992,00;SellLimit decreased 0.016%;
+V45;0034;NoiseTrader;1073;786796;1845847;-26026;-1,3904;-14361;-0,772;S;0;0;5;980;987;B;1001;0;0;0;0;0;0;0;0;S;4;NA;1003,5294;34;0,712;;MyAveragePrice=1003,5294 YesterdayPrice=988,00;SellLimit decreased 0.712%;
+V45;0035;NoiseTrader;1068;791716;1842628;-17607;-0,9465;-17580;-0,9451;S;0;0;5;981;984;G;996;0;0;0;0;0;0;0;0;S;5;NA;1003,0294;34;0,514;;MyAveragePrice=1003,0294 YesterdayPrice=987,00;SellLimit decreased 0.514%;
+V45;0036;NoiseTrader;1068;791716;1850104;-9068;-0,4877;-10104;-0,5432;S;0;0;5;995;991;B;987;0;0;0;0;0;0;0;0; ;0;NA;1002,4412;34;1,129;;MyAveragePrice=1002,4412 YesterdayPrice=984,00;SellLimit increased 1.129%;
+V45;0037;NoiseTrader;1066;793688;1844764;-38972;-2,0689;-15444;-0,8302;S;0;0;5;983;986;B;996;0;0;0;0;0;0;0;0;S;2;NA;1002,2647;34;0,799;;MyAveragePrice=1002,2647 YesterdayPrice=991,00;SellLimit decreased 0.799%;
+V45;0038;NoiseTrader;1061;798608;1842632;-48580;-2,5687;-17576;-0,9448;S;0;0;5;980;984;G;999;0;0;0;0;0;0;0;0;S;5;NA;1001,7353;34;0,545;;MyAveragePrice=1001,7353 YesterdayPrice=986,00;SellLimit decreased 0.545%;
+V45;0039;NoiseTrader;1058;801572;1846876;-38996;-2,0678;-13332;-0,7167;S;0;0;5;987;988;B;1006;0;0;0;0;0;0;0;0;S;3;NA;1001,4412;34;0,327;;MyAveragePrice=1001,4412 YesterdayPrice=984,00;SellLimit increased 0.327%;
+V45;0040;NoiseTrader;1054;805516;1844760;-43248;-2,2907;-15448;-0,8304;S;0;0;5;978;986;B;994;0;0;0;0;0;0;0;0;S;4;NA;1001,0294;34;0,965;;MyAveragePrice=1001,0294 YesterdayPrice=988,00;SellLimit decreased 0.965%;
+V45;0041;NoiseTrader;1049;810431;1841598;-35680;-1,9006;-18610;-1,0004;S;0;0;5;983;983;G;994;0;0;0;0;0;0;0;0;S;5;NA;999,9118;34;0,207;;MyAveragePrice=999,9118 YesterdayPrice=986,00;SellLimit decreased 0.207%;
+V45;0042;NoiseTrader;1047;812415;1851039;-23005;-1,2276;-9169;-0,4929;S;0;0;5;987;992;B;992;0;0;0;0;0;0;0;0;S;2;NA;999,2353;34;0,457;;MyAveragePrice=999,2353 YesterdayPrice=983,00;SellLimit increased 0.457%;
+V45;0043;NoiseTrader;1044;815388;1849992;-21886;-1,1692;-10216;-0,5492;S;0;0;5;983;991;B;994;0;0;0;0;0;0;0;0;S;3;NA;998,8529;34;0,818;;MyAveragePrice=998,8529 YesterdayPrice=992,00;SellLimit decreased 0.818%;
+V45;0044;NoiseTrader;1044;815388;1836420;-22402;-1,2052;-23788;-1,2788;S;0;0;5;982;978;G;987;0;0;0;0;0;0;0;0; ;0;NA;998,6471;34;0,834;;MyAveragePrice=998,6471 YesterdayPrice=991,00;SellLimit decreased 0.834%;
+V45;0045;NoiseTrader;1039;820283;1837464;-14800;-0,799;-22744;-1,2227;S;0;0;5;978;979;G;998;0;0;0;0;0;0;0;0;S;5;NA;998,00;34;0,039;;MyAveragePrice=998,00 YesterdayPrice=978,00;SellLimit increased 0.039%;
+V45;0046;NoiseTrader;1039;820283;1837464;-14800;-0,799;-22744;-1,2227;S;0;0;5;982;979;G;995;0;0;0;0;0;0;0;0; ;0;NA;997,6471;34;0,314;;MyAveragePrice=997,6471 YesterdayPrice=979,00;SellLimit increased 0.314%;
+V45;0047;NoiseTrader;1039;820283;1837464;-18064;-0,9735;-22744;-1,2227;S;0;0;5;980;979;B;985;0;0;0;0;0;0;0;0; ;0;NA;997,1471;34;0,152;;MyAveragePrice=997,1471 YesterdayPrice=979,00;SellLimit increased 0.152%;
+V45;0048;NoiseTrader;1034;825158;1833308;-26560;-1,4281;-26900;-1,4461;S;0;0;5;970;975;G;997;0;0;0;0;0;0;0;0;S;5;NA;996,5294;34;0,868;;MyAveragePrice=996,5294 YesterdayPrice=979,00;SellLimit decreased 0.868%;
+V45;0049;NoiseTrader;1030;829130;1851920;-4702;-0,2533;-8288;-0,4455;S;0;0;5;975;993;B;1001;0;0;0;0;0;0;0;0;S;4;NA;995,4706;34;0,061;;MyAveragePrice=995,4706 YesterdayPrice=975,00;SellLimit increased 0.061%;
+V45;0050;NoiseTrader;1025;834075;1847800;-5588;-0,3015;-12408;-0,667;S;0;0;5;989;989;G;995;0;0;0;0;0;0;0;0;S;5;NA;995,2647;34;0,318;;MyAveragePrice=995,2647 YesterdayPrice=993,00;SellLimit decreased 0.318%;
+V45;0051;NoiseTrader;1020;839055;1854975;3743;0,2022;-5233;-0,2813;S;0;0;5;992;996;B;989;0;0;0;0;0;0;0;0;S;5;NA;994,9706;34;0,374;;MyAveragePrice=994,9706 YesterdayPrice=989,00;SellLimit increased 0.374%;
+V45;0052;NoiseTrader;1020;839055;1867215;15983;0,8634;7007;0,3767;B;5;992;0;0;1008;G;998;0;0;0;0;0;0;0;0; ;0;NA;994,2059;34;0,317;;MyAveragePrice=994,2059 YesterdayPrice=996,00;BuyLimit decreased 0.317%;
+V45;0053;NoiseTrader;1020;839055;1875375;28451;1,5405;15167;0,8153;B;5;1000;0;0;1016;G;1002;0;0;0;0;0;0;0;0; ;0;NA;993,5882;34;0,747;;MyAveragePrice=993,5882 YesterdayPrice=1008,00;BuyLimit increased 0.747%;
+V45;0054;NoiseTrader;1025;834010;1868235;22388;1,2129;8027;0,4315;B;5;1026;0;0;1009;B;994;0;0;0;0;0;0;0;0;B;5;NA;993,3529;34;1,045;;MyAveragePrice=993,3529 YesterdayPrice=1016,00;BuyLimit increased 1.045%;
+V45;0055;NoiseTrader;1029;830030;1853885;11257;0,6109;-6323;-0,3399;B;5;1006;0;0;995;G;994;0;0;0;0;0;0;0;0;B;4;NA;992,8529;34;0,297;;MyAveragePrice=992,8529 YesterdayPrice=1009,00;BuyLimit decreased 0.297%;
+V45;0056;NoiseTrader;1033;826034;1858001;7897;0,4268;-2207;-0,1186;B;5;1006;0;0;999;G;998;0;0;0;0;0;0;0;0;B;4;NA;992,2353;34;1,114;;MyAveragePrice=992,2353 YesterdayPrice=995,00;BuyLimit increased 1.114%;
+V45;0057;NoiseTrader;1033;826034;1866265;21501;1,1655;6057;0,3256;B;5;1001;0;0;1007;B;999;0;0;0;0;0;0;0;0; ;0;NA;991,8235;34;0,293;;MyAveragePrice=991,8235 YesterdayPrice=999,00;BuyLimit increased 0.293%;
+V45;0058;NoiseTrader;1037;822050;1854902;12270;0,6659;-5306;-0,2852;B;5;1000;0;0;996;G;997;0;0;0;0;0;0;0;0;B;4;NA;991,7059;34;0,608;;MyAveragePrice=991,7059 YesterdayPrice=1007,00;BuyLimit decreased 0.608%;
+V45;0059;NoiseTrader;1037;822050;1864235;17359;0,9399;4027;0,2165;B;5;985;0;0;1005;B;1003;0;0;0;0;0;0;0;0; ;0;NA;991,6176;34;1,006;;MyAveragePrice=991,6176 YesterdayPrice=996,00;BuyLimit increased 1.006%;
+V45;0060;NoiseTrader;1040;819053;1858013;13253;0,7184;-2195;-0,118;B;5;1007;0;0;999;G;1005;0;0;0;0;0;0;0;0;B;3;NA;991,9706;34;0,297;;MyAveragePrice=991,9706 YesterdayPrice=1005,00;BuyLimit decreased 0.297%;
+V45;0061;NoiseTrader;1040;819053;1864253;22655;1,2302;4045;0,2174;B;5;991;0;0;1005;b;1007;0;0;0;0;0;0;0;0; ;0;NA;992,1471;34;0,748;;MyAveragePrice=992,1471 YesterdayPrice=999,00;BuyLimit increased 0.748%;
+V45;0062;NoiseTrader;1044;815053;1859053;8014;0,4329;-1155;-0,0621;B;5;1005;0;0;1000;G;998;0;0;0;0;0;0;0;0;B;4;NA;992,4118;34;0,066;;MyAveragePrice=992,4118 YesterdayPrice=1005,00
+V45;0063;NoiseTrader;1048;811029;1865317;15325;0,8284;5109;0,2746;B;5;1011;0;0;1006;G;995;0;0;0;0;0;0;0;0;B;4;NA;992,4118;34;1,184;;MyAveragePrice=992,4118 YesterdayPrice=1000,00;BuyLimit increased 1.184%;
+V45;0064;NoiseTrader;1048;811029;1868461;32041;1,7448;8253;0,4437;B;5;999;0;0;1009;G;995;0;0;0;0;0;0;0;0; ;0;NA;992,6765;34;0,608;;MyAveragePrice=992,6765 YesterdayPrice=1006,00;BuyLimit increased 0.608%;
+V45;0065;NoiseTrader;1052;806969;1874749;37285;2,0292;14541;0,7817;B;5;1016;0;0;1015;G;1005;0;0;0;0;0;0;0;0;B;4;NA;993,1176;34;0,711;;MyAveragePrice=993,1176 YesterdayPrice=1009,00;BuyLimit increased 0.711%;
+V45;0066;NoiseTrader;1057;801949;1863177;25713;1,3994;2969;0,1596;B;5;1016;0;0;1004;G;994;0;0;0;0;0;0;0;0;B;5;NA;993,7941;34;0,129;;MyAveragePrice=993,7941 YesterdayPrice=1015,00;BuyLimit increased 0.129%;
+V45;0067;NoiseTrader;1061;797925;1865291;27827;1,5144;5083;0,2732;B;5;1015;0;0;1006;G;991;0;0;0;0;0;0;0;0;B;4;NA;994,1471;34;1,16;;MyAveragePrice=994,1471 YesterdayPrice=1004,00;BuyLimit increased 1.16%;
+V45;0068;NoiseTrader;1066;792890;1866352;33044;1,8024;6144;0,3303;B;5;1009;0;0;1007;B;992;0;0;0;0;0;0;0;0;B;5;NA;994,6765;34;0,322;;MyAveragePrice=994,6765 YesterdayPrice=1006,00;BuyLimit increased 0.322%;
+V45;0069;NoiseTrader;1071;787910;1854626;2706;0,1461;-5582;-0,3001;B;5;1002;0;0;996;B;996;0;0;0;0;0;0;0;0;B;5;NA;995,2647;34;0,445;;MyAveragePrice=995,2647 YesterdayPrice=1007,00;BuyLimit decreased 0.445%;
+V45;0070;NoiseTrader;1075;783934;1852484;4684;0,2535;-7724;-0,4152;B;5;994;0;0;994;G;997;0;0;0;0;0;0;0;0;B;4;NA;995,6176;34;0,178;;MyAveragePrice=995,6176 YesterdayPrice=996,00;BuyLimit decreased 0.178%;
+V45;0071;NoiseTrader;1075;783934;1851409;-3566;-0,1922;-8799;-0,473;S;0;0;5;995;993;B;990;0;0;0;0;0;0;0;0; ;0;NA;995,7059;34;0,174;;MyAveragePrice=995,7059 YesterdayPrice=994,00;SellLimit increased 0.174%;
+V45;0072;NoiseTrader;1070;788844;1839584;-27631;-1,4798;-20624;-1,1087;S;0;0;5;981;982;G;993;0;0;0;0;0;0;0;0;S;5;NA;995,9118;34;1,172;;MyAveragePrice=995,9118 YesterdayPrice=993,00;SellLimit decreased 1.172%;
+V45;0073;NoiseTrader;1067;791817;1849214;-26161;-1,395;-10994;-0,591;S;0;0;5;990;991;B;983;0;0;0;0;0;0;0;0;S;3;NA;995,8529;34;0,824;;MyAveragePrice=995,8529 YesterdayPrice=982,00;SellLimit increased 0.824%;
+V45;0074;NoiseTrader;1067;791817;1836410;-31825;-1,7035;-23798;-1,2793;S;0;0;5;985;979;B;978;0;0;0;0;0;0;0;0; ;0;NA;995,9412;34;0,597;;MyAveragePrice=995,9412 YesterdayPrice=991,00;SellLimit decreased 0.597%;
+V45;0075;NoiseTrader;1065;793763;1830008;-23877;-1,2879;-30200;-1,6235;S;0;0;5;967;973;B;980;0;0;0;0;0;0;0;0;S;2;NA;995,7353;34;1,128;;MyAveragePrice=995,7353 YesterdayPrice=979,00;SellLimit decreased 1.128%;
+V45;0076;NoiseTrader;1061;797647;1827878;-30123;-1,6213;-32330;-1,738;S;0;0;5;963;971;B;983;0;0;0;0;0;0;0;0;S;4;NA;995,4412;34;1,008;;MyAveragePrice=995,4412 YesterdayPrice=973,00;SellLimit decreased 1.008%;
+V45;0077;NoiseTrader;1056;802487;1824695;-41570;-2,2274;-35513;-1,9091;S;0;0;5;966;968;G;972;0;0;0;0;0;0;0;0;S;5;NA;994,8235;34;0,435;;MyAveragePrice=994,8235 YesterdayPrice=971,00;SellLimit decreased 0.435%;
+V45;0078;NoiseTrader;1056;802487;1814135;-40767;-2,1978;-46073;-2,4768;S;0;0;5;978;958;G;965;0;0;0;0;0;0;0;0; ;0;NA;994,1471;34;1,115;;MyAveragePrice=994,1471 YesterdayPrice=968,00;SellLimit increased 1.115%;
+V45;0079;NoiseTrader;1056;802487;1804631;-59604;-3,1972;-55577;-2,9877;S;0;0;5;960;949;B;961;0;0;0;0;0;0;0;0; ;0;NA;993,5588;34;0,221;;MyAveragePrice=993,5588 YesterdayPrice=958,00;SellLimit increased 0.221%;
+V45;0080;NoiseTrader;1052;806267;1800407;-57606;-3,1004;-59801;-3,2147;S;0;0;8;939;945;B;958;0;0;0;0;0;0;0;0;S;4;NA;992,6765;34;0,988;;MyAveragePrice=992,6765 YesterdayPrice=949,00;SellLimit decreased 0.988%;
+V45;0081;NoiseTrader;1047;811027;1807771;-56482;-3,0297;-52437;-2,8189;S;0;0;8;935;952;B;959;0;0;0;0;0;0;0;0;S;5;NA;991,6765;34;0,956;;MyAveragePrice=991,6765 YesterdayPrice=945,00;SellLimit decreased 0.956%;
+V45;0082;NoiseTrader;1047;811027;1800442;-58611;-3,1527;-59766;-3,2129;S;0;0;5;946;945;B;957;0;0;0;0;0;0;0;0; ;0;NA;990,8824;34;0,558;;MyAveragePrice=990,8824 YesterdayPrice=952,00;SellLimit decreased 0.558%;
+V45;0083;NoiseTrader;1041;816661;1794160;-71157;-3,8147;-66048;-3,5506;S;0;0;8;936;939;B;964;0;0;0;0;0;0;0;0;S;6;NA;990,00;34;0,853;;MyAveragePrice=990,00 YesterdayPrice=945,00;SellLimit decreased 0.853%;
+V45;0084;NoiseTrader;1034;823451;1826431;-42030;-2,2494;-33777;-1,8158;S;0;0;8;938;970;B;971;0;0;0;0;0;0;0;0;S;7;NA;988,4118;34;0,023;;MyAveragePrice=988,4118 YesterdayPrice=939,00;SellLimit decreased 0.023%;
+V45;0085;NoiseTrader;1034;823451;1824363;-50386;-2,6876;-35845;-1,9269;S;0;0;5;969;968;b;978;0;0;0;0;0;0;0;0; ;0;NA;987,8529;34;0,024;;MyAveragePrice=987,8529 YesterdayPrice=970,00;SellLimit decreased 0.024%;
+V45;0086;NoiseTrader;1034;823451;1824363;-38814;-2,0832;-35845;-1,9269;S;0;0;5;969;968;G;978;0;0;0;0;0;0;0;0; ;0;NA;987,0294;34;1,059;;MyAveragePrice=987,0294 YesterdayPrice=968,00
+V45;0087;NoiseTrader;1034;823451;1822295;-42996;-2,3051;-37913;-2,0381;S;0;0;5;975;966;b;972;0;0;0;0;0;0;0;0; ;0;NA;985,8529;34;0,82;;MyAveragePrice=985,8529 YesterdayPrice=968,00;SellLimit increased 0.82%;
+V45;0088;NoiseTrader;1034;823451;1819193;-47159;-2,5268;-41015;-2,2049;S;0;0;5;965;963;G;965;0;0;0;0;0;0;0;0; ;0;NA;984,3824;34;-0,696;;MyAveragePrice=984,3824 YesterdayPrice=966,00
+V45;0089;NoiseTrader;1034;823451;1817125;-37501;-2,022;-43083;-2,316;S;0;0;5;967;961;G;964;0;0;0;0;0;0;0;0; ;0;NA;983,0294;34;0,466;;MyAveragePrice=983,0294 YesterdayPrice=963,00;SellLimit increased 0.466%;
+V45;0090;NoiseTrader;1030;827315;1822295;-30189;-1,6296;-37913;-2,0381;S;0;0;5;965;966;B;975;0;0;0;0;0;0;0;0;S;4;NA;982,0294;34;0,498;;MyAveragePrice=982,0294 YesterdayPrice=961,00;SellLimit increased 0.498%;
+V45;0091;NoiseTrader;1025;832150;1823325;-28084;-1,5169;-36883;-1,9827;S;0;0;5;958;967;G;970;0;0;0;0;0;0;0;0;S;5;NA;981,0588;34;0,771;;MyAveragePrice=981,0588 YesterdayPrice=966,00;SellLimit decreased 0.771%;
+V45;0092;NoiseTrader;1021;836042;1829475;-10109;-0,5495;-30733;-1,6521;S;0;0;5;968;973;B;965;0;0;0;0;0;0;0;0;S;4;NA;979,8824;34;0,128;;MyAveragePrice=979,8824 YesterdayPrice=967,00;SellLimit increased 0.128%;
+V45;0093;NoiseTrader;1017;839926;1827433;-21781;-1,1779;-32775;-1,7619;S;0;0;5;968;971;B;977;0;0;0;0;0;0;0;0;S;4;NA;979,2059;34;0,51;;MyAveragePrice=979,2059 YesterdayPrice=973,00;SellLimit decreased 0.51%;
+V45;0094;NoiseTrader;1017;839926;1817263;-19147;-1,0426;-42945;-2,3086;S;0;0;5;966;961;B;972;0;0;0;0;0;0;0;0; ;0;NA;978,2059;34;0,503;;MyAveragePrice=978,2059 YesterdayPrice=971,00;SellLimit decreased 0.503%;
+V45;0095;NoiseTrader;1015;841862;1824382;-5626;-0,3074;-35826;-1,9259;S;0;0;5;960;968;B;965;0;0;0;0;0;0;0;0;S;2;NA;977,0882;34;0,06;;MyAveragePrice=977,0882 YesterdayPrice=961,00;SellLimit decreased 0.06%;
+V45;0096;NoiseTrader;1011;845742;1826412;-1466;-0,0802;-33796;-1,8168;S;0;0;5;957;970;B;972;0;0;0;0;0;0;0;0;S;4;NA;976,00;34;1,035;;MyAveragePrice=976,00 YesterdayPrice=968,00;SellLimit decreased 1.035%;
+V45;0097;NoiseTrader;1006;850637;1835511;10816;0,5928;-24697;-1,3276;S;0;0;5;967;979;b;979;0;0;0;0;0;0;0;0;S;5;NA;975,1176;34;0,255;;MyAveragePrice=975,1176 YesterdayPrice=970,00;SellLimit decreased 0.255%;
+V45;0098;NoiseTrader;1010;846725;1834505;20370;1,1228;-25703;-1,3817;B;5;980;0;0;978;G;973;0;0;0;0;0;0;0;0;B;4;NA;974,3235;34;1,069;;MyAveragePrice=974,3235 YesterdayPrice=979,00
+V45;0099;NoiseTrader;1015;841820;1837535;32904;1,8233;-22673;-1,2188;B;5;983;0;0;981;B;970;0;0;0;0;0;0;0;0;B;5;NA;973,4118;34;0,512;;MyAveragePrice=973,4118 YesterdayPrice=978,00;BuyLimit increased 0.512%;
+V45;0100;NoiseTrader;1020;836945;1831445;31038;1,7239;-28763;-1,5462;B;5;982;0;0;975;B;979;0;0;0;0;0;0;0;0;B;5;NA;972,4118;34;0,199;;MyAveragePrice=972,4118 YesterdayPrice=981,00;BuyLimit decreased 0.199%;
+V45;0101;NoiseTrader;1020;836945;1833485;25714;1,4224;-26723;-1,4366;B;5;972;0;0;977;G;986;0;0;0;0;0;0;0;0; ;0;NA;971,5588;34;0,229;;MyAveragePrice=971,5588 YesterdayPrice=975,00;BuyLimit decreased 0.229%;
+V45;0102;NoiseTrader;1020;836945;1838585;38143;2,1185;-21623;-1,1624;B;5;977;0;0;982;G;974;0;0;0;0;0;0;0;0; ;0;NA;970,7059;34;0,026;;MyAveragePrice=970,7059 YesterdayPrice=977,00;BuyLimit increased 0.026%;
+V45;0103;NoiseTrader;1020;836945;1840625;46465;2,5898;-19583;-1,0527;B;5;982;0;0;984;B;982;0;0;0;0;0;0;0;0; ;0;NA;969,9706;34;0,034;;MyAveragePrice=969,9706 YesterdayPrice=982,00;BuyLimit increased 0.034%;
+V45;0104;NoiseTrader;1025;832110;1823285;-3146;-0,1722;-36923;-1,9849;B;5;984;0;0;967;B;973;0;0;0;0;0;0;0;0;B;5;NA;969,6176;34;0,10;;MyAveragePrice=969,6176 YesterdayPrice=984,00;BuyLimit decreased 0.1%;
+V45;0105;NoiseTrader;1025;832110;1814060;-10303;-0,5647;-46148;-2,4808;S;0;0;5;960;958;B;975;0;0;0;0;0;0;0;0; ;0;NA;968,8235;34;0,721;;MyAveragePrice=968,8235 YesterdayPrice=967,00;SellLimit decreased 0.721%;
+V45;0106;NoiseTrader;1021;835974;1822260;-2103;-0,1153;-37948;-2,04;S;0;0;5;954;966;B;969;0;0;0;0;0;0;0;0;S;4;NA;967,7941;34;0,385;;MyAveragePrice=967,7941 YesterdayPrice=958,00;SellLimit decreased 0.385%;
+V45;0107;NoiseTrader;1021;835974;1812050;-10245;-0,5622;-48158;-2,5889;S;0;0;5;961;956;b;978;0;0;0;0;0;0;0;0; ;0;NA;967,3235;34;0,45;;MyAveragePrice=967,3235 YesterdayPrice=966,00;SellLimit decreased 0.45%;
+V45;0108;NoiseTrader;1016;840769;1815113;-4080;-0,2243;-45095;-2,4242;S;0;0;5;956;959;G;970;0;0;0;0;0;0;0;0;S;5;NA;966,2941;34;0,629;;MyAveragePrice=966,2941 YesterdayPrice=956,00
+V45;0109;NoiseTrader;1016;840769;1820193;3068;0,1688;-40015;-2,1511;S;0;0;5;968;964;B;971;0;0;0;0;0;0;0;0; ;0;NA;965,7059;34;1,028;;MyAveragePrice=965,7059 YesterdayPrice=959,00;SellLimit increased 1.028%;
+V45;0110;NoiseTrader;1011;845594;1821209;-1086;-0,0596;-38999;-2,0965;S;0;0;5;955;965;G;976;0;0;0;0;0;0;0;0;S;5;NA;965,4412;34;0,836;;MyAveragePrice=965,4412 YesterdayPrice=964,00;SellLimit decreased 0.836%;
+V45;0111;NoiseTrader;1011;845594;1816154;-7171;-0,3933;-44054;-2,3682;S;0;0;5;965;960;G;966;0;0;0;0;0;0;0;0; ;0;NA;965,2647;34;0,018;;MyAveragePrice=965,2647 YesterdayPrice=965,00;SellLimit increased 0.018%;
+V45;0112;NoiseTrader;1008;848495;1823231;-6244;-0,3413;-36977;-1,9878;S;0;0;5;961;967;B;960;0;0;0;0;0;0;0;0;S;3;NA;965,0294;34;0,164;;MyAveragePrice=965,0294 YesterdayPrice=960,00;SellLimit increased 0.164%;
+V45;0113;NoiseTrader;1013;843675;1820207;-7226;-0,3954;-40001;-2,1504;B;5;969;0;0;964;B;971;0;0;0;0;0;0;0;0;B;5;NA;965,2941;34;0,225;;MyAveragePrice=965,2941 YesterdayPrice=967,00;BuyLimit decreased 0.225%;
+V45;0114;NoiseTrader;1012;844642;1823246;5983;0,3292;-36962;-1,987;S;0;0;5;962;967;B;971;0;0;0;0;0;0;0;0;S;1;NA;965,7353;34;0,125;;MyAveragePrice=965,7353 YesterdayPrice=964,00;SellLimit decreased 0.125%;
+V45;0115;NoiseTrader;1012;844642;1821222;-3160;-0,1732;-38986;-2,0958;B;5;957;0;0;965;B;975;0;0;0;0;0;0;0;0; ;0;NA;966,3824;34;0,947;;MyAveragePrice=966,3824 YesterdayPrice=967,00;BuyLimit decreased 0.947%;
+V45;0116;NoiseTrader;1007;849492;1826282;-130;-0,0071;-33926;-1,8238;S;0;0;5;955;970;G;974;0;0;0;0;0;0;0;0;S;5;NA;966,7647;34;0,937;;MyAveragePrice=966,7647 YesterdayPrice=965,00;SellLimit decreased 0.937%;
+V45;0117;NoiseTrader;1007;849492;1831317;-4194;-0,2285;-28891;-1,5531;B;5;968;0;0;975;B;978;0;0;0;0;0;0;0;0; ;0;NA;967,50;34;0,159;;MyAveragePrice=967,50 YesterdayPrice=970,00;BuyLimit increased 0.159%;
+V45;0118;NoiseTrader;1012;844667;1821247;-13258;-0,7227;-38961;-2,0944;B;5;968;0;0;965;G;975;0;0;0;0;0;0;0;0;B;5;NA;968,5588;34;0,677;;MyAveragePrice=968,5588 YesterdayPrice=975,00;BuyLimit decreased 0.677%;
+V45;0119;NoiseTrader;1011;845643;1832379;-5156;-0,2806;-27829;-1,496;S;0;0;5;970;976;B;982;0;0;0;0;0;0;0;0;S;1;NA;968,4118;34;0,601;;MyAveragePrice=968,4118 YesterdayPrice=965,00;SellLimit increased 0.601%;
+V45;0120;NoiseTrader;1016;840803;1824291;-7154;-0,3906;-35917;-1,9308;B;5;968;0;0;968;B;974;0;0;0;0;0;0;0;0;B;5;NA;968,6471;34;0,718;;MyAveragePrice=968,6471 YesterdayPrice=976,00;BuyLimit decreased 0.718%;
+V45;0121;NoiseTrader;1013;843719;1828355;-5130;-0,2798;-31853;-1,7123;S;0;0;5;956;972;B;984;0;0;0;0;0;0;0;0;S;3;NA;968,6471;34;1,152;;MyAveragePrice=968,6471 YesterdayPrice=968,00;SellLimit decreased 1.152%;
+V45;0122;NoiseTrader;1013;843719;1841524;2939;0,1599;-18684;-1,0044;B;5;968;0;0;985;B;988;0;0;0;0;0;0;0;0; ;0;NA;968,8235;34;0,372;;MyAveragePrice=968,8235 YesterdayPrice=972,00;BuyLimit decreased 0.372%;
+V45;0123;NoiseTrader;1013;843719;1854693;14068;0,7643;-5515;-0,2965;B;5;975;0;0;998;B;996;0;0;0;0;0;0;0;0; ;0;NA;969,4706;34;0,967;;MyAveragePrice=969,4706 YesterdayPrice=985,00;BuyLimit decreased 0.967%;
+V45;0124;NoiseTrader;1013;843719;1861784;38499;2,1115;1576;0,0847;B;5;993;0;0;1005;B;1003;0;0;0;0;0;0;0;0; ;0;NA;970,5588;34;0,465;;MyAveragePrice=970,5588 YesterdayPrice=998,00;BuyLimit decreased 0.465%;
+V45;0125;NoiseTrader;1018;838719;1856719;42659;2,3516;-3489;-0,1876;B;5;1002;0;0;1000;B;994;0;0;0;0;0;0;0;0;B;5;NA;971,7059;34;0,297;;MyAveragePrice=971,7059 YesterdayPrice=1005,00;BuyLimit decreased 0.297%;
+V45;0126;NoiseTrader;1022;834759;1846539;24279;1,3324;-13669;-0,7348;B;5;993;0;0;990;G;987;0;0;0;0;0;0;0;0;B;4;NA;972,6765;34;0,651;;MyAveragePrice=972,6765 YesterdayPrice=1000,00;BuyLimit decreased 0.651%;
+V45;0127;NoiseTrader;1026;830799;1846539;34489;1,9033;-13669;-0,7348;B;5;996;0;0;990;G;981;0;0;0;0;0;0;0;0;B;4;NA;973,1765;34;0,707;;MyAveragePrice=973,1765 YesterdayPrice=990,00;BuyLimit increased 0.707%;
+V45;0128;NoiseTrader;1031;825894;1837305;22192;1,2226;-22903;-1,2312;B;5;990;0;0;981;B;980;0;0;0;0;0;0;0;0;B;5;NA;973,7353;34;0,009;;MyAveragePrice=973,7353 YesterdayPrice=990,00;BuyLimit increased 0.009%;
+V45;0129;NoiseTrader;1031;825894;1840398;20205;1,11;-19810;-1,0649;B;5;978;0;0;984;B;985;0;0;0;0;0;0;0;0; ;0;NA;974,3235;34;0,232;;MyAveragePrice=974,3235 YesterdayPrice=981,00;BuyLimit decreased 0.232%;
+V45;0130;NoiseTrader;1031;825894;1843491;22282;1,2235;-16717;-0,8987;B;5;980;0;0;987;G;984;0;0;0;0;0;0;0;0; ;0;NA;974,7941;34;0,383;;MyAveragePrice=974,7941 YesterdayPrice=984,00;BuyLimit decreased 0.383%;
+V45;0131;NoiseTrader;1036;820979;1839367;23213;1,2781;-20841;-1,1204;B;5;983;0;0;983;B;987;0;0;0;0;0;0;0;0;B;5;NA;975,2941;34;0,375;;MyAveragePrice=975,2941 YesterdayPrice=987,00;BuyLimit increased 0.375%;
+V45;0132;NoiseTrader;1036;820979;1840403;17172;0,9418;-19805;-1,0647;B;5;978;0;0;984;B;994;0;0;0;0;0;0;0;0; ;0;NA;975,4118;34;0,452;;MyAveragePrice=975,4118 YesterdayPrice=983,00;BuyLimit decreased 0.452%;
+V45;0133;NoiseTrader;1036;820979;1856979;36772;2,0202;-3229;-0,1736;B;5;972;0;0;1000;B;997;0;0;0;0;0;0;0;0; ;0;NA;975,5882;34;1,132;;MyAveragePrice=975,5882 YesterdayPrice=984,00;BuyLimit decreased 1.132%;
+V45;0134;NoiseTrader;1041;815984;1855943;32697;1,7933;-4265;-0,2293;B;5;1004;0;0;999;G;989;0;0;0;0;0;0;0;0;B;5;NA;976,1471;34;0,479;;MyAveragePrice=976,1471 YesterdayPrice=1000,00;BuyLimit decreased 0.479%;
+V45;0135;NoiseTrader;1041;815984;1859066;37844;2,0779;-1142;-0,0614;B;5;999;0;0;1002;G;992;0;0;0;0;0;0;0;0; ;0;NA;976,8529;34;0,035;;MyAveragePrice=976,8529 YesterdayPrice=999,00;BuyLimit increased 0.035%;
+V45;0136;NoiseTrader;1041;815984;1864271;37989;2,0801;4063;0,2184;B;5;1002;0;0;1007;G;999;0;0;0;0;0;0;0;0; ;0;NA;977,5882;34;0,09;;MyAveragePrice=977,5882 YesterdayPrice=1002,00;BuyLimit increased 0.09%;
+V45;0137;NoiseTrader;1046;810904;1873640;42323;2,3111;13432;0,7221;B;5;1016;0;0;1016;b;1004;0;0;0;0;0;0;0;0;B;5;NA;978,3235;34;0,92;;MyAveragePrice=978,3235 YesterdayPrice=1007,00;BuyLimit increased 0.92%;
+V45;0138;NoiseTrader;1051;805894;1858996;37749;2,0727;-1212;-0,0652;B;5;1016;0;0;1002;B;1001;0;0;0;0;0;0;0;0;B;5;NA;979,2647;34;0,128;;MyAveragePrice=979,2647 YesterdayPrice=1016,00
+V45;0139;NoiseTrader;1051;805894;1877914;45535;2,485;17706;0,9518;B;5;999;0;0;1020;B;1000;0;0;0;0;0;0;0;0; ;0;NA;980,2941;34;0,234;;MyAveragePrice=980,2941 YesterdayPrice=1002,00;BuyLimit decreased 0.234%;
+V45;0140;NoiseTrader;1056;800849;1866353;42062;2,3057;6145;0,3303;B;5;1015;0;0;1009;B;991;0;0;0;0;0;0;0;0;B;5;NA;982,1176;34;0,452;;MyAveragePrice=982,1176 YesterdayPrice=1020,00;BuyLimit decreased 0.452%;
+V45;0141;NoiseTrader;1061;795834;1860017;31662;1,7317;-191;-0,0103;B;5;1018;0;0;1003;B;996;0;0;0;0;0;0;0;0;B;5;NA;983,3824;34;0,974;;MyAveragePrice=983,3824 YesterdayPrice=1009,00;BuyLimit decreased 0.974%;
+V45;0142;NoiseTrader;1064;792831;1857895;16371;0,889;-2313;-0,1243;B;5;1013;0;0;1001;G;1003;0;0;0;0;0;0;0;0;B;3;NA;984,7647;34;1,007;;MyAveragePrice=984,7647 YesterdayPrice=1003,00;BuyLimit decreased 1.007%;
+V45;0143;NoiseTrader;1064;792831;1853639;-1054;-0,0568;-6569;-0,3531;B;5;996;0;0;997;b;991;0;0;0;0;0;0;0;0; ;0;NA;986,00;34;0,447;;MyAveragePrice=986,00 YesterdayPrice=1001,00;BuyLimit increased 0.447%;
+V45;0144;NoiseTrader;1068;788847;1852575;-9209;-0,4946;-7633;-0,4103;B;5;996;0;0;996;G;991;0;0;0;0;0;0;0;0;B;4;NA;986,9706;34;-0,66;;MyAveragePrice=986,9706 YesterdayPrice=997,00
+V45;0145;NoiseTrader;1072;784847;1856847;128;0,0069;-3361;-0,1807;B;5;1004;0;0;1000;G;989;0;0;0;0;0;0;0;0;B;4;NA;987,8824;34;0,866;;MyAveragePrice=987,8824 YesterdayPrice=996,00;BuyLimit increased 0.866%;
+V45;0146;NoiseTrader;1077;779892;1847199;660;0,0357;-13009;-0,6993;B;5;1011;0;0;991;B;982;0;0;0;0;0;0;0;0;B;5;NA;989,0588;34;1,109;;MyAveragePrice=989,0588 YesterdayPrice=1000,00;BuyLimit increased 1.109%;
+V45;0147;NoiseTrader;1082;774992;1835352;-11187;-0,6058;-24856;-1,3362;B;5;989;0;0;980;B;977;0;0;0;0;0;0;0;0;B;5;NA;989,7647;34;0,152;;MyAveragePrice=989,7647 YesterdayPrice=991,00;BuyLimit decreased 0.152%;
+V45;0148;NoiseTrader;1079;777923;1832106;-5199;-0,283;-28102;-1,5107;S;0;0;5;974;977;B;974;0;0;0;0;0;0;0;0;S;3;NA;990,2353;34;0,572;;MyAveragePrice=990,2353 YesterdayPrice=980,00;SellLimit decreased 0.572%;
+V45;0149;NoiseTrader;1076;780851;1831027;-9371;-0,5092;-29181;-1,5687;S;0;0;5;968;976;B;982;0;0;0;0;0;0;0;0;S;3;NA;990,5294;34;0,845;;MyAveragePrice=990,5294 YesterdayPrice=977,00;SellLimit decreased 0.845%;
+V45;0150;NoiseTrader;1076;780851;1823495;-19996;-1,0847;-36713;-1,9736;S;0;0;5;970;969;G;975;0;0;0;0;0;0;0;0; ;0;NA;990,8529;34;0,557;;MyAveragePrice=990,8529 YesterdayPrice=976,00;SellLimit decreased 0.557%;
+V45;0151;NoiseTrader;1076;780851;1824571;-14796;-0,8044;-35637;-1,9158;S;0;0;5;977;970;G;984;0;0;0;0;0;0;0;0; ;0;NA;990,8235;34;0,887;;MyAveragePrice=990,8235 YesterdayPrice=969,00;SellLimit increased 0.887%;
+V45;0152;NoiseTrader;1073;783773;1828875;-11528;-0,6264;-31333;-1,6844;S;0;0;5;973;974;B;985;0;0;0;0;0;0;0;0;S;3;NA;990,6765;34;0,368;;MyAveragePrice=990,6765 YesterdayPrice=970,00;SellLimit increased 0.368%;
+V45;0153;NoiseTrader;1068;788608;1821364;-35615;-1,9179;-38844;-2,0882;S;0;0;5;967;967;B;978;0;0;0;0;0;0;0;0;S;5;NA;990,9412;34;0,617;;MyAveragePrice=990,9412 YesterdayPrice=974,00;SellLimit decreased 0.617%;
+V45;0154;NoiseTrader;1068;788608;1812820;-43123;-2,3235;-47388;-2,5475;S;0;0;5;962;959;B;985;0;0;0;0;0;0;0;0; ;0;NA;990,6765;34;0,462;;MyAveragePrice=990,6765 YesterdayPrice=967,00;SellLimit decreased 0.462%;
+V45;0155;NoiseTrader;1063;793423;1817092;-41974;-2,2578;-43116;-2,3178;S;0;0;5;947;963;G;975;0;0;0;0;0;0;0;0;S;5;NA;990,4118;34;1,152;;MyAveragePrice=990,4118 YesterdayPrice=959,00;SellLimit decreased 1.152%;
+V45;0156;NoiseTrader;1063;793423;1822407;-41864;-2,2456;-37801;-2,0321;S;0;0;5;969;968;B;981;0;0;0;0;0;0;0;0; ;0;NA;990,1471;34;0,678;;MyAveragePrice=990,1471 YesterdayPrice=963,00;SellLimit increased 0.678%;
+V45;0157;NoiseTrader;1059;797303;1824533;-49107;-2,6209;-35675;-1,9178;S;0;0;5;957;970;B;988;0;0;0;0;0;0;0;0;S;4;NA;989,6471;34;1,071;;MyAveragePrice=989,6471 YesterdayPrice=968,00;SellLimit decreased 1.071%;
+V45;0158;NoiseTrader;1054;802203;1835123;-23873;-1,2842;-25085;-1,3485;S;0;0;5;960;980;B;993;0;0;0;0;0;0;0;0;S;5;NA;988,8235;34;0,968;;MyAveragePrice=988,8235 YesterdayPrice=970,00;SellLimit decreased 0.968%;
+V45;0159;NoiseTrader;1049;807088;1831961;-45953;-2,447;-28247;-1,5185;S;0;0;5;976;977;G;988;0;0;0;0;0;0;0;0;S;5;NA;988,0882;34;0,353;;MyAveragePrice=988,0882 YesterdayPrice=980,00;SellLimit decreased 0.353%;
+V45;0160;NoiseTrader;1045;811032;1841402;-24951;-1,3369;-18806;-1,011;S;0;0;5;981;986;B;984;0;0;0;0;0;0;0;0;S;4;NA;987,4118;34;0,456;;MyAveragePrice=987,4118 YesterdayPrice=977,00;SellLimit increased 0.456%;
+V45;0161;NoiseTrader;1045;811032;1834087;-25930;-1,3941;-26121;-1,4042;S;0;0;5;983;979;G;979;0;0;0;0;0;0;0;0; ;0;NA;987,2941;34;0,292;;MyAveragePrice=987,2941 YesterdayPrice=986,00;SellLimit decreased 0.292%;
+V45;0162;NoiseTrader;1042;813996;1843492;-14403;-0,7752;-16716;-0,8986;S;0;0;5;982;988;B;980;0;0;0;0;0;0;0;0;S;3;NA;986,9706;34;0,362;;MyAveragePrice=986,9706 YesterdayPrice=979,00;SellLimit increased 0.362%;
+V45;0163;NoiseTrader;1045;811041;1840366;-13273;-0,7161;-19842;-1,0667;B;5;998;0;0;985;G;985;0;0;0;0;0;0;0;0;B;3;NA;987,1765;34;1,029;;MyAveragePrice=987,1765 YesterdayPrice=988,00;BuyLimit decreased 1.029%;
+V45;0164;NoiseTrader;1040;815991;1845591;-6984;-0,377;-14617;-0,7858;S;0;0;5;989;990;B;990;0;0;0;0;0;0;0;0;S;5;NA;987,2059;34;0,447;;MyAveragePrice=987,2059 YesterdayPrice=985,00;SellLimit increased 0.447%;
+V45;0165;NoiseTrader;1043;813036;1840391;-16456;-0,8862;-19817;-1,0653;B;5;985;0;0;985;G;992;0;0;0;0;0;0;0;0;B;3;NA;987,2941;34;0,476;;MyAveragePrice=987,2941 YesterdayPrice=990,00;BuyLimit decreased 0.476%;
+V45;0166;NoiseTrader;1043;813036;1840391;-6808;-0,3686;-19817;-1,0653;S;0;0;5;992;985;B;981;0;0;0;0;0;0;0;0; ;0;NA;987,3529;34;0,806;;MyAveragePrice=987,3529 YesterdayPrice=985,00;SellLimit increased 0.806%;
+V45;0167;NoiseTrader;1039;816940;1831004;-4348;-0,2369;-29204;-1,5699;S;0;0;5;975;976;B;983;0;0;0;0;0;0;0;0;S;4;NA;987,3824;34;0,92;;MyAveragePrice=987,3824 YesterdayPrice=985,00;SellLimit decreased 0.92%;
+V45;0168;NoiseTrader;1036;819865;1829965;-2141;-0,1169;-30243;-1,6258;S;0;0;5;969;975;B;994;0;0;0;0;0;0;0;0;S;3;NA;986,6765;34;0,713;;MyAveragePrice=986,6765 YesterdayPrice=976,00;SellLimit decreased 0.713%;
+V45;0169;NoiseTrader;1031;824725;1826857;-4170;-0,2277;-33351;-1,7929;S;0;0;5;964;972;G;985;0;0;0;0;0;0;0;0;S;5;NA;985,9706;34;1,055;;MyAveragePrice=985,9706 YesterdayPrice=975,00;SellLimit decreased 1.055%;
+V45;0170;NoiseTrader;1028;827668;1836136;12641;0,6932;-24072;-1,294;S;0;0;5;974;981;B;986;0;0;0;0;0;0;0;0;S;3;NA;985,0882;34;0,232;;MyAveragePrice=985,0882 YesterdayPrice=972,00;SellLimit increased 0.232%;
+V45;0171;NoiseTrader;1028;827668;1828940;4369;0,2395;-31268;-1,6809;S;0;0;5;975;974;G;986;0;0;0;0;0;0;0;0; ;0;NA;984,3235;34;0,547;;MyAveragePrice=984,3235 YesterdayPrice=981,00;SellLimit decreased 0.547%;
+V45;0172;NoiseTrader;1023;832558;1833052;4177;0,2284;-27156;-1,4598;S;0;0;5;977;978;G;990;0;0;0;0;0;0;0;0;S;5;NA;983,0882;34;0,36;;MyAveragePrice=983,0882 YesterdayPrice=974,00;SellLimit increased 0.36%;
+V45;0173;NoiseTrader;1021;834532;1842259;20895;1,1472;-17949;-0,9649;S;0;0;5;983;987;B;993;0;0;0;0;0;0;0;0;S;2;NA;982,3824;34;0,574;;MyAveragePrice=982,3824 YesterdayPrice=978,00;SellLimit increased 0.574%;
+V45;0174;NoiseTrader;1021;834532;1850427;37607;2,0745;-9781;-0,5258;B;5;979;0;0;995;B;991;0;0;0;0;0;0;0;0; ;0;NA;981,4118;34;0,806;;MyAveragePrice=981,4118 YesterdayPrice=987,00;BuyLimit decreased 0.806%;
+V45;0175;NoiseTrader;1025;830544;1852469;35377;1,9469;-7739;-0,416;B;5;999;0;0;997;G;991;0;0;0;0;0;0;0;0;B;4;NA;981,00;34;0,441;;MyAveragePrice=981,00 YesterdayPrice=995,00;BuyLimit decreased 0.441%;
+V45;0176;NoiseTrader;1030;825559;1852469;30062;1,6496;-7739;-0,416;B;5;1007;0;0;997;B;989;0;0;0;0;0;0;0;0;B;5;NA;980,8235;34;1,096;;MyAveragePrice=980,8235 YesterdayPrice=997,00;BuyLimit increased 1.096%;
+V45;0177;NoiseTrader;1030;825559;1858649;34116;1,8698;-1559;-0,0838;B;5;992;0;0;1003;G;997;0;0;0;0;0;0;0;0; ;0;NA;980,7059;34;0,442;;MyAveragePrice=980,7059 YesterdayPrice=997,00;BuyLimit decreased 0.442%;
+V45;0178;NoiseTrader;1030;825559;1861739;26616;1,4504;1531;0,0823;B;5;1003;0;0;1006;b;1001;0;0;0;0;0;0;0;0; ;0;NA;980,8824;34;0,054;;MyAveragePrice=980,8824 YesterdayPrice=1003,00;BuyLimit increased 0.054%;
+V45;0179;NoiseTrader;1030;825559;1862769;30808;1,6817;2561;0,1377;B;5;1006;0;0;1007;B;1002;0;0;0;0;0;0;0;0; ;0;NA;981,1765;34;0,747;;MyAveragePrice=981,1765 YesterdayPrice=1006,00
+V45;0180;NoiseTrader;1030;825559;1861739;20337;1,1044;1531;0,0823;B;5;1000;0;0;1006;B;1005;0;0;0;0;0;0;0;0; ;0;NA;981,3824;34;0,638;;MyAveragePrice=981,3824 YesterdayPrice=1007,00;BuyLimit decreased 0.638%;
+V45;0181;NoiseTrader;1030;825559;1883369;49282;2,687;23161;1,2451;B;5;1000;0;0;1027;B;1006;0;0;0;0;0;0;0;0; ;0;NA;981,8235;34;0,50;;MyAveragePrice=981,8235 YesterdayPrice=1006,00;BuyLimit decreased 0.5%;
+V45;0182;NoiseTrader;1038;817431;1872039;28547;1,5485;11831;0,636;B;8;1025;0;0;1016;B;997;0;0;0;0;0;0;0;0;B;8;NA;983,2059;34;0,149;;MyAveragePrice=983,2059 YesterdayPrice=1027,00;BuyLimit decreased 0.149%;
+V45;0183;NoiseTrader;1038;817431;1876191;35825;1,9466;15983;0,8592;B;5;1011;0;0;1020;B;995;0;0;0;0;0;0;0;0; ;0;NA;984,3529;34;0,396;;MyAveragePrice=984,3529 YesterdayPrice=1016,00;BuyLimit decreased 0.396%;
+V45;0184;NoiseTrader;1043;812371;1867887;22296;1,2081;7679;0,4128;B;5;1015;0;0;1012;B;1004;0;0;0;0;0;0;0;0;B;5;NA;985,6471;34;0,405;;MyAveragePrice=985,6471 YesterdayPrice=1020,00;BuyLimit decreased 0.405%;
+V45;0185;NoiseTrader;1043;812371;1872059;31668;1,7207;11851;0,6371;B;5;1000;0;0;1016;G;998;0;0;0;0;0;0;0;0; ;0;NA;986,9118;34;1,096;;MyAveragePrice=986,9118 YesterdayPrice=1012,00;BuyLimit decreased 1.096%;
+V45;0186;NoiseTrader;1048;807326;1864758;24367;1,324;4550;0,2446;B;5;1022;0;0;1009;G;988;0;0;0;0;0;0;0;0;B;5;NA;988,2647;34;0,628;;MyAveragePrice=988,2647 YesterdayPrice=1016,00;BuyLimit increased 0.628%;
+V45;0187;NoiseTrader;1053;802341;1852182;21178;1,1566;-8026;-0,4315;B;5;1015;0;0;997;B;982;0;0;0;0;0;0;0;0;B;5;NA;989,2941;34;0,614;;MyAveragePrice=989,2941 YesterdayPrice=1009,00;BuyLimit increased 0.614%;
+V45;0188;NoiseTrader;1057;798385;1843758;13793;0,7537;-16450;-0,8843;B;5;991;0;0;989;G;979;0;0;0;0;0;0;0;0;B;4;NA;990,1765;34;0,517;;MyAveragePrice=990,1765 YesterdayPrice=997,00;BuyLimit decreased 0.517%;
+V45;0189;NoiseTrader;1057;798385;1843758;16901;0,9251;-16450;-0,8843;S;0;0;5;996;989;B;983;0;0;0;0;0;0;0;0; ;0;NA;991,0588;34;0,748;;MyAveragePrice=991,0588 YesterdayPrice=989,00;SellLimit increased 0.748%;
+V45;0190;NoiseTrader;1057;798385;1839530;3394;0,1848;-20678;-1,1116;S;0;0;5;988;985;B;984;0;0;0;0;0;0;0;0; ;0;NA;991,8235;34;0,066;;MyAveragePrice=991,8235 YesterdayPrice=989,00;SellLimit decreased 0.066%;
+V45;0191;NoiseTrader;1057;798385;1833188;4248;0,2323;-27020;-1,4525;S;0;0;5;983;979;B;974;0;0;0;0;0;0;0;0; ;0;NA;992,3235;34;0,12;;MyAveragePrice=992,3235 YesterdayPrice=985,00;SellLimit decreased 0.12%;
+V45;0192;NoiseTrader;1055;800341;1832131;-921;-0,0502;-28077;-1,5093;S;0;0;5;970;978;B;986;0;0;0;0;0;0;0;0;S;2;NA;992,5882;34;0,837;;MyAveragePrice=992,5882 YesterdayPrice=979,00;SellLimit decreased 0.837%;
+V45;0193;NoiseTrader;1051;804265;1835296;-6963;-0,378;-24912;-1,3392;S;0;0;5;975;981;B;977;0;0;0;0;0;0;0;0;S;4;NA;992,5294;34;0,301;;MyAveragePrice=992,5294 YesterdayPrice=978,00;SellLimit decreased 0.301%;
+V45;0194;NoiseTrader;1051;804265;1832143;-18284;-0,9881;-28065;-1,5087;S;0;0;5;979;978;B;988;0;0;0;0;0;0;0;0; ;0;NA;992,6471;34;0,203;;MyAveragePrice=992,6471 YesterdayPrice=981,00;SellLimit decreased 0.203%;
+V45;0195;NoiseTrader;1047;808173;1831092;-21377;-1,154;-29116;-1,5652;S;0;0;5;974;977;B;992;0;0;0;0;0;0;0;0;S;4;NA;992,4118;34;0,348;;MyAveragePrice=992,4118 YesterdayPrice=978,00;SellLimit decreased 0.348%;
+V45;0196;NoiseTrader;1042;813023;1823763;-28706;-1,5496;-36445;-1,9592;S;0;0;5;966;970;G;981;0;0;0;0;0;0;0;0;S;5;NA;992,3529;34;1,04;;MyAveragePrice=992,3529 YesterdayPrice=977,00;SellLimit decreased 1.04%;
+V45;0197;NoiseTrader;1037;817913;1832099;-26550;-1,4285;-28109;-1,5111;S;0;0;5;973;978;b;991;0;0;0;0;0;0;0;0;S;5;NA;991,8235;34;0,327;;MyAveragePrice=991,8235 YesterdayPrice=970,00;SellLimit increased 0.327%;
+V45;0198;NoiseTrader;1033;821833;1834173;-27566;-1,4807;-26035;-1,3996;S;0;0;5;978;980;B;982;0;0;0;0;0;0;0;0;S;4;NA;991,6176;34;0,629;;MyAveragePrice=991,6176 YesterdayPrice=978,00
+V45;0199;NoiseTrader;1029;825709;1822810;-39959;-2,1451;-37398;-2,0104;S;0;0;5;968;969;B;983;0;0;0;0;0;0;0;0;S;4;NA;991,3235;34;1,175;;MyAveragePrice=991,3235 YesterdayPrice=980,00;SellLimit decreased 1.175%;
+V45;0200;NoiseTrader;1024;830574;1826926;-34813;-1,8699;-33282;-1,7892;S;0;0;5;964;973;G;990;0;0;0;0;0;0;0;0;S;5;NA;990,8529;34;0,457;;MyAveragePrice=990,8529 YesterdayPrice=969,00;SellLimit decreased 0.457%;
+V45;0201;NoiseTrader;1024;830574;1828974;-54395;-2,8882;-31234;-1,6791;S;0;0;5;978;975;G;979;0;0;0;0;0;0;0;0; ;0;NA;990,50;34;0,569;;MyAveragePrice=990,50 YesterdayPrice=973,00;SellLimit increased 0.569%;
+V45;0202;NoiseTrader;1024;830574;1829998;-42041;-2,2457;-30210;-1,624;S;0;0;5;978;976;B;981;0;0;0;0;0;0;0;0; ;0;NA;990,4706;34;0,36;;MyAveragePrice=990,4706 YesterdayPrice=975,00;SellLimit increased 0.36%;
+V45;0203;NoiseTrader;1019;835439;1826926;-49265;-2,6258;-33282;-1,7892;S;0;0;5;967;973;G;985;0;0;0;0;0;0;0;0;S;5;NA;990,50;34;0,892;;MyAveragePrice=990,50 YesterdayPrice=976,00;SellLimit decreased 0.892%;
+V45;0204;NoiseTrader;1017;837403;1836097;-31790;-1,7019;-24111;-1,2961;S;0;0;5;979;982;B;990;0;0;0;0;0;0;0;0;S;2;NA;990,5294;34;0,689;;MyAveragePrice=990,5294 YesterdayPrice=973,00;SellLimit increased 0.689%;
+V45;0205;NoiseTrader;1017;837403;1825927;-46132;-2,4642;-34281;-1,8429;S;0;0;5;981;972;G;978;0;0;0;0;0;0;0;0; ;0;NA;990,5588;34;0,039;;MyAveragePrice=990,5588 YesterdayPrice=982,00;SellLimit decreased 0.039%;
+V45;0206;NoiseTrader;1017;837403;1825927;-38831;-2,0824;-34281;-1,8429;S;0;0;5;973;972;G;979;0;0;0;0;0;0;0;0; ;0;NA;990,50;34;0,148;;MyAveragePrice=990,50 YesterdayPrice=972,00;SellLimit increased 0.148%;
+V45;0207;NoiseTrader;1017;837403;1823893;-28289;-1,5273;-36315;-1,9522;S;0;0;5;974;970;G;977;0;0;0;0;0;0;0;0; ;0;NA;990,3235;34;0,235;;MyAveragePrice=990,3235 YesterdayPrice=972,00;SellLimit increased 0.235%;
+V45;0208;NoiseTrader;1017;837403;1833046;-10712;-0,581;-27162;-1,4602;S;0;0;5;976;979;B;974;0;0;0;0;0;0;0;0; ;0;NA;989,8235;34;0,643;;MyAveragePrice=989,8235 YesterdayPrice=970,00;SellLimit increased 0.643%;
+V45;0209;NoiseTrader;1017;837403;1822876;-20882;-1,1326;-37332;-2,0069;S;0;0;5;976;969;G;973;0;0;0;0;0;0;0;0; ;0;NA;989,3529;34;0,214;;MyAveragePrice=989,3529 YesterdayPrice=979,00;SellLimit decreased 0.214%;
+V45;0210;NoiseTrader;1017;837403;1821859;-17671;-0,9606;-38349;-2,0615;S;0;0;5;975;968;G;967;0;0;0;0;0;0;0;0; ;0;NA;988,5294;34;0,667;;MyAveragePrice=988,5294 YesterdayPrice=969,00;SellLimit increased 0.667%;
+V45;0211;NoiseTrader;1012;842263;1825927;-7261;-0,3961;-34281;-1,8429;S;0;0;5;969;972;G;973;0;0;0;0;0;0;0;0;S;5;NA;987,6765;34;0,20;;MyAveragePrice=987,6765 YesterdayPrice=968,00;SellLimit increased 0.2%;
+V45;0212;NoiseTrader;1012;842263;1828963;-3168;-0,1729;-31245;-1,6797;S;0;0;5;977;975;G;982;0;0;0;0;0;0;0;0; ;0;NA;986,7647;34;0,55;;MyAveragePrice=986,7647 YesterdayPrice=972,00;SellLimit increased 0.55%;
+V45;0213;NoiseTrader;1008;846191;1836047;751;0,0409;-24161;-1,2988;S;0;0;5;978;982;B;979;0;0;0;0;0;0;0;0;S;4;NA;985,8529;34;0,396;;MyAveragePrice=985,8529 YesterdayPrice=975,00;SellLimit increased 0.396%;
+V45;0214;NoiseTrader;1003;851136;1843103;10960;0,5982;-17105;-0,9195;S;0;0;5;981;989;b;987;0;0;0;0;0;0;0;0;S;5;NA;985,1176;34;0,045;;MyAveragePrice=985,1176 YesterdayPrice=982,00;SellLimit decreased 0.045%;
+V45;0215;NoiseTrader;1008;846216;1838088;6996;0,3821;-22120;-1,1891;B;5;990;0;0;984;b;980;0;0;0;0;0;0;0;0;B;5;NA;984,6176;34;1,081;;MyAveragePrice=984,6176 YesterdayPrice=989,00
+V45;0216;NoiseTrader;1008;846216;1855224;31461;1,7251;-4984;-0,2679;B;5;984;0;0;1001;B;991;0;0;0;0;0;0;0;0; ;0;NA;983,3529;34;0,981;;MyAveragePrice=983,3529 YesterdayPrice=984,00
+V45;0217;NoiseTrader;1013;841266;1844136;12037;0,657;-16072;-0,864;B;5;999;0;0;990;B;986;0;0;0;0;0;0;0;0;B;5;NA;982,9118;34;0,139;;MyAveragePrice=982,9118 YesterdayPrice=1001,00;BuyLimit decreased 0.139%;
+V45;0218;NoiseTrader;1013;841266;1852240;18067;0,985;-7968;-0,4283;B;5;988;0;0;998;B;995;0;0;0;0;0;0;0;0; ;0;NA;982,0294;34;0,102;;MyAveragePrice=982,0294 YesterdayPrice=990,00;BuyLimit decreased 0.102%;
+V45;0219;NoiseTrader;1017;837282;1850214;27404;1,5034;-9994;-0,5373;B;5;996;0;0;996;G;1002;0;0;0;0;0;0;0;0;B;4;NA;981,6176;34;0,19;;MyAveragePrice=981,6176 YesterdayPrice=998,00;BuyLimit decreased 0.19%;
+V45;0220;NoiseTrader;1021;833274;1856316;29390;1,6087;-3892;-0,2092;B;5;1002;0;0;1002;G;995;0;0;0;0;0;0;0;0;B;4;NA;981,0294;34;0,646;;MyAveragePrice=981,0294 YesterdayPrice=996,00;BuyLimit increased 0.646%;
+V45;0221;NoiseTrader;1026;828234;1862442;33468;1,8299;2234;0,1201;B;5;1008;0;0;1008;B;996;0;0;0;0;0;0;0;0;B;5;NA;980,8235;34;0,616;;MyAveragePrice=980,8235 YesterdayPrice=1002,00;BuyLimit increased 0.616%;
+V45;0222;NoiseTrader;1029;825234;1854234;24236;1,3244;-5974;-0,3211;B;5;1004;0;0;1000;G;990;0;0;0;0;0;0;0;0;B;3;NA;981,1471;34;0,365;;MyAveragePrice=981,1471 YesterdayPrice=1008,00;BuyLimit decreased 0.365%;
+V45;0223;NoiseTrader;1029;825234;1863495;36569;2,0017;3287;0,1767;B;5;1003;0;0;1009;B;987;0;0;0;0;0;0;0;0; ;0;NA;981,4706;34;0,303;;MyAveragePrice=981,4706 YesterdayPrice=1000,00;BuyLimit increased 0.303%;
+V45;0224;NoiseTrader;1033;821222;1857321;21224;1,1559;-2887;-0,1552;B;5;1004;0;0;1003;G;984;0;0;0;0;0;0;0;0;B;4;NA;982,0588;34;0,493;;MyAveragePrice=982,0588 YesterdayPrice=1009,00;BuyLimit decreased 0.493%;
+V45;0225;NoiseTrader;1038;816242;1850090;24163;1,3233;-10118;-0,5439;B;5;1014;0;0;996;b;984;0;0;0;0;0;0;0;0;B;5;NA;982,5882;34;1,128;;MyAveragePrice=982,5882 YesterdayPrice=1003,00;BuyLimit increased 1.128%;
+V45;0226;NoiseTrader;1043;811277;1846976;21049;1,1528;-13232;-0,7113;B;5;995;0;0;993;B;980;0;0;0;0;0;0;0;0;B;5;NA;983,0882;34;-0,52;;MyAveragePrice=983,0882 YesterdayPrice=996,00
+V45;0227;NoiseTrader;1043;811277;1843847;19954;1,094;-16361;-0,8795;B;5;985;0;0;990;b;989;0;0;0;0;0;0;0;0; ;0;NA;983,5294;34;0,743;;MyAveragePrice=983,5294 YesterdayPrice=993,00;BuyLimit decreased 0.743%;
+V45;0228;NoiseTrader;1043;811277;1844890;11844;0,6461;-15318;-0,8235;B;5;989;0;0;991;b;993;0;0;0;0;0;0;0;0; ;0;NA;983,7941;34;-0,913;;MyAveragePrice=983,7941 YesterdayPrice=990,00
+V45;0229;NoiseTrader;1043;811277;1854277;31401;1,7226;-5931;-0,3188;B;5;990;0;0;1000;G;998;0;0;0;0;0;0;0;0; ;0;NA;984,1765;34;-0,934;;MyAveragePrice=984,1765 YesterdayPrice=991,00
+V45;0230;NoiseTrader;1048;806297;1850105;28246;1,5504;-10103;-0,5431;B;5;1008;0;0;996;G;994;0;0;0;0;0;0;0;0;B;5;NA;984,8529;34;0,861;;MyAveragePrice=984,8529 YesterdayPrice=1000,00;BuyLimit increased 0.861%;
+V45;0231;NoiseTrader;1053;801302;1853249;27322;1,4963;-6959;-0,3741;B;5;1000;0;0;999;b;987;0;0;0;0;0;0;0;0;B;5;NA;985,6176;34;0,449;;MyAveragePrice=985,6176 YesterdayPrice=996,00;BuyLimit increased 0.449%;
+V45;0232;NoiseTrader;1057;797310;1852196;23233;1,2703;-8012;-0,4307;B;5;1000;0;0;998;G;987;0;0;0;0;0;0;0;0;B;4;NA;986,2353;34;1,197;;MyAveragePrice=986,2353 YesterdayPrice=999,00
+V45;0233;NoiseTrader;1062;792325;1851139;15092;0,822;-9069;-0,4875;B;5;1000;0;0;997;B;985;0;0;0;0;0;0;0;0;B;5;NA;986,7647;34;0,293;;MyAveragePrice=986,7647 YesterdayPrice=998,00;BuyLimit increased 0.293%;
+V45;0234;NoiseTrader;1067;787375;1843705;602;0,0327;-16503;-0,8872;B;5;991;0;0;990;B;986;0;0;0;0;0;0;0;0;B;5;NA;987,5882;34;0,54;;MyAveragePrice=987,5882 YesterdayPrice=997,00;BuyLimit decreased 0.54%;
+V45;0235;NoiseTrader;1071;783439;1837303;-785;-0,0427;-22905;-1,2313;B;5;986;0;0;984;G;982;0;0;0;0;0;0;0;0;B;4;NA;988,0882;34;0,338;;MyAveragePrice=988,0882 YesterdayPrice=990,00;BuyLimit decreased 0.338%;
+V45;0236;NoiseTrader;1071;783439;1843729;-11495;-0,6196;-16479;-0,8859;S;0;0;5;991;990;B;980;0;0;0;0;0;0;0;0; ;0;NA;988,3529;34;0,768;;MyAveragePrice=988,3529 YesterdayPrice=984,00;SellLimit increased 0.768%;
+V45;0237;NoiseTrader;1075;779507;1836232;-7904;-0,4286;-23976;-1,2889;B;5;983;0;0;983;G;977;0;0;0;0;0;0;0;0;B;4;NA;988,7647;34;0,671;;MyAveragePrice=988,7647 YesterdayPrice=990,00;BuyLimit decreased 0.671%;
+V45;0238;NoiseTrader;1075;779507;1836232;-16008;-0,8643;-23976;-1,2889;S;0;0;5;993;983;B;979;0;0;0;0;0;0;0;0; ;0;NA;989,0588;34;1,071;;MyAveragePrice=989,0588 YesterdayPrice=983,00;SellLimit increased 1.071%;
+V45;0239;NoiseTrader;1071;783419;1830857;-19357;-1,0462;-29351;-1,5778;S;0;0;5;971;978;B;988;0;0;0;0;0;0;0;0;S;4;NA;989,0882;34;1,172;;MyAveragePrice=989,0882 YesterdayPrice=983,00;SellLimit decreased 1.172%;
+V45;0240;NoiseTrader;1067;787343;1834070;-22246;-1,1984;-26138;-1,4051;S;0;0;5;967;981;B;988;0;0;0;0;0;0;0;0;S;4;NA;989,2647;34;1,07;;MyAveragePrice=989,2647 YesterdayPrice=978,00;SellLimit decreased 1.07%;
+V45;0241;NoiseTrader;1062;792238;1831936;-30506;-1,638;-28272;-1,5198;S;0;0;5;975;979;B;988;0;0;0;0;0;0;0;0;S;5;NA;989,5294;34;0,567;;MyAveragePrice=989,5294 YesterdayPrice=981,00;SellLimit decreased 0.567%;
+V45;0242;NoiseTrader;1057;797113;1827688;-26546;-1,4316;-32520;-1,7482;S;0;0;5;969;975;G;988;0;0;0;0;0;0;0;0;S;5;NA;989,7941;34;0,948;;MyAveragePrice=989,7941 YesterdayPrice=979,00;SellLimit decreased 0.948%;
+V45;0243;NoiseTrader;1054;800050;1831916;-31579;-1,6946;-28292;-1,5209;S;0;0;5;975;979;B;979;0;0;0;0;0;0;0;0;S;3;NA;989,6765;34;0,027;;MyAveragePrice=989,6765 YesterdayPrice=975,00;SellLimit increased 0.027%;
+V45;0244;NoiseTrader;1054;800050;1825592;-31729;-1,7083;-34616;-1,8609;S;0;0;5;977;973;B;978;0;0;0;0;0;0;0;0; ;0;NA;989,9706;34;0,129;;MyAveragePrice=989,9706 YesterdayPrice=979,00;SellLimit decreased 0.129%;
+V45;0245;NoiseTrader;1050;803914;1818214;-31876;-1,7229;-41994;-2,2575;S;0;0;5;963;966;B;972;0;0;0;0;0;0;0;0;S;4;NA;990,1176;34;0,964;;MyAveragePrice=990,1176 YesterdayPrice=973,00;SellLimit decreased 0.964%;
+V45;0246;NoiseTrader;1050;803914;1807714;-39262;-2,1257;-52494;-2,8219;S;0;0;5;959;956;G;974;0;0;0;0;0;0;0;0; ;0;NA;989,9412;34;0,622;;MyAveragePrice=989,9412 YesterdayPrice=966,00;SellLimit decreased 0.622%;
+V45;0247;NoiseTrader;1046;807766;1815064;-28783;-1,561;-45144;-2,4268;S;0;0;5;956;963;B;972;0;0;0;0;0;0;0;0;S;4;NA;989,3824;34;0,097;;MyAveragePrice=989,3824 YesterdayPrice=956,00;SellLimit increased 0.097%;
+V45;0248;NoiseTrader;1043;810637;1808788;-36102;-1,9569;-51420;-2,7642;S;0;0;5;954;957;B;967;0;0;0;0;0;0;0;0;S;3;NA;988,8235;34;0,887;;MyAveragePrice=988,8235 YesterdayPrice=963,00;SellLimit decreased 0.887%;
+V45;0249;NoiseTrader;1039;814469;1809831;-44446;-2,3969;-50377;-2,7081;S;0;0;5;955;958;B;972;0;0;0;0;0;0;0;0;S;4;NA;987,8824;34;0,152;;MyAveragePrice=987,8824 YesterdayPrice=957,00;SellLimit decreased 0.152%;
+V45;0250;NoiseTrader;1035;818333;1818143;-31962;-1,7276;-42065;-2,2613;S;0;0;5;950;966;B;972;0;0;0;0;0;0;0;0;S;4;NA;987,1176;34;0,753;;MyAveragePrice=987,1176 YesterdayPrice=958,00;SellLimit decreased 0.753%;
+V45;0251;NoiseTrader;1035;818333;1814003;-39246;-2,1177;-46205;-2,4839;S;0;0;5;963;962;b;977;0;0;0;0;0;0;0;0; ;0;NA;986,0882;34;0,31;;MyAveragePrice=986,0882 YesterdayPrice=966,00;SellLimit decreased 0.31%;
+V45;0252;NoiseTrader;1031;822181;1814003;-38193;-2,062;-46205;-2,4839;S;0;0;5;961;962;B;979;0;0;0;0;0;0;0;0;S;4;NA;985,2647;34;-0,575;;MyAveragePrice=985,2647 YesterdayPrice=962,00
+V45;0253;NoiseTrader;1026;826981;1811941;-39198;-2,1175;-48267;-2,5947;S;0;0;5;956;960;G;983;0;0;0;0;0;0;0;0;S;5;NA;984,2059;34;0,52;;MyAveragePrice=984,2059 YesterdayPrice=962,00;SellLimit decreased 0.52%;
+V45;0254;NoiseTrader;1022;830865;1823227;-20478;-1,1107;-36981;-1,988;S;0;0;5;960;971;B;989;0;0;0;0;0;0;0;0;S;4;NA;983,1471;34;0,056;;MyAveragePrice=983,1471 YesterdayPrice=960,00;SellLimit increased 0.056%;
+V45;0255;NoiseTrader;1017;835725;1824249;-13054;-0,7105;-35959;-1,9331;S;0;0;5;970;972;B;984;0;0;0;0;0;0;0;0;S;5;NA;982,2353;34;0,08;;MyAveragePrice=982,2353 YesterdayPrice=971,00;SellLimit decreased 0.08%;
+V45;0256;NoiseTrader;1012;840590;1825266;-18463;-1,0014;-34942;-1,8784;S;0;0;5;971;973;G;993;0;0;0;0;0;0;0;0;S;5;NA;981,1765;34;0,089;;MyAveragePrice=981,1765 YesterdayPrice=972,00;SellLimit decreased 0.089%;
+V45;0257;NoiseTrader;1008;844514;1833362;-2870;-0,1563;-26846;-1,4432;S;0;0;5;973;981;B;995;0;0;0;0;0;0;0;0;S;4;NA;980,3824;34;0,002;;MyAveragePrice=980,3824 YesterdayPrice=973,00;SellLimit increased 0.002%;
+V45;0258;NoiseTrader;1008;844514;1832354;-3878;-0,2112;-27854;-1,4974;B;5;975;0;0;980;G;993;0;0;0;0;0;0;0;0; ;0;NA;979,5588;34;0,561;;MyAveragePrice=979,5588 YesterdayPrice=981,00;BuyLimit decreased 0.561%;
+V45;0259;NoiseTrader;1008;844514;1836386;5529;0,302;-23822;-1,2806;B;5;977;0;0;984;B;992;0;0;0;0;0;0;0;0; ;0;NA;978,8824;34;0,264;;MyAveragePrice=978,8824 YesterdayPrice=980,00;BuyLimit increased 0.264%;
+V45;0260;NoiseTrader;1008;844514;1841426;7356;0,4011;-18782;-1,0097;B;5;977;0;0;989;B;998;0;0;0;0;0;0;0;0; ;0;NA;978,5294;34;0,698;;MyAveragePrice=978,5294 YesterdayPrice=984,00;BuyLimit decreased 0.698%;
+V45;0261;NoiseTrader;1008;844514;1848482;16546;0,9032;-11726;-0,6304;B;5;978;0;0;996;G;996;0;0;0;0;0;0;0;0; ;0;NA;978,4118;34;1,077;;MyAveragePrice=978,4118 YesterdayPrice=989,00;BuyLimit decreased 1.077%;
+V45;0262;NoiseTrader;1012;840506;1854530;26842;1,4686;-5678;-0,3052;B;5;1002;0;0;1002;G;994;0;0;0;0;0;0;0;0;B;4;NA;978,5882;34;0,682;;MyAveragePrice=978,5882 YesterdayPrice=996,00;BuyLimit increased 0.682%;
+V45;0263;NoiseTrader;1016;836522;1848458;16542;0,903;-11750;-0,6316;B;5;996;0;0;996;G;987;0;0;0;0;0;0;0;0;B;4;NA;978,9118;34;0,586;;MyAveragePrice=978,9118 YesterdayPrice=1002,00;BuyLimit increased 0.586%;
+V45;0264;NoiseTrader;1021;831547;1847442;21850;1,1969;-12766;-0,6863;B;5;1005;0;0;995;B;991;0;0;0;0;0;0;0;0;B;5;NA;978,7941;34;0,944;;MyAveragePrice=978,7941 YesterdayPrice=996,00;BuyLimit increased 0.944%;
+V45;0265;NoiseTrader;1025;827567;1847442;29228;1,6075;-12766;-0,6863;B;5;995;0;0;995;G;983;0;0;0;0;0;0;0;0;B;4;NA;978,7647;34;0,051;;MyAveragePrice=978,7647 YesterdayPrice=995,00;BuyLimit decreased 0.051%;
+V45;0266;NoiseTrader;1028;824555;1856667;48953;2,708;-3541;-0,1904;B;5;1005;0;0;1004;G;993;0;0;0;0;0;0;0;0;B;3;NA;978,6471;34;1,017;;MyAveragePrice=978,6471 YesterdayPrice=995,00;BuyLimit increased 1.017%;
+V45;0267;NoiseTrader;1033;819570;1849471;34407;1,8956;-10737;-0,5772;B;5;1009;0;0;997;B;986;0;0;0;0;0;0;0;0;B;5;NA;978,8235;34;0,514;;MyAveragePrice=978,8235 YesterdayPrice=1004,00;BuyLimit increased 0.514%;
+V45;0268;NoiseTrader;1033;819570;1848438;39650;2,1921;-11770;-0,6327;B;5;988;0;0;996;G;991;0;0;0;0;0;0;0;0; ;0;NA;978,8235;34;0,83;;MyAveragePrice=978,8235 YesterdayPrice=997,00;BuyLimit decreased 0.83%;
+V45;0269;NoiseTrader;1038;814565;1853603;43772;2,4186;-6605;-0,3551;B;5;1004;0;0;1001;G;996;0;0;0;0;0;0;0;0;B;5;NA;979,00;34;0,835;;MyAveragePrice=979,00 YesterdayPrice=996,00;BuyLimit increased 0.835%;
+V45;0270;NoiseTrader;1043;809600;1845299;27156;1,4936;-14909;-0,8015;B;5;1006;0;0;993;B;984;0;0;0;0;0;0;0;0;B;5;NA;979,50;34;0,589;;MyAveragePrice=979,50 YesterdayPrice=1001,00;BuyLimit increased 0.589%;
+V45;0271;NoiseTrader;1047;805664;1835912;21909;1,2078;-24296;-1,3061;B;5;984;0;0;984;G;980;0;0;0;0;0;0;0;0;B;4;NA;979,5882;34;0,855;;MyAveragePrice=979,5882 YesterdayPrice=993,00;BuyLimit decreased 0.855%;
+V45;0272;NoiseTrader;1047;805664;1843241;29238;1,6118;-16967;-0,9121;B;5;983;0;0;991;B;985;0;0;0;0;0;0;0;0; ;0;NA;979,6176;34;0,098;;MyAveragePrice=979,6176 YesterdayPrice=984,00;BuyLimit increased 0.098%;
+V45;0273;NoiseTrader;1051;801692;1845335;33394;1,843;-14873;-0,7995;B;5;1002;0;0;993;G;988;0;0;0;0;0;0;0;0;B;4;NA;979,8529;34;1,135;;MyAveragePrice=979,8529 YesterdayPrice=991,00;BuyLimit decreased 1.135%;
+V45;0274;NoiseTrader;1051;801692;1856896;33669;1,8467;-3312;-0,178;B;5;987;0;0;1004;B;992;0;0;0;0;0;0;0;0; ;0;NA;980,2941;34;0,529;;MyAveragePrice=980,2941 YesterdayPrice=993,00;BuyLimit increased 0.529%;
+V45;0275;NoiseTrader;1051;801692;1857947;33698;1,8472;-2261;-0,1215;B;5;994;0;0;1005;G;999;0;0;0;0;0;0;0;0; ;0;NA;980,9706;34;0,919;;MyAveragePrice=980,9706 YesterdayPrice=1004,00;BuyLimit decreased 0.919%;
+V45;0276;NoiseTrader;1055;797704;1849539;24273;1,3298;-10669;-0,5735;B;5;1010;0;0;997;G;1003;0;0;0;0;0;0;0;0;B;4;NA;981,7353;34;0,563;;MyAveragePrice=981,7353 YesterdayPrice=1005,00;BuyLimit increased 0.563%;
+V45;0277;NoiseTrader;1060;792709;1851649;18287;0,9975;-8559;-0,4601;B;5;1008;0;0;999;B;1009;0;0;0;0;0;0;0;0;B;5;NA;982,3824;34;1,196;;MyAveragePrice=982,3824 YesterdayPrice=997,00;BuyLimit increased 1.196%;
+V45;0278;NoiseTrader;1060;792709;1853769;21415;1,1687;-6439;-0,3461;B;5;988;0;0;1001;b;1004;0;0;0;0;0;0;0;0; ;0;NA;982,9706;34;1,051;;MyAveragePrice=982,9706 YesterdayPrice=999,00;BuyLimit decreased 1.051%;
+V45;0279;NoiseTrader;1060;792709;1854829;18443;1,0043;-5379;-0,2892;B;5;1000;0;0;1002;b;998;0;0;0;0;0;0;0;0; ;0;NA;983,7941;34;-0,009;;MyAveragePrice=983,7941 YesterdayPrice=1001,00
+V45;0280;NoiseTrader;1060;792709;1871789;30363;1,6489;11581;0,6226;B;5;1001;0;0;1018;G;1009;0;0;0;0;0;0;0;0; ;0;NA;984,8529;34;-0,133;;MyAveragePrice=984,8529 YesterdayPrice=1002,00
+V45;0281;NoiseTrader;1065;787669;1861189;12707;0,6874;981;0,0527;B;5;1021;0;0;1008;G;1004;0;0;0;0;0;0;0;0;B;5;NA;986,6765;34;0,392;;MyAveragePrice=986,6765 YesterdayPrice=1018,00;BuyLimit increased 0.392%;
+V45;0282;NoiseTrader;1065;787669;1871839;17309;0,9333;11631;0,6253;B;5;1008;0;0;1018;b;1006;0;0;0;0;0;0;0;0; ;0;NA;988,00;34;0,057;;MyAveragePrice=988,00 YesterdayPrice=1008,00;BuyLimit increased 0.057%;
+V45;0283;NoiseTrader;1068;784615;1871839;23381;1,2649;11631;0,6253;B;5;1018;0;0;1018;G;1009;0;0;0;0;0;0;0;0;B;3;NA;989,7941;34;0,238;;MyAveragePrice=989,7941 YesterdayPrice=1018,00
+V45;0284;NoiseTrader;1073;779510;1875043;27601;1,494;14835;0,7975;B;5;1028;0;0;1021;b;1015;0;0;0;0;0;0;0;0;B;5;NA;991,5588;34;1,056;;MyAveragePrice=991,5588 YesterdayPrice=1018,00;BuyLimit increased 1.056%;
+V45;0285;NoiseTrader;1077;775430;1873970;26528;1,4359;13762;0,7398;B;5;1020;0;0;1020;G;1013;0;0;0;0;0;0;0;0;B;4;NA;993,1765;34;-0,716;;MyAveragePrice=993,1765 YesterdayPrice=1021,00
+V45;0286;NoiseTrader;1082;770315;1877201;20534;1,106;16993;0,9135;B;5;1026;0;0;1023;B;1005;0;0;0;0;0;0;0;0;B;5;NA;994,8824;34;0,676;;MyAveragePrice=994,8824 YesterdayPrice=1020,00;BuyLimit increased 0.676%;
+V45;0287;NoiseTrader;1086;766255;1868545;19074;1,0313;8337;0,4482;B;5;1017;0;0;1015;G;999;0;0;0;0;0;0;0;0;B;4;NA;996,6765;34;0,521;;MyAveragePrice=996,6765 YesterdayPrice=1023,00;BuyLimit decreased 0.521%;
+V45;0288;NoiseTrader;1091;761210;1862029;13591;0,7353;1821;0,0979;B;5;1014;0;0;1009;B;1003;0;0;0;0;0;0;0;0;B;5;NA;998,2941;34;0,029;;MyAveragePrice=998,2941 YesterdayPrice=1015,00;BuyLimit increased 0.029%;
+V45;0289;NoiseTrader;1096;756195;1855483;1880;0,1014;-4725;-0,254;B;5;1003;0;0;1003;G;997;0;0;0;0;0;0;0;0;B;5;NA;999,4118;34;0,504;;MyAveragePrice=999,4118 YesterdayPrice=1009,00;BuyLimit decreased 0.504%;
+V45;0290;NoiseTrader;1101;751170;1857675;12376;0,6707;-2533;-0,1362;B;5;1007;0;0;1005;B;998;0;0;0;0;0;0;0;0;B;5;NA;1000,3235;34;0,446;;MyAveragePrice=1000,3235 YesterdayPrice=1003,00;BuyLimit increased 0.446%;
+V45;0291;NoiseTrader;1106;746180;1849968;14056;0,7656;-10240;-0,5505;B;5;1012;0;0;998;B;998;0;0;0;0;0;0;0;0;B;5;NA;1001,2647;34;0,727;;MyAveragePrice=1001,2647 YesterdayPrice=1005,00;BuyLimit decreased 0.727%;
+V45;0292;NoiseTrader;1101;751195;1855498;12257;0,665;-4710;-0,2532;S;0;0;5;993;1003;G;1002;0;0;0;0;0;0;0;0;S;5;NA;1001,7647;34;0,427;;MyAveragePrice=1001,7647 YesterdayPrice=998,00;SellLimit decreased 0.427%;
+V45;0293;NoiseTrader;1105;747175;1857700;12365;0,6701;-2508;-0,1348;B;5;1010;0;0;1005;G;995;0;0;0;0;0;0;0;0;B;4;NA;1002,4412;34;0,715;;MyAveragePrice=1002,4412 YesterdayPrice=1003,00;BuyLimit increased 0.715%;
+V45;0294;NoiseTrader;1105;747175;1866540;9644;0,5194;6332;0,3404;B;5;995;0;0;1013;B;1000;0;0;0;0;0;0;0;0; ;0;NA;1003,0588;34;0,99;;MyAveragePrice=1003,0588 YesterdayPrice=1005,00;BuyLimit increased 0.99%;
+V45;0295;NoiseTrader;1110;742170;1853280;-4667;-0,2512;-6928;-0,3724;B;5;1014;0;0;1001;G;1002;0;0;0;0;0;0;0;0;B;5;NA;1003,7647;34;0,174;;MyAveragePrice=1003,7647 YesterdayPrice=1013,00;BuyLimit decreased 0.174%;
+V45;0296;NoiseTrader;1105;747205;1859940;10401;0,5624;-268;-0,0144;S;0;0;5;1004;1007;b;991;0;0;0;0;0;0;0;0;S;5;NA;1003,9118;34;0,335;;MyAveragePrice=1003,9118 YesterdayPrice=1001,00;SellLimit increased 0.335%;
+V45;0297;NoiseTrader;1109;743181;1858835;7186;0,3881;-1373;-0,0738;B;5;1007;0;0;1006;G;985;0;0;0;0;0;0;0;0;B;4;NA;1004,0588;34;0,90;;MyAveragePrice=1004,0588 YesterdayPrice=1007,00
+V45;0298;NoiseTrader;1114;738191;1849963;-3806;-0,2053;-10245;-0,5507;B;5;1017;0;0;998;B;995;0;0;0;0;0;0;0;0;B;5;NA;1004,3529;34;1,162;;MyAveragePrice=1004,3529 YesterdayPrice=1006,00;BuyLimit increased 1.162%;
+V45;0299;NoiseTrader;1114;738191;1836595;-18234;-0,9831;-23613;-1,2694;S;0;0;5;988;986;G;987;0;0;0;0;0;0;0;0; ;0;NA;1004,4412;34;0,943;;MyAveragePrice=1004,4412 YesterdayPrice=998,00;SellLimit decreased 0.943%;
+V45;0300;NoiseTrader;1114;738191;1839937;-31852;-1,7017;-20271;-1,0897;S;0;0;5;993;989;B;994;0;0;0;0;0;0;0;0; ;0;NA;1004,1765;34;0,798;;MyAveragePrice=1004,1765 YesterdayPrice=986,00;SellLimit increased 0.798%;
+V45;0301;NoiseTrader;1110;742107;1828797;-32392;-1,7404;-31411;-1,6886;S;0;0;5;978;979;B;993;0;0;0;0;0;0;0;0;S;4;NA;1003,7353;34;1,016;;MyAveragePrice=1003,7353 YesterdayPrice=989,00;SellLimit decreased 1.016%;
+V45;0302;NoiseTrader;1106;746011;1825467;-46372;-2,4773;-34741;-1,8676;S;0;0;5;970;976;B;986;0;0;0;0;0;0;0;0;S;4;NA;1003,2059;34;0,875;;MyAveragePrice=1003,2059 YesterdayPrice=979,00;SellLimit decreased 0.875%;
+V45;0303;NoiseTrader;1102;749907;1823255;-48584;-2,5955;-36953;-1,9865;S;0;0;5;971;974;B;994;0;0;0;0;0;0;0;0;S;4;NA;1002,6176;34;0,443;;MyAveragePrice=1002,6176 YesterdayPrice=976,00;SellLimit decreased 0.443%;
+V45;0304;NoiseTrader;1098;753827;1829867;-45176;-2,4093;-30341;-1,6311;S;0;0;5;967;980;B;999;0;0;0;0;0;0;0;0;S;4;NA;1001,8235;34;0,681;;MyAveragePrice=1001,8235 YesterdayPrice=974,00;SellLimit decreased 0.681%;
+V45;0305;NoiseTrader;1098;753827;1822181;-51789;-2,7636;-38027;-2,0442;S;0;0;5;975;973;G;992;0;0;0;0;0;0;0;0; ;0;NA;1001,4412;34;0,437;;MyAveragePrice=1001,4412 YesterdayPrice=980,00;SellLimit decreased 0.437%;
+V45;0306;NoiseTrader;1098;753827;1824377;-52824;-2,814;-35831;-1,9262;S;0;0;5;981;975;b;986;0;0;0;0;0;0;0;0; ;0;NA;1001,1176;34;0,866;;MyAveragePrice=1001,1176 YesterdayPrice=973,00;SellLimit increased 0.866%;
+V45;0307;NoiseTrader;1098;753827;1815593;-52952;-2,8339;-44615;-2,3984;S;0;0;5;974;967;b;984;0;0;0;0;0;0;0;0; ;0;NA;1000,6471;34;-0,924;;MyAveragePrice=1000,6471 YesterdayPrice=975,00
+V45;0308;NoiseTrader;1097;754800;1822181;-39848;-2,14;-38027;-2,0442;S;0;0;5;967;973;B;985;0;0;0;0;0;0;0;0;S;1;NA;999,8824;34;0,371;;MyAveragePrice=999,8824 YesterdayPrice=967,00
+V45;0309;NoiseTrader;1094;757737;1828763;-26720;-1,4401;-31445;-1,6904;S;0;0;5;972;979;B;991;0;0;0;0;0;0;0;0;S;3;NA;998,9706;34;0,031;;MyAveragePrice=998,9706 YesterdayPrice=973,00;SellLimit decreased 0.031%;
+V45;0310;NoiseTrader;1090;761685;1837515;-20160;-1,0852;-22693;-1,2199;S;0;0;5;977;987;B;991;0;0;0;0;0;0;0;0;S;4;NA;998,2059;34;0,156;;MyAveragePrice=998,2059 YesterdayPrice=979,00;SellLimit decreased 0.156%;
+V45;0311;NoiseTrader;1090;761685;1830975;-18993;-1,0267;-29233;-1,5715;S;0;0;5;986;981;G;989;0;0;0;0;0;0;0;0; ;0;NA;997,9118;34;0,023;;MyAveragePrice=997,9118 YesterdayPrice=987,00;SellLimit decreased 0.023%;
+V45;0312;NoiseTrader;1090;761685;1829885;-25613;-1,3804;-30323;-1,6301;S;0;0;5;987;980;B;982;0;0;0;0;0;0;0;0; ;0;NA;997,3824;34;0,658;;MyAveragePrice=997,3824 YesterdayPrice=981,00;SellLimit increased 0.658%;
+V45;0313;NoiseTrader;1087;764616;1826615;-31085;-1,6733;-33593;-1,8059;S;0;0;5;971;977;B;986;0;0;0;0;0;0;0;0;S;3;NA;996,7647;34;0,828;;MyAveragePrice=996,7647 YesterdayPrice=980,00;SellLimit decreased 0.828%;
+V45;0314;NoiseTrader;1084;767556;1829876;-36664;-1,9643;-30332;-1,6306;S;0;0;5;970;980;B;991;0;0;0;0;0;0;0;0;S;3;NA;996,0294;34;0,633;;MyAveragePrice=996,0294 YesterdayPrice=977,00;SellLimit decreased 0.633%;
+V45;0315;NoiseTrader;1084;767556;1821204;-32076;-1,7308;-39004;-2,0968;S;0;0;5;975;972;B;992;0;0;0;0;0;0;0;0; ;0;NA;994,9118;34;0,413;;MyAveragePrice=994,9118 YesterdayPrice=980,00;SellLimit decreased 0.413%;
+V45;0316;NoiseTrader;1082;769500;1821204;-38736;-2,0826;-39004;-2,0968;S;0;0;5;961;972;B;982;0;0;0;0;0;0;0;0;S;2;NA;993,8529;34;1,116;;MyAveragePrice=993,8529 YesterdayPrice=972,00;SellLimit decreased 1.116%;
+V45;0317;NoiseTrader;1077;774435;1837434;-21401;-1,1513;-22774;-1,2243;S;0;0;5;964;987;B;993;0;0;0;0;0;0;0;0;S;5;NA;992,50;34;0,742;;MyAveragePrice=992,50 YesterdayPrice=972,00;SellLimit decreased 0.742%;
+V45;0318;NoiseTrader;1072;779360;1835280;-14683;-0,7937;-24928;-1,3401;S;0;0;5;979;985;b;997;0;0;0;0;0;0;0;0;S;5;NA;991,5882;34;0,753;;MyAveragePrice=991,5882 YesterdayPrice=987,00;SellLimit decreased 0.753%;
+V45;0319;NoiseTrader;1068;783300;1835280;-1315;-0,0716;-24928;-1,3401;S;0;0;5;985;985;B;1001;0;0;0;0;0;0;0;0;S;4;NA;990,5294;34;0,745;;MyAveragePrice=990,5294 YesterdayPrice=985,00
+V45;0320;NoiseTrader;1064;787232;1833144;-6793;-0,3692;-27064;-1,4549;S;0;0;5;979;983;B;993;0;0;0;0;0;0;0;0;S;4;NA;989,50;34;0,525;;MyAveragePrice=989,50 YesterdayPrice=985,00;SellLimit decreased 0.525%;
+V45;0321;NoiseTrader;1060;791144;1827824;-973;-0,0532;-32384;-1,7409;S;0;0;5;978;978;B;987;0;0;0;0;0;0;0;0;S;4;NA;988,3235;34;0,426;;MyAveragePrice=988,3235 YesterdayPrice=983,00;SellLimit decreased 0.426%;
+V45;0322;NoiseTrader;1058;793102;1828884;3417;0,1872;-31324;-1,6839;S;0;0;5;974;979;B;996;0;0;0;0;0;0;0;0;S;2;NA;987,2353;34;0,309;;MyAveragePrice=987,2353 YesterdayPrice=978,00;SellLimit decreased 0.309%;
+V45;0323;NoiseTrader;1054;797030;1832058;8803;0,4828;-28150;-1,5133;S;0;0;5;968;982;B;992;0;0;0;0;0;0;0;0;S;4;NA;986,3529;34;1,038;;MyAveragePrice=986,3529 YesterdayPrice=979,00;SellLimit decreased 1.038%;
+V45;0324;NoiseTrader;1049;801900;1823626;-6241;-0,3411;-36582;-1,9666;S;0;0;5;972;974;G;996;0;0;0;0;0;0;0;0;S;5;NA;985,7353;34;0,948;;MyAveragePrice=985,7353 YesterdayPrice=982,00;SellLimit decreased 0.948%;
+V45;0325;NoiseTrader;1046;804855;1835165;12984;0,7126;-25043;-1,3462;S;0;0;5;980;985;B;993;0;0;0;0;0;0;0;0;S;3;NA;984,8235;34;0,669;;MyAveragePrice=984,8235 YesterdayPrice=974,00;SellLimit increased 0.669%;
+V45;0326;NoiseTrader;1051;799920;1837257;12880;0,706;-22951;-1,2338;B;5;992;0;0;987;G;989;0;0;0;0;0;0;0;0;B;5;NA;984,4412;34;0,747;;MyAveragePrice=984,4412 YesterdayPrice=985,00;BuyLimit decreased 0.747%;
+V45;0327;NoiseTrader;1051;799920;1846716;31123;1,7142;-13492;-0,7253;B;5;994;0;0;996;B;994;0;0;0;0;0;0;0;0; ;0;NA;983,9706;34;0,801;;MyAveragePrice=983,9706 YesterdayPrice=987,00;BuyLimit increased 0.801%;
+V45;0328;NoiseTrader;1051;799920;1845665;23484;1,2888;-14543;-0,7818;B;5;994;0;0;995;G;992;0;0;0;0;0;0;0;0; ;0;NA;983,7059;34;0,119;;MyAveragePrice=983,7059 YesterdayPrice=996,00;BuyLimit decreased 0.119%;
+V45;0329;NoiseTrader;1056;794945;1845665;16902;0,9242;-14543;-0,7818;B;5;998;0;0;995;G;987;0;0;0;0;0;0;0;0;B;5;NA;983,1765;34;0,323;;MyAveragePrice=983,1765 YesterdayPrice=995,00;BuyLimit increased 0.323%;
+V45;0330;NoiseTrader;1061;789965;1846721;9206;0,501;-13487;-0,725;B;5;997;0;0;996;b;986;0;0;0;0;0;0;0;0;B;5;NA;983,00;34;0,26;;MyAveragePrice=983,00 YesterdayPrice=995,00;BuyLimit increased 0.26%;
+V45;0331;NoiseTrader;1064;786980;1845660;14685;0,802;-14548;-0,7821;B;5;995;0;0;995;G;997;0;0;0;0;0;0;0;0;B;3;NA;982,6765;34;-0,515;;MyAveragePrice=982,6765 YesterdayPrice=996,00
+V45;0332;NoiseTrader;1064;786980;1853108;23223;1,2691;-7100;-0,3817;B;5;988;0;0;1002;G;1001;0;0;0;0;0;0;0;0; ;0;NA;982,3529;34;0,674;;MyAveragePrice=982,3529 YesterdayPrice=995,00;BuyLimit increased 0.674%;
+V45;0333;NoiseTrader;1064;786980;1848852;22237;1,2174;-11356;-0,6105;B;5;991;0;0;998;G;989;0;0;0;0;0;0;0;0; ;0;NA;982,4706;34;1,082;;MyAveragePrice=982,4706 YesterdayPrice=1002,00;BuyLimit increased 1.082%;
+V45;0334;NoiseTrader;1069;781975;1852044;22168;1,2114;-8164;-0,4389;B;5;1008;0;0;1001;G;997;0;0;0;0;0;0;0;0;B;5;NA;982,8235;34;1,089;;MyAveragePrice=982,8235 YesterdayPrice=998,00;BuyLimit increased 1.089%;
+V45;0335;NoiseTrader;1074;776945;1857389;36185;1,9869;-2819;-0,1515;B;5;1012;0;0;1006;G;1003;0;0;0;0;0;0;0;0;B;5;NA;983,1765;34;1,198;;MyAveragePrice=983,1765 YesterdayPrice=1001,00;BuyLimit increased 1.198%;
+V45;0336;NoiseTrader;1074;776945;1868129;46925;2,5766;7921;0,4258;B;5;1015;0;0;1016;G;993;0;0;0;0;0;0;0;0; ;0;NA;983,9706;34;0,971;;MyAveragePrice=983,9706 YesterdayPrice=1006,00;BuyLimit increased 0.971%;
+V45;0337;NoiseTrader;1079;771920;1856315;18881;1,0276;-3893;-0,2093;B;5;1026;0;0;1005;B;998;0;0;0;0;0;0;0;0;B;5;NA;985,1471;34;1,017;;MyAveragePrice=985,1471 YesterdayPrice=1016,00;BuyLimit increased 1.017%;
+V45;0338;NoiseTrader;1083;767904;1855236;19956;1,0874;-4972;-0,2673;B;5;1006;0;0;1004;G;991;0;0;0;0;0;0;0;0;B;4;NA;986,0588;34;0,19;;MyAveragePrice=986,0588 YesterdayPrice=1005,00;BuyLimit decreased 0.19%;
+V45;0339;NoiseTrader;1088;762859;1860651;25371;1,3824;443;0,0238;B;5;1014;0;0;1009;B;1000;0;0;0;0;0;0;0;0;B;5;NA;986,7647;34;1,03;;MyAveragePrice=986,7647 YesterdayPrice=1004,00;BuyLimit increased 1.03%;
+V45;0340;NoiseTrader;1088;762859;1856299;23155;1,2631;-3909;-0,2101;B;5;1002;0;0;1005;b;1000;0;0;0;0;0;0;0;0; ;0;NA;987,8235;34;0,596;;MyAveragePrice=987,8235 YesterdayPrice=1009,00;BuyLimit decreased 0.596%;
+V45;0341;NoiseTrader;1092;758843;1855211;27387;1,4983;-4997;-0,2686;B;5;1005;0;0;1004;G;1006;0;0;0;0;0;0;0;0;B;4;NA;988,7059;34;0,459;;MyAveragePrice=988,7059 YesterdayPrice=1005,00
+V45;0342;NoiseTrader;1092;758843;1863947;35063;1,9172;3739;0,201;B;5;992;0;0;1012;B;1004;0;0;0;0;0;0;0;0; ;0;NA;989,7941;34;1,169;;MyAveragePrice=989,7941 YesterdayPrice=1004,00;BuyLimit increased 1.169%;
+V45;0343;NoiseTrader;1092;758843;1872683;40625;2,2175;12475;0,6706;B;5;1005;0;0;1020;B;1008;0;0;0;0;0;0;0;0; ;0;NA;990,9412;34;0,625;;MyAveragePrice=990,9412 YesterdayPrice=1012,00;BuyLimit decreased 0.625%;
+V45;0344;NoiseTrader;1097;753803;1859579;35953;1,9715;-629;-0,0338;B;5;1019;0;0;1008;G;997;0;0;0;0;0;0;0;0;B;5;NA;992,1471;34;0,041;;MyAveragePrice=992,1471 YesterdayPrice=1020,00;BuyLimit decreased 0.041%;
+V45;0345;NoiseTrader;1102;748763;1859579;24414;1,3303;-629;-0,0338;B;5;1016;0;0;1008;B;995;0;0;0;0;0;0;0;0;B;5;NA;992,7647;34;0,829;;MyAveragePrice=992,7647 YesterdayPrice=1008,00;BuyLimit increased 0.829%;
+V45;0346;NoiseTrader;1107;743773;1848559;11302;0,6152;-11649;-0,6262;B;5;1000;0;0;998;G;989;0;0;0;0;0;0;0;0;B;5;NA;993,5588;34;0,732;;MyAveragePrice=993,5588 YesterdayPrice=1008,00;BuyLimit decreased 0.732%;
+V45;0347;NoiseTrader;1107;743773;1855201;8485;0,4595;-5007;-0,2692;B;5;999;0;0;1004;G;997;0;0;0;0;0;0;0;0; ;0;NA;994,0882;34;0,174;;MyAveragePrice=994,0882 YesterdayPrice=998,00;BuyLimit increased 0.174%;
+V45;0348;NoiseTrader;1112;738753;1855201;9536;0,5167;-5007;-0,2692;B;5;1016;0;0;1004;b;1002;0;0;0;0;0;0;0;0;B;5;NA;994,8824;34;1,199;;MyAveragePrice=994,8824 YesterdayPrice=1004,00;BuyLimit increased 1.199%;
+V45;0349;NoiseTrader;1117;733773;1846305;640;0,0347;-13903;-0,7474;B;5;1003;0;0;996;b;994;0;0;0;0;0;0;0;0;B;5;NA;995,5882;34;-0,751;;MyAveragePrice=995,5882 YesterdayPrice=1004,00
+V45;0350;NoiseTrader;1115;735773;1850773;4052;0,2194;-9435;-0,5072;S;0;0;5;996;1000;B;993;0;0;0;0;0;0;0;0;S;2;NA;996,2941;34;0,926;;MyAveragePrice=996,2941 YesterdayPrice=996,00
+V45;0351;NoiseTrader;1115;735773;1848543;2883;0,1562;-11665;-0,6271;B;5;992;0;0;998;G;994;0;0;0;0;0;0;0;0; ;0;NA;997,1176;34;0,713;;MyAveragePrice=997,1176 YesterdayPrice=1000,00;BuyLimit decreased 0.713%;
+V45;0352;NoiseTrader;1120;730788;1847428;-5680;-0,3065;-12780;-0,687;B;5;1003;0;0;997;B;986;0;0;0;0;0;0;0;0;B;5;NA;997,4412;34;0,518;;MyAveragePrice=997,4412 YesterdayPrice=998,00;BuyLimit increased 0.518%;
+V45;0353;NoiseTrader;1116;734772;1846308;-2544;-0,1376;-13900;-0,7472;S;0;0;5;990;996;B;996;0;0;0;0;0;0;0;0;S;4;NA;997,7941;34;0,63;;MyAveragePrice=997,7941 YesterdayPrice=997,00;SellLimit decreased 0.63%;
+V45;0354;NoiseTrader;1112;738748;1844076;-7968;-0,4302;-16132;-0,8672;S;0;0;5;984;994;B;994;0;0;0;0;0;0;0;0;S;4;NA;998,1176;34;1,108;;MyAveragePrice=998,1176 YesterdayPrice=996,00;SellLimit decreased 1.108%;
+V45;0355;NoiseTrader;1112;738748;1839628;-17761;-0,9562;-20580;-1,1063;S;0;0;5;993;990;G;998;0;0;0;0;0;0;0;0; ;0;NA;998,4412;34;0,01;;MyAveragePrice=998,4412 YesterdayPrice=994,00;SellLimit decreased 0.01%;
+V45;0356;NoiseTrader;1108;742716;1841852;-26277;-1,4066;-18356;-0,9868;S;0;0;5;992;992;B;993;0;0;0;0;0;0;0;0;S;4;NA;998,7941;34;0,29;;MyAveragePrice=998,7941 YesterdayPrice=990,00;SellLimit increased 0.29%;
+V45;0357;NoiseTrader;1108;742716;1837420;-18895;-1,0179;-22788;-1,225;S;0;0;5;990;988;B;993;0;0;0;0;0;0;0;0; ;0;NA;999,1765;34;0,134;;MyAveragePrice=999,1765 YesterdayPrice=992,00;SellLimit decreased 0.134%;
+V45;0358;NoiseTrader;1106;744700;1841852;-13384;-0,7214;-18356;-0,9868;S;0;0;5;983;992;B;1000;0;0;0;0;0;0;0;0;S;2;NA;999,3529;34;0,435;;MyAveragePrice=999,3529 YesterdayPrice=988,00;SellLimit decreased 0.435%;
+V45;0359;NoiseTrader;1101;749665;1842958;-17693;-0,9509;-17250;-0,9273;S;0;0;5;981;993;G;1003;0;0;0;0;0;0;0;0;S;5;NA;999,8824;34;1,062;;MyAveragePrice=999,8824 YesterdayPrice=992,00;SellLimit decreased 1.062%;
+V45;0360;NoiseTrader;1097;753665;1850665;-5634;-0,3035;-9543;-0,513;S;0;0;5;997;1000;B;995;0;0;0;0;0;0;0;0;S;4;NA;1000,1176;34;0,484;;MyAveragePrice=1000,1176 YesterdayPrice=993,00;SellLimit increased 0.484%;
+V45;0361;NoiseTrader;1092;758615;1839695;-15516;-0,8363;-20513;-1,1027;S;0;0;5;989;990;G;995;0;0;0;0;0;0;0;0;S;5;NA;1000,50;34;1,045;;MyAveragePrice=1000,50 YesterdayPrice=1000,00;SellLimit decreased 1.045%;
+V45;0362;NoiseTrader;1092;758615;1838603;-25344;-1,3597;-21605;-1,1614;S;0;0;5;999;989;G;988;0;0;0;0;0;0;0;0; ;0;NA;1000,3235;34;0,914;;MyAveragePrice=1000,3235 YesterdayPrice=990,00;SellLimit increased 0.914%;
+V45;0363;NoiseTrader;1088;762595;1845155;-27528;-1,47;-15053;-0,8092;S;0;0;5;990;995;B;991;0;0;0;0;0;0;0;0;S;4;NA;1000,1471;34;0,112;;MyAveragePrice=1000,1471 YesterdayPrice=989,00;SellLimit increased 0.112%;
+V45;0364;NoiseTrader;1088;762595;1834275;-25304;-1,3607;-25933;-1,3941;S;0;0;5;993;985;G;988;0;0;0;0;0;0;0;0; ;0;NA;1000,1471;34;0,142;;MyAveragePrice=1000,1471 YesterdayPrice=995,00;SellLimit decreased 0.142%;
+V45;0365;NoiseTrader;1088;762595;1839715;-19864;-1,0682;-20493;-1,1017;S;0;0;5;994;990;B;979;0;0;0;0;0;0;0;0; ;0;NA;999,8235;34;0,948;;MyAveragePrice=999,8235 YesterdayPrice=985,00;SellLimit increased 0.948%;
+V45;0366;NoiseTrader;1086;764557;1829923;-18636;-1,0081;-30285;-1,628;S;0;0;5;981;981;B;991;0;0;0;0;0;0;0;0;S;2;NA;999,6765;34;0,897;;MyAveragePrice=999,6765 YesterdayPrice=990,00;SellLimit decreased 0.897%;
+V45;0367;NoiseTrader;1081;769537;1846213;-8988;-0,4845;-13995;-0,7523;S;0;0;5;971;996;b;999;0;0;0;0;0;0;0;0;S;5;NA;999,0588;34;0,994;;MyAveragePrice=999,0588 YesterdayPrice=981,00;SellLimit decreased 0.994%;
+V45;0368;NoiseTrader;1076;774517;1846213;-8988;-0,4845;-13995;-0,7523;S;0;0;5;996;996;G;995;0;0;0;0;0;0;0;0;S;5;NA;999,00;34;0,028;;MyAveragePrice=999,00 YesterdayPrice=996,00
+V45;0369;NoiseTrader;1071;779542;1855897;9592;0,5195;-4311;-0,2317;S;0;0;5;997;1005;G;1001;0;0;0;0;0;0;0;0;S;5;NA;998,8529;34;0,116;;MyAveragePrice=998,8529 YesterdayPrice=996,00;SellLimit increased 0.116%;
+V45;0370;NoiseTrader;1075;775494;1863394;12621;0,6819;3186;0,1713;B;5;1012;0;0;1012;G;998;0;0;0;0;0;0;0;0;B;4;NA;998,8235;34;0,77;;MyAveragePrice=998,8235 YesterdayPrice=1005,00;BuyLimit increased 0.77%;
+V45;0371;NoiseTrader;1080;770459;1858019;9476;0,5126;-2189;-0,1177;B;5;1023;0;0;1007;B;991;0;0;0;0;0;0;0;0;B;5;NA;998,7059;34;1,131;;MyAveragePrice=998,7059 YesterdayPrice=1012,00;BuyLimit increased 1.131%;
+V45;0372;NoiseTrader;1084;766479;1845059;-2369;-0,1282;-15149;-0,8144;B;5;1013;0;0;995;G;987;0;0;0;0;0;0;0;0;B;4;NA;998,7647;34;0,649;;MyAveragePrice=998,7647 YesterdayPrice=1007,00;BuyLimit decreased 0.649%;
+V45;0373;NoiseTrader;1080;770483;1851563;5255;0,2846;-8645;-0,4647;S;0;0;5;998;1001;B;994;0;0;0;0;0;0;0;0;S;4;NA;998,50;34;0,384;;MyAveragePrice=998,50 YesterdayPrice=995,00;SellLimit increased 0.384%;
+V45;0374;NoiseTrader;1085;765443;1859123;15047;0,816;-1085;-0,0583;B;5;1009;0;0;1008;B;1002;0;0;0;0;0;0;0;0;B;5;NA;998,2647;34;0,819;;MyAveragePrice=998,2647 YesterdayPrice=1001,00;BuyLimit decreased 0.819%;
+V45;0375;NoiseTrader;1085;765443;1855868;16240;0,8828;-4340;-0,2333;B;5;996;0;0;1005;B;1008;0;0;0;0;0;0;0;0; ;0;NA;998,3529;34;1,155;;MyAveragePrice=998,3529 YesterdayPrice=1008,00;BuyLimit decreased 1.155%;
+V45;0376;NoiseTrader;1090;760423;1854783;12931;0,7021;-5425;-0,2916;B;5;1004;0;0;1004;B;999;0;0;0;0;0;0;0;0;B;5;NA;998,3824;34;0,072;;MyAveragePrice=998,3824 YesterdayPrice=1005,00;BuyLimit decreased 0.072%;
+V45;0377;NoiseTrader;1090;760423;1853693;16273;0,8856;-6515;-0,3502;B;5;998;0;0;1003;B;1006;0;0;0;0;0;0;0;0; ;0;NA;998,1471;34;0,512;;MyAveragePrice=998,1471 YesterdayPrice=1004,00;BuyLimit decreased 0.512%;
+V45;0378;NoiseTrader;1090;760423;1862413;20561;1,1163;2205;0,1185;B;5;1008;0;0;1011;G;1015;0;0;0;0;0;0;0;0; ;0;NA;997,6471;34;0,554;;MyAveragePrice=997,6471 YesterdayPrice=1003,00;BuyLimit decreased 0.554%;
+V45;0379;NoiseTrader;1090;760423;1873313;30355;1,6471;13105;0,7045;B;5;1000;0;0;1021;B;1009;0;0;0;0;0;0;0;0; ;0;NA;997,7353;34;1,064;;MyAveragePrice=997,7353 YesterdayPrice=1011,00;BuyLimit increased 1.064%;
+V45;0380;NoiseTrader;1095;755343;1867863;17198;0,9293;7655;0,4115;B;5;1016;0;0;1016;B;1002;0;0;0;0;0;0;0;0;B;5;NA;998,1176;34;0,44;;MyAveragePrice=998,1176 YesterdayPrice=1021,00;BuyLimit decreased 0.44%;
+V45;0381;NoiseTrader;1095;755343;1864578;24883;1,3526;4370;0,2349;B;5;1008;0;0;1013;G;1014;0;0;0;0;0;0;0;0; ;0;NA;998,6471;34;0,771;;MyAveragePrice=998,6471 YesterdayPrice=1016,00;BuyLimit decreased 0.771%;
+V45;0382;NoiseTrader;1100;750283;1863483;24880;1,3532;3275;0,1761;B;5;1020;0;0;1012;G;1006;0;0;0;0;0;0;0;0;B;5;NA;998,9118;34;0,695;;MyAveragePrice=998,9118 YesterdayPrice=1013,00;BuyLimit increased 0.695%;
+V45;0383;NoiseTrader;1105;745253;1856883;11728;0,6356;-3325;-0,1787;B;5;1019;0;0;1006;B;1001;0;0;0;0;0;0;0;0;B;5;NA;999,1471;34;0,744;;MyAveragePrice=999,1471 YesterdayPrice=1012,00;BuyLimit increased 0.744%;
+V45;0384;NoiseTrader;1105;745253;1852463;18188;0,9916;-7745;-0,4164;B;5;994;0;0;1002;G;997;0;0;0;0;0;0;0;0; ;0;NA;999,4412;34;1,101;;MyAveragePrice=999,4412 YesterdayPrice=1006,00;BuyLimit decreased 1.101%;
+V45;0385;NoiseTrader;1105;745253;1857988;18273;0,9933;-2220;-0,1193;B;5;997;0;0;1007;B;1004;0;0;0;0;0;0;0;0; ;0;NA;999,50;34;0,479;;MyAveragePrice=999,50 YesterdayPrice=1002,00;BuyLimit increased 0.479%;
+V45;0386;NoiseTrader;1105;745253;1856883;26960;1,4733;-3325;-0,1787;B;5;1005;0;0;1006;G;1012;0;0;0;0;0;0;0;0; ;0;NA;999,7647;34;0,137;;MyAveragePrice=999,7647 YesterdayPrice=1007,00;BuyLimit decreased 0.137%;
+V45;0387;NoiseTrader;1110;740208;1860198;13985;0,7575;-10;-0,0005;B;5;1017;0;0;1009;B;999;0;0;0;0;0;0;0;0;B;5;NA;1000,0294;34;1,188;;MyAveragePrice=1000,0294 YesterdayPrice=1006,00;BuyLimit increased 1.188%;
+V45;0388;NoiseTrader;1114;736184;1856868;10655;0,5771;-3340;-0,1795;B;5;1012;0;0;1006;G;997;0;0;0;0;0;0;0;0;B;4;NA;1000,4118;34;0,353;;MyAveragePrice=1000,4118 YesterdayPrice=1009,00;BuyLimit decreased 0.353%;
+V45;0389;NoiseTrader;1118;732148;1860210;4313;0,2324;2;0,0001;B;5;1009;0;0;1009;G;989;0;0;0;0;0;0;0;0;B;4;NA;1000,7647;34;0,329;;MyAveragePrice=1000,7647 YesterdayPrice=1006,00;BuyLimit increased 0.329%;
+V45;0390;NoiseTrader;1123;727138;1852384;-11010;-0,5909;-7824;-0,4206;B;5;1014;0;0;1002;B;986;0;0;0;0;0;0;0;0;B;5;NA;1001,3235;34;0,579;;MyAveragePrice=1001,3235 YesterdayPrice=1009,00;BuyLimit increased 0.579%;
+V45;0391;NoiseTrader;1123;727138;1843400;-14619;-0,7868;-16808;-0,9036;B;5;991;0;0;994;G;998;0;0;0;0;0;0;0;0; ;0;NA;1001,6176;34;1,059;;MyAveragePrice=1001,6176 YesterdayPrice=1002,00;BuyLimit decreased 1.059%;
+V45;0392;NoiseTrader;1123;727138;1844523;-536;-0,0291;-15685;-0,8432;S;0;0;5;1004;995;b;992;0;0;0;0;0;0;0;0; ;0;NA;1001,7941;34;1,085;;MyAveragePrice=1001,7941 YesterdayPrice=994,00;SellLimit increased 1.085%;
+V45;0393;NoiseTrader;1120;730120;1843400;-8163;-0,4409;-16808;-0,9036;S;0;0;5;994;994;B;995;0;0;0;0;0;0;0;0;S;3;NA;1001,8824;34;-0,188;;MyAveragePrice=1001,8824 YesterdayPrice=995,00
+V45;0394;NoiseTrader;1120;730120;1829960;-29163;-1,5686;-30248;-1,6261;S;0;0;5;991;982;b;991;0;0;0;0;0;0;0;0; ;0;NA;1001,9118;34;0,211;;MyAveragePrice=1001,9118 YesterdayPrice=994,00;SellLimit decreased 0.211%;
+V45;0395;NoiseTrader;1117;733066;1829960;-25908;-1,396;-30248;-1,6261;S;0;0;5;982;982;B;984;0;0;0;0;0;0;0;0;S;3;NA;1001,3824;34;0,334;;MyAveragePrice=1001,3824 YesterdayPrice=982,00
+V45;0396;NoiseTrader;1117;733066;1823258;-31525;-1,6997;-36950;-1,9863;S;0;0;5;977;976;B;980;0;0;0;0;0;0;0;0; ;0;NA;1001,1471;34;0,441;;MyAveragePrice=1001,1471 YesterdayPrice=982,00;SellLimit decreased 0.441%;
+V45;0397;NoiseTrader;1112;737986;1832194;-21499;-1,1598;-28014;-1,506;S;0;0;5;971;984;b;991;0;0;0;0;0;0;0;0;S;5;NA;1000,7647;34;0,501;;MyAveragePrice=1000,7647 YesterdayPrice=976,00;SellLimit decreased 0.501%;
+V45;0398;NoiseTrader;1112;737986;1819962;-42451;-2,2794;-40246;-2,1635;S;0;0;5;984;973;G;985;0;0;0;0;0;0;0;0; ;0;NA;1000,4412;34;0,878;;MyAveragePrice=1000,4412 YesterdayPrice=984,00
+V45;0399;NoiseTrader;1112;737986;1823298;-50015;-2,6699;-36910;-1,9842;S;0;0;5;981;976;G;983;0;0;0;0;0;0;0;0; ;0;NA;1000,0882;34;0,825;;MyAveragePrice=1000,0882 YesterdayPrice=973,00;SellLimit increased 0.825%;
+V45;0400;NoiseTrader;1111;738971;1833306;-34557;-1,8501;-26902;-1,4462;S;0;0;5;984;985;B;985;0;0;0;0;0;0;0;0;S;1;NA;999,6765;34;0,886;;MyAveragePrice=999,6765 YesterdayPrice=976,00;SellLimit increased 0.886%;

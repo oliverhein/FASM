@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.borland.tg.emfapi.bcore.edit; singleton:=true
+Bundle-Version: 8.1.1
+Bundle-ClassPath: bcore_edit.jar
+Bundle-Activator: com.borland.tg.emfapi.bcore.edit.plugin.BcoreEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.tg.emfapi.bcore.edit.extension,
+ com.borland.tg.emfapi.bcore.edit.plugin,
+ com.borland.tg.emfapi.bcore.edit.provider
+Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
+ com.borland.tg.emfapi.bcore;visibility:=reexport,
+ org.eclipse.emf.ecore.edit;visibility:=reexport,
+ com.togethersoft.modules.uml20,
+ com.tssap.selena.model.ui,
+ org.eclipse.ui,
+ com.borland.selena.model.hyperlinks
+Eclipse-LazyStart: true

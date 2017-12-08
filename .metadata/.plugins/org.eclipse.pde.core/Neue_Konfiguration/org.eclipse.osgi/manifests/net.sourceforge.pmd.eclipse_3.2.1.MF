@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Generated-from: 1179245152000;type=10
+Bundle-ManifestVersion: 2
+Bundle-Name: PMD For Eclipse
+Bundle-SymbolicName: net.sourceforge.pmd.eclipse; singleton:=true
+Bundle-Version: 3.2.1
+Bundle-Vendor: PMD Development Team
+Bundle-Localization: plugin
+Require-Bundle: net.sourceforge.pmd.core,
+ net.sourceforge.pmd.runtime,
+ net.sourceforge.pmd.ui
+Eclipse-LazyStart: true

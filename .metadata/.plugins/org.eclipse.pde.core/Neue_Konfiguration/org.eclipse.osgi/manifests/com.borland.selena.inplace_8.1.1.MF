@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %inplacePlugin
+Bundle-SymbolicName: com.borland.selena.inplace
+Bundle-Version: 8.1.1
+Bundle-ClassPath: plugin.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.selena.b,
+ com.borland.selena.b.a,
+ com.borland.selena.b.b
+Require-Bundle: org.eclipse.core.runtime,
+ com.tssap.selena.model,
+ com.togethersoft.modules.model

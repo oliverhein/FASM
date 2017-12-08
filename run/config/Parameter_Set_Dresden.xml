@@ -1,0 +1,276 @@
+<SimulationConfig>
+<BaseConfig>
+<!-- //////////////////////////////////////////////////////////////// -->
+<!-- //                                                            // -->
+<!-- // General Parameter                                          // -->
+<!-- //                                                            // -->
+<!-- //////////////////////////////////////////////////////////////// -->
+<!-- # Market mode definition -->
+<!-- # =1  Stock Market -->
+<!-- # =2  Money Market -->
+<MarketMode>1</MarketMode>
+<!-- # Tobintax Agent active or not -->
+<TobintaxAgentActive>true</TobintaxAgentActive>
+<!-- #Days of simulation -->
+<!-- #Default: 300 days  -->
+<Handelsday>3000</Handelsday>
+<!-- #parameter InnererWertMuster defines a text file which contains the InnererWert that is created before. -->
+<InnerWert_Muster>inner_dresden</InnerWert_Muster>
+<!-- #Die maximale Abweichung in % von Innererwert am Tag  -->
+<MaximalTagAbweichnung>1.0</MaximalTagAbweichnung>
+<!-- #Der minimale Innererwert  -->
+<InnerWert_Min>500</InnerWert_Min>
+<!-- #Der maximale Innererwert  -->
+<InnerWert_Max>3000</InnerWert_Max>
+<!-- #Der StartWert von InnererWert  -->
+<InnerWert_Begin>1000</InnerWert_Begin>
+<!-- #Der Interval von Tagen fuer Gewinnstatusaustausch zwischen Agenten -->
+<!-- #Dieser Wert ist wichtig fuer Agent-Kommunikation -->
+<GewinnstatusaustauschInterval>15</GewinnstatusaustauschInterval>
+<!-- # Tage innerhalb einer Sinus Funktion  -->
+DaysOfOnePeriod=1500
+<!-- #Die maximal erlaubte Abweichung zwischen Preis und Innererwert  -->
+<!-- #Dieser Parameter regelt den Ablauf einer Simulation, -->
+<!-- #Wenn ein Tag die Abweichung diese Grenz ueberschreitet, wird die Simulation abgebrochen. -->
+<AllowedAbweichungPreis2InnererWert>100</AllowedAbweichungPreis2InnererWert>
+<!-- # ReferenceTag, gegen den die Gewinn berechnet werden soll.  -->
+<ReferenceDaysForGewinnCalculation>20</ReferenceDaysForGewinnCalculation>
+<!-- # Prozent von HillEstimation Berechnung  -->
+<HillEstimatorProcent>5.0</HillEstimatorProcent>
+<!-- # DataFormat ( float ) of test report summary  -->
+<DataFormatLanguage>German</DataFormatLanguage>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Parameter for Agent Communication                          ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<StatusExchangeProbabiliy>15</StatusExchangeProbabiliy>
+<!-- #Anzahl des Verlusts, nach denen der Agent seinen Typ versuchen zu anderen Typ zu wechseln soll -->
+<!-- #Der Verlust soll nach nacheinander sein. -->
+<!-- #MaxVerlustNumber Mode: fixed or variable, fixed means all agent use the same MaxLostNumber. -->
+<!-- #variable means every agent has own MaxLostNumber which is created using a Random Seed. -->
+<MaxLostNumberMode>variable</MaxLostNumberMode>
+<FixedMaxLostNumber>3</FixedMaxLostNumber>
+<MaxLostNumberSeed>20</MaxLostNumberSeed>
+<BaseDeviation4PriceLimit>5</BaseDeviation4PriceLimit>
+<AbschlagFactor>1</AbschlagFactor>
+<Orders4AverageLimit>8</Orders4AverageLimit>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Investor Parameter                                         ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #Investor Minimal Init Cash  bzw.  Cash1 -->
+<Investor_InitCash_Min>300000</Investor_InitCash_Min>
+<!-- #Investor Maximal Init Cash  bzw.  Cash1 -->
+<Investor_InitCash_Max>900000</Investor_InitCash_Max>
+<!-- #Investor Minimal Init Aktien  bzw.  Cash2 -->
+<Investor_InitStock_Min>1000</Investor_InitStock_Min>
+<!-- #Investor Maximal Init Aktien  bzw.  Cash2 -->
+<Investor_InitStock_Max>2000</Investor_InitStock_Max>
+<!-- #AbschlagProzent Parameter  -->
+<Investor_DynamischAbschlagProzent_Min>0.5</Investor_DynamischAbschlagProzent_Min>
+<Investor_DynamischAbschlagProzent_Max>3.5</Investor_DynamischAbschlagProzent_Max>
+<Investor_AbschlagGaussMean>2.0</Investor_AbschlagGaussMean>
+<Investor_AbschlagGaussDeviation>1.0</Investor_AbschlagGaussDeviation>
+<Investor_AnzahlProzent_LinkBereich>70</Investor_AnzahlProzent_LinkBereich>
+<Investor_AnzahlProzent_MittBereich>25</Investor_AnzahlProzent_MittBereich>
+<Investor_AnzahlProzent_RechtBereich>5</Investor_AnzahlProzent_RechtBereich>
+<!-- Folgende Parameter sind relevant fuer Individuelle InnererWert Berechnung fuer Investor -->
+<!-- Intervall Untergrenz und ObenGrenz, Schwelle, Potenzial sind in Prozent anzugeben -->
+<InnererWertIntervall_Untergrenz>-5.0</InnererWertIntervall_Untergrenz>
+<InnererWertIntervall_Obengrenz>5.0</InnererWertIntervall_Obengrenz>
+<KursAnderung_Schwelle>8.0</KursAnderung_Schwelle>
+<AktuellerInnererWert_Potenzial>8.0</AktuellerInnererWert_Potenzial>
+<KursAnderung_ReferenzTag>5</KursAnderung_ReferenzTag>
+<!-- ############################################################################# -->
+<!-- #Investor KursChangedProcentLimit 1: if KursChangedProcent is greater than Limi1, then ...  -->
+<Investor_KurschangedprocentLimit1>2.0</Investor_KurschangedprocentLimit1>
+<!-- #Investor KursChangedProcentLimit 2:  -->
+<Investor_KurschangedprocentLimit2>5.0</Investor_KurschangedprocentLimit2>
+<!-- #Investor KursChangedProcentLimit 3:  -->
+<Investor_KurschangedprocentLimit3>12.0</Investor_KurschangedprocentLimit3>
+<!-- #Investor OrderMenge Stufe1 -->
+<Investor_Order_Stufe1>4</Investor_Order_Stufe1>
+<!-- #Investor OrderMenge Stufe2 -->
+<Investor_Order_Stufe2>4</Investor_Order_Stufe2>
+<!-- #Investor OrderMenge Stufe3 -->
+<Investor_Order_Stufe3>12</Investor_Order_Stufe3>
+<!-- #Investor OrderMenge Stufe4 -->
+<Investor_Order_Stufe4>50</Investor_Order_Stufe4>
+<!-- # Stufe 1 MarketOrder Mark for BilligestKauf , 'B' stands for Billigest -->
+<Investor_Stufe1MarketOrderBilligestKauf> </Investor_Stufe1MarketOrderBilligestKauf>
+<!-- # Stufe 1 MarketOrder Mark for BestVerkauf , 'B' stands for BestVerkauf -->
+<Investor_Stufe1MarketOrderBestVerkauf> </Investor_Stufe1MarketOrderBestVerkauf>
+<!-- # Stufe 2 MarketOrder Mark, 'B' stands for BilligestKauf -->
+<Investor_Stufe2MarketOrderBilligestKauf> </Investor_Stufe2MarketOrderBilligestKauf>
+<!-- # Stufe 2 MarketOrder Mark for BestVerkauf , 'B' stands for BestVerkauf -->
+<Investor_Stufe2MarketOrderBestVerkauf> </Investor_Stufe2MarketOrderBestVerkauf>
+<!-- # Stufe 3 MarketOrder Mark, 'B' stands for BilligestKauf -->
+<Investor_Stufe3MarketOrderBilligestKauf> </Investor_Stufe3MarketOrderBilligestKauf>
+<!-- # Stufe 3 MarketOrder Mark for BestVerkauf , 'B' stands for BestVerkauf -->
+<Investor_Stufe3MarketOrderBestVerkauf> </Investor_Stufe3MarketOrderBestVerkauf>
+<!-- # Stufe 4 MarketOrder Mark, 'B' stands for BilligestKauf -->
+<Investor_Stufe4MarketOrderBilligestKauf> </Investor_Stufe4MarketOrderBilligestKauf>
+<!-- # Stufe 4 MarketOrder Mark for BestVerkauf , 'B' stands for BestVerkauf -->
+<Investor_Stufe4MarketOrderBestVerkauf> </Investor_Stufe4MarketOrderBestVerkauf>
+<!-- # SchlafenProzent: definier wie haeufig Investor kein Buy/Sell-Order stellt -->
+<Investor_SleepProcent>0</Investor_SleepProcent>
+<!-- # InvestorAffectedByOtherNode definiert ob Investor seinen Typ aendern darf. -->
+<InvestorAffectedByOtherNode>false</InvestorAffectedByOtherNode>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ##  NoiseTrader Parameter                                     ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #Noisetrader Minimal Init Cash  bzw.  Cash1 -->
+<NoiseTrader_InitCash_Min>70000</NoiseTrader_InitCash_Min>
+<!-- #Noisetrader Maximal Init Cash  bzw.  Cash1 -->
+<NoiseTrader_InitCash_Max>300000</NoiseTrader_InitCash_Max>
+<!-- #Noisetrader Minial Init Aktien  bzw.  Cash2 -->
+<NoiseTrader_InitStock_Min>100</NoiseTrader_InitStock_Min>
+<!-- #Noisetrader Maximal Init Aktien  bzw.  Cash2 -->
+<NoiseTrader_InitStock_Max>400</NoiseTrader_InitStock_Max>
+<!-- #NoiserTrader KursChangedProcentLimit 1: if KursChangedProcent is greater than Limit1, then ...  -->
+<NoiseTrader_KurschangedprocentLimit1>2.0</NoiseTrader_KurschangedprocentLimit1>
+<!-- #NoiserTrader KursChangedProcentLimit 2:  -->
+<NoiseTrader_KurschangedprocentLimit2>4.0</NoiseTrader_KurschangedprocentLimit2>
+<!-- #NoiserTrader KursChangedProcentLimit 3:  -->
+<NoiseTrader_KurschangedprocentLimit3>6.0</NoiseTrader_KurschangedprocentLimit3>
+<!-- #NoiserTrader OrderMenge Stufe1: KursChangedProcent: [0, Limit1]   -->
+<NoiseTrader_Order_Stufe1>1</NoiseTrader_Order_Stufe1>
+<!-- #NoiserTrader OrderMenge Stufe2:  KursChangedProcent: [Limit, Limit2]  -->
+<NoiseTrader_Order_Stufe2>3</NoiseTrader_Order_Stufe2>
+<!-- #NoiserTrader OrderMenge Stufe3:  KursChangedProcent: [Limit2, Limit3]  -->
+<NoiseTrader_Order_Stufe3>5</NoiseTrader_Order_Stufe3>
+<!-- #NoiserTrader OrderMenge Stufe4:  KursChangedProcent: [Limit3, ~]  -->
+<NoiseTrader_Order_Stufe4>8</NoiseTrader_Order_Stufe4>
+<!-- #NoiserTrader Stufe 1 MarketOrder Mark, 'B' stands for BilligestKauf -->
+<NoiseTrader_Stufe1MarketOrderBilligestKauf> </NoiseTrader_Stufe1MarketOrderBilligestKauf>
+<!-- #NoiserTrader Stufe 1 MarketOrder Mark, 'B' stands for BestVerkauf -->
+<NoiseTrader_Stufe1MarketOrderBestVerkauf> </NoiseTrader_Stufe1MarketOrderBestVerkauf>
+<!-- #NoiserTrader Stufe 2 MarketOrder Mark, 'B' stands for BilligestKauf -->
+<NoiseTrader_Stufe2MarketOrderBilligestKauf> </NoiseTrader_Stufe2MarketOrderBilligestKauf>
+<!-- #NoiserTrader Stufe 2 MarketOrder Mark, 'B' stands for BestVerkauf -->
+<NoiseTrader_Stufe2MarketOrderBestVerkauf> </NoiseTrader_Stufe2MarketOrderBestVerkauf>
+<!-- #NoiserTrader Stufe 3 MarketOrder Mark, 'B' stands for BilligestKauf -->
+<NoiseTrader_Stufe3MarketOrderBilligestKauf> </NoiseTrader_Stufe3MarketOrderBilligestKauf>
+<!-- #NoiserTrader Stufe 3 MarketOrder Mark, 'B' stands for BestVerkauf -->
+<NoiseTrader_Stufe3MarketOrderBestVerkauf> </NoiseTrader_Stufe3MarketOrderBestVerkauf>
+<!-- #NoiserTrader Stufe 4 MarketOrder Mark, 'B' stands for BilligestKauf -->
+<NoiseTrader_Stufe4MarketOrderBilligestKauf> </NoiseTrader_Stufe4MarketOrderBilligestKauf>
+<!-- #NoiserTrader Stufe 4 MarketOrder Mark, 'B' stands for BestVerkauf -->
+<NoiseTrader_Stufe4MarketOrderBestVerkauf> </NoiseTrader_Stufe4MarketOrderBestVerkauf>
+<!-- #NoiserTrader Parameter fuer MovingAveragePrice-Berechnung -->
+<!-- #NoiserTrader Jeder NoiseTrader bekommt einen zufaellig generierter MovingDays zwischen Min und Max -->
+<NoiseTrader_MinMovingDays4AveragePrice>10</NoiseTrader_MinMovingDays4AveragePrice>
+<NoiseTrader_MaxMovingDays4AveragePrice>50</NoiseTrader_MaxMovingDays4AveragePrice>
+<!-- #NoiserTrader LimitAdjust  -->
+<!-- #NoiserTrader MinLimitAdjust and MaxAdjust are used for Limit-Generating  Limit = InnererWert * ( 1 + or - x %), x is [LimitMinAdjust, LimitMaxAdjust] -->
+<NoiseTrader_MinLimitAdjust>0.0</NoiseTrader_MinLimitAdjust>
+<NoiseTrader_MaxLimitAdjust>1.2</NoiseTrader_MaxLimitAdjust>
+<!-- # SchlafenProcent: definiert wie haeufig NoiseTrader kein Buy/Sell-Order stellt -->
+<NoiseTrader_SleepProcent>0</NoiseTrader_SleepProcent>
+<!-- # NoiseTraderAffectedByOtherNode definiert ob NoiseTrader seinen Typ aendern darf. -->
+<NoiseTraderAffectedByOtherNode>false</NoiseTraderAffectedByOtherNode>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ##  BlankoAgent Parameter                                    ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #BlankoAgent Init Cash -->
+<BlankoAgent_InitCash_Min>30000</BlankoAgent_InitCash_Min>
+<BlankoAgent_InitCash_Max>50000</BlankoAgent_InitCash_Max>
+<!-- #BlankoAgent Init Stock -->
+<BlankoAgent_InitStock_Min>50</BlankoAgent_InitStock_Min>
+<BlankoAgent_InitStock_Max>150</BlankoAgent_InitStock_Max>
+<BlankoAgentDayOfIndexWindow_Min>30</BlankoAgentDayOfIndexWindow_Min>
+<BlankoAgentDayOfIndexWindow_Max>50</BlankoAgentDayOfIndexWindow_Max>
+<BlankoAgentInactiveDays_Min>200</BlankoAgentInactiveDays_Min>
+<BlankoAgentInactiveDays_Max>500</BlankoAgentInactiveDays_Max>
+<BlankoAgentMindestActiveDays>15</BlankoAgentMindestActiveDays>
+<BlankoAgentPlusIndexProcentForActivation_Min>3.0</BlankoAgentPlusIndexProcentForActivation_Min>
+<BlankoAgentPlusIndexProcentForActivation_Max>6.0</BlankoAgentPlusIndexProcentForActivation_Max>
+<BlankoAgentMinusIndexProcentForDeactivation_Min>2.0</BlankoAgentMinusIndexProcentForDeactivation_Min>
+<BlankoAgentMinusIndexProcentForDeactivation_Max>6.0</BlankoAgentMinusIndexProcentForDeactivation_Max>
+<BlankoAgent_SleepProcent>0</BlankoAgent_SleepProcent>
+<BlankoAgent_CashAppendAllowed>false</BlankoAgent_CashAppendAllowed>
+<BlankoAgent_DaysOfTotalSell>15</BlankoAgent_DaysOfTotalSell>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ##  RandomTrader Parameter                                    ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #RandomTrader Init Cash bzw. Cash1 -->
+<RandomTrader_InitCash>90000000</RandomTrader_InitCash>
+<!-- #RandomTrader Init Aktien bzw. Cash2 -->
+<RandomTrader_InitStock>90000000</RandomTrader_InitStock>
+<!-- #RandomTrader Kauf-Wahrscheinlichkeit in Prozent  -->
+<!-- # Achtung: Kauf-Wahrschlichkeit + Verkauf-Wahrscheinlichkeit muss 100 sein -->
+<RandomTraderBuyProbability>50</RandomTraderBuyProbability>
+<!-- #RandomTrader Kauf-Wahrscheinlichkeit 'Chepest' in Prozent -->
+<!-- #Dieser Parameter steuert wie hauefig der RandomTrader den Order mit Chepest-Buy zu stellen -->
+<!-- # Achtung: Chepest + Indexbased muss 100 sein  -->
+<RandomTraderBuyProbabilityChepest>0</RandomTraderBuyProbabilityChepest>
+<!-- #RandomTrader Kauf-Wahrscheinlichkeit 'Indexbased' in Prozent -->
+<RandomTraderBuyProbabilityIndexBased>100</RandomTraderBuyProbabilityIndexBased>
+<!-- #RandomTrader Verkauf-Wahrscheinlichkeit in Prozent -->
+<RandomTraderSellProbability>50</RandomTraderSellProbability>
+<!-- #RandomTrader Verkauf-Wahrscheinlichkeit 'IndexBased' in Prozent -->
+<!-- # Achtung: IndexBased + Best muss 100 sein.  -->
+<RandomTraderSellProbabilityIndexBased>100</RandomTraderSellProbabilityIndexBased>
+<!-- #RandomTrader Verkauf-Wahrscheinlichkeit 'Best' in Prozent -->
+<RandomTraderSellProbabilityBest>0</RandomTraderSellProbabilityBest>
+<!-- #RandomTrader Schlafen-Wahrscheinlichkeit in Prozent -->
+<RandomTraderWaitProbability>0</RandomTraderWaitProbability>
+<!-- #RandomTrader Minimal und Maximal OrderMenge steuert die Menge in Order -->
+<!-- #RandomTrader Minimal OrderMenge -->
+<RandomTraderMinMenge>1</RandomTraderMinMenge>
+<!-- #RandomTrader Maximal OrderMenge -->
+<RandomTraderMaxMenge>2</RandomTraderMaxMenge>
+<RandomTraderRandomSeed4Decision>10000</RandomTraderRandomSeed4Decision>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Tobintax Agent Parameter                                   ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #Interventionsband in % -->
+<TobintaxInterventionsband>3.0</TobintaxInterventionsband>
+<!-- #Tage fuer Berechnung der Mittelwert der Kurs -->
+<TobintaxTag4AverageKurs>20</TobintaxTag4AverageKurs>
+<!-- #Tradeprozent von Tobintax Agent -->
+<!-- #wenn er kauft, benutzt er     K% von seinem CASH1 -->
+<!-- #wenn er verkauft, verkauft er K% von seinem CASH2 -->
+<TobintaxTradeProzent>20.0</TobintaxTradeProzent>
+<Cash1_Name>Euro</Cash1_Name>
+<Cash2_Name>Dollar</Cash2_Name>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Logging control parameter                                  ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<LogDailyTradeBook>true</LogDailyTradeBook>
+<LogAgentExchangeHistoy>true</LogAgentExchangeHistoy>
+<LogAgentDailyDepot>true</LogAgentDailyDepot>
+<!-- ################################################################ -->
+<!-- ##                                                            ## -->
+<!-- ## Common parts of Agent Network Node->AgentType Mapping      ## -->
+<!-- ##                                                            ## -->
+<!-- ################################################################ -->
+<!-- #Repeat Times of every Netzwork -->
+<RepeatTimes>1</RepeatTimes>
+<!-- # InvestorProzent und NoiseTraderProzent von der Netzwerknodes: % -->
+<!-- # InvestorProzent + NoiseTraderProzent soll 100 sein  -->
+<!-- # These parameter make sense only when 'UseCommonNode2TypeDistribution' is set to true -->
+<!-- # Absolute Anzahl von RandomTrader  -->
+<RandomTrader>1</RandomTrader>
+</BaseConfig>
+
+<Network>
+    <NetworkFile>network/random.mat</NetworkFile>
+    <RandomTrader>2</RandomTrader>
+    <TobintaxFestTax>0.0</TobintaxFestTax>
+    <TobintaxExtraTax>0.0</TobintaxExtraTax>
+</Network>
+
+</SimulationConfig>

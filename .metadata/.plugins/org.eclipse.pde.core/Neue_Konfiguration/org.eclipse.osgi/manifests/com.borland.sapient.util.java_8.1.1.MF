@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %sapientJavaUtil
+Bundle-SymbolicName: com.borland.sapient.util.java
+Bundle-Version: 8.1.1
+Bundle-ClassPath: util.java.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: com.borland.sapient.util

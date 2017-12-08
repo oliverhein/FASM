@@ -1,0 +1,1841 @@
+/**
+ *
+ * Überschrift: Markt Simulator
+ *
+ * Beschreibung:
+ *
+ * Core program of TradeCenter/Börse
+ *
+ * Copyright (c) 2003,2004,2005,2006,2007,2008
+ *
+ * Organisation:  Hain Venture GmbH
+ * @author Wang
+ * @version 1.0
+ */
+
+package de.marketsim.agent.stockstore;
+
+import java.text.*;
+import java.util.*;
+import java.io.*;
+
+import jade.core.*;
+import jade.core.behaviours.*;
+import jade.lang.acl.ACLMessage;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+
+import org.apache.log4j.*;
+import de.marketsim.agent.stockstore.stockdata.*;
+import de.marketsim.config.NetworkConfig;
+import de.marketsim.agent.AgentCommandlineParameterConst;
+
+import de.marketsim.SystemConstant;
+import de.marketsim.message.*;
+
+import de.marketsim.util.*;
+import de.marketsim.util.DailyStatisticOfNetwork;
+import de.marketsim.config.Configurator;
+import de.marketsim.config.AgentSimulatorManagerContainer;
+
+import de.marketsim.gui.StoreBaseGUI;
+import de.marketsim.gui.HistoryFrame;
+import de.marketsim.gui.OperatorStatusFrame;
+import de.marketsim.gui.ChartCreateThread;
+
+
+public class StoreBehavior extends CyclicBehaviour
+{
+
+  Logger mLoggerAblauf = MsgLogger.getMsgLogger("STOCKSTORE.ABLAUF");
+  AgentStateComparer  mAgentStateComparer = new AgentStateComparer();
+
+  boolean  mSimulationAbbrechen = false;
+
+  boolean  mOrderTraceEnabled = false;
+
+  String   mRunTypeChangeStatistic = "";
+  int      mDailyTypeChange        = 0;
+
+  String status       = "INIT";
+  Store storesim      = null;
+
+  // contains the single DailyStatistic
+  Vector  mDailyOrderStatisticList = new Vector();
+
+  HistoryFrame        mChartFrame = null;
+
+  Vector   InvestorNameList      = new Vector();
+  Vector   NoiseTraderNameList   = new Vector();
+  Vector   RandomTraderNameList  = new Vector();
+  Vector   BlankoAgentNameList   = new Vector();
+  Vector   TobintaxAgentList     = new Vector();
+
+  Vector   mNoiseTraderGewinnProzentList  = new Vector();
+  Vector   mInvestorGewinnProzentList     = new Vector();
+
+  //Hashtable mAllAgentAIDLIst  = new Hashtable();
+
+  PriceIndexCalculatorBase  mPriceRechner = null;
+
+  int mFeedbackAnzahl = 0;
+
+  boolean finished = false;
+  boolean mStoreCanOpen = false;
+  ACLMessage msg = null;
+
+   int confirmcounter_inv      = 0;
+   int confirmcounter_trd      = 0;
+   int confirmcounter_blanko   = 0;
+   int confirmcounter_random   = 0;
+   int confirmcounter_tobintax = 0;
+
+   protected DailyStatisticOfNetwork mDailyStatisticOfNetwork         = new DailyStatisticOfNetwork();
+
+   protected DailyStatisticOfNetwork mPrevoiusDailyStatisticOfNetwork = new DailyStatisticOfNetwork();
+
+   int loop = 0;
+   StoreBaseGUI mDialog = null;
+
+   DataFormatter decdataformat = new DataFormatter( "USA" );
+
+   double mPriceofYesteray = 0;
+   int mDayofTrade = 0;
+
+   boolean Agent_already_addedtoGenerator = false;
+
+   String  mWorkMode = null;
+
+  public void setWorkMode(String pWorkMode )
+  {
+    this.mWorkMode = pWorkMode;
+  }
+
+  public StoreBehavior(Store pStoreSim)
+  {
+     super(pStoreSim);
+     storesim=pStoreSim;
+
+     String ss = System.getProperty("TRACEORDER", "false");
+     if ( ss.equalsIgnoreCase("true") )
+     {
+        this.mOrderTraceEnabled = true;
+     }
+  }
+
+  public void setDialog( StoreBaseGUI pDialog )
+  {
+     this.mDialog = pDialog;
+  }
+
+  public void setChartFrame( HistoryFrame pShow )
+  {
+      this.mChartFrame = pShow;
+  }
+
+  private void processUnregisterMessage( UnRegisterMessage pMessage)
+  {
+     AID user = new AID( pMessage.mAgentName, false );
+     if ( pMessage.mAgentType == SystemConstant.AgentType_INVESTOR )
+     {
+        mDialog.unregisterInvestorAgent();
+        this.InvestorNameList.removeElement( user );
+     }
+     else
+     if ( pMessage.mAgentType == SystemConstant.AgentType_NOISETRADER )
+     {
+        mDialog.unregisterNoiseTraderAgent();
+        this.NoiseTraderNameList.removeElement( user );
+     }
+     else
+     if ( pMessage.mAgentType == SystemConstant.AgentType_RANDOMTRADER )
+     {
+        mDialog.unregisterRandomTraderAgent();
+        this.RandomTraderNameList.removeElement( user );
+     }
+     else
+     if ( pMessage.mAgentType == SystemConstant.AgentType_BLANKOAGENT )
+     {
+        mDialog.unregisterBlankoAgent();
+        this.BlankoAgentNameList.removeElement( user );
+     }
+     System.out.println("Agent " + user.getLocalName() + " has loged out.");
+
+  }
+
+  private  void processRegisterMessage( RegisterMessage pMessage )
+  {
+     AID  agentaid  = new AID( pMessage.mAgentName, false );
+
+     String tt = null;
+     if ( pMessage.mAgentType == SystemConstant.AgentType_INVESTOR )
+     {
+         this.InvestorNameList.add( agentaid );
+         tt =  SystemConstant.getOperatorTypeName( pMessage.mAgentType) ;
+         mDialog.registerInvestorAgent();
+     }
+     else
+     if ( pMessage.mAgentType == SystemConstant.AgentType_NOISETRADER )
+     {
+         this.NoiseTraderNameList.add( agentaid );
+         tt =  SystemConstant.getOperatorTypeName( pMessage.mAgentType) ;
+         mDialog.registerNoiseTraderAgent();
+     }
+     else
+     if ( pMessage.mAgentType == SystemConstant.AgentType_RANDOMTRADER )
+     {
+         this.RandomTraderNameList.add( agentaid );
+         tt =  SystemConstant.getOperatorTypeName( pMessage.mAgentType) ;
+         mDialog.registerRandomTraderAgent();
+     }
+     else
+     if ( pMessage.mAgentType == SystemConstant.AgentType_BLANKOAGENT )
+     {
+          this.BlankoAgentNameList.add( agentaid );
+          tt =  SystemConstant.getOperatorTypeName( pMessage.mAgentType) ;
+          mDialog.registerBlankoAgent();
+     }
+     else
+     if ( pMessage.mAgentType == SystemConstant.AgentType_TobinTax )
+     {
+         this.TobintaxAgentList.add(agentaid);
+         tt =  SystemConstant.getOperatorTypeName( pMessage.mAgentType) ;
+         mDialog.registerTobintaxAgent();
+     }
+     else
+     {
+        // other register message is droped
+        return;
+     }
+
+     int registeredagents = this.InvestorNameList.size() +
+                            this.NoiseTraderNameList.size() +
+                            this.BlankoAgentNameList.size() +
+                            this.RandomTraderNameList.size() +
+                            this.TobintaxAgentList.size();
+
+     System.out.println( registeredagents+ ".Agent " + agentaid.getName() + "  Type:" + tt + " has registered.");
+
+     System.out.println(  "Expected:" + Configurator.mConfData.getCountOfRequiredRegister()  + " Registeded:" +registeredagents );
+
+     if ( (registeredagents == Configurator.mConfData.getCountOfRequiredRegister() )  &&
+         (registeredagents !=1) )
+    {
+
+       java.sql.Timestamp ts = new java.sql.Timestamp( System.currentTimeMillis() );
+       String ss = ts.toString().substring(0,19);
+       ss = ss.replace(' ', '-');
+       ss = ss.replace(':','-');
+       Configurator.mConfData.mTimeStamp = ss;
+
+       // send InitCommand to DataLogger
+       this.sendInitCommand2DataLogger();
+       this.mLoggerAblauf.info("InitCommand is sent to DataLogger");
+       // make a delay so that the DataLogger is really ready.
+       HelpTool.pause(1000);
+
+       // check if InnererWertGenerator is ready
+       // It can be prepared in DiaLogMode under RunParameterDialog
+
+       if ( Configurator.mInnererwertRandomWalkGenerator == null )
+       {
+           System.out.println("Innererwert is not yet prepared, now create it.");
+           // noch nicht
+           // Constructor reads some paarmeters
+           Configurator.mInnererwertRandomWalkGenerator =
+                 new InnererwertRandomWalkGenerator(
+                 Configurator.mConfData.mHandelsday,
+                 Configurator.mConfData.mBeginInnererWert,
+                 Configurator.mConfData.mMinInnererWert,
+                 Configurator.mConfData.mMaxInnererWert,
+                 Configurator.mConfData.mInnererwertMaximalTagAbweichnung,
+                 2.5 );
+           Configurator.mInnererwertRandomWalkGenerator.prepareInnererWert();
+       }
+
+       int    InitData_Integer[] = new int   [301];
+       double InitData_Double[]  = new double[301];
+
+       MessageWrapper msgwrpfirst300 = null;
+
+       System.out.println("Configurator.istAktienMarket()=" + Configurator.istAktienMarket());
+
+       if ( Configurator.istAktienMarket() )
+       {
+           InitData_Integer = Configurator.mInnererwertRandomWalkGenerator.getInit300();
+           this.mPriceofYesteray = InitData_Integer[299];
+           msgwrpfirst300 = MessageFactory.createFirst300IntData( InitData_Integer );
+       }
+       else
+       {
+           int[] dd = Configurator.mInnererwertRandomWalkGenerator.getInit300();
+           for (int i=0; i<301;i++)
+           {
+             InitData_Double[i] =  dd[i] / 1000.0;
+           }
+           this.mPriceofYesteray = InitData_Double[299];
+           msgwrpfirst300 = MessageFactory.createFirst300DoubleData( InitData_Double );
+       }
+
+       this.mStoreCanOpen = true;
+       System.out.println(" ***** All " + Configurator.mConfData.getCountOfRequiredRegister() + " Agents have registed on the StockStore. *****"  );
+
+       //send First 301 Innererwert to all Agents, aber nicht DataLogger
+       //System.out.println( "MessageType=" + msgwrpfirst300.mMessageType);
+       //System.out.println( "MessageType=" + msgwrpfirst300.mMessageContent );
+
+       this.sendOneMsg2AllAgents( msgwrpfirst300 );
+
+       // send First 301 Innererwert to DataLogger
+       this.sendFirst301InnererWert2DataLogger( msgwrpfirst300  );
+
+       ts = new java.sql.Timestamp( System.currentTimeMillis() );
+       // this.mDialog.setStarttimeofFirstday( ts.toString().substring(11,19) );
+
+       // This is the first trade day
+       // and this is the first initialization of PriceIndexCalculator_AktienMarket
+       if ( Configurator.istAktienMarket() )
+       {
+           this.mPriceRechner =  new PriceIndexCalculator_AktienMarket( 1, false );
+           this.mLoggerAblauf.info("new PriceIndexCalculator_AktienMarket is created.");
+       }
+       else
+       {
+           this.mPriceRechner =  new PriceIndexCalculator_MoneyMarket( 1, false );
+           this.mLoggerAblauf.info("new PriceIndexCalculator_MoneyMarket is created.");
+       }
+     }
+  }
+
+  // main processing flow
+  public void action()
+  {
+
+    msg = this.myAgent.blockingReceive( 1000 );
+    if (msg == null)
+    {
+       return;
+    }
+
+    MessageWrapper msgwrp = null;
+
+    try
+    {
+       msgwrp = ( MessageWrapper ) msg.getContentObject();
+    }
+    catch (Exception ex)
+    {
+        ex.printStackTrace();
+        System.out.println("ErrorMessage from:"  + msg.getSender().getLocalName() );
+        System.out.println( msg.getContent()  );
+        return;
+    }
+
+    if ( msgwrp.mMessageType == SystemConstant.MessageType_SIMULATORMANAGERLIST  )
+    {
+       this.mDialog.updateSimulatorList( (String) msgwrp.mMessageContent  );
+       return;
+
+    }
+    else
+    if ( msgwrp.mMessageType ==  SystemConstant.MessageType_Register  )
+    {
+       processRegisterMessage( (RegisterMessage) msgwrp.mMessageContent );
+       return;
+    }
+
+    // count the feedback from agents according to its type
+
+    AktienTrade_Order aktienorder = null;
+    CashTrade_Order   cashorder   = null;
+
+    // Because of mixed Orders ( 1 Record wird bis zu zwei Orders gespilit )
+    SingleOrder[] orders;
+    if ( Configurator.istAktienMarket() )
+    {
+        aktienorder = ( AktienTrade_Order ) msgwrp.mMessageContent;
+        aktienorder.mAID = msg.getSender();
+
+        // RandomTrader wird niemals sein type ändern.
+        // Deswegen ist diese Anzahl nur für NoiseTrader und Investor
+        if ( aktienorder.mTypeChanged )
+        {
+           this.mDailyTypeChange = this.mDailyTypeChange + 1;
+        }
+
+        if ( this.mOrderTraceEnabled )
+        {
+
+          System.out.println("AktienOrder:" + aktienorder.mAID.getLocalName()+ " " + aktienorder.toString() );
+
+        }
+
+        CountAgentNumber( aktienorder );
+
+        orders = SingleOrderConverter.getSingleOrder( aktienorder, msg.getSender() );
+        this.mPriceRechner.addOriginalOrder( msg.getSender().getLocalName(), aktienorder  );
+
+    }
+    else
+    {
+        cashorder = ( CashTrade_Order ) msgwrp.mMessageContent;
+        cashorder.mAID = msg.getSender();
+
+        if ( this.mOrderTraceEnabled )
+        {
+
+        System.out.println("CashOrder:" + cashorder.toString() );
+
+        }
+
+        CountCashOrder( cashorder );
+
+        orders = SingleOrderConverter.getSingleOrder( cashorder, msg.getSender() );
+        this.mPriceRechner.addOriginalOrder( msg.getSender().getLocalName(), cashorder  );
+    }
+
+    mFeedbackAnzahl = mFeedbackAnzahl + 1;
+
+    // collect the orders according to its type
+    for ( int i=0; i<orders.length; i++)
+    {
+        if ( ( orders[i].mOrderWish == SystemConstant.WishType_Wait  ) ||
+             ( orders[i].mOrderWish == SystemConstant.WishType_Sleep ) )
+        {
+           // OK-Order (Not Buy nor Not Sell)
+           this.mPriceRechner.addNoneOrder( orders[i] );
+        }
+        else
+        {
+           // one Buy/Sell Order
+           this.mPriceRechner.addOneOrder( orders[i] );
+        }
+    }
+
+    // System.out.println("this.mFeedbackAnzahl=" + this.mFeedbackAnzahl );
+    if ( this.mFeedbackAnzahl == Configurator.mConfData.getCountOfRequiredOrders() )
+    {
+        // start the Kurs calculation
+        // save DailyTypeChange to RunTypeChangeStatistic
+        // Format: 0;1;3;1;
+        this.mRunTypeChangeStatistic = this.mRunTypeChangeStatistic + this.mDailyTypeChange+";" ;
+        this.mDailyTypeChange = 0;
+
+        this.StartTrade();
+
+        if ( Configurator.mUserRequiredBreak )
+        {
+             Configurator.mUserRequiredBreak = false;
+             String reason = "GUI forces to break simulation.";
+             this.InterruptCurrentSimulation( reason );
+             this.ClearAllDataOfLastSimulation();
+        }
+        else
+        // wenn der Preis zu weit Innererwert abweicht,
+        // wird die Simulation gezwungen abgebrochen.
+        if ( this.mSimulationAbbrechen )
+        {
+          String reason = "Price deviation is too great, Simulation is interrupted.";
+          this.InterruptCurrentSimulation( reason );
+          this.mDialog.addInterrupted();
+          // wiederhole die Simulation
+          System.out.println("Simulation will be repeated -------------------- ");
+          this.cleanFeedbackCounter();
+          this.Prepare_and_Start_OneSimulation();
+          // Reset
+          this.mSimulationAbbrechen = false;
+        }
+        else
+        // One Simulation is end?
+        if ( loop == Configurator.mConfData.mHandelsday )
+        {
+              this.mLoggerAblauf.info("Simulation is finished normally, DAX expects " + Configurator.mConfData.getCountOfRequiredRegister() +  " Unregiester Messages" );
+
+              Configurator.mTypeChangeIndicator = this.CreatChangeSumOfRun( this.mRunTypeChangeStatistic );
+
+              this.WaitAllUnregisterMessage();
+              this.mLoggerAblauf.info("All UNREGISTER are received.");
+              // send Close Command to DataLogger Agent
+              this.sendCloseCommand2DataLogger();
+              this.mLoggerAblauf.info("Close Command is sent to DataLogger.");
+
+              if ( this.mChartFrame != null )
+              {
+                // 2007-11-08
+                // Debug a Anzeige Problem
+                this.mChartFrame.saveAgentAnzahlGraphicData( Configurator.mConfData.getAgentAnzahl_In_ModelIndexChartFilename()  );
+
+                //save Chart of HistoryFrame to a JPG file
+                this.mChartFrame.saveFrame();
+                this.mLoggerAblauf.info("Chart has been saved to a JPG file.");
+              }
+
+              // must wait for the "Finished Signal" from DataLogger
+              msg = this.myAgent.blockingReceive();
+              this.mLoggerAblauf.info("DataLogger Finish Signal has come back" );
+
+              // wait for 3000 ms so the DataLogger is unregistered from DFService
+              HelpTool.pause( 3000 );
+
+              NetworkConfig currentnetwork = Configurator.getNetworkConfig( Configurator.mNetworkConfigCurrentIndex );
+              currentnetwork.mCurrentRunningNo = currentnetwork.mCurrentRunningNo + 1;
+
+              this.mLoggerAblauf.info("currentnetwork.mCurrentRunningNo="+currentnetwork.mCurrentRunningNo + " RepeatTimes defined:"+ Configurator.mConfData.mRepeatTimes );
+              this.mLoggerAblauf.info("Networklist.size=" + Configurator.mNetworkConfigManager.getSize() );
+
+              /// Very Important new Change !!!!!!!!!!!!  2006-10-13
+              this.ClearCounterAfterOneRun();
+
+              if ( currentnetwork.mCurrentRunningNo <= Configurator.mConfData.mRepeatTimes )
+              {
+            	 // RUN-01, RUN-02, .... RUN-09, RUN-10,TUN-11
+            	Configurator.mConfData.mTestCaseName = "RUN-" +
+            	HelpTool.covertInt2StringWithPrefixZero(currentnetwork.mCurrentRunningNo, 2);
+
+                this.mDialog.setSimulationCounter( " run: " + currentnetwork.mCurrentRunningNo + " of "+ Configurator.mConfData.mRepeatTimes );
+                 this.Prepare_and_Start_OneSimulation();
+              }
+              else
+              {
+                    // check if there is another network to execute.
+                    if ( ( Configurator.mNetworkConfigCurrentIndex + 1 ) < Configurator.mNetworkConfigManager.getSize() )
+                    {
+                        Configurator.mNetworkConfigCurrentIndex = Configurator.mNetworkConfigCurrentIndex + 1;
+                        this.mDialog.SetCurrentNetworkParameterFromNetworkList( Configurator.mNetworkConfigCurrentIndex );
+                        currentnetwork = Configurator.getNetworkConfig( Configurator.mNetworkConfigCurrentIndex );
+
+                        // create 2. Level Directory
+                        String seconddirectoryname = Configurator.mConfData.mLogTopDirectory +
+                                                  Configurator.mConfData.mPfadSeperator +
+                                                   Configurator.mNetworkConfigCurrentIndex+"_"+
+                                                  Configurator.mConfData.mNetworkfile_OhnePfad_CurrentUsed;
+
+                        FileTool.createDirectory( seconddirectoryname );
+                        Configurator.mConfData.setMainLogDirectory( seconddirectoryname );
+
+                        // RUN-01
+                        Configurator.mConfData.setTestCaseName("RUN-" + HelpTool.covertInt2StringWithPrefixZero(1,2) );
+
+                        this.mDialog.setSimulationCounter( " run: " + currentnetwork.mCurrentRunningNo + " of "+ Configurator.mConfData.mRepeatTimes );
+                        this.Prepare_and_Start_OneSimulation();
+                   }
+                   else
+                   {
+                       // create summary
+                       String titel           =  "Report of Simulation" ;
+                       String csvreportfile   =  Configurator.mConfData.mLogTopDirectory +
+                                                 Configurator.mConfData.mPfadSeperator +
+                                                 Configurator.mConfData.mTestSerienCSVReportFile;
+                       String csvreportfileforspss = Configurator.mConfData.mLogTopDirectory +
+                                                 Configurator.mConfData.mPfadSeperator +
+                                                 Configurator.mConfData.mTestSerienCSVReportFileForSPSS;
+
+                       String htmlreportfile  =  Configurator.mConfData.mLogTopDirectory +
+                                                 Configurator.mConfData.mPfadSeperator +
+                                                 Configurator.mConfData.mTestSerienHTMLReportFile;
+
+                       SimulationReportProcessor.setReportTitle(titel, csvreportfile, csvreportfileforspss, htmlreportfile);
+
+                       this.mLoggerAblauf.info ("There are " + SimulationReportProcessor.getReportNumber() + " report data items ");
+
+                       System.out.println ( Configurator.mConfData.mLogTopDirectory );
+
+                       String AbsolutePathOfTopLogDir = FileTool.getAbsoluteDirectory(Configurator.mConfData.mLogTopDirectory);
+
+                       ChartCreateThread pp = new ChartCreateThread( AbsolutePathOfTopLogDir, (java.awt.Component ) this.mDialog   );
+
+                       pp.run();
+
+                       // create the HTML summary and open it using IE
+                       SimulationReportProcessor.createReport( this.mLoggerAblauf );
+
+                       SimulationReportProcessor.createSPSSData();
+
+                       // clear alte Daten kept in SimulationReportProcessor
+                       SimulationReportProcessor.clearOlddata();
+
+                       // create Agent-Group Statistic
+                       // Statistic HTMLFile Name
+                       // 2007-09-22,23,28
+
+                       String agentgroupfinalstatisticfilename =Configurator.mConfData.getAgentGroupFinalStatisticCompararationFileName();
+                       de.marketsim.util.AgentGroupStatisticAllNetworks.CreateFinalAgentGroupComparation( agentgroupfinalstatisticfilename  );
+
+
+                           // now the AgentSimulator can be closed.
+                           // this.SendCloseCommand2AgentSimulator();
+                           // we do not let the AgentSimulator stop.
+                           // so that man can start the new simulation again
+
+                           // wait for 5 seconds so that all operators can unregister themselves.
+                           HelpTool.pause(5000);
+
+                           // a serial init have to be performed !!!!!!!!!!
+
+                           this.mDialog.EnableButtons4newConfiguration();
+
+                           this.ClearAllDataOfLastSimulation();
+                           de.marketsim.util.AgentGroupStatisticAllNetworks.ClearAllOldData();
+
+                           String dialog = System.getProperty("DIALOG", "true");
+                           if ( ! dialog.equalsIgnoreCase("true") )
+                           {
+                                 this.SendCloseCommand2AgentSimulator();
+                                 System.out.println("***************************************************");
+                                 System.out.println("*                                                 *");
+                                 System.out.println("*     SIMULATION is finished                      *");
+                                 System.out.println("*                                                 *");
+                                 System.out.println("***************************************************");
+                                 System.exit(0);
+                           }
+                }
+           }
+         }
+       }
+  }
+
+  private void InterruptCurrentSimulation(String pBrokeReason)
+  {
+
+    this.mLoggerAblauf.info(pBrokeReason);
+    this.mLoggerAblauf.info( "DAX expects " + Configurator.mConfData.getCountOfRequiredRegister() +  " Unregiester Messages" );
+
+    // send InterruptCommand to all Agents (Investor, NoiseTrader, RandomTrader und TobinTaxAgent).
+    this.sendInterruptCommand2AllAgents( pBrokeReason );
+
+    // wait the Unregister Command
+    this.WaitAllUnregisterMessage();
+
+    // send Interrupt Command to DataLogger Agent
+    this.sendInterruptCommand2DataLogger();
+
+    // wait for 3000 ms
+    HelpTool.pause(3000);
+  }
+
+  private void WaitAllUnregisterMessage()
+  {
+    // wait to receive  JJ Unregister Messages
+    ACLMessage msg;
+    MessageWrapper msgwrp;
+    int JJ = Configurator.mConfData.getCountOfRequiredRegister() ;
+    int i=0;
+
+    while ( i<JJ )
+    {
+      msg = this.myAgent.blockingReceive(1000);
+      if (msg == null)
+      {
+           continue;
+      }
+      else
+      {
+            try
+            {
+                msgwrp = ( MessageWrapper ) msg.getContentObject();
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                System.out.println("ErrorMessage from:"  + msg.getSender().getLocalName() );
+                System.out.println( msg.getContent()  );
+                continue;
+            }
+      }
+
+      if ( msgwrp.mMessageType ==  SystemConstant.MessageType_UnRegister  )
+      {
+            processUnregisterMessage( (UnRegisterMessage) msgwrp.mMessageContent );
+            i++;
+      }
+      else
+      {
+           System.out.println("Message from "  + msg.getSender().getLocalName() + " is ignored." );
+      }
+   }
+  }
+
+  private void Prepare_and_Start_OneSimulation()
+  {
+
+    // reset a serial of member variablen
+    this.loop = 0;
+    // remove all old agent name from InvestorNameList, NoiseTraderNameList and TobintaxNameList
+    this.InvestorNameList.clear();
+    this.NoiseTraderNameList.clear();
+    this.TobintaxAgentList.clear();
+
+    if ( this.mChartFrame  != null )
+    {
+       this.mChartFrame.resetData();
+    }
+
+    // reset some Fields
+    this.mDialog.resetSomeStateFields();
+
+    // prepare the log directory for next simulation
+    this.mDialog.PrepareLogDirectoryForOneSimulation();
+
+    // start a new Simulation
+    this.mLoggerAblauf.info("Starting a new simulation");
+    this.mDialog.StartNewSimulation();
+
+  }
+
+  private void SendCloseCommand2AgentSimulator()
+  {
+      Vector agentsimulatorAIDlist = AgentSimulatorManagerContainer.getAgentSimulatorManagerAIDs();
+      if ( agentsimulatorAIDlist.size() > 0 )
+      {
+          //send quit command to all AgentSimulatorManager
+          ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+          for (int i=0; i<agentsimulatorAIDlist.size(); i++)
+          {
+             aclmsg.addReceiver( (AID) agentsimulatorAIDlist.elementAt(i) );
+          }
+          try
+          {
+            aclmsg.setContentObject( MessageFactory.createQuitCommand() );
+          }
+          catch (Exception ex)
+          {
+            ex.printStackTrace();
+          }
+          this.myAgent.send( aclmsg );
+          System.out.println("Send Quit Command");
+      }
+  }
+
+  /**
+   * "0;0;1;2;"
+   * @param pRunChangeStatistic
+   * @return
+   */
+  private int  CreatChangeSumOfRun(String pRunChangeStatistic)
+  {
+      if ( pRunChangeStatistic.length() == 0 )
+      {
+        return 0;
+      }
+      int sum = 0;
+      String ss =pRunChangeStatistic;
+      while ( ss.length() > 0 )
+      {
+          int j= ss.indexOf(";");
+          String tt = ss.substring(0,j);
+          sum = sum + Integer.parseInt(tt);
+          ss = ss.substring(j+1);
+      }
+      return sum;
+  }
+
+  private void CountAgentNumber( AktienTrade_Order aktienorder )
+  {
+    if ( aktienorder.mAgentType == SystemConstant.AgentType_INVESTOR )
+    {
+        this.updateInvestorAnzahlStatistik( aktienorder );
+        this.mDailyStatisticOfNetwork.mInvestor = this.mDailyStatisticOfNetwork.mInvestor + 1;
+    }
+    else
+    if ( aktienorder.mAgentType == SystemConstant.AgentType_NOISETRADER )
+    {
+        this.updateNoiseTraderAnzahlStatistik( aktienorder );
+        this.mDailyStatisticOfNetwork.mNoiseTrader = this.mDailyStatisticOfNetwork.mNoiseTrader + 1;
+    }
+    else
+    if ( aktienorder.mAgentType == SystemConstant.AgentType_BLANKOAGENT )
+    {
+        this.confirmcounter_blanko++;
+        this.mDailyStatisticOfNetwork.mBlankoAgent = this.mDailyStatisticOfNetwork.mBlankoAgent + 1;
+    }
+    else
+    if ( aktienorder.mAgentType== SystemConstant.AgentType_RANDOMTRADER)
+    {
+        this.confirmcounter_random++;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    if ( aktienorder.mOriginalAgentType == SystemConstant.AgentType_BLANKOAGENT )
+    {
+         if ( aktienorder.isBlankoStateChanged() )
+         {
+             if ( aktienorder.isBlankoActivated() )
+             {
+                this.mDailyStatisticOfNetwork.mBlankoAgentActivated =  this.mDailyStatisticOfNetwork.mBlankoAgentActivated + 1;
+             }
+             else
+             if ( aktienorder.isBlankoDeactivated() )
+             {
+                this.mDailyStatisticOfNetwork.mBlankoAgentDeactivated =
+                    this.mDailyStatisticOfNetwork.mBlankoAgentDeactivated + 1;
+             }
+         }
+    }
+
+  }
+
+  private void CountCashOrder( CashTrade_Order cashorder )
+  {
+    if ( cashorder.mAgentType == SystemConstant.AgentType_INVESTOR )
+    {
+        this.updateInvestorAnzahlStatistik( cashorder );
+    }
+    else
+    if ( cashorder.mAgentType == SystemConstant.AgentType_NOISETRADER )
+    {
+        this.updateNoiseTraderAnzahlStatistik( cashorder );
+    }
+    else
+    if ( cashorder.mAgentType== SystemConstant.AgentType_RANDOMTRADER)
+    {
+        this.confirmcounter_random++;
+    }
+  }
+
+  private void updateInvestorAnzahlStatistik( Object pOrder)
+  {
+    if ( Configurator.istAktienMarket() )
+    {
+            AktienTrade_Order aktienorder = ( AktienTrade_Order ) pOrder;
+
+                /*
+                 TwoBarBaseData tbb =
+                new TwoBarBaseData(  aktienorder.mAbsoluteGewinnProzent,
+                                     aktienorder.mRelativeGewinnProzent,
+                                     SystemConstant.getOperatorTypeName( aktienorder.mAgentType ),
+                                     msg.getSender().getLocalName()
+                                     );
+                */
+
+           /* 2006-10-14 */
+           SingleBarData tbb =
+           new SingleBarData( aktienorder.mRelativeGewinnProzent, msg.getSender().getLocalName() );
+
+           this.mInvestorGewinnProzentList.add( tbb );
+
+           this.confirmcounter_inv++;
+    }
+    else
+    {
+            CashTrade_Order cashorder = ( CashTrade_Order ) pOrder;
+            /*
+                 TwoBarBaseData tbb =
+                new TwoBarBaseData(  cashorder.mAbsoluteGewinnProzent,
+                                     cashorder.mRelativeGewinnProzent,
+                                     SystemConstant.getOperatorTypeName( cashorder.mAgentType ),
+                                     msg.getSender().getLocalName()
+                                     );
+            */
+            SingleBarData tbb = new SingleBarData(cashorder.mRelativeGewinnProzent, msg.getSender().getLocalName() );
+            this.mInvestorGewinnProzentList.add( tbb );
+            this.confirmcounter_inv++;
+    }
+}
+
+  private void updateNoiseTraderAnzahlStatistik( Object pOrder)
+  {
+     if ( Configurator.istAktienMarket() )
+     {
+             AktienTrade_Order aktienorder = ( AktienTrade_Order ) pOrder;
+             /*
+                 TwoBarBaseData tbb =
+                  new TwoBarBaseData(  aktienorder.mAbsoluteGewinnProzent,
+                                          aktienorder.mRelativeGewinnProzent,
+                                          SystemConstant.getOperatorTypeName( aktienorder.mAgentType ),
+                                          msg.getSender().getLocalName()
+                                         );
+             */
+
+             SingleBarData tbb = new SingleBarData( aktienorder.mRelativeGewinnProzent, msg.getSender().getLocalName() );
+             this.mNoiseTraderGewinnProzentList.add( tbb );
+             this.confirmcounter_trd++;
+     }
+     else
+     {
+             CashTrade_Order cashorder = ( CashTrade_Order ) pOrder;
+             /*
+                 TwoBarBaseData tbb =
+                  new TwoBarBaseData(     cashorder.mAbsoluteGewinnProzent,
+                                          cashorder.mRelativeGewinnProzent,
+                                          SystemConstant.getOperatorTypeName( cashorder.mAgentType ),
+                                          msg.getSender().getLocalName()
+                                         );
+             */
+             SingleBarData tbb = new SingleBarData( cashorder.mRelativeGewinnProzent, msg.getSender().getLocalName() );
+             this.mNoiseTraderGewinnProzentList.add( tbb );
+             this.confirmcounter_trd++;
+     }
+  }
+
+  /**
+   * Kern Ablauf von Trade Center
+   */
+  private void StartTrade()
+  {
+
+    if ( Configurator.mConfData.mStepByStep )
+    {
+       // wait for GOON event
+       System.out.println("Wait for GOON button to pres");
+       Configurator.waitforcommand();
+       // after user gives "GOON" command, then perform the exchage.
+       // start the Kurs Berechnen
+    }
+
+    this.mSimulationAbbrechen = false;
+    // Search the common Max and Min
+    double maxwert = Integer.MIN_VALUE;
+    double minwert = Integer.MAX_VALUE;
+
+    for (int i=0; i<this.mInvestorGewinnProzentList.size();i++)
+    {
+      SingleBarData tbb = ( SingleBarData) this.mInvestorGewinnProzentList.elementAt(i);
+      maxwert = Math.max( maxwert, Math.abs( tbb.mRelativeGewinnProzent) );
+      minwert = Math.min( minwert, Math.abs( tbb.mRelativeGewinnProzent) );
+    }
+
+    for (int i=0; i<this.mNoiseTraderGewinnProzentList.size();i++)
+    {
+      SingleBarData tbb = ( SingleBarData ) this.mNoiseTraderGewinnProzentList.elementAt(i);
+      maxwert = Math.max( maxwert, Math.abs(tbb.mRelativeGewinnProzent) );
+      minwert = Math.min( minwert, Math.abs(tbb.mRelativeGewinnProzent) );
+    }
+
+    // Display the GewinnProzent of Investor
+    this.mDialog.displayInvestorGewinnProzent(this.mInvestorGewinnProzentList,        (loop+1), maxwert, minwert );
+
+    // Display the GewinnProzent of NoiseTrader
+    this.mDialog.displayNoiserTraderGewinnProzent(this.mNoiseTraderGewinnProzentList, (loop+1), maxwert, minwert );
+
+    String agentnumerstatistic = loop+";" +
+                                 this.confirmcounter_inv+";"+
+                                 this.confirmcounter_trd+";" +
+                                 this.confirmcounter_blanko+";";
+
+     // calculate the new price
+     System.out.println( "----------" + HelpTool.getTimeStamp() + " " +(loop+1) + ". day: all orders collected. start processing orders");
+     System.out.println( "Yesterday Price =" + this.mPriceofYesteray );
+
+     this.mPriceRechner.setLastPrice( this.mPriceofYesteray );
+
+     // Start the Price Calculation
+     this.mPriceRechner.calcindex();
+
+     double newprice = this.mPriceRechner.getPrice();
+
+     DailyOrderStatistic  dailyorderstat = this.mPriceRechner.getDailyOrderStatistic();
+
+     // save into the list for the late calculation
+     this.mDailyOrderStatisticList.add( dailyorderstat );
+
+     double LastInnererWert = Configurator.mConfData.mInnererWert[ this.loop ];
+     if ( ! Configurator.istAktienMarket() )
+     {
+         LastInnererWert = LastInnererWert / 1000.0;
+     }
+
+     double delta = Math.abs( LastInnererWert - newprice );
+     double basewert = Math.min( LastInnererWert, newprice );
+     double abweichungprozent = delta / basewert * 100;
+
+     if (  abweichungprozent > Configurator.mConfData.mAllowerAbweichungPreis2InnererWert )
+     {
+        System.out.println("Simulation is broken.");
+        System.out.println("Deviation procent=" + abweichungprozent + " Allowed maximal Deviation=" + Configurator.mConfData.mAllowerAbweichungPreis2InnererWert +
+                            "InnererWert= " +  LastInnererWert + " newprice= " + newprice );
+
+        this.mSimulationAbbrechen = true;
+        return;
+     }
+
+     //double logrenditen = Math.log( newprice / this.mPriceofYesteray ) / Math.log(10.0);
+     double logrenditen = Math.log( newprice / this.mPriceofYesteray ) ;
+
+     System.out.print( "new Price=" + newprice + " oldprice=" + this.mPriceofYesteray);
+
+     char TradeStatus = this.mPriceRechner.getTradeStatus();
+
+     // Display the processing status of order of agents
+
+     Vector StatusData = this.mPriceRechner.getAllOrderResult();
+
+     //  Format:
+     //  AgentName;AgentType;OrderState;xx
+     String pp= this.loop + " ";
+
+     //
+     // create a new Hashtable according to the Vector !!
+     //
+
+     Hashtable agentnewstate = new Hashtable();
+
+     for ( int i=0; i<StatusData.size(); i++)
+     {
+        String ss = ( String ) StatusData.elementAt(i);
+        pp = pp + ss + " ";
+        int j1 = ss.indexOf(";");
+        int j2 = ss.indexOf(";", j1+1);
+        String agentname = ss.substring(0,j1);
+        String agenttype = ss.substring(j1+1, j2);
+
+        agentnewstate.put( agentname, agenttype );
+     }
+
+      // add the statistic information:
+      // 2007-05-16
+
+     pp = pp + ";STATISTIC:" +
+          "I:" + this.mDailyStatisticOfNetwork.mInvestor+";" +
+               (this.mDailyStatisticOfNetwork.mInvestor - this.mPrevoiusDailyStatisticOfNetwork.mInvestor)+";"+
+          "N:" + this.mDailyStatisticOfNetwork.mNoiseTrader+";" +
+               (this.mDailyStatisticOfNetwork.mNoiseTrader - this.mPrevoiusDailyStatisticOfNetwork.mNoiseTrader)+";" +
+          "B:" + this.mDailyStatisticOfNetwork.mBlankoAgent+";" +
+               this.mDailyStatisticOfNetwork.mBlankoAgentActivated +";" +
+               this.mDailyStatisticOfNetwork.mBlankoAgentDeactivated +";";
+
+     this.mAgentStateComparer.setNewState( agentnewstate );
+
+     /** Format of the return of the methode
+      *  NumberofChangesInvestor2NoiseTrader;NumberofChangesNoiseTrader2Investor;TotalChanges;
+      */
+
+     String statechangestatic =  this.mAgentStateComparer.getAgentChangeStatistic().getInfo();
+
+     agentnumerstatistic = agentnumerstatistic + statechangestatic;
+
+     // send the AgentNumber statistic to the LoggerData
+     this.sendAgentNumberStatistic2DataLogger( agentnumerstatistic );
+
+     java.io.PrintWriter pw = null;
+     try
+     {
+          if ( loop == 0  )
+          {
+             pw = new java.io.PrintWriter( new java.io.FileWriter ( Configurator.getGraphStateHistoryLogFile(), false ));
+             pw.println("GRAPH VERTEX=" + ( Configurator.mConfData.mAnzahlInvestor +
+                                            Configurator.mConfData.mAnzahlNoiseTrader +
+                                            Configurator.mConfData.mAnzahlBlankoAgent ) +
+                         " NETWORKFILE=" + Configurator.mConfData.mNetworkfileCurrentUsed );
+          }
+          else
+          {
+            pw = new java.io.PrintWriter( new java.io.FileWriter ( Configurator.getGraphStateHistoryLogFile(), true ));
+          }
+
+          // save the current Graph-State into this logfile
+          pw.println( pp );
+          pw.close();
+     }
+     catch (Exception ex)
+     {
+          ex.printStackTrace();
+     }
+
+     this.DisplayAgentTradeStatus( StatusData, this.mDailyStatisticOfNetwork );
+
+     // 2007-05-17
+     this.mPrevoiusDailyStatisticOfNetwork = this.mDailyStatisticOfNetwork;
+     this.mDailyStatisticOfNetwork = new DailyStatisticOfNetwork();
+
+     int TradeMenge  = this.mPriceRechner.getTradeMenge();
+     double TradeVolume = this.mPriceRechner.getTradeVolume();
+
+     Configurator.mConfData.mDailyPerformedAktienList.add( new Double(TradeMenge)  );
+     Configurator.mConfData.mDailyPerformedVolumeList.add( new Double(TradeVolume)  );
+
+     // at first send Daily Tobintax
+     if ( ! Configurator.istAktienMarket() )
+     {
+        if ( Configurator.mConfData.mTobintaxAgentAktive )
+        {
+            sendDailyTobintax( newprice,
+                               this.mPriceRechner.getFestTobintax_In_Cash1(),
+                               this.mPriceRechner.getExtraTobintax_In_Cash1(),
+                               this.mPriceRechner.getFestTobintax_In_Cash2(),
+                               this.mPriceRechner.getExtraTobintax_In_Cash2()
+                               );
+        }
+     }
+
+     // save the new Price into a member variable. It may/will be used next time
+     this.mPriceofYesteray = newprice;
+     mDayofTrade           = mDayofTrade + 1;
+
+     long tt0 = System.currentTimeMillis();
+     System.out.println();
+     System.out.println( "Informing Trade Result to Agents ");
+
+     // send Trade Result to all agents
+     this.sendTradeResult2AllAgents(  this.mPriceRechner );
+
+     this.sendDailyTradeSummary2DataLogger( newprice,
+    		                                TradeStatus,
+    		                                TradeMenge,
+    		                                TradeVolume,
+    		                                LastInnererWert,
+    		                                dailyorderstat );
+
+     if ( Configurator.mConfData.mStepByStep )
+     {
+           // show the DailyOrderBook
+           String ss =FileTool.getCurrentAbsoluteDirectory()+"/"+ Configurator.mConfData.mCurrentOrderBookHTMLFile;
+           System.out.println("OrderBook:" + ss );
+           this.mDialog.showDailyOrderBook( ss );
+     }
+
+     // Important: PriceRechner has to be reset.
+
+     if ( Configurator.istAktienMarket() )
+     {
+         this.mPriceRechner =  new PriceIndexCalculator_AktienMarket( mDayofTrade +1 , true );
+     }
+     else
+     {
+         this.mPriceRechner =  new PriceIndexCalculator_MoneyMarket( mDayofTrade +1  , true );
+     }
+
+     // New Innerwert
+     int InnererWert = Configurator.mConfData.mInnererWert [ this.loop ];
+     this.mPriceRechner.setInnererWert( InnererWert );
+
+     // Update HistoryFrame
+     //System.out.println( "Investor="  + this.confirmcounter_inv +
+     //                    "NoiseTrader=" + this.confirmcounter_trd);
+
+     if ( this.mChartFrame != null )
+     {
+       this.mChartFrame.setShowInnererWertEnabled(this.mDialog.getShowInnererWertEnabled());
+     }
+
+     if ( this.loop == 0 || this.loop == 1 )
+     {
+        if ( this.mChartFrame != null )
+        {
+            this.mChartFrame.resetData();
+        }
+     }
+
+     if ( Configurator.istAktienMarket() )
+     {
+           if ( this.mChartFrame != null )
+           {
+
+           /**
+            * These code ist keine bedeutung. nur für Fehlersuche
+           if ( ( this.confirmcounter_blanko > 0 )  && ( loop > 50 ) )
+           {
+
+             Vector vv = this.mPriceRechner.getOrderList();
+
+             for ( int i=0; i < vv.size(); i++)
+             {
+               AktienTrade_Order oo =(AktienTrade_Order) vv.elementAt(i);
+               System.out.println(  oo.toString() );
+             }
+
+           }
+           */
+
+           this.mChartFrame.appendOneData(  TradeMenge,
+                                            (int) newprice,
+                                            InnererWert,
+                                            this.confirmcounter_inv,
+                                            this.confirmcounter_trd,
+                                            this.confirmcounter_blanko,
+                                            logrenditen*100  );
+           }
+
+     }
+     else
+     {
+
+       if ( this.mChartFrame != null )
+       {
+         this.mChartFrame.appendOneData( TradeMenge,
+                                        (int) ( newprice * 1000),
+                                        InnererWert,
+                                        this.confirmcounter_inv,
+                                        this.confirmcounter_trd,
+                                        this.confirmcounter_blanko,
+                                        logrenditen*100  );
+
+          save_anzahl_into_extrafile( Configurator.mConfData.getAgentAnzahl_CheckFilename(),
+                                      this.confirmcounter_inv,
+                                      this.confirmcounter_trd,
+                                      this.confirmcounter_blanko );
+
+       }
+       else
+       {
+
+       }
+
+     }
+
+     this.sendNewInnererwert2AllAgents(InnererWert);
+
+     this.cleanFeedbackCounter();
+
+     this.mInvestorGewinnProzentList.clear();;
+     this.mNoiseTraderGewinnProzentList.clear();
+     loop++;
+     System.out.println( "---------" + HelpTool.getTimeStamp() + " " + loop + ". day: trade is closed. FreeMem=" +  java.lang.Runtime.getRuntime().freeMemory());
+     System.out.println( "Collecting orders of next day ......");
+
+     this.mDialog.setCurrentday( loop);
+     java.sql.Timestamp ts = new java.sql.Timestamp( System.currentTimeMillis() );
+
+     this.mDialog.setFinishedtimeofCurrentday( ts.toString().substring(11,19));
+
+  }
+
+  private void save_anzahl_into_extrafile( String pExtraFile, int pInv, int pNoise, int pBlanko )
+  {
+       try
+       {
+           java.io.PrintStream fos = new java.io.PrintStream ( new java.io.FileOutputStream( pExtraFile) );
+           fos.println(" " + pInv +";" + pNoise +";" + pBlanko+";" );
+           fos.close();
+       }
+       catch (Exception ex)
+       {
+
+       }
+  }
+
+  private void DisplayAgentTradeStatus( Vector StatusData, DailyStatisticOfNetwork pStatistic )
+  {
+       if ( ! this.mDialog.isAgentStatusInGraph() )
+       {
+               if ( ! this.mDialog.isAgentStatusNameLoaded() )
+               {
+                      System.out.println("Load Namelist into StatusFrame ----------");
+                      Vector namelist = new Vector();
+                      for (int i=0; i<InvestorNameList.size(); i++)
+                      {
+                        AID aa = (AID)  InvestorNameList.elementAt(i) ;
+                        namelist.add( aa.getLocalName() );
+                      }
+                      for (int i=0; i<this.NoiseTraderNameList.size(); i++)
+                      {
+                        AID aa = (AID)  NoiseTraderNameList.elementAt(i) ;
+                        namelist.add( aa.getLocalName() );
+                      }
+
+                      for (int i=0; i<this.BlankoAgentNameList.size(); i++)
+                      {
+                        AID aa = (AID)  BlankoAgentNameList.elementAt(i) ;
+                        namelist.add( aa.getLocalName() );
+                      }
+
+                      for (int i=0; i<this.RandomTraderNameList.size(); i++)
+                      {
+                        AID aa = (AID)  RandomTraderNameList.elementAt(i) ;
+                        namelist.add( aa.getLocalName() );
+                      }
+                      if ( this.TobintaxAgentList.size() > 0 )
+                      {
+                         namelist.add ( this.TobintaxAgentList.elementAt(0) );
+                      }
+                      this.mDialog.setNameList2AgentStatusFrame( namelist );
+                 }
+       }
+
+       this.mDialog.setAgentTradeStatus( StatusData,  pStatistic   );
+
+  }
+
+  private void cleanFeedbackCounter()
+  {
+    // clear 3 Counters
+   this.confirmcounter_inv =0;
+   this.confirmcounter_trd =0;
+   this.confirmcounter_random =0;
+   this.confirmcounter_blanko = 0;
+   this. mFeedbackAnzahl      = 0;
+
+}
+
+  private void sendInterruptCommand2DataLogger()
+  {
+    // send a command to DataLogger
+    ACLMessage sendmsg = new ACLMessage( ACLMessage.INFORM );
+    MessageWrapper msgwrp = MessageFactory.createInterruptCommand("Simulation ist gewungen abgebrochen.") ;
+    msgwrp.mMessageType = SystemConstant.MessageType_InterruptCommand;
+    try
+    {
+      sendmsg.setContentObject( msgwrp );
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
+    sendmsg.addReceiver( new AID ("DataLogger", false) );
+    myAgent.send( sendmsg );
+  }
+
+  private void sendCloseCommand2DataLogger()
+  {
+        // send a command to DataLogger
+        ACLMessage sendmsg = new ACLMessage( ACLMessage.INFORM );
+        MessageWrapper msgwrp = new MessageWrapper();
+        msgwrp.mMessageType = SystemConstant.MessageType_Close;
+        try
+        {
+          sendmsg.setContentObject( msgwrp );
+        }
+        catch (Exception ex)
+        {
+          ex.printStackTrace();
+        }
+        sendmsg.addReceiver( new AID ("DataLogger", false) );
+        myAgent.send( sendmsg );
+  }
+
+  private void closestore()
+  {
+
+
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName( myAgent.getAID() );
+        try
+        {
+           DFService.deregister( myAgent, dfd );
+        }
+        catch (Exception ex)
+        {
+           ex.printStackTrace();
+        }
+        this.myAgent.doDelete();
+        this.mDialog.closebusiness();
+  }
+
+  private void sendFinishSignal2TaskController()
+  {
+    // Send Finish Signal to TaskController
+    ACLMessage sendmsg = new ACLMessage( ACLMessage.INFORM );
+    MessageWrapper msgwrp = new MessageWrapper();
+    msgwrp.mMessageType = SystemConstant.MessageType_FinishCommand;
+    try
+    {
+      sendmsg.setContentObject( msgwrp  );
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
+    sendmsg.addReceiver( new AID ("TaskController", false) );
+    myAgent.send( sendmsg );
+    System.out.println( "StockStore: Finish Signal has been sent to TaskController" );
+  }
+
+  private void sendOneMsg2AllAgents( MessageWrapper msgwrp )
+  {
+      ACLMessage sendmsg = new ACLMessage( ACLMessage.INFORM );
+      try
+      {
+        sendmsg.setContentObject( msgwrp );
+      }
+      catch (Exception ex)
+      {
+        ex.printStackTrace();
+      }
+
+      for ( int i=0; i < this.InvestorNameList.size(); i++)
+      {
+            AID user = (AID) InvestorNameList.elementAt(i);
+            sendmsg.addReceiver( user );
+      }
+      for ( int i=0; i < this.NoiseTraderNameList.size() ; i++)
+      {
+            AID user = (AID) NoiseTraderNameList.elementAt(i);
+            sendmsg.addReceiver( user );
+      }
+
+      for ( int i=0; i < this.RandomTraderNameList.size() ; i++)
+      {
+            AID user = (AID) RandomTraderNameList.elementAt(i);
+            sendmsg.addReceiver( user );
+      }
+
+      for ( int i=0; i < this.TobintaxAgentList.size() ; i++)
+      {
+            AID user = (AID) this.TobintaxAgentList.elementAt(i);
+            sendmsg.addReceiver( user );
+      }
+
+      for ( int i=0; i< this.BlankoAgentNameList.size(); i++)
+      {
+        AID user = (AID) this.BlankoAgentNameList.elementAt(i);
+        sendmsg.addReceiver( user );
+      }
+
+      // true; the AgentName DataLogger is alreay a global unique name.
+      long t0=System.currentTimeMillis();
+      myAgent.send( sendmsg );
+      long t1=System.currentTimeMillis();
+      System.out.println("send() takes " + ( t1-t0) + " ms");
+  }
+
+
+  public void sendInterruptCommand2AllAgents( String pReason)
+  {
+    MessageWrapper msgwrp = MessageFactory.createInterruptCommand( pReason ) ;
+    ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+    try
+    {
+      aclmsg.setContentObject( msgwrp );
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
+
+    /*
+    Vector OrderList = pPriceRechner.getOrderList();
+    Vector NoneOrderList = pPriceRechner.getNoneOrderList();
+    String agentnamelist ="OrderList.size()=" +OrderList.size() + "NoneOrderList.size()="+ NoneOrderList.size()+" ";
+    */
+
+    String agentnamelist ="";
+
+    for ( int i=0; i< this.InvestorNameList.size(); i++)
+    {
+      AID  aid= (AID) this.InvestorNameList.elementAt(i);
+      aclmsg.addReceiver( aid );
+      agentnamelist = agentnamelist +"," + aid.getLocalName();
+    }
+
+    for ( int i=0; i< this.NoiseTraderNameList.size(); i++)
+    {
+      AID aid = ( AID ) this.NoiseTraderNameList.elementAt(i);
+      aclmsg.addReceiver( aid );
+      agentnamelist = agentnamelist +"," + aid.getLocalName();
+    }
+
+    for ( int i=0; i< this.BlankoAgentNameList.size(); i++)
+    {
+      AID aid = ( AID ) this.BlankoAgentNameList.elementAt(i);
+      aclmsg.addReceiver( aid );
+      agentnamelist = agentnamelist +"," + aid.getLocalName();
+    }
+
+    for ( int i=0; i< this.RandomTraderNameList.size(); i++)
+    {
+      AID aid = ( AID ) this.RandomTraderNameList.elementAt(i);
+      aclmsg.addReceiver( aid );
+      agentnamelist = agentnamelist +"," + aid.getLocalName();
+    }
+
+    for ( int i=0; i< this.TobintaxAgentList.size(); i++)
+    {
+      AID aid = ( AID ) this.TobintaxAgentList.elementAt(i);
+      aclmsg.addReceiver( aid );
+      agentnamelist = agentnamelist +"," + aid.getLocalName();
+    }
+
+
+
+
+    myAgent.send( aclmsg );
+    this.mLoggerAblauf.info("Intterrupt Command is sent to Agents." + agentnamelist + "...");
+
+  }
+
+
+  /**
+   * send TradeResult to all Agents
+   * @param pPriceRechner
+   *
+   *
+   */
+
+  /** This is not used after 2006.04.07   *******
+  private void sendTradeResult2AllAgents( PriceIndexCalculatorBase pPriceRechner )
+  {
+      MessageWrapper msgwrp = new MessageWrapper();
+      Vector OrderList = pPriceRechner.getOrderList();
+      for ( int i=0; i<OrderList.size(); i++)
+      {
+         // get one Order
+         SingleOrder so = (SingleOrder) OrderList.elementAt(i);
+         //  send the Trade Result to Agents.
+         //  Folgende Info sind:
+         //  NewPrice,TradeMenge,TradeResult,OrderWish,WishMenge,Limit,
+         //  TradeResult='G','B','O','T'
+         //  Geld, Brief, OK, Taxe (No Trade)
+         //  mFinalPrice is correct only when there is tradement
+         ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+
+         if ( Configurator.istAktienMarket() )
+         {
+            msgwrp.mMessageType = SystemConstant.MessageType_AktienTrade_Order;
+            // prepare Result Info
+            AktienTrade_Order orderresult =
+            new  AktienTrade_Order(0,so.mOrderWish, so.mMenge, (int)so.mLimit);
+
+            orderresult.mFinalPrice  = so.mFinalPrice;
+            orderresult.mTradeResult = so.mTradeResult;
+            orderresult.mTradeMenge  = so.mTradeMenge;
+            orderresult.mInvolvedExchange = so.mInvolvedExchange;
+            msgwrp.mMessageContent = orderresult;
+         }
+         else
+         {
+           msgwrp.mMessageType = SystemConstant.MessageType_CashTrade_Order;
+           CashTrade_Order orderresult =
+           new  CashTrade_Order( 0, so.mOrderWish,so.mMenge, so.mLimit);
+
+           orderresult.mFinalKurs     = so.mFinalKurs;
+           orderresult.mInvolvedCash1 = so.mInvolvedCash1;
+           orderresult.mTradeCash2    = so.mTradeMenge;
+           orderresult.mTradeResult   = so.mTradeResult;
+           orderresult.mTax1          = so.mTax1;
+           orderresult.mTax2          = so.mTax2;
+           msgwrp.mMessageContent     = orderresult;
+         }
+
+         try
+         {
+            aclmsg.setContentObject( msgwrp );
+         }
+         catch (Exception ex)
+         {
+           ex.printStackTrace();
+         }
+         aclmsg.addReceiver( so.mAID );
+         // send Single Response to the Single Agents
+         myAgent.send( aclmsg );
+      }
+
+      // send Price Information to all Agents whose Order is "Wait"
+      Vector NoneOrderList = pPriceRechner.getNoneOrderList();
+
+      for ( int i=0; i<NoneOrderList.size(); i++)
+      {
+        SingleOrder so = (SingleOrder) NoneOrderList.elementAt(i);
+        ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+        // NewPrice,TradeMenge,TradeResult,OrderWish,WishMenge,Limit,
+
+        if ( Configurator.istAktienMarket() )
+        {
+           msgwrp.mMessageType = SystemConstant.MessageType_AktienTrade_Order;
+           AktienTrade_Order orderresult =
+               new  AktienTrade_Order(0,so.mOrderWish,so.mMenge, (int) so.mLimit);
+           orderresult.mFinalPrice = so.mFinalPrice;
+           orderresult.mTradeMenge = so.mTradeMenge;
+           orderresult.mTradeResult = so.mTradeResult;
+           orderresult.mInvolvedExchange = false;
+           msgwrp.mMessageContent = orderresult;
+        }
+        else
+        {
+          msgwrp.mMessageType = SystemConstant.MessageType_CashTrade_Order;
+
+          CashTrade_Order orderresult =
+          new  CashTrade_Order( 0 ,so.mOrderWish,so.mMenge, so.mLimit);
+
+          orderresult.mFinalKurs     = so.mFinalKurs;
+          orderresult.mInvolvedCash1 = makeDoublewith2Nachkommastelle( so.mInvolvedCash1 ) ;
+          orderresult.mTradeCash2    = so.mTradeMenge;
+          orderresult.mTradeResult   = so.mTradeResult;
+          orderresult.mTax1          = makeDoublewith2Nachkommastelle ( so.mTax1 );
+          orderresult.mTax2          = makeDoublewith2Nachkommastelle ( so.mTax2 );
+          msgwrp.mMessageContent     = orderresult;
+        }
+
+        aclmsg.addReceiver( so.mAID );
+        try
+        {
+           aclmsg.setContentObject( msgwrp );
+        }
+        catch (Exception ex)
+        {
+          ex.printStackTrace();
+        }
+        myAgent.send( aclmsg );
+      }
+  }
+
+  *****************/
+
+  /** neu implementation 2006.04 ***/
+
+  private void sendTradeResult2AllAgents( PriceIndexCalculatorBase pPriceRechner )
+ {
+     MessageWrapper msgwrp = new MessageWrapper();
+     Vector OrderList = pPriceRechner.getOriginalOrders();
+
+     for ( int i=0; i<OrderList.size(); i++)
+     {
+        ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+        if ( Configurator.istAktienMarket() )
+        {
+           msgwrp.mMessageType    = SystemConstant.MessageType_AktienTrade_Order;
+           AktienTrade_Order  ato = ( AktienTrade_Order ) OrderList.elementAt(i);
+           msgwrp.mMessageContent = ato;
+           aclmsg.addReceiver( ato.mAID );
+           ato.mAID = null;
+        }
+        else
+        {
+
+          msgwrp.mMessageType    = SystemConstant.MessageType_CashTrade_Order;
+          CashTrade_Order  ato = ( CashTrade_Order ) OrderList.elementAt(i);
+          msgwrp.mMessageContent = ato;
+          aclmsg.addReceiver( ato.mAID );
+          ato.mAID = null;
+        }
+        try
+        {
+           aclmsg.setContentObject( msgwrp );
+        }
+        catch (Exception ex)
+        {
+          ex.printStackTrace();
+        }
+        myAgent.send( aclmsg );
+     }
+ }
+
+  private double makeDoublewith2Nachkommastelle(double ppp)
+  {
+     int dd1 = (int) ppp * 100;
+     return dd1/100.0;
+  }
+
+  private void sendInitCommand2DataLogger()
+  {
+    // Format:
+    // INIT,0,0,0,0,
+
+    MessageWrapper msgwrp = new MessageWrapper();
+    msgwrp.mMessageType = SystemConstant.MessageType_INITCOMMAND;
+    ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+    try
+    {
+       aclmsg.setContentObject( msgwrp );
+    }
+    catch (Exception ex)
+    {
+
+    }
+    aclmsg.addReceiver( new AID("DataLogger", false ) );
+    myAgent.send( aclmsg );
+    this.mLoggerAblauf.info("InitCommand is sent to DataLogger successfully.");
+
+  }
+
+  private void sendDailyTobintax(  double pKurs,
+                                   double pFestTobinTax_In_Cash1,
+                                   double pExtraTobinTax_In_Cash1,
+                                   double pFestTobinTax_In_Cash2,
+                                   double pExtraTobinTax_In_Cash2 )
+  {
+    MessageWrapper msgwrp =
+        MessageFactory.createDailyTobinTax( pKurs,
+                                            pFestTobinTax_In_Cash1,
+                                            pExtraTobinTax_In_Cash1,
+                                            pFestTobinTax_In_Cash2,
+                                            pExtraTobinTax_In_Cash2 );
+    ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+    try
+    {
+       aclmsg.setContentObject( msgwrp );
+    }
+    catch (Exception ex)
+    {
+
+    }
+    aclmsg.addReceiver( new AID("Tobintax", false ) );
+    myAgent.send( aclmsg );
+
+  }
+
+  private void sendDailyTradeSummary2DataLogger( double pKurs,
+		                                         char pTradeStatus,
+		                                         double pTradeMenge,
+		                                         double pTradeVolume,
+		                                         double pInnererWert,
+		                                         DailyOrderStatistic pDailyOrderStatistic)
+  {
+         MessageWrapper msgwrp =
+         MessageFactory.createStoreDailyTradeSummary(  pKurs,
+                 	                                   pTradeStatus,
+        		                                       pTradeMenge,
+        		                                       pTradeVolume,
+        		                                       pInnererWert,
+        		                                       pDailyOrderStatistic );
+
+         ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+         try
+         {
+            aclmsg.setContentObject( msgwrp );
+         }
+         catch (Exception ex)
+         {
+
+         }
+         aclmsg.addReceiver( new AID("DataLogger", false ) );
+         myAgent.send( aclmsg );
+  }
+
+  /**
+   * send statistic of AgentNumber to DataLogger
+   * @param: pStatistic
+   * pStatistic = Tag;Investor; NoiseTrader;Investor->NoiseTrader;NoiseTrader->Investor;TotalChanges;
+   */
+  private void sendAgentNumberStatistic2DataLogger( String pStatistic )
+  {
+         MessageWrapper msgwrp = new MessageWrapper();
+         msgwrp.mMessageType = SystemConstant.MessageType_AgentStatistik;
+         msgwrp.mMessageContent = pStatistic;
+         ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+         try
+         {
+            aclmsg.setContentObject( msgwrp );
+         }
+         catch (Exception ex)
+         {
+
+         }
+         aclmsg.addReceiver( new AID("DataLogger", false ) );
+         myAgent.send( aclmsg );
+  }
+
+  /**
+   * send one InnererWert to DataLogger
+   * @param pInnererwert
+   */
+  /*
+  private void sendNewInnererwert2DataLogger( int pInnererwert )
+  {
+         MessageWrapper msgwrp = new MessageWrapper();
+         msgwrp.mMessageType = SystemConstant.MessageType_Innererwert;
+         if ( Configurator.istAktienMarket() )
+         {
+             msgwrp.mMessageContent = pInnererwert+"";
+         }
+         else
+         {
+             msgwrp.mMessageContent = pInnererwert/1000.0+"";
+         }
+
+         ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+         try
+         {
+           aclmsg.setContentObject( msgwrp );
+         }
+         catch (Exception ex)
+         {
+           ex.printStackTrace();
+         }
+         aclmsg.addReceiver( new AID("DataLogger", false ) );
+         myAgent.send( aclmsg );
+  }
+
+  */
+
+  /**
+   * send one InnererWert to all Agents
+   * @param pInnererwert
+   */
+  private void sendNewInnererwert2AllAgents( int pInnererwert )
+  {
+         MessageWrapper msgwrp = new MessageWrapper();
+         msgwrp.mMessageType = SystemConstant.MessageType_Innererwert;
+         if ( Configurator.istAktienMarket() )
+         {
+             msgwrp.mMessageContent = pInnererwert+"";
+         }
+         else
+         {
+             msgwrp.mMessageContent = "" + pInnererwert/1000.0 ;
+         }
+         this.sendOneMsg2AllAgents( msgwrp );
+  }
+
+   /**
+   * send first 301 InnererWert to DataLogger
+   * @param pFirst301InnererWert
+   */
+
+    private void sendFirst301InnererWert2DataLogger( MessageWrapper pFirst301InnererWert )
+    {
+        ACLMessage aclmsg = new ACLMessage( ACLMessage.INFORM );
+
+        try
+        {
+          aclmsg.setContentObject( pFirst301InnererWert );
+        }
+        catch (Exception ex)
+        {
+
+        }
+        aclmsg.addReceiver( new AID("DataLogger", false ) );
+        myAgent.send( aclmsg );
+        this.mLoggerAblauf.info("first 300 InnererWert are sent to DataLogger successfully.");
+   }
+
+   private void ClearAllDataOfLastSimulation()
+   {
+       InvestorNameList.clear();
+       NoiseTraderNameList.clear();
+       RandomTraderNameList.clear();
+       TobintaxAgentList.clear();
+
+       mNoiseTraderGewinnProzentList.clear();
+       mInvestorGewinnProzentList.clear();
+
+       mFeedbackAnzahl = 0;
+       finished = false;
+       mStoreCanOpen = false;
+       confirmcounter_inv      = 0;
+       confirmcounter_trd      = 0;
+       confirmcounter_random   = 0;
+       confirmcounter_blanko   = 0;
+       confirmcounter_tobintax = 0;
+       loop = 0;
+       mPriceofYesteray = 0;
+       mDayofTrade = 0;
+       Configurator.mNetworkConfigCurrentIndex = 0;
+       mAgentStateComparer.clearMemoryState();
+
+       this.mDailyTypeChange        = 0;
+       this.mRunTypeChangeStatistic = "";
+       Configurator.mTypeChangeIndicator = 0;
+
+       // 2008.01
+       // When the simulation is repeated
+       // the old unused data has to be removed
+       // Otherwise, speicher-loch !
+       this.mDailyOrderStatisticList.clear();
+
+   }
+
+   private void ClearCounterAfterOneRun()
+   {
+
+	 this.mDayofTrade = 0;
+     loop = 0;
+     InvestorNameList.clear();
+     NoiseTraderNameList.clear();
+     RandomTraderNameList.clear();
+     BlankoAgentNameList.clear();
+     TobintaxAgentList.clear();
+
+     mNoiseTraderGewinnProzentList.clear();
+     mInvestorGewinnProzentList.clear();
+
+     mFeedbackAnzahl = 0;
+
+     this.mRunTypeChangeStatistic = "";
+     Configurator.mTypeChangeIndicator = 0;
+
+   }
+
+
+}

@@ -1,0 +1,701 @@
+
+/**
+ * Created on 23.02.2005, 2006-08-22
+ * Extended for calculation of InnererWerte
+ *
+ * @author Xining Wang
+ *
+ * Important mathematic calculation program
+ * for statistic based on the price data.
+ *
+ *
+ */
+
+
+package de.marketsim.util;
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import de.marketsim.config.Configurator;
+import de.marketsim.config.NetworkConfig;
+
+import de.marketsim.util.HelpTool;
+import org.apache.log4j.*;
+
+public class ProcessPrice
+{
+	String mFilename = null;
+        DataFormatter nff = new DataFormatter( Configurator.mConfData.mDataFormatLanguage );
+
+        SimulationReportData mSimulationReportData    = new SimulationReportData();
+
+        SimulationReportData mStatisticOfInnererWerte = new SimulationReportData();
+
+        /**
+         * Price and InnererWert sind in einer Datei zusammen gelegt.
+         * @param pPrice_InnererWertFilename
+         */
+
+	public ProcessPrice(String pPrice_InnererWertFilename ) throws Exception
+	{
+                NetworkConfig curentnetwork = Configurator.mNetworkConfigManager.getNetworkConfig( Configurator.mNetworkConfigCurrentIndex ) ;
+
+                mSimulationReportData.mNetworkUniqueID     = curentnetwork.mUniqueID;
+                mSimulationReportData.mNetwork             = curentnetwork.mNetworkfilenameOhnePfad;
+                mSimulationReportData.mRuningNo            = Configurator.mConfData.mTestCaseName;
+
+                mSimulationReportData.mStartTime           = Configurator.mConfData.mTestSerieStarttime;
+
+                mSimulationReportData.mTypeChangeIndicator = Configurator.mTypeChangeIndicator;
+
+                mStatisticOfInnererWerte.mNetworkUniqueID = "";
+                mStatisticOfInnererWerte.mNetwork         = "";
+                mStatisticOfInnererWerte.mRuningNo        = "";
+
+		this.mFilename = pPrice_InnererWertFilename;
+		BufferedReader  bf = null;
+		try
+		{
+		   bf = new BufferedReader( new FileReader ( this.mFilename  ) );
+		}
+		catch (Exception ex)
+		{
+                  System.out.println("Runtime Error while opening file " + this.mFilename + " Error: " +ex.getMessage() );
+                  throw ex;
+		}
+
+		Vector priceData       = new Vector();
+
+                Vector UmsatzData      = new Vector();
+
+                Vector InnererWertData = new Vector();
+
+		double pmin     = Integer.MAX_VALUE;
+		String dayofmin = "";
+		double pmax     = Integer.MIN_VALUE;
+		String dayofmax = "";
+		double sum      = 0.0;
+		int cc          = 0;
+		double paverage = 0;
+                double stddeviation = 0.0;
+                double schiefe = 0.0;
+                double kurtosis = 0.0;
+
+        double sum_performedmenge  = 0;
+        double sum_performedvolume = 0;
+
+                //Vector HillData = null;
+                String oneline = "";
+		try
+		{
+                        // jump all commenta lines with #
+			oneline = bf.readLine();
+                        while ( oneline.startsWith("#") )
+                        {
+                            oneline = bf.readLine();
+                        }
+
+			while ( oneline != null )
+		        {
+	                    // Data Format:
+                            // Umsatz ist Menge, Volume = Umsatz * NewPreis
+                            // Tag;NewPreis; Kurzzusatz; Umsatz; Volume; InnererWert;  ..............
+                            //   j1       j2          j3      j4       j5           j6
+
+                            int j1 = oneline.indexOf(";");
+                            int j2 = oneline.indexOf(";",j1+1);
+                            int j3 = oneline.indexOf(";",j2+1);
+                            int j4 = oneline.indexOf(";",j3+1);
+                            int j5 = oneline.indexOf(";",j4+1);
+                            int j6 = oneline.indexOf(";",j5+1);
+
+                            String tag            = oneline.substring( 0,   j1 );
+   	                    String pricestr       = oneline.substring( j1+1,j2 );
+                            String mengestr       = oneline.substring( j3+1,j4 );
+                            String umsatzstr      = oneline.substring( j4+1,j5 );
+                            String innererwertstr = oneline.substring( j5+1,j6 );
+
+                              cc++;
+
+                              //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                              // This program can process only German Data Format !!!!
+                              //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                              int ind = pricestr.indexOf(".") ;
+                              if ( ind > 0 )
+                              {
+                                 pricestr= pricestr.substring(0, ind) +
+                                           pricestr.substring(ind+1);
+                              }
+                              pricestr = pricestr.replace(',', '.');
+
+                              ind = innererwertstr.indexOf(".") ;
+                              if ( ind > 0 )
+                              {
+                                 innererwertstr= innererwertstr.substring(0, ind) +
+                                           innererwertstr.substring(ind+1);
+                              }
+                              innererwertstr = innererwertstr.replace(',', '.');
+
+                              umsatzstr = umsatzstr.replace(',', '.');
+
+
+                              priceData.add( new Double( pricestr )  );
+                              UmsatzData.add( new Double( umsatzstr ) );
+                              InnererWertData.add( new Double( innererwertstr ) );
+
+                              // 2008.01
+                              // Sume of all days of one simulation
+                              sum_performedmenge   = sum_performedmenge +  Double.parseDouble(mengestr);
+                              sum_performedvolume  = sum_performedvolume + Double.parseDouble(umsatzstr);
+
+  		   	      oneline = bf.readLine();
+		       }
+	   	       bf.close();
+		  }
+		catch (Exception ex)
+		{
+			System.out.println("Error while reading " + this.mFilename + " Error:" + ex.getMessage() );
+                        System.out.println("Error at data line: "  + oneline );
+                        throw ex;
+	        }
+   	        System.out.println( cc +  " lines from data file for price, umsatz etc are loaded for processing."  );
+
+            for ( int i=0; i<priceData.size();i++)
+            {
+               Double dd = (Double) priceData.elementAt(i);
+               System.out.println(i+". Price=" + dd.doubleValue()  );
+            }
+
+    PriceStatistic mstatistic = new PriceStatistic();
+
+    if ( cc > 0 )
+    {
+          double pData[]              = new double[priceData.size()];
+          double pData5dayinterval[]  = new double[priceData.size()/5  ];
+          double pData10dayinterval[] = new double[priceData.size()/10 ];
+          double pData25dayinterval[] = new double[priceData.size()/25 ];
+          double pData50dayinterval[] = new double[priceData.size()/50 ];
+
+          double pInnererWert[]              = new double[priceData.size()];
+          double pInnererWert5dayinterval[]  = new double[priceData.size()/5];
+          double pInnererWert10dayinterval[] = new double[priceData.size()/10];
+          double pInnererWert25dayinterval[] = new double[priceData.size()/25];
+          double pInnererWert50dayinterval[] = new double[priceData.size()/50];
+
+          // Vector ---> Array Transformation
+
+          for ( int i=0;i < priceData.size();i++)
+          {
+              pData[i]         =  ( ( Double ) priceData.elementAt(i) ).doubleValue();
+              pInnererWert[i]  =  ( ( Double ) InnererWertData.elementAt(i) ).doubleValue();
+              if ( (i % 5) == 0 )
+              {
+                if ( i/5 < pData5dayinterval.length )
+                {
+                 pData5dayinterval[ i/5 ]       = pData[i];
+                 pInnererWert5dayinterval [i/5] =pInnererWert[i];
+                }
+              }
+              if ( (i % 10) == 0 )
+              {
+                 if (i / 10 < pData10dayinterval.length )
+                 {
+                   pData10dayinterval        [ i/10 ] = pData[i];
+                   pInnererWert10dayinterval [ i/10 ] =pInnererWert[i];
+                 }
+              }
+              if ( (i % 25) == 0 )
+              {
+                 if ( i / 25 < pData25dayinterval.length )
+                 {
+                 pData25dayinterval       [ i/25 ] = pData[i];
+                 pInnererWert25dayinterval[ i/25 ] = pInnererWert[i];
+                 }
+              }
+              if ( (i % 50) == 0 )
+              {
+                 if ( i / 50 < pData50dayinterval.length )
+                 {
+                 pData50dayinterval       [ i/50 ] = pData[i];
+                 pInnererWert25dayinterval[ i/50 ] = pInnererWert[i];
+                 }
+              }
+          }
+
+         String filename = Configurator.mConfData.getLogFileDirectory()+
+                           Configurator.mConfData.mPfadSeperator+
+                           "logrenditen-sorted.csv" ;
+
+          double HillData[] = mstatistic.getHill_Estimator( pData, Configurator.mConfData.mHillEstimatorProcent / 100.0 ,  filename );
+
+          try
+          {
+
+             PrintWriter  hilldata_pw = null;
+
+             hilldata_pw = new PrintWriter ( new FileOutputStream( Configurator.getHillEstimatorLogFile() )  );
+
+             double dmax = Double.MIN_VALUE;
+             double dmin = Double.MAX_VALUE;
+
+             for (int i=0; i< HillData.length;i++)
+             {
+               hilldata_pw.println( (i+1)+";" + nff.format2str( HillData[i] ) );
+               dmax = Math.max( dmax, HillData[i]  );
+               dmin = Math.min( dmin, HillData[i]  );
+             }
+
+             // save the Hill_Estimator into SimulationReport
+
+             // der letzte Wert der Berechnung ist Hill_Estimator
+             this.mSimulationReportData.Hill_Estimator = HillData[ HillData.length-1 ];
+
+             hilldata_pw.close();
+             System.out.println("Data of Hill_Estimator is saved into " + Configurator.getHillEstimatorLogFile()  );
+          }
+          catch (Exception ex)
+          {
+             System.out.println("Runtime Error: can open file " + Configurator.getHillEstimatorLogFile() +" for writing." + ex.getMessage() );
+             throw ex;
+          }
+
+           // get Log Renditen
+           System.out.println("Berechnen LogRenditen in 1 Tag-Abstand" );
+           double logrenditen[]            =  mstatistic.getLogRenditen( pData );
+           double InnererWertlogrenditen[] =  mstatistic.getLogRenditen( pInnererWert );
+
+           System.out.println("Berechnen LogRenditen in 5 Tage-Abstand" );
+
+           // get Log Renditen of 5Tage Abstand
+           double logrenditen5Tag[]            =  mstatistic.getLogRenditen( pData5dayinterval );
+           double InnererWertlogrenditen5Tag[] =  mstatistic.getLogRenditen( pInnererWert5dayinterval );
+
+           System.out.println("Berechnen LogRenditen in 10 Tage-Abstand" );
+
+           // get Log Renditen of 10Tage Abstand
+           double logrenditen10Tag[]            =  mstatistic.getLogRenditen( pData10dayinterval );
+           double InnererWertlogrenditen10Tag[] =  mstatistic.getLogRenditen( pInnererWert10dayinterval );
+
+           System.out.println("Berechnen LogRenditen in 25 Tage-Abstand" );
+
+           // get Log Renditen of 25Tage Abstand
+           double logrenditen25Tag[]            =  mstatistic.getLogRenditen( pData25dayinterval );
+           double InnererWertlogrenditen25Tag[] =  mstatistic.getLogRenditen( pInnererWert25dayinterval );
+
+           System.out.println("Berechnen LogRenditen in 50 Tage-Abstand" );
+           // get Log Renditen of 50Tage Abstand
+           double logrenditen50Tag[]            =  mstatistic.getLogRenditen( pData50dayinterval );
+           double InnererWertlogrenditen50Tag[] =  mstatistic.getLogRenditen( pInnererWert50dayinterval );
+
+	   	       PrintWriter  statistic_pw = null;
+	   	       PrintWriter  logrenditen_pw = null;
+
+		   	try
+		   	{
+		     		statistic_pw =   new PrintWriter ( new FileOutputStream( Configurator.getPriceStatisticLogFile()  )  );
+		     		logrenditen_pw = new PrintWriter ( new FileOutputStream( Configurator.getLogrenditenLogFile())  );
+		   	}
+		   	catch (Exception ex)
+		   	{
+	   	       		System.out.println("Runtime Error: can not open file " + Configurator.getPriceStatisticLogFile() +" for writing." + ex.getMessage() );
+                                throw ex;
+		   	}
+
+                    //+++++++++++++++++++++++++++++++++++++++LogRenditen in 1 Tag Abstand"
+
+                     this.saveLogreditwithDayInterval(logrenditen, 1, statistic_pw, logrenditen_pw );
+                     this.ProcessLogreditOfInnererWertwithDayInterval( InnererWertlogrenditen, 1 );
+                     //+++++++++++++++++++++++++++++++++++++++LogRenditen in 5 Tagen Abstand"
+
+                     this.saveLogreditwithDayInterval(logrenditen5Tag, 5, statistic_pw, logrenditen_pw );
+                     this.ProcessLogreditOfInnererWertwithDayInterval(InnererWertlogrenditen5Tag, 5);
+
+                     //+++++++++++++++++++++++++++++++++++++++LogRenditen in 10 Tagen Abstand"
+                     this.saveLogreditwithDayInterval(logrenditen10Tag, 10, statistic_pw, logrenditen_pw );
+                     this.ProcessLogreditOfInnererWertwithDayInterval(InnererWertlogrenditen10Tag, 10);
+
+                     //+++++++++++++++++++++++++++++++++++++++++++++++++++LogRenditen in 25 Tagen Abstand"
+                     this.saveLogreditwithDayInterval(logrenditen25Tag, 25, statistic_pw, logrenditen_pw );
+                     this.ProcessLogreditOfInnererWertwithDayInterval(InnererWertlogrenditen25Tag, 25);
+
+                     //+++++++++++++++++++++++++++++++++++++++++++++++++ LogRenditen in 50 Tagen Abstand"
+                     this.saveLogreditwithDayInterval(logrenditen50Tag, 50, statistic_pw, logrenditen_pw );
+                     this.ProcessLogreditOfInnererWertwithDayInterval(InnererWertlogrenditen50Tag, 50);
+
+                     // Volatility of Price Array ( complete Price )
+                     this.mSimulationReportData.Volatility_old = mstatistic.calculateVolatility_old( pData );
+                     this.mSimulationReportData.Volatility_new = mstatistic.calculateVolatility_new( pData );
+                     this.mSimulationReportData.Distortion = mstatistic.calculateDistortion( pData, pInnererWert );
+
+                     // Volatility of InnererWerte Array
+                     this.mStatisticOfInnererWerte.Volatility_old = mstatistic.calculateVolatility_old( pInnererWert );
+                     this.mStatisticOfInnererWerte.Volatility_new = mstatistic.calculateVolatility_new( pInnererWert );
+                     this.mStatisticOfInnererWerte.Distortion     = mstatistic.calculateDistortion( pInnererWert, pInnererWert  );
+
+                     double hilldata[] = mstatistic.getHill_Estimator( pInnererWert, Configurator.mConfData.mHillEstimatorProcent/100.0 , null );
+                     this.mStatisticOfInnererWerte.Hill_Estimator = hilldata[ hilldata.length -1 ];
+
+                     statistic_pw.println();
+                     statistic_pw.println( "Volatility_old=" +  nff.format2str( this.mSimulationReportData.Volatility_old) )  ;
+                     statistic_pw.println( "Volatility_new=" +  nff.format2str( this.mSimulationReportData.Volatility_new) )  ;
+                     statistic_pw.println();
+                     statistic_pw.println( "Distortion=" +  nff.format2str( this.mSimulationReportData.Distortion) )  ;
+                     statistic_pw.println();
+                      try
+                      {
+		     		logrenditen_pw.close();
+		     		statistic_pw.close();
+                     		System.out.println("Statistic of log renditen is saved into " + Configurator.getPriceStatisticLogFile() );
+                     		System.out.println("log renditen is saved into logrenditen.csv" );
+		   	}
+		   	catch (Exception ex)
+		   	{
+			   System.out.println("error while writing the statistic." + ex.getMessage() );
+                           throw ex;
+		   	}
+
+                        // Korrelation-Berechnung ============================
+
+                        int basedatanumber = UmsatzData.size() - 1;
+
+                        double  AbsoluteUmsatzchange[] = new double[ basedatanumber ];
+                        double  AbsoluteUmsatzchangeprozent[] = new double [ basedatanumber ];
+                        for ( int i=0; i<basedatanumber; i++)
+                        {
+                             double  D1 = ((Double) UmsatzData.elementAt(i) ).doubleValue() ;
+                             double  D2 = ( (Double) UmsatzData.elementAt(i+1) ).doubleValue();
+                             double  delta = Math.abs(  D2 - D1 );
+                             AbsoluteUmsatzchange[i] = delta;
+                             if (  D1 != 0.0  )
+                             {
+                               AbsoluteUmsatzchangeprozent[i] =  (delta*1.0) / D1;
+                             }
+                             else
+                             {
+                               AbsoluteUmsatzchangeprozent[i] = 0.0;
+                             }
+                        }
+
+                        double  AbsoluteLogRendite[] = new  double[ basedatanumber ];
+
+                        for ( int i=0; i< logrenditen.length; i++)
+                        {
+                            AbsoluteLogRendite[i] = Math.abs( logrenditen[i]  );
+                        }
+
+                        // Korrelation: ABS(LogRendite) zu ABS(Umsatzänderung)
+                        double  korrelation1 = mstatistic.getKorrelation( AbsoluteLogRendite, AbsoluteUmsatzchange );
+
+                        // Korrelation: ABS(LogRendite) zu ABS( UmsatzänderungProzent)
+                        double  korrelation2 = mstatistic.getKorrelation( AbsoluteLogRendite, AbsoluteUmsatzchangeprozent );
+
+                        java.io.PrintWriter fh ;
+                        try
+                        {
+                          fh  =   new PrintWriter ( new FileOutputStream( Configurator.getKorrelationLogFile()  )  );
+                        }
+                        catch (Exception ex)
+                        {
+                           System.out.println("Runtime Error: can't open file " + Configurator.getKorrelationLogFile() +" for writing." + ex.getMessage() );
+                           throw ex;
+                        }
+
+                        try
+                        {
+                                fh.println("Tag;Preis;ABS(LogRendite);ABS(Volumeaenderung);ABS(VolumeaenderungsProzent);");
+                                for (int i=0; i<basedatanumber;i++)
+                                {
+                                    double price = ( ( Double ) priceData.elementAt(i+1) ).doubleValue();
+                                    fh.println((i+2) +";" + price +";" +
+                                               nff.format2str( AbsoluteLogRendite[i]) +";" +
+                                               nff.format2str( AbsoluteUmsatzchange[i] ) +";" +
+                                               nff.format2str( AbsoluteUmsatzchangeprozent[i] ) +";" );
+                                }
+                                fh.println("");
+                                fh.println("");
+                                fh.println("");
+                                fh.println("");
+                                fh.println("************************************");
+                                fh.println("Korrelation1=" + nff.format2str (korrelation1) );
+                                fh.println("Korrelation2=" + nff.format2str (korrelation2 ) );
+
+                                // save the 2 Korrelation into SimulationReport
+                                this.mSimulationReportData.Korrelation1 = korrelation1;
+                                this.mSimulationReportData.Korrelation2 = korrelation2;
+
+                                fh.println("************************************");
+                                fh.println("Definiton" );
+                                fh.println("ABS(LogRendite) = ABS( Log(Preis[ i ]) - Log(Preis[i-1])) ");
+                                fh.println("ABS(Volumeaenderung) = ABS( Umsatz_in_Stuck[ i ] - Umsatz_in_Stuck[ i-1 ] ) ");
+                                fh.println("ABS(Volumeaenderungprozent) = ABS( Umsatz_in_Stuck[ i ] - Umsatz_in_Stuck[ i-1 ] ) /Umsatz_in_Stuck[ i-1 ]  ");
+                                fh.println("Wenn ABS( Umsatz_in_Stuck[ i -1 ] = 0, dessen Wert ist auf 0.0 gesetzt.");
+
+                                fh.println("ABS ist mathematisch Absolute Funktion. ");
+
+                                fh.println("Korrelation1 ist Korrelation  zwischen ABS(LogRendite)  und ABS(Volumeaenderung)");
+                                fh.println("Korrelation2 ist Korrelation  zwischen ABS(LogRendite)  und ABS(Volumeaenderungprozent)");
+
+                                fh.close();
+                                System.out.println("Korrelation is saved into " + Configurator.getKorrelationLogFile() );
+
+                        }
+                        catch (Exception ex)
+                        {
+                          System.out.println("Runtime Error while writing file " + Configurator.getKorrelationLogFile() + ex.getMessage() );
+                          throw ex;
+                        }
+
+                        /*******************************/
+                        int numberofrelation = AbsoluteLogRendite.length;
+
+                        if ( numberofrelation > Configurator.mConfData.mAnzahlAutoKorrelation )
+                        {
+                          numberofrelation = Configurator.mConfData.mAnzahlAutoKorrelation;
+                        }
+
+                        AutoKorrelation result = mstatistic.getAutoKorrelation( AbsoluteLogRendite, numberofrelation );
+
+                        try
+                        {
+                           fh  =   new PrintWriter ( new FileOutputStream( Configurator.getAutoKorrelationLogFile()  )  );
+                        }
+                        catch (Exception ex)
+                        {
+                           System.out.println("Runetime Error: can not open file " + Configurator.getAutoKorrelationLogFile() +" for writing." + ex.getMessage() );
+                           throw ex;
+                        }
+
+                        try
+                        {
+                            fh.println("Tao;Autokovarinz;Autokorrelation;");
+                            for (int i=0; i<numberofrelation;i++)
+                            {
+                               fh.println( i +";" + nff.format2str( result.autokovarinz[i] ) +";" + nff.format2str( result.korrelation[i]) +";" );
+                            }
+                            fh.close();
+                        }
+                      catch (Exception ex)
+                      {
+                            System.out.println("Runtime Error while writing file " + Configurator.getAutoKorrelationLogFile() + ex.getMessage() );
+                            throw ex;
+                      }
+                      System.out.println("AutoKorrelation ("  + numberofrelation + " Data ) is saved into " + Configurator.getAutoKorrelationLogFile() );
+		  }
+
+        // Summe von Umsatz oder Menge
+    	this.mSimulationReportData.mPerformedAktien_Sum = sum_performedmenge;
+
+        // Summe von Volume
+    	this.mSimulationReportData.mPerformedVolume_Sum = sum_performedvolume;
+
+                  // save the end time of this RUN of the simulation
+                  this.mSimulationReportData.mEndTime = System.currentTimeMillis();
+                  // check the memory available
+                  this.mSimulationReportData.mMemoryAvailabe = Runtime.getRuntime().freeMemory();
+
+                  // save the Report of one Simulation into Central Data Processor
+                  SimulationReportProcessor.addOneReport( this.mSimulationReportData );
+                  SimulationReportProcessor.mStatisticOfInnererWerte = this.mStatisticOfInnererWerte;
+
+                  Configurator.getNetworkConfig( Configurator.mNetworkConfigCurrentIndex ).mSimulationReportData = this.mSimulationReportData;
+
+		  System.out.println("statistic is finished.");
+
+
+	}
+
+
+private void saveLogreditwithDayInterval(double pLogrenditenwithTagInterval[],
+                                         int pdays,
+                                         PrintWriter  pstatistic_pw,
+                                         PrintWriter  plogrenditen_pw )
+
+{
+      Logger mLogger = MsgLogger.getMsgLogger("STATISTIC");
+      mLogger.debug("creating statistic of LogRenditen with interval "+ pdays +" days ");
+      mLogger.debug("checking base data ");
+      for ( int i=0; i<pLogrenditenwithTagInterval.length; i++)
+      {
+        mLogger.debug(i+". Data ="  + pLogrenditenwithTagInterval[i]);
+      }
+
+      mLogger.debug("==========================");
+
+      double pmin = Integer.MAX_VALUE;
+      double pmax = Integer.MIN_VALUE;
+      double paverage = 0;
+      double stddeviation = 0.0;
+      double schiefe = 0.0;
+      double kurtosis = 0.0;
+
+      PriceStatistic pstatistic = new PriceStatistic();
+
+      plogrenditen_pw.println();
+      plogrenditen_pw.println();
+      plogrenditen_pw.println();
+
+      plogrenditen_pw.println("LogRenditen in "  + pdays + " Tagen Abstand");
+      plogrenditen_pw.println("Nummer;LogRenditen");
+
+       for (int i=0; i<pLogrenditenwithTagInterval.length;i++)
+       {
+          plogrenditen_pw .println( (i+1)+";" + nff.format2str( pLogrenditenwithTagInterval[i] ) );
+       }
+
+       pmax =  pstatistic.getMax(  pLogrenditenwithTagInterval);
+       mLogger.debug( "max logrenditen=" + pmax );
+
+       pmin =  pstatistic.getMin(pLogrenditenwithTagInterval);
+       mLogger.debug( "min logrenditen=" +pmin );
+
+       paverage = pstatistic.getAverage( pLogrenditenwithTagInterval );
+       mLogger.debug( "avaregae logrenditen=" + paverage );
+
+       stddeviation = pstatistic.getstdev( pLogrenditenwithTagInterval );
+       mLogger.debug( "standard deviation="+stddeviation );
+
+       schiefe  = pstatistic.getSchiefe( pLogrenditenwithTagInterval  );
+       mLogger.debug( "skewness ="+ schiefe );
+
+       mLogger.debug("creating kurtosis of log renditen  ");
+       kurtosis = pstatistic.getkurt( pLogrenditenwithTagInterval ) ;
+       System.out.println( kurtosis );
+
+       pstatistic_pw.println();
+       pstatistic_pw.println();
+       pstatistic_pw.println();
+
+       pstatistic_pw.println("Statistik aus LogRenditen von "+ pdays +" Tagenabstand");
+
+       pstatistic_pw.println("Title;Wert");
+       pstatistic_pw.println("average;" + nff.format2str(paverage) );
+       pstatistic_pw.println("maximum;" + nff.format2str(pmax) );
+       pstatistic_pw.println("minimum;" + nff.format2str(pmin) );
+       pstatistic_pw.println("standard-diviation;" + nff.format2str(stddeviation) );
+       pstatistic_pw.println("skewness;" + nff.format2str(schiefe) );
+       pstatistic_pw.println("kurtosis;" + nff.format2str(kurtosis) );
+
+       // save the data into the SimulationReport
+
+       SimulationReportBaseData mBaseData = new SimulationReportBaseData();
+
+       mBaseData.Maximum_Logrendite  = pmax;
+       mBaseData.Minimum_Logrendite  = pmin;
+       mBaseData.Standard_Abweichung = stddeviation;
+       mBaseData.Kurtosis            = kurtosis;
+       mBaseData.Skewness            = schiefe;
+
+       if ( pdays == 1 )
+       {
+          this.mSimulationReportData.mData1DayAbstand = mBaseData;
+       }
+       else
+       if ( pdays == 5 )
+       {
+          this.mSimulationReportData.mData5DayAbstand = mBaseData;
+       }
+       else
+       if ( pdays == 10 )
+       {
+          this.mSimulationReportData.mData10DayAbstand = mBaseData;
+       }
+       else
+       if ( pdays == 25 )
+       {
+          this.mSimulationReportData.mData25DayAbstand = mBaseData;
+       }
+       else
+       if ( pdays == 50 )
+       {
+          this.mSimulationReportData.mData50DayAbstand = mBaseData;
+       }
+}
+
+private void ProcessLogreditOfInnererWertwithDayInterval( double pLogrenditenwithTagInterval[], int pdays )
+{
+      Logger mLogger = MsgLogger.getMsgLogger("STATISTIC");
+      mLogger.debug("creating InnererWerte statistic of LogRenditen with interval "+ pdays +" days ");
+      for ( int i=0; i<pLogrenditenwithTagInterval.length; i++)
+      {
+        mLogger.debug(i+". Data ="  + pLogrenditenwithTagInterval[i]);
+      }
+      mLogger.debug("==========================");
+
+      double pmin         = Integer.MAX_VALUE;
+      double pmax         = Integer.MIN_VALUE;
+      double paverage     = 0;
+      double stddeviation = 0.0;
+      double schiefe      = 0.0;
+      double kurtosis     = 0.0;
+
+      PriceStatistic pstatistic = new PriceStatistic();
+
+      pmax =  pstatistic.getMax(  pLogrenditenwithTagInterval);
+      mLogger.debug( "max logrenditen=" + pmax );
+
+      pmin =  pstatistic.getMin(pLogrenditenwithTagInterval);
+      mLogger.debug( "min logrenditen=" +pmin );
+
+      paverage = pstatistic.getAverage( pLogrenditenwithTagInterval );
+      mLogger.debug( "avaregae logrenditen=" + paverage );
+
+      stddeviation = pstatistic.getstdev( pLogrenditenwithTagInterval );
+      mLogger.debug( "standard deviation="+stddeviation );
+
+      schiefe  = pstatistic.getSchiefe( pLogrenditenwithTagInterval  );
+      mLogger.debug( "skewness ="+ schiefe );
+
+      mLogger.debug("creating kurtosis of log renditen  ");
+      kurtosis = pstatistic.getkurt( pLogrenditenwithTagInterval ) ;
+
+      /*
+       pstatistic_pw.println("Statistik aus LogRenditen von "+ pdays +" Tagenabstand");
+       pstatistic_pw.println("Title;Wert");
+       pstatistic_pw.println("average;" + nff.format(paverage) );
+       pstatistic_pw.println("maximum;" + nff.format(pmax) );
+       pstatistic_pw.println("minimum;" + nff.format(pmin) );
+       pstatistic_pw.println("standard-diviation;" + nff.format(stddeviation) );
+       pstatistic_pw.println("skewness;" + nff.format(schiefe) );
+       pstatistic_pw.println("kurtosis;" + nff.format(kurtosis) );
+      */
+
+      // save the data into the SimulationReport
+
+      SimulationReportBaseData mBaseData = new SimulationReportBaseData();
+
+      mBaseData.Maximum_Logrendite = pmax;
+      mBaseData.Minimum_Logrendite = pmin;
+      mBaseData.Standard_Abweichung = stddeviation;
+      mBaseData.Kurtosis = kurtosis;
+      mBaseData.Skewness = schiefe;
+
+      if ( pdays == 1 )
+      {
+          this.mStatisticOfInnererWerte.mData1DayAbstand = mBaseData;
+      }
+       else
+       if ( pdays == 5 )
+       {
+          this.mStatisticOfInnererWerte.mData5DayAbstand = mBaseData;
+       }
+       else
+       if ( pdays == 10 )
+       {
+          this.mStatisticOfInnererWerte.mData10DayAbstand = mBaseData;
+       }
+       else
+       if ( pdays == 25 )
+       {
+          this.mStatisticOfInnererWerte.mData25DayAbstand = mBaseData;
+       }
+       else
+       if ( pdays == 50 )
+       {
+          this.mStatisticOfInnererWerte.mData50DayAbstand = mBaseData;
+       }
+}
+
+
+}

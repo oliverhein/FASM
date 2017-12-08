@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<introContent>
+  <!-- Extension to the SDK Samples Page. -->
+  <extensionContent id="org.eclipse.pde.workbench" name= "Workbench-Beispiele" alt-style="css/swt.properties" style="css/samples.css" path="samples/@">
+	<group label="Workbench" id="workbench" style-id="content-group">
+    	<text style-id="group-description">Die folgenden Beispiele veranschaulichen die nahtlose Integration in die Eclipse-Workbench.</text>
+        <link label="Mehrseitiger Editor" url="http://org.eclipse.ui.intro/runAction?pluginId=org.eclipse.pde.ui&amp;class=org.eclipse.pde.internal.ui.samples.ShowSampleAction&amp;id=org.eclipse.sdk.samples.multipageeditor" id="multi-page-editor" style-id="content-link">
+           	<text>Hier erfahren Sie, wie Sie einen Editor mit mehreren Seiten erstellen.</text>
+        </link>
+        <link label="Eigenschaftsseite und Gliederung" url="http://org.eclipse.ui.intro/runAction?pluginId=org.eclipse.pde.ui&amp;class=org.eclipse.pde.internal.ui.samples.ShowSampleAction&amp;id=org.eclipse.sdk.samples.propertysheet" id="property-sheet" style-id="content-link">
+            <text>Hier wird veranschaulicht, wie Sie die Eigenschaftsseiten und die Gliederungssichten verwenden.</text>
+        </link>
+        <link label="Tool für Readme-Dateien" url="http://org.eclipse.ui.intro/runAction?pluginId=org.eclipse.pde.ui&amp;class=org.eclipse.pde.internal.ui.samples.ShowSampleAction&amp;id=org.eclipse.sdk.samples.readmetool" id="readmetool" style-id="content-link">
+            <text>Hier wird erläutert, wie Sie eigene Erweiterungspunkte erstellen.</text>
+        </link>
+        <anchor id="jdtAnchor"/>
+        <anchor id="workbenchGroupAnchor"/>
+	</group>
+  </extensionContent>
+</introContent>

@@ -1,0 +1,323 @@
+#-1)Kurszusatz  G: Geld, Kauf>Verkauf; B: Brief, Kauf < Verkauf; b: bezahlt, Kauf=Verkauf; T: Taxe, kein Buy/Sell Order
+#-2)Auftragtyp  B: Kauf,  S:Verkauf,  N:Wart  M: Mixed Order,  Order contains Buy and Sell Wish, it is created by Investor  
+#-3)Limit=-1, -1 hat spezielle Bedeutung: billigsten Kauf bzw. Besten Verkauf
+#-4)GewinnStatus *:Balance +:Gewinn -:Verlust 
+#-5) Achtung: 
+#-5) Wenn ReferenzTag = 0,  GewinnStatus ist jeden Tag gegen InitDepot ausgewertet.
+#-6) Wenn ReferenzTag > 0,  GewinnStatus ist jeden Tag gegen Depot vor  X Tagen ausgewertet.
+#-7) Investor BuyLimit  = IndividuellInnererWert * ( 1 - AbschlagProzent ) 
+     Investor SellLimit = IndividuellInnererWert * ( 1 + AbschlagProzent ) 
+#-8) Investor: Maximal Abweichung zu System InnererWert 0.5
+     Investor: Minimal Abweichung zu System InnererWert -0.5
+#-9) Investor: Eingesetztes Potenzial = PotenzialBase * ProzentialCounter  
+     - Wenn ProzentialCounter Minus Wert ist, dann ist das Potenzial auch ein Minus Wert.
+     - Wenn ProzentialCounter Plus Wert ist,  dann ist das Potenzial auch ein Plus Wert.
+     - PotenzialProzent ist ein Parameter.
+     - PotenzialBase wird nur bei (PozentialCounter=0) and (KursÄnderung ist größer als Threshold) berechnet, PotenzialBase = AktuellerSystemInnererWert * 0.2 * PotenuialProcent 
+     - PotenzialProzent ist ein Parameter.
+#-10) Investor Individuell InnererWert= SystemInnererWert + ZufallAbweichung + Potenzial 
+      ZufallAbweichung kann minus/plus sein. 
+
+Name;Tag;Type;State;ChangedReason;AktienAnzahl;Cash;Depot;RelativGewinn;RelativeGewinnProzent;AbsoluteGewinn;AbsoluteGewinnProzent;Order;BuyMenge;BuyLimit;SellMenge;SellLimit;Kurs;Kurszusatz;PerformedMenge;
+V63; ;BlankoAgent; Individuelle Parameter: TimeWindowForAverageBuyLimit(Day)=33;ActivationThreshold(%)=5.01;DeactivationThreshold(%)=10.38;
+V63;0000;BlankoAgent;initstate;;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;0;
+V63;0001;BlankoAgent;initstate;;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;985;
+V63;0002;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;986;
+V63;0003;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;979;
+V63;0004;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;979;
+V63;0005;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;980;
+V63;0006;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;974;
+V63;0007;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;974;
+V63;0008;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;987;
+V63;0009;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1003;
+V63;0010;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;997;
+V63;0011;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1007;
+V63;0012;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1006;
+V63;0013;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1005;
+V63;0014;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1013;
+V63;0015;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1012;
+V63;0016;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;997;
+V63;0017;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;997;
+V63;0018;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1006;
+V63;0019;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1018;
+V63;0020;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1018;
+V63;0021;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1018;
+V63;0022;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1052;
+V63;0023;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1054;
+V63;0024;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1057;
+V63;0025;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1061;
+V63;0026;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1067;
+V63;0027;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1062;
+V63;0028;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1066;
+V63;0029;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1072;
+V63;0030;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1071;
+V63;0031;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1064;
+V63;0032;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1066;
+V63;0033;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1073;
+V63;0034;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1079;
+V63;0035;BlankoAgent;initstate;PriceWindow needs at least 33 days prices as basis.;0;612762;612762;0;0,00;0;0,00;  ;   ;   ;   ;  ;1082;
+V63;0036;BlankoAgent;active   ;Activated, CurPrice=1082.0 Ref.Price=979,00 UpProcent=10,5209;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1081;G;1020,00;0,00;0;0;0; ;0;0;
+V63;0037;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1084;G;1015,00;0,00;0;0;0; ;0;0;
+V63;0038;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1087;B;1005,00;0,00;0;0;0; ;0;0;
+V63;0039;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1085;G;1013,00;0,00;0;0;0; ;0;0;
+V63;0040;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1087;B;1000,00;0,00;0;0;0; ;0;0;
+V63;0041;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1082;B;992,00;0,00;0;0;0; ;0;0;
+V63;0042;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1079;b;993,00;0,00;0;0;0; ;0;0;
+V63;0043;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1078;B;982,00;0,00;0;0;0; ;0;0;
+V63;0044;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1069;B;977,00;0,00;0;0;0; ;0;0;
+V63;0045;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1066;G;991,00;0,00;0;0;0; ;0;0;
+V63;0046;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1059;B;972,00;0,00;0;0;0; ;0;0;
+V63;0047;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1054;G;977,00;0,00;0;0;0; ;0;0;
+V63;0048;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1046;G;987,00;0,00;0;0;0; ;0;0;
+V63;0049;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1038;B;980,00;0,00;0;0;0; ;0;0;
+V63;0050;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1030;B;994,00;0,00;0;0;0; ;0;0;
+V63;0051;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1030;T;1002,00;0,00;0;0;0; ;0;0;
+V63;0052;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1030;B;1002,00;0,00;0;0;0; ;0;0;
+V63;0053;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1030;T;1004,00;0,00;0;0;0; ;0;0;
+V63;0054;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1030;T;1013,00;0,00;0;0;0; ;0;0;
+V63;0055;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1030;T;998,00;0,00;0;0;0; ;0;0;
+V63;0056;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1011;b;997,00;0,00;0;0;0; ;0;0;
+V63;0057;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1011;T;1004,00;0,00;0;0;0; ;0;0;
+V63;0058;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;986;G;993,00;0,00;0;0;0; ;0;0;
+V63;0059;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;983;B;1003,00;0,00;0;0;0; ;0;0;
+V63;0060;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;977;B;1010,00;0,00;0;0;0; ;0;0;
+V63;0061;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;972;B;1020,00;0,00;0;0;0; ;0;0;
+V63;0062;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;966;B;1030,00;0,00;0;0;0; ;0;0;
+V63;0063;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;967;B;1032,00;0,00;0;0;0; ;0;0;
+V63;0064;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;960;B;1018,00;0,00;0;0;0; ;0;0;
+V63;0065;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;954;B;1012,00;0,00;0;0;0; ;0;0;
+V63;0066;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;954;B;1016,00;0,00;0;0;0; ;0;0;
+V63;0067;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;948;B;1009,00;0,00;0;0;0; ;0;0;
+V63;0068;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;951;B;1015,00;0,00;0;0;0; ;0;0;
+V63;0069;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;955;B;1022,00;0,00;0;0;0; ;0;0;
+V63;0070;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;965;B;1028,00;0,00;0;0;0; ;0;0;
+V63;0071;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;965;B;1029,00;0,00;0;0;0; ;0;0;
+V63;0072;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;959;B;1012,00;0,00;0;0;0; ;0;0;
+V63;0073;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;957;B;1017,00;0,00;0;0;0; ;0;0;
+V63;0074;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;958;B;1022,00;0,00;0;0;0; ;0;0;
+V63;0075;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;953;G;1006,00;0,00;0;0;0; ;0;0;
+V63;0076;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;957;B;1022,00;0,00;0;0;0; ;0;0;
+V63;0077;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;954;B;1006,00;0,00;0;0;0; ;0;0;
+V63;0078;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;955;B;998,00;0,00;0;0;0; ;0;0;
+V63;0079;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;948;G;994,00;0,00;0;0;0; ;0;0;
+V63;0080;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;949;B;984,00;0,00;0;0;0; ;0;0;
+V63;0081;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;946;B;986,00;0,00;0;0;0; ;0;0;
+V63;0082;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;939;B;981,00;0,00;0;0;0; ;0;0;
+V63;0083;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;932;B;985,00;0,00;0;0;0; ;0;0;
+V63;0084;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;936;B;999,00;0,00;0;0;0; ;0;0;
+V63;0085;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;935;B;1000,00;0,00;0;0;0; ;0;0;
+V63;0086;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;943;B;984,00;0,00;0;0;0; ;0;0;
+V63;0087;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;963;G;994,00;0,00;0;0;0; ;0;0;
+V63;0088;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;969;B;989,00;0,00;0;0;0; ;0;0;
+V63;0089;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;978;b;994,00;0,00;0;0;0; ;0;0;
+V63;0090;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;978;G;985,00;0,00;0;0;0; ;0;0;
+V63;0091;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;982;G;991,00;0,00;0;0;0; ;0;0;
+V63;0092;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;986;B;976,00;0,00;0;0;0; ;0;0;
+V63;0093;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;986;G;975,00;0,00;0;0;0; ;0;0;
+V63;0094;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;989;G;965,00;0,00;0;0;0; ;0;0;
+V63;0095;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;989;G;954,00;0,00;0;0;0; ;0;0;
+V63;0096;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;986;B;949,00;0,00;0;0;0; ;0;0;
+V63;0097;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;980;b;943,00;0,00;0;0;0; ;0;0;
+V63;0098;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;979;B;938,00;0,00;0;0;0; ;0;0;
+V63;0099;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;974;B;952,00;0,00;0;0;0; ;0;0;
+V63;0100;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;968;B;950,00;0,00;0;0;0; ;0;0;
+V63;0101;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;963;B;957,00;0,00;0;0;0; ;0;0;
+V63;0102;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;961;B;961,00;0,00;0;0;0; ;0;0;
+V63;0103;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;954;B;960,00;0,00;0;0;0; ;0;0;
+V63;0104;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;948;B;954,00;0,00;0;0;0; ;0;0;
+V63;0105;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;943;B;961,00;0,00;0;0;0; ;0;0;
+V63;0106;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;937;G;956,00;0,00;0;0;0; ;0;0;
+V63;0107;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;938;B;961,00;0,00;0;0;0; ;0;0;
+V63;0108;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;934;G;961,00;0,00;0;0;0; ;0;0;
+V63;0109;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;937;G;971,00;0,00;0;0;0; ;0;0;
+V63;0110;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;941;B;965,00;0,00;0;0;0; ;0;0;
+V63;0111;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;938;G;956,00;0,00;0;0;0; ;0;0;
+V63;0112;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;936;B;951,00;0,00;0;0;0; ;0;0;
+V63;0113;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;936;B;963,00;0,00;0;0;0; ;0;0;
+V63;0114;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;935;B;966,00;0,00;0;0;0; ;0;0;
+V63;0115;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;936;B;969,00;0,00;0;0;0; ;0;0;
+V63;0116;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;943;G;975,00;0,00;0;0;0; ;0;0;
+V63;0117;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;946;G;960,00;0,00;0;0;0; ;0;0;
+V63;0118;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;949;b;960,00;0,00;0;0;0; ;0;0;
+V63;0119;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;955;b;969,00;0,00;0;0;0; ;0;0;
+V63;0120;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;958;G;971,00;0,00;0;0;0; ;0;0;
+V63;0121;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;981;G;982,00;0,00;0;0;0; ;0;0;
+V63;0122;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;988;G;980,00;0,00;0;0;0; ;0;0;
+V63;0123;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;995;G;992,00;0,00;0;0;0; ;0;0;
+V63;0124;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1001;B;976,00;0,00;0;0;0; ;0;0;
+V63;0125;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1005;G;977,00;0,00;0;0;0; ;0;0;
+V63;0126;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1007;G;968,00;0,00;0;0;0; ;0;0;
+V63;0127;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1012;G;980,00;0,00;0;0;0; ;0;0;
+V63;0128;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1017;G;983,00;0,00;0;0;0; ;0;0;
+V63;0129;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1021;G;972,00;0,00;0;0;0; ;0;0;
+V63;0130;BlankoAgent;active   ;already active but no strategy;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1025;G;985,00;0,00;0;0;0; ;0;0;
+V63;0131;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1029;G;990,00;0,00;0;0;0; ;0;0;
+V63;0132;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1031;G;972,00;0,00;0;0;0; ;0;0;
+V63;0133;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1035;G;984,00;0,00;0;0;0; ;0;0;
+V63;0134;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1038;G;969,00;0,00;0;0;0; ;0;0;
+V63;0135;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1041;G;962,00;0,00;0;0;0; ;0;0;
+V63;0136;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1044;G;960,00;0,00;0;0;0; ;0;0;
+V63;0137;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1045;G;952,00;0,00;0;0;0; ;0;0;
+V63;0138;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;612762;612762;0;0,00;0;0,00;N;0;0;0;0;1048;G;961,00;0,00;0;0;0; ;0;0;
+V63;0139;NoiseTrader;active   ;already active but no strategy;5;607507;612762;0;0,00;0;0,00;B;5;1053;0;0;1051;G;945,00;0,00;0;0;0;B;5;NA;980,4783;46;0,564;;MyAveragePrice=980,4783 YesterdayPrice=1048,00;BuyLimit increased 0.564%;
+V63;0140;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;5;607507;612782;20;0,0033;20;0,0033;B;20;1045;0;0;1055;G;947,00;0,00;0;0;0; ;0;NA;981,8913;46;0,526;;MyAveragePrice=981,8913 YesterdayPrice=1051,00;BuyLimit increased 0.526%;
+V63;0141;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;24;587538;612762;0;0,00;0;0,00;B;20;1057;0;0;1051;G;936,00;0,00;0;0;0;B;19;NA;983,3261;46;0,22;;MyAveragePrice=983,3261 YesterdayPrice=1055,00;BuyLimit increased 0.22%;
+V63;0142;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;24;587538;612858;96;0,0157;96;0,0157;B;5;1046;0;0;1055;G;953,00;0,00;0;0;0; ;0;NA;984,6739;46;0,44;;MyAveragePrice=984,6739 YesterdayPrice=1051,00;BuyLimit increased 0.44%;
+V63;0143;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;24;587538;612978;216;0,0353;216;0,0353;B;5;1057;0;0;1060;G;963,00;0,00;0;0;0; ;0;NA;986,1739;46;0,256;;MyAveragePrice=986,1739 YesterdayPrice=1055,00;BuyLimit increased 0.256%;
+V63;0144;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;44;566298;613026;264;0,0431;264;0,0431;B;20;1063;0;0;1062;B;948,00;0,00;0;0;0;B;20;NA;987,913;46;0,296;;MyAveragePrice=987,913 YesterdayPrice=1060,00;BuyLimit increased 0.296%;
+V63;0145;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;61;548380;612674;-88;-0,0144;-88;-0,0144;B;20;1054;0;0;1054;G;937,00;0,00;0;0;0;B;17;NA;989,7174;46;0,719;;MyAveragePrice=989,7174 YesterdayPrice=1062,00;BuyLimit decreased 0.719%;
+V63;0146;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;61;548380;612796;34;0,0055;34;0,0055;B;5;1055;0;0;1056;B;950,00;0,00;0;0;0; ;0;NA;991,4565;46;0,112;;MyAveragePrice=991,4565 YesterdayPrice=1054,00;BuyLimit increased 0.112%;
+V63;0147;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;61;548380;612674;-88;-0,0144;-88;-0,0144;B;5;1052;0;0;1054;B;947,00;0,00;0;0;0; ;0;NA;993,3696;46;0,318;;MyAveragePrice=993,3696 YesterdayPrice=1056,00;BuyLimit decreased 0.318%;
+V63;0148;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;66;543165;612003;-759;-0,1239;-759;-0,1239;B;5;1047;0;0;1043;B;935,00;0,00;0;0;0;B;5;NA;995,3478;46;0,616;;MyAveragePrice=995,3478 YesterdayPrice=1054,00;BuyLimit decreased 0.616%;
+V63;0149;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;71;537990;611475;-1287;-0,21;-1287;-0,21;B;5;1043;0;0;1035;B;931,00;0,00;0;0;0;B;5;NA;997,1304;46;0,094;;MyAveragePrice=997,1304 YesterdayPrice=1043,00;BuyLimit decreased 0.094%;
+V63;0150;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;74;534909;610907;-1855;-0,3027;-1855;-0,3027;B;3;1037;0;0;1027;G;944,00;0,00;0;0;0;B;3;NA;998,8913;46;0,257;;MyAveragePrice=998,8913 YesterdayPrice=1035,00;BuyLimit decreased 0.257%;
+V63;0151;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;77;531852;610315;-2447;-0,3993;-2447;-0,3993;B;3;1022;0;0;1019;B;944,00;0,00;0;0;0;B;3;NA;1000,6087;46;0,455;;MyAveragePrice=1000,6087 YesterdayPrice=1027,00;BuyLimit increased 0.455%;
+V63;0152;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;78;530844;609468;-3294;-0,5376;-3294;-0,5376;B;1;1018;0;0;1008;B;942,00;0,00;0;0;0;B;1;NA;1002,2609;46;0,005;;MyAveragePrice=1002,2609 YesterdayPrice=1019,00;BuyLimit decreased 0.0050%;
+V63;0153;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;79;529847;608610;-4152;-0,6776;-4152;-0,6776;B;1;1005;0;0;997;B;938,00;0,00;0;0;0;B;1;NA;1003,8043;46;0,263;;MyAveragePrice=1003,8043 YesterdayPrice=1008,00;BuyLimit decreased 0.263%;
+V63;0154;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;79;529847;608057;-4705;-0,7678;-4705;-0,7678;S;0;0;1;992;990;B;947,00;0,00;0;0;0; ;0;NA;1005,087;46;0,445;;MyAveragePrice=1005,087 YesterdayPrice=997,00;SellLimit decreased 0.445%;
+V63;0155;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;79;529847;604028;-8734;-1,4253;-8734;-1,4253;S;0;0;1;997;939;G;945,00;0,00;0;0;0; ;0;NA;1006,3043;46;0,732;;MyAveragePrice=1006,3043 YesterdayPrice=990,00;SellLimit decreased 0.732%;
+V63;0156;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=939.0 Ref.Price=995,00 DownProcent=5,6281 Threshold=10,38 MindesActiveDays=15;79;529847;602290;-10472;-1,709;-10472;-1,709;S;0;0;5;944;917;b;940,00;0,00;0;0;0; ;0;NA;1006,3478;46;0,628;;MyAveragePrice=1006,3478 YesterdayPrice=939,00;SellLimit increased 0.628%;
+V63;0157;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=917.0 Ref.Price=1001,00 DownProcent=8,3916 Threshold=10,38 MindesActiveDays=15;79;529847;601421;-11341;-1,8508;-11341;-1,8508;S;0;0;20;917;906;b;942,00;0,00;0;0;0; ;0;NA;1005,8261;46;0,022;;MyAveragePrice=1005,8261 YesterdayPrice=917,00
+V63;0158;NoiseTrader;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=906.0 Ref.Price=1005,00 DownProcent=9,8507 Threshold=10,38 MindesActiveDays=15;79;529847;600236;-12526;-2,0442;-12526;-2,0442;S;0;0;20;905;891;G;934,00;0,00;0;0;0; ;0;NA;1005,1304;46;-0,068;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0159;BlankoAgent;inactive ;Deactivated !!! Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmenCurPrice=891.0 Ref.Price=1007,00 DownProcent=11,5194 Threshold=10,38 MindesActiveDays=15;74;534277;599841;-12921;-2,1086;-12921;-2,1086;S;0;0;7;885;886;B;945,00;0,00;0;0;0;S;5;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0160;BlankoAgent;inactive ;InactiveDays 1 There are yet stocks 74 pieces, so staying inactive.;72;536059;600211;-12551;-2,0483;-12551;-2,0483;S;0;0;7;863;891;B;951,00;0,00;0;0;0;S;2;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0161;BlankoAgent;inactive ;InactiveDays 2 There are yet stocks 72 pieces, so staying inactive.;65;542233;599563;-13199;-2,154;-13199;-2,154;S;0;0;7;863;882;B;955,00;0,00;0;0;0;S;7;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0162;BlankoAgent;inactive ;InactiveDays 3 There are yet stocks 65 pieces, so staying inactive.;58;548344;598978;-13784;-2,2495;-13784;-2,2495;S;0;0;7;856;873;G;951,00;0,00;0;0;0;S;7;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0163;BlankoAgent;inactive ;InactiveDays 4 There are yet stocks 58 pieces, so staying inactive.;51;554399;598514;-14248;-2,3252;-14248;-2,3252;S;0;0;7;849;865;B;950,00;0,00;0;0;0;S;7;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0164;BlankoAgent;inactive ;InactiveDays 5 There are yet stocks 51 pieces, so staying inactive.;51;554399;598106;-14656;-2,3918;-14656;-2,3918;S;0;0;7;858;857;B;945,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0165;BlankoAgent;inactive ;InactiveDays 6 There are yet stocks 51 pieces, so staying inactive.;48;557006;598718;-14064;-2,2951;-14044;-2,2919;S;0;0;7;832;869;B;956,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0166;BlankoAgent;inactive ;InactiveDays 7 There are yet stocks 48 pieces, so staying inactive.;45;559637;599102;-13660;-2,2293;-13660;-2,2293;S;0;0;7;844;877;B;968,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0167;BlankoAgent;inactive ;InactiveDays 8 There are yet stocks 45 pieces, so staying inactive.;41;563117;598787;-14071;-2,296;-13975;-2,2807;S;0;0;7;856;870;B;955,00;0,00;0;0;0;S;4;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0168;BlankoAgent;inactive ;InactiveDays 9 There are yet stocks 41 pieces, so staying inactive.;36;567412;598336;-14642;-2,3887;-14426;-2,3543;S;0;0;7;850;859;B;947,00;0,00;0;0;0;S;5;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0169;BlankoAgent;inactive ;InactiveDays 10 There are yet stocks 36 pieces, so staying inactive.;33;570025;598768;-14258;-2,3258;-13994;-2,2838;S;0;0;7;841;871;B;954,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0170;BlankoAgent;inactive ;InactiveDays 11 There are yet stocks 33 pieces, so staying inactive.;30;572659;598999;-13675;-2,232;-13763;-2,2461;S;0;0;7;837;878;B;967,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0171;BlankoAgent;inactive ;InactiveDays 12 There are yet stocks 30 pieces, so staying inactive.;27;575281;598879;-13917;-2,2711;-13883;-2,2656;S;0;0;7;845;874;B;961,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0172;BlankoAgent;inactive ;InactiveDays 13 There are yet stocks 27 pieces, so staying inactive.;24;577915;598987;-13687;-2,234;-13775;-2,248;S;0;0;7;848;878;B;970,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0173;BlankoAgent;inactive ;InactiveDays 14 There are yet stocks 24 pieces, so staying inactive.;21;580555;599035;-12968;-2,1189;-13727;-2,2402;S;0;0;7;857;880;B;972,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0174;BlankoAgent;inactive ;InactiveDays 15 There are yet stocks 21 pieces, so staying inactive.;18;583228;599266;-12209;-1,9966;-13496;-2,2025;S;0;0;7;873;891;B;983,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0175;BlankoAgent;inactive ;InactiveDays 16 There are yet stocks 18 pieces, so staying inactive.;15;585940;599500;-11407;-1,8672;-13262;-2,1643;S;0;0;7;888;904;B;993,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0176;BlankoAgent;inactive ;InactiveDays 17 There are yet stocks 15 pieces, so staying inactive.;12;588649;599485;-10830;-1,7745;-13277;-2,1667;S;0;0;7;874;903;B;1003,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0177;BlankoAgent;inactive ;InactiveDays 18 There are yet stocks 12 pieces, so staying inactive.;9;591352;599461;-10007;-1,6419;-13301;-2,1707;S;0;0;7;888;901;B;1000,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0178;BlankoAgent;inactive ;InactiveDays 19 There are yet stocks 9 pieces, so staying inactive.;9;591352;599407;-9203;-1,5121;-13355;-2,1795;S;0;0;7;900;895;B;985,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0179;BlankoAgent;inactive ;InactiveDays 20 There are yet stocks 9 pieces, so staying inactive.;6;594052;599452;-8605;-1,4152;-13310;-2,1721;S;0;0;7;878;900;B;987,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0180;BlankoAgent;inactive ;InactiveDays 21 There are yet stocks 6 pieces, so staying inactive.;6;594052;599398;-4630;-0,7665;-13364;-2,1809;S;0;0;6;897;891;B;984,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0181;BlankoAgent;inactive ;InactiveDays 22 There are yet stocks 6 pieces, so staying inactive.;3;596767;599482;-2808;-0,4662;-13280;-2,1672;S;0;0;6;863;905;B;979,00;0,00;0;0;0;S;3;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0182;BlankoAgent;inactive ;InactiveDays 23 There are yet stocks 3 pieces, so staying inactive.;1;598581;599488;-1933;-0,3214;-13274;-2,1663;S;0;0;3;879;907;B;983,00;0,00;0;0;0;S;2;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0183;BlankoAgent;inactive ;InactiveDays 24 There are yet stocks 1 pieces, so staying inactive.;1;598581;599478;-758;-0,1263;-13284;-2,1679;S;0;0;1;901;897;B;977,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0184;BlankoAgent;inactive ;InactiveDays 25 There are yet stocks 1 pieces, so staying inactive.;0;599492;599492;-349;-0,0582;-13270;-2,1656;S;0;0;1;894;911;B;981,00;0,00;0;0;0;S;1;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0185;BlankoAgent;inactive ;InactiveDays 26 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;-719;-0,1198;-13270;-2,1656;N;0;0;0;0;911;B;983,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0186;BlankoAgent;inactive ;InactiveDays 27 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;-71;-0,0118;-13270;-2,1656;N;0;0;0;0;906;B;971,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0187;BlankoAgent;inactive ;InactiveDays 28 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;514;0,0858;-13270;-2,1656;N;0;0;0;0;917;B;986,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0188;BlankoAgent;inactive ;InactiveDays 29 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;978;0,1634;-13270;-2,1656;N;0;0;0;0;903;G;969,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0189;BlankoAgent;inactive ;InactiveDays 30 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;1386;0,2317;-13270;-2,1656;N;0;0;0;0;909;B;974,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0190;BlankoAgent;inactive ;InactiveDays 31 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;774;0,1293;-13270;-2,1656;N;0;0;0;0;942;G;985,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0191;BlankoAgent;inactive ;InactiveDays 32 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;390;0,0651;-13270;-2,1656;N;0;0;0;0;940;G;977,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0192;BlankoAgent;inactive ;InactiveDays 33 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;705;0,1177;-13270;-2,1656;N;0;0;0;0;946;G;972,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0193;BlankoAgent;inactive ;InactiveDays 34 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;1156;0,1932;-13270;-2,1656;N;0;0;0;0;961;G;985,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0194;BlankoAgent;inactive ;InactiveDays 35 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;724;0,1209;-13270;-2,1656;N;0;0;0;0;998;G;996,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0195;BlankoAgent;inactive ;InactiveDays 36 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;493;0,0823;-13270;-2,1656;N;0;0;0;0;1005;G;981,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0196;BlankoAgent;inactive ;InactiveDays 37 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;613;0,1024;-13270;-2,1656;N;0;0;0;0;996;G;989,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0197;BlankoAgent;inactive ;InactiveDays 38 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;505;0,0843;-13270;-2,1656;N;0;0;0;0;1002;G;995,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0198;BlankoAgent;inactive ;InactiveDays 39 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;457;0,0763;-13270;-2,1656;N;0;0;0;0;1012;B;1007,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0199;BlankoAgent;inactive ;InactiveDays 40 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;226;0,0377;-13270;-2,1656;N;0;0;0;0;1035;G;1011,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0200;BlankoAgent;inactive ;InactiveDays 41 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;-8;-0,0013;-13270;-2,1656;N;0;0;0;0;1042;G;1017,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0201;BlankoAgent;inactive ;InactiveDays 42 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;7;0,0012;-13270;-2,1656;N;0;0;0;0;1049;G;1008,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0202;BlankoAgent;inactive ;InactiveDays 43 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;31;0,0052;-13270;-2,1656;N;0;0;0;0;1049;T;1013,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0203;BlankoAgent;inactive ;InactiveDays 44 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;85;0,0142;-13270;-2,1656;N;0;0;0;0;1049;G;1008,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0204;BlankoAgent;inactive ;InactiveDays 45 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;40;0,0067;-13270;-2,1656;N;0;0;0;0;1055;G;1001,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0205;BlankoAgent;inactive ;InactiveDays 46 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;94;0,0157;-13270;-2,1656;N;0;0;0;0;1065;B;1008,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0206;BlankoAgent;inactive ;InactiveDays 47 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;10;0,0017;-13270;-2,1656;N;0;0;0;0;1070;G;1015,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0207;BlankoAgent;inactive ;InactiveDays 48 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;4;0,0007;-13270;-2,1656;N;0;0;0;0;1080;B;1021,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0208;BlankoAgent;inactive ;InactiveDays 49 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;14;0,0023;-13270;-2,1656;N;0;0;0;0;1087;G;1031,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0209;BlankoAgent;inactive ;InactiveDays 50 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1091;G;1030,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0210;BlankoAgent;inactive ;InactiveDays 51 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1098;G;1015,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0211;BlankoAgent;inactive ;InactiveDays 52 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1105;G;1029,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0212;BlankoAgent;inactive ;InactiveDays 53 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1111;G;1028,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0213;BlankoAgent;inactive ;InactiveDays 54 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1115;G;1021,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0214;BlankoAgent;inactive ;InactiveDays 55 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1120;G;1030,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0215;BlankoAgent;inactive ;InactiveDays 56 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1124;G;1016,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0216;BlankoAgent;inactive ;InactiveDays 57 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1130;G;1029,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0217;BlankoAgent;inactive ;InactiveDays 58 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1132;B;1018,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0218;BlankoAgent;inactive ;InactiveDays 59 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1134;G;1029,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0219;BlankoAgent;inactive ;InactiveDays 60 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1140;G;1041,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0220;BlankoAgent;inactive ;InactiveDays 61 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1146;G;1049,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0221;BlankoAgent;inactive ;InactiveDays 62 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1151;G;1044,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0222;BlankoAgent;initstate;InactiveDays 63 There are yet stocks 0 pieces, so staying inactive.;0;599492;599492;0;0,00;-13270;-2,1656;  ;   ;   ;   ;  ;1154;
+V63;0223;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1156;G;1037,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0224;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1159;G;1050,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0225;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1161;G;1032,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0226;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1162;G;1036,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0227;BlankoAgent;active   ;already active but no strategy;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1162;B;1023,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0228;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1156;G;1024,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0229;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1157;G;1038,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0230;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1160;G;1037,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0231;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1157;B;1023,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0232;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1151;G;1022,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0233;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1154;G;1037,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0234;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1156;G;1020,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0235;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1157;G;1033,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0236;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1159;G;1041,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0237;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1160;G;1033,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0238;BlankoAgent;active   ;already active but no strategy;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1161;G;1024,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0239;BlankoAgent;active   ;already active but no strategy;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1159;G;1043,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0240;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1160;G;1049,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0241;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1159;G;1053,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0242;BlankoAgent;active   ;already active but no strategy;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1154;G;1041,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0243;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1147;G;1032,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0244;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1138;B;1026,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0245;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1126;B;1035,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0246;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1114;B;1022,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0247;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1106;B;1021,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0248;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1094;B;1027,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0249;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1090;B;1033,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0250;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1059;B;1045,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0251;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1042;B;1050,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0252;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1047;B;1062,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0253;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1031;G;1074,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0254;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1025;B;1081,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0255;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1020;B;1083,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0256;BlankoAgent;active   ;already active but no strategy;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1012;B;1078,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0257;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1005;G;1093,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0258;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1012;B;1079,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0259;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1006;B;1070,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0260;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;993;G;1079,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0261;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;995;B;1089,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0262;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1004;B;1100,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0263;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;993;G;1085,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0264;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;995;G;1092,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0265;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1004;B;1105,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0266;BlankoAgent;active   ;already active but no strategy;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1012;B;1111,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0267;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1002;G;1094,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0268;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1003;b;1103,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0269;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1011;B;1111,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0270;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1022;B;1123,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0271;BlankoAgent;active   ;already active but no strategy;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1026;B;1102,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0272;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1053;G;1121,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0273;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1071;b;1110,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0274;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1095;G;1114,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0275;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1109;G;1129,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0276;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1116;G;1109,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0277;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1119;G;1099,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0278;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1127;G;1117,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0279;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1138;G;1119,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0280;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1146;G;1130,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0281;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1154;G;1135,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0282;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1162;G;1140,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0283;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1169;G;1154,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0284;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1177;G;1148,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0285;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1185;G;1140,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0286;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1185;T;1160,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0287;BlankoAgent;active   ;already active but no strategy;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1185;G;1140,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0288;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1193;G;1144,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0289;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1201;B;1154,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0290;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1207;G;1133,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0291;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1213;G;1129,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0292;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1216;G;1118,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0293;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1223;G;1127,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0294;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1230;G;1128,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0295;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1235;G;1124,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0296;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1241;B;1133,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0297;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1240;G;1137,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0298;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1246;B;1142,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0299;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1243;G;1134,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00
+V63;0300;BlankoAgent;active   ;Wahrscheinlichkeit hat entschieden, Keine Strategie aus Nachbar zu übernehmen;0;599492;599492;0;0,00;-13270;-2,1656;N;0;0;0;0;1247;G;1130,00;0,00;0;0;0; ;0;0;;MyAveragePrice=1005,1304 YesterdayPrice=906,00

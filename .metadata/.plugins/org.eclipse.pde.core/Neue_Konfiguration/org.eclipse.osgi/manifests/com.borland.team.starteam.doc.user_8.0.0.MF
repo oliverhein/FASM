@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Generated-from: 1158785814000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam User Guide
+Bundle-SymbolicName: com.borland.team.starteam.doc.user; singleton:=true
+Bundle-Version: 8.0.0
+Bundle-Activator: org.eclipse.core.internal.compatibility.PluginActivator
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime.compatibility,
+ org.eclipse.help;bundle-version="3.0.0"
+Eclipse-LazyStart: true

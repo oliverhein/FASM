@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<introContent>
+  <!-- Extension to the SDK Samples Page. -->
+  <extensionContent id="org.eclipse.jdt" name="Java-Editor" alt-style="css/swt.properties" style="css/samples.css" path="samples/@">
+    <group label="JDT" id="jdt" style-id="content-group">
+       <text style-id="group-description">Die folgenden Beispiele veranschaulichen die Verwendung von Plug-ins für die Java-Entwicklungstools. </text>
+       <link label="Java-Editor" url="http://org.eclipse.ui.intro/runAction?pluginId=org.eclipse.pde.ui&amp;class=org.eclipse.pde.internal.ui.samples.ShowSampleAction&amp;id=org.eclipse.sdk.samples.javaeditor" id="java-editor" style-id="content-link">
+          <text>Veranschaulicht die Standardfeatures, die für angepasste Texteditoren verfügbar sind.</text>
+       </link>
+    </group>
+  </extensionContent>
+</introContent>

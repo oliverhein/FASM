@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Generated-from: 1158785436000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam Extensions
+Bundle-SymbolicName: com.borland.starteam.extensions
+Bundle-Version: 8.0.0
+Bundle-ClassPath: starteam-extensions.jar
+Bundle-Vendor: Borland Software Corporation
+Bundle-Localization: plugin
+Export-Package: .,
+ com.starbase.starteam,
+ com.starbase.starteam.deployer,
+ com.starbase.starteam.deployer.classloader,
+ com.starbase.starteam.deployer.client,
+ com.starbase.starteam.deployer.standard,
+ com.starbase.starteam.editor,
+ com.starbase.starteam.editorlocator,
+ com.starbase.starteam.gui,
+ com.starbase.starteam.gui.extensions,
+ com.starbase.starteam.shell,
+ com.starbase.starteam.starflow,
+ com.starbase.starteam.starflow.formserver,
+ com.starbase.starteam.starflow.locator,
+ com.starbase.starteam.starflow.toolext,
+ com.starbase.starteam.tool,
+ com.starbase.starteam.tool.context,
+ com.starbase.starteam.toollocator,
+ com.starbase.util.errorhandling,
+ com.starbase.util.logging
+Require-Bundle: com.borland.starteam.gui

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Generated-from: 1158785986000;type=4
+Bundle-ManifestVersion: 2
+Bundle-Name: StarTeam SDK Native Libraries
+Bundle-SymbolicName: com.starbase.starteam.eclipse.team.sdk.native
+Bundle-Version: 8.0.0
+Bundle-Vendor: Borland Software Corporation
+Fragment-Host: com.borland.starteam.sdk;bundle-version="[8.0.0,8.1.0)"
+Bundle-Localization: plugin

@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Generated-from: 1181863390000;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.borland.tg.internal.gdm2emf.profile
+Bundle-Version: 8.1.1
+Bundle-ClassPath: eclipse_profile.jar
+Bundle-Vendor: %provider
+Bundle-Localization: plugin
+Export-Package: com.borland.tg.internal.gdm2emf.profile
+Require-Bundle: org.eclipse.emf.ecore,
+ com.borland.selena.profile.manager

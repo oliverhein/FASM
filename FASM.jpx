@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--JBuilder XML Project-->
+<project>
+  <property category="debug.0" name="BuildTargetOnDebug" value="com.borland.jbuilder.build.ProjectBuilder$ProjectBuildAction;make"/>
+  <property category="debug.0" name="PauseAfterLaunch" value="1"/>
+  <property category="idl" name="Compiler" value="VisiBroker"/>
+  <property category="optimize.0" name="BuildTargetOnOptimize" value="com.borland.jbuilder.build.ProjectBuilder$ProjectBuildAction;make"/>
+  <property category="optimize.0" name="OptimizableType" value="com.borland.jbuilder.optimize.IntroOptimizeitProfiler"/>
+  <property category="runtime.0" name="BuildTargetOnRun" value="com.borland.jbuilder.build.ProjectBuilder$ProjectBuildAction;make"/>
+  <property category="runtime.0" name="ConfigurationName" value="storeproj"/>
+  <property category="runtime.0" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner"/>
+  <property category="runtime.0" name="application.vmparameters" value="-DNETWORKFILE=test25.txt  -DSIMLIST=SM1"/>
+  <property category="runtime.0" name="appserver.ejbJarsSaved" value="1"/>
+  <property category="runtime.0" name="appserver.parameters" value=""/>
+  <property category="runtime.0" name="appserver.servername" value=""/>
+  <property category="runtime.0" name="appserver.vmparameters" value=""/>
+  <property category="runtime.0" name="jsprunner.docbase" value="."/>
+  <property category="runtime.0" name="jsprunner.jspfile" value="C%|/JBuilder4/bin"/>
+  <property category="runtime.0" name="server.arguments" value=""/>
+  <property category="runtime.0" name="server.disableServerClassTracing" value="0"/>
+  <property category="runtime.0" name="server.instance.name" value=""/>
+  <property category="runtime.0" name="server.name" value="Tomcat 3.3"/>
+  <property category="runtime.0" name="server.vmparameters" value=""/>
+  <property category="runtime.0" name="test.harness" value="com.borland.jbuilder.unittest.JBTestRunner"/>
+  <property category="serverservices" name="ejb.service.server" value="Borland Enterprise Server AppServer Edition 5.0.2+"/>
+  <property category="serverservices" name="is.single.server" value="0"/>
+  <property category="serverservices" name="jsp.service.server" value="Tomcat 3.3"/>
+  <property category="serverservices" name="single.server.name" value=""/>
+  <property category="sys" name="AuthorLabel" value="@author"/>
+  <property category="sys" name="BackupPath" value="bak"/>
+  <property category="sys" name="BeansInstantiate" value="false"/>
+  <property category="sys" name="BraceStyle" value="1"/>
+  <property category="sys" name="CheckStable" value="1"/>
+  <property category="sys" name="Company" value=""/>
+  <property category="sys" name="CompanyLabel" value="Organisation:"/>
+  <property category="sys" name="Copyright" value="Copyright (c) 2007"/>
+  <property category="sys" name="CopyrightLabel" value="Copyright:"/>
+  <property category="sys" name="DefaultPath" value="src"/>
+  <property category="sys" name="Description" value="Mircomarket Simulator "/>
+  <property category="sys" name="DescriptionLabel" value="Beschreibung:"/>
+  <property category="sys" name="DocPath" value="doc"/>
+  <property category="sys" name="EventMatch" value="true"/>
+  <property category="sys" name="EventStyle" value="0"/>
+  <property category="sys" name="ExcludeClassEnabled" value="0"/>
+  <property category="sys" name="IncludeTestPath" value="1"/>
+  <property category="sys" name="InstanceVisibility" value="0"/>
+  <property category="sys" name="JDK" value="java 1.4.2_06-b03"/>
+  <property category="sys" name="JvmVersion" value="1.4"/>
+  <property category="sys" name="LastTag" value="0"/>
+  <property category="sys" name="Libraries" value="Borland Enterprise Server 5.0.2+ Client;fasm3rdpartylibrary"/>
+  <property category="sys" name="MakeStable" value="0"/>
+  <property category="sys" name="OutPath" value="classes"/>
+  <property category="sys" name="SourcePath" value="src;test"/>
+  <property category="sys" name="TestPath" value="test"/>
+  <property category="sys" name="Title" value="FASM Frankfurt Articial Simulation Market"/>
+  <property category="sys" name="TitleLabel" value="\u00dcberschrift:"/>
+  <property category="sys" name="Version" value="1.0"/>
+  <property category="sys" name="VersionLabel" value="@version"/>
+  <property category="sys" name="WorkingDirectory" value="."/>
+  <property category="sys" name="uidesign.size.KousHistroy.KousFrame" value="953,465"/>
+  <property category="sys" name="uidesign.size.de.marketsim.agent.Test" value="455,313"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.agent.stockstore.BatchRunMonitor" value="433,406"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.config.LoadBatchConfig" value="478,300"/>
+  <property category="sys" name="uidesign.size.de.marketsim.gui.ABC" value="447,300"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.AgentStarter" value="461,219"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.ChartGenerator" value="363,326"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.ConfigFileRepeatorDefine" value="450,300"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.FehlerReportFrame" value="400,183"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.FrameABC" value="400,358"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.InnererWertDefFrame" value="400,233"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.InvestorConsole" value="400,313"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.KurtosisCheckerFrame" value="404,311"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.LoadBatchConfig" value="427,300"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.LoginFrame" value="448,435"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.NewStoreDialog" value="488,232"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.NoiseTraderConsole" value="400,332"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.OperatorStatusFrame" value="420,369"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.OptionDialog" value="423,677"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.PanelGraphStatistic" value="348,139"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.PriceUmsatzFrame" value="424,500"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.RunParameterConfig" value="828,518"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.RunReviewer" value="541,210"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.StartFrame" value="440,205"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.StoreDialog" value="309,202"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.StoreDialogNetworkFile" value="575,277"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.WaitStateFrame" value="400,146"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.graph.NetworkViewer" value="563,441"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.graph.PanelGraphStatistic" value="343,79"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.gui.graph.RunReviewer" value="307,141"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.install.AcceptDialog" value="400,281"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.install.InstallMain" value="542,446"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.show.DialogCloseWindow" value="393,173"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.show.KousHistoryFrame" value="502,463"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.show.StoreDialog" value="400,238"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.show.StoreFrame" value="400,244"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.test.JButtonTableExample" value="412,347"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.test.ScrollFrame" value="468,359"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.test.ScrollPanel" value="480,434"/>
+  <property category="sys"
+    name="uidesign.size.de.marketsim.test.TestFrame" value="365,244"/>
+  <property category="sys"
+    name="uidesign.size.examples.party.HostUIFrame" value="493,361"/>
+  <property category="sys" name="uidesign.size.test.InnererWertDefFrame" value="372,226"/>
+  <file path="src/abc.java"/>
+  <file path="src/test/agentnumbertest.java"/>
+  <file path="src/test/KurtFunction.java"/>
+  <file path="src/test/Numbercheck.java"/>
+  <file path="src/test/Randomwalk.java"/>
+  <file path="storeprotest.html"/>
+</project>

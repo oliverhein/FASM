@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<project name="test" default="compile" basedir=".">
+  
+ <property name="workdir" value="." />
+
+        <target name="help" >
+	    <echo>Available actions:</echo>
+	    <echo>help        Print  this page  </echo>
+	    <echo>compile     compile all java files, this is default action</echo>
+	    <echo>createjar   create fasm.jar   </echo>
+	    <echo>install     copy fasm.jar file to a unix mapped directory</echo>
+
+	</target>   
+
+    
+	<target name="compile" description="compile java code ">
+		<delete dir="build"/>
+		<mkdir  dir="build"/>
+		<javac srcdir="src" 
+		       destdir="build" 
+		       includes="**/*.java" 
+		       fork="true" 
+		       classpath="${workdir}/lib/jade/jade.jar:${workdir}/lib/jade/iiop.jar:${workdir}/lib/jade/Base64.jar:${workdir}/lib/jade/jadetools.jar:${workdir}/lib/jung/colt.jar:${workdir}/lib/jung/concurrent.jar:${workdir}/lib/jung/commons-collections-3.1.jar:${workdir}/lib/jung/jung-1.7.2.jar:${workdir}/lib/jung/resolver.jar:${workdir}/lib/jung/xercesimpl.jar:${workdir}/lib/jung/xml-apis.jar:${workdir}/lib/jbcl.jar:${workdir}/lib/log4j.jar:${workdir}/lib/swt/swt.jar:${workdir}/lib/jfreechart/jcommon-1.0.12.jar:${workdir}/lib/jfreechart/jfreechart-1.0.9.jar" 
+		       debug="on"
+		       source="1.4"
+		       target="1.4" />
+	</target>
+
+	<target name="createjar" depends="compile" description="create jar file">
+		<jar destfile="lib/fasm.jar" 
+		     basedir="build" 
+		     compress="false"/>
+	</target>
+
+	<target name="install" depends="createjar" description="install jar file into unix">
+	  <copy file="lib/fasm.jar" todir="m:/fasm/lib"/>
+	</target>
+    
+</project>
