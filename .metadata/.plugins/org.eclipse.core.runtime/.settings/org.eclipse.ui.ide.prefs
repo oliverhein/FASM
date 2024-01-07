@@ -1,6 +1,5 @@
-#Thu Feb 28 15:22:29 CET 2008
-eclipse.preferences.version=1
-tipsAndTricks=true
-platformState=1203764036493
 EXIT_PROMPT_ON_CLOSE_LAST_WINDOW=false
-quickStart=true
+eclipse.preferences.version=1
+platformState=1701940023616
+quickStart=false
+tipsAndTricks=true

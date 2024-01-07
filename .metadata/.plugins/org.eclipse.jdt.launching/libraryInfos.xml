@@ -1,37 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <libraryInfos>
-<libraryInfo home="C:\JBuilder2007\jre\jre" version="1.5.0_11">
-<bootpath>
-<entry path="C:\JBuilder2007\jre\jre\lib\rt.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\i18n.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\sunrsasign.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\jsse.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\jce.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\charsets.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\classes"/>
-</bootpath>
-<extensionDirs>
-<entry path="C:\JBuilder2007\jre\jre\lib\ext"/>
-</extensionDirs>
-<endorsedDirs>
-<entry path="C:\JBuilder2007\jre\jre\lib\endorsed"/>
-</endorsedDirs>
-</libraryInfo>
-<libraryInfo home="C:\JBuilder2007\jre" version="1.5.0_11">
-<bootpath>
-<entry path="C:\JBuilder2007\jre\jre\lib\rt.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\i18n.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\sunrsasign.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\jsse.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\jce.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\lib\charsets.jar"/>
-<entry path="C:\JBuilder2007\jre\jre\classes"/>
-</bootpath>
-<extensionDirs>
-<entry path="C:\JBuilder2007\jre\jre\lib\ext"/>
-</extensionDirs>
-<endorsedDirs>
-<entry path="C:\JBuilder2007\jre\jre\lib\endorsed"/>
-</endorsedDirs>
-</libraryInfo>
+    <libraryInfo home="C:\Users\olive\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.1.v20231028-0937\jre" version="21.0.1"/>
+    <libraryInfo home="C:\JBuilder2007\jre\jre" version="1.5.0_11">
+        <bootpath>
+            <entry path="C:\JBuilder2007\jre\jre\lib\rt.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\i18n.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\sunrsasign.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\jsse.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\jce.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\charsets.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\classes"/>
+        </bootpath>
+        <extensionDirs>
+            <entry path="C:\JBuilder2007\jre\jre\lib\ext"/>
+        </extensionDirs>
+        <endorsedDirs>
+            <entry path="C:\JBuilder2007\jre\jre\lib\endorsed"/>
+        </endorsedDirs>
+    </libraryInfo>
+    <libraryInfo home="C:\Users\olive\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.1.v20231028-0937" version="21.0.1"/>
+    <libraryInfo home="C:\JBuilder2007\jre" version="1.5.0_11">
+        <bootpath>
+            <entry path="C:\JBuilder2007\jre\jre\lib\rt.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\i18n.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\sunrsasign.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\jsse.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\jce.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\lib\charsets.jar"/>
+            <entry path="C:\JBuilder2007\jre\jre\classes"/>
+        </bootpath>
+        <extensionDirs>
+            <entry path="C:\JBuilder2007\jre\jre\lib\ext"/>
+        </extensionDirs>
+        <endorsedDirs>
+            <entry path="C:\JBuilder2007\jre\jre\lib\endorsed"/>
+        </endorsedDirs>
+    </libraryInfo>
 </libraryInfos>

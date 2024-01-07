@@ -14,31 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>agentnumbertest.java</name>
-			<type>1</type>
-			<location>C:/fasmdev-new/src/test/agentnumbertest.java</location>
-		</link>
-		<link>
-			<name>Randomwalk.java</name>
-			<type>1</type>
-			<location>C:/fasmdev-new/src/test/Randomwalk.java</location>
-		</link>
-		<link>
-			<name>KurtFunction.java</name>
-			<type>1</type>
-			<location>C:/fasmdev-new/src/test/KurtFunction.java</location>
-		</link>
-		<link>
-			<name>storeprotest.html</name>
-			<type>1</type>
-			<location>C:/fasmdev-new/storeprotest.html</location>
-		</link>
-		<link>
-			<name>src</name>
-			<type>2</type>
-			<location>C:/fasmdev-new/src</location>
-		</link>
-	</linkedResources>
 </projectDescription>

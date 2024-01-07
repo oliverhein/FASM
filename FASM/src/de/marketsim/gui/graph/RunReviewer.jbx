@@ -1,0 +1,25 @@
+[PropertyInfo]
+jBBack,JButton,false,false, , ,false,<vorgabe>
+jBExit,JButton,false,false, , ,false,<vorgabe>
+jBForward,JButton,false,false, , ,false,<vorgabe>
+jBLoad,JButton,false,false, , ,false,<vorgabe>
+jBPlay,JButton,false,false, , ,false,<vorgabe>
+jBSaveGraph,JButton,false,false, , ,false,<vorgabe>
+jBSelectDataFile,JButton,false,false, , ,false,<vorgabe>
+jBStop,JButton,false,false, , ,false,<vorgabe>
+jLabel1,JLabel,false,false, , ,false,<vorgabe>
+jLabel2,JLabel,false,false, , ,false,<vorgabe>
+jLabel3,JLabel,false,false, , ,false,<vorgabe>
+jLabel4,JLabel,false,false, , ,false,<vorgabe>
+jTFCurremtDay,JTextField,false,false, , ,false,<vorgabe>
+jTFDelay,JTextField,false,false, , ,false,<vorgabe>
+jTFStateFile,JTextField,false,false, , ,false,<vorgabe>
+jTTotalDays,JTextField,false,false, , ,false,<vorgabe>
+mAgentGraphStatus,AgentGraphStatusFrame,false,false, , ,false,<vorgabe>
+mAutoPlay,Thread,false,false, , ,false,<vorgabe>
+mGraphStateFileReader,GraphStateFileReader,false,false, , ,false,<vorgabe>
+[IconNames]
+
+
+
+

@@ -1,23 +1,4 @@
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\231133257.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\3430260011.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\834287166.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\330800233.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\385037838.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\3656017602.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\1830618747.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\1728807260.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\62108293.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\1239887113.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\21462043.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\586024075.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\3683819320.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\2781887196.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\3126528171.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\3176250535.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\2031324487.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\1482937806.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\2754952845.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\3453129690.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\2596425061.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\405941794.index
-C:\Diss\fasmdev\fasmdev-new\.metadata\.plugins\org.eclipse.jdt.core\2860732436.index
+INDEX VERSION 1.134+C:\Users\olive\FASM\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+106530253.index
+1262925903.index
