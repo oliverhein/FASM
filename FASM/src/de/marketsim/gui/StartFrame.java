@@ -12,15 +12,6 @@ import de.marketsim.util.MsgLogger;
 import de.marketsim.gui.InnererWertDefFrame;
 
 
-/**
- * <p>Überschrift: Market Simulator</p>
- * <p>Beschreibung: </p>
- * <p>Copyright: Copyright (c) 2005</p>
- * <p>Organisation: </p>
- * @author Xining Wang
- * @version 1.0
- */
-
 public class StartFrame extends JFrame
 {
   private ButtonGroup DialogBatchModeSelectGroup = new ButtonGroup();
