@@ -1,0 +1,207 @@
+<html><Head><Title>70. day Order Book</title></head>
+<Body> <h4>
+<H2>
+Handelstag 70:
+</H2>
+<br>
+Order oerview:<br>
+<table border=1 >
+<tr><td>KaufMenge aus BuyOrder mit Limit</td><td>695</td></tr>
+<tr><td>KaufMenge aus Cheapest Buy Order</td><td>0</td></tr>
+<tr><td>VerkaufMenge aus SellOrder mit Limit</td><td>668</td></tr>
+<tr><td>VerkaufMenge aus BestSell Order</td><td>8</td></tr>
+</table>
+Decision base for the new price<br>
+<table border=1 ><tr><td><H3>Limit</H3></td><td><H3>Possilbe<br>Buy<br>Menge</H3></td><td><H3>Possible<br>Sell<br>Menge</H3></td><td><H3>Possible<br>Trade<br>Menge</H3></td><td><H3>Possible<br>Trade<br>Volume</H3></td></tr>
+<tr><td>852.0</td><td>695</td><td>8</td><td>8</td><td>6816.0</td></tr>
+<tr><td>869.0</td><td>670</td><td>8</td><td>8</td><td>6952.0</td></tr>
+<tr><td>870.0</td><td>645</td><td>8</td><td>8</td><td>6960.0</td></tr>
+<tr><td>871.0</td><td>620</td><td>8</td><td>8</td><td>6968.0</td></tr>
+<tr><td>888.0</td><td>605</td><td>8</td><td>8</td><td>7104.0</td></tr>
+<tr><td>889.0</td><td>590</td><td>8</td><td>8</td><td>7112.0</td></tr>
+<tr><td>890.0</td><td>575</td><td>8</td><td>8</td><td>7120.0</td></tr>
+<tr><td>899.0</td><td>550</td><td>8</td><td>8</td><td>7192.0</td></tr>
+<tr><td>900.0</td><td>515</td><td>8</td><td>8</td><td>7200.0</td></tr>
+<tr><td>909.0</td><td>490</td><td>8</td><td>8</td><td>7272.0</td></tr>
+<tr><td>915.0</td><td>450</td><td>8</td><td>8</td><td>7320.0</td></tr>
+<tr><td>917.0</td><td>425</td><td>8</td><td>8</td><td>7336.0</td></tr>
+<tr><td>918.0</td><td>415</td><td>8</td><td>8</td><td>7344.0</td></tr>
+<tr><td>919.0</td><td>400</td><td>8</td><td>8</td><td>7352.0</td></tr>
+<tr><td>920.0</td><td>360</td><td>8</td><td>8</td><td>7360.0</td></tr>
+<tr><td>929.0</td><td>345</td><td>8</td><td>8</td><td>7432.0</td></tr>
+<tr><td>931.0</td><td>330</td><td>8</td><td>8</td><td>7448.0</td></tr>
+<tr><td>934.0</td><td>305</td><td>8</td><td>8</td><td>7472.0</td></tr>
+<tr><td>936.0</td><td>290</td><td>8</td><td>8</td><td>7488.0</td></tr>
+<tr><td>937.0</td><td>285</td><td>8</td><td>8</td><td>7496.0</td></tr>
+<tr><td>938.0</td><td>280</td><td>8</td><td>8</td><td>7504.0</td></tr>
+<tr><td>939.0</td><td>270</td><td>8</td><td>8</td><td>7512.0</td></tr>
+<tr><td>945.0</td><td>255</td><td>8</td><td>8</td><td>7560.0</td></tr>
+<tr><td>947.0</td><td>230</td><td>8</td><td>8</td><td>7576.0</td></tr>
+<tr><td>949.0</td><td>205</td><td>8</td><td>8</td><td>7592.0</td></tr>
+<tr><td>950.0</td><td>195</td><td>8</td><td>8</td><td>7600.0</td></tr>
+<tr><td>951.0</td><td>185</td><td>8</td><td>8</td><td>7608.0</td></tr>
+<tr><td>958.0</td><td>170</td><td>8</td><td>8</td><td>7664.0</td></tr>
+<tr><td>959.0</td><td>165</td><td>8</td><td>8</td><td>7672.0</td></tr>
+<tr><td>964.0</td><td>155</td><td>8</td><td>8</td><td>7712.0</td></tr>
+<tr><td>965.0</td><td>145</td><td>8</td><td>8</td><td>7720.0</td></tr>
+<tr><td>968.0</td><td>130</td><td>8</td><td>8</td><td>7744.0</td></tr>
+<tr><td>969.0</td><td>115</td><td>8</td><td>8</td><td>7752.0</td></tr>
+<tr><td>970.0</td><td>105</td><td>8</td><td>8</td><td>7760.0</td></tr>
+<tr><td>972.0</td><td>95</td><td>13</td><td>13</td><td>12636.0</td></tr>
+<tr><td>979.0</td><td>95</td><td>18</td><td>18</td><td>17622.0</td></tr>
+<tr><td>982.0</td><td>90</td><td>18</td><td>18</td><td>17676.0</td></tr>
+<tr><td>984.0</td><td>80</td><td>18</td><td>18</td><td>17712.0</td></tr>
+<tr><td>988.0</td><td>75</td><td>23</td><td>23</td><td>22724.0</td></tr>
+<tr><td>991.0</td><td>75</td><td>33</td><td>33</td><td>32703.0</td></tr>
+<tr><td>993.0</td><td>70</td><td>41</td><td>41</td><td>40713.0</td></tr>
+<tr><td>994.0</td><td>70</td><td>41</td><td>41</td><td>40754.0</td></tr>
+<tr><td>995.0</td><td>65</td><td>41</td><td>41</td><td>40795.0</td></tr>
+<tr><td>997.0</td><td>60</td><td>41</td><td>41</td><td>40877.0</td></tr>
+<tr><td>998.0</td><td>50</td><td>51</td><td>50</td><td>49900.0</td></tr>
+<tr><td><h4>999.0</h4></td><td><h4>50</h4></td><td><h4>56</h4></td><td><h4>50</h4></td><td><h4>49950.0</h4></td></tr>
+<tr><td>1001.0</td><td>40</td><td>56</td><td>40</td><td>40040.0</td></tr>
+<tr><td>1002.0</td><td>30</td><td>56</td><td>30</td><td>30060.0</td></tr>
+<tr><td>1005.0</td><td>25</td><td>66</td><td>25</td><td>25125.0</td></tr>
+<tr><td>1006.0</td><td>20</td><td>66</td><td>20</td><td>20120.0</td></tr>
+<tr><td>1007.0</td><td>15</td><td>76</td><td>15</td><td>15105.0</td></tr>
+<tr><td>1014.0</td><td>10</td><td>81</td><td>10</td><td>10140.0</td></tr>
+<tr><td>1017.0</td><td>10</td><td>81</td><td>10</td><td>10170.0</td></tr>
+<tr><td>1019.0</td><td>5</td><td>91</td><td>5</td><td>5095.0</td></tr>
+<tr><td>1020.0</td><td>5</td><td>106</td><td>5</td><td>5100.0</td></tr>
+<tr><td>1025.0</td><td>0</td><td>126</td><td>0</td><td>0.0</td></tr>
+<tr><td>1027.0</td><td>0</td><td>141</td><td>0</td><td>0.0</td></tr>
+<tr><td>1028.0</td><td>0</td><td>146</td><td>0</td><td>0.0</td></tr>
+<tr><td>1034.0</td><td>0</td><td>161</td><td>0</td><td>0.0</td></tr>
+<tr><td>1036.0</td><td>0</td><td>176</td><td>0</td><td>0.0</td></tr>
+<tr><td>1039.0</td><td>0</td><td>201</td><td>0</td><td>0.0</td></tr>
+<tr><td>1046.0</td><td>0</td><td>226</td><td>0</td><td>0.0</td></tr>
+<tr><td>1048.0</td><td>0</td><td>251</td><td>0</td><td>0.0</td></tr>
+<tr><td>1054.0</td><td>0</td><td>281</td><td>0</td><td>0.0</td></tr>
+<tr><td>1055.0</td><td>0</td><td>321</td><td>0</td><td>0.0</td></tr>
+<tr><td>1060.0</td><td>0</td><td>326</td><td>0</td><td>0.0</td></tr>
+<tr><td>1064.0</td><td>0</td><td>346</td><td>0</td><td>0.0</td></tr>
+<tr><td>1068.0</td><td>0</td><td>371</td><td>0</td><td>0.0</td></tr>
+<tr><td>1074.0</td><td>0</td><td>396</td><td>0</td><td>0.0</td></tr>
+<tr><td>1075.0</td><td>0</td><td>431</td><td>0</td><td>0.0</td></tr>
+<tr><td>1078.0</td><td>0</td><td>446</td><td>0</td><td>0.0</td></tr>
+<tr><td>1081.0</td><td>0</td><td>456</td><td>0</td><td>0.0</td></tr>
+<tr><td>1084.0</td><td>0</td><td>491</td><td>0</td><td>0.0</td></tr>
+<tr><td>1085.0</td><td>0</td><td>506</td><td>0</td><td>0.0</td></tr>
+<tr><td>1098.0</td><td>0</td><td>531</td><td>0</td><td>0.0</td></tr>
+<tr><td>1105.0</td><td>0</td><td>571</td><td>0</td><td>0.0</td></tr>
+<tr><td>1112.0</td><td>0</td><td>586</td><td>0</td><td>0.0</td></tr>
+<tr><td>1116.0</td><td>0</td><td>601</td><td>0</td><td>0.0</td></tr>
+<tr><td>1126.0</td><td>0</td><td>626</td><td>0</td><td>0.0</td></tr>
+<tr><td>1133.0</td><td>0</td><td>651</td><td>0</td><td>0.0</td></tr>
+<tr><td>1137.0</td><td>0</td><td>676</td><td>0</td><td>0.0</td></tr>
+</table>
+NeuKurs ist aufgrund Maximal Tradevolume 49950.0 bestimmt.<br>
+<BR><H3>Umsatz=50,NeuKurs=999<BR>InnererWert =997.0,VortagKurs  =1004.0<BR>IngesamtKaufMenge=695,KaufMenge mit Limit=695,KaufMenge Billigestkauf=0<BR>IngesamtVerkaufMenge=676<BR>VerkaufMenge mit Limit=668,VerkaufMenge Bestverkauf=8<BR>OffenKaufMenge=645.0,OffenVerkaufMenge=626.0,Kurszusatz=B</H3><BR>
+<BR>NoiseTrader: Prozent = ( VortagKurs - AVG ) * 100 / VortagKurs <BR>NoiseTrader: ProzentGrenz 1: 4.0<BR>NoiseTrader: ProzentGrenz 2: 4.0<BR>NoiseTrader: ProzentGrenz 3: 4.0<BR>NoiseTrader: Prozent-Stufe 1: (-infinitive ~~4.0) <BR>NoiseTrader: Prozent-Stufe 2: [4.0~8.0 ) <BR>NoiseTrader: Prozent-Stufe 3: [8.0~16.0 ) <BR>NoiseTrader: Prozent-Stufe 4: [16.0~ Infinitive ) <BR>Investor Basic Rule: <BR> BuyLimit  = IndividuellInnererwert * ( 1 - AbschlagProzent/100 ) <BR> SellLimit = IndividuellInnererwert * ( 1 + AbschlagProzent/100 ) <BR> Kurszusatz-Bestimmungsverfahren:<br>  1) wenn kein Umsatz, dann Kurszusatz = T <BR> 2) wenn OffenKaufMenge=0 und OffenVerkaufMenge=0, dann Kurszusatz = b <BR> 3) wenn OffenKaufMenge >= OffenSellMenge, dann Kurszusatz = G <BR> 4) Ansonsten Kurszusatz = B <BR><Table border=1 ><TR><TD><H3>Name<H3></TD><TD><H3>AgentType<H3></TD><TD><H3>Order<BR>Type<H3></TD><TD><H3>Limit<H3></TD><TD><H3>Order<BR>Menge<H3></TD><TD><H3>Performed<br>Menge<H3></TD><TD><H3>Involved<br>into Trade<H3></TD><TD><H3>LimitReason<H3></TD><TD><H3>Original AgentType </H3></TD></TR><br>
+<TR><TD>V13</TD><TD>Investor</TD><TD>B</TD><TD>852.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=949,2337 AbschlagProz=3,208</TD><TD>Investor</TD></TR>
+<TR><TD>V14</TD><TD>Investor</TD><TD>B</TD><TD>869.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=962,6234 AbschlagProz=2,6622</TD><TD>Investor</TD></TR>
+<TR><TD>V38</TD><TD>Investor</TD><TD>B</TD><TD>870.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=954,8867 AbschlagProz=1,8332</TD><TD>Investor</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>B</TD><TD>871.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=949,2337 AbschlagProz=3,208</TD><TD>Investor</TD></TR>
+<TR><TD>V14</TD><TD>Investor</TD><TD>B</TD><TD>888.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=962,6234 AbschlagProz=2,6622</TD><TD>Investor</TD></TR>
+<TR><TD>V38</TD><TD>Investor</TD><TD>B</TD><TD>889.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=954,8867 AbschlagProz=1,8332</TD><TD>Investor</TD></TR>
+<TR><TD>V4</TD><TD>Investor</TD><TD>B</TD><TD>890.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=979,1238 AbschlagProz=2,1006</TD><TD>Investor</TD></TR>
+<TR><TD>V3</TD><TD>Investor</TD><TD>B</TD><TD>899.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=991,9951 AbschlagProz=2,318</TD><TD>Investor</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>B</TD><TD>899.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=949,2337 AbschlagProz=3,208</TD><TD>Investor</TD></TR>
+<TR><TD>V65</TD><TD>Investor</TD><TD>B</TD><TD>900.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=987,6581 AbschlagProz=1,8113</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>B</TD><TD>909.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1003,8893 AbschlagProz=2,4446</TD><TD>Investor</TD></TR>
+<TR><TD>V4</TD><TD>Investor</TD><TD>B</TD><TD>909.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=979,1238 AbschlagProz=2,1006</TD><TD>Investor</TD></TR>
+<TR><TD>V5</TD><TD>Investor</TD><TD>B</TD><TD>915.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=995,2552 AbschlagProz=1,0622</TD><TD>Investor</TD></TR>
+<TR><TD>V14</TD><TD>Investor</TD><TD>B</TD><TD>917.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=962,6234 AbschlagProz=2,6622</TD><TD>Investor</TD></TR>
+<TR><TD>V38</TD><TD>Investor</TD><TD>B</TD><TD>918.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=954,8867 AbschlagProz=1,8332</TD><TD>Investor</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>B</TD><TD>918.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=949,2337 AbschlagProz=3,208</TD><TD>Investor</TD></TR>
+<TR><TD>V3</TD><TD>Investor</TD><TD>B</TD><TD>919.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=991,9951 AbschlagProz=2,318</TD><TD>Investor</TD></TR>
+<TR><TD>V17</TD><TD>Investor</TD><TD>B</TD><TD>919.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1022,9419 AbschlagProz=3,1127</TD><TD>Investor</TD></TR>
+<TR><TD>V65</TD><TD>Investor</TD><TD>B</TD><TD>920.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=987,6581 AbschlagProz=1,8113</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>B</TD><TD>929.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1003,8893 AbschlagProz=2,4446</TD><TD>Investor</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>B</TD><TD>931.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1018,4455 AbschlagProz=1,5494</TD><TD>Investor</TD></TR>
+<TR><TD>V5</TD><TD>Investor</TD><TD>B</TD><TD>934.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=995,2552 AbschlagProz=1,0622</TD><TD>Investor</TD></TR>
+<TR><TD>V14</TD><TD>Investor</TD><TD>B</TD><TD>936.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=962,6234 AbschlagProz=2,6622</TD><TD>Investor</TD></TR>
+<TR><TD>V38</TD><TD>Investor</TD><TD>B</TD><TD>937.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=954,8867 AbschlagProz=1,8332</TD><TD>Investor</TD></TR>
+<TR><TD>V4</TD><TD>Investor</TD><TD>B</TD><TD>938.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=979,1238 AbschlagProz=2,1006</TD><TD>Investor</TD></TR>
+<TR><TD>V17</TD><TD>Investor</TD><TD>B</TD><TD>939.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1022,9419 AbschlagProz=3,1127</TD><TD>Investor</TD></TR>
+<TR><TD>V64</TD><TD>Investor</TD><TD>B</TD><TD>945.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1039,1432 AbschlagProz=2,054</TD><TD>Investor</TD></TR>
+<TR><TD>V63</TD><TD>Investor</TD><TD>B</TD><TD>947.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1042,184 AbschlagProz=2,0988</TD><TD>Investor</TD></TR>
+<TR><TD>V3</TD><TD>Investor</TD><TD>B</TD><TD>949.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=991,9951 AbschlagProz=2,318</TD><TD>Investor</TD></TR>
+<TR><TD>V65</TD><TD>Investor</TD><TD>B</TD><TD>950.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=987,6581 AbschlagProz=1,8113</TD><TD>Investor</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>B</TD><TD>951.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1018,4455 AbschlagProz=1,5494</TD><TD>Investor</TD></TR>
+<TR><TD>V4</TD><TD>Investor</TD><TD>B</TD><TD>958.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=979,1238 AbschlagProz=2,1006</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>B</TD><TD>959.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1003,8893 AbschlagProz=2,4446</TD><TD>Investor</TD></TR>
+<TR><TD>V5</TD><TD>Investor</TD><TD>B</TD><TD>964.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=995,2552 AbschlagProz=1,0622</TD><TD>Investor</TD></TR>
+<TR><TD>V64</TD><TD>Investor</TD><TD>B</TD><TD>965.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1039,1432 AbschlagProz=2,054</TD><TD>Investor</TD></TR>
+<TR><TD>V63</TD><TD>Investor</TD><TD>B</TD><TD>968.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1042,184 AbschlagProz=2,0988</TD><TD>Investor</TD></TR>
+<TR><TD>V65</TD><TD>Investor</TD><TD>B</TD><TD>969.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=987,6581 AbschlagProz=1,8113</TD><TD>Investor</TD></TR>
+<TR><TD>V3</TD><TD>Investor</TD><TD>B</TD><TD>969.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=991,9951 AbschlagProz=2,318</TD><TD>Investor</TD></TR>
+<TR><TD>V17</TD><TD>Investor</TD><TD>B</TD><TD>970.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1022,9419 AbschlagProz=3,1127</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>B</TD><TD>979.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1003,8893 AbschlagProz=2,4446</TD><TD>Investor</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>B</TD><TD>982.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1018,4455 AbschlagProz=1,5494</TD><TD>Investor</TD></TR>
+<TR><TD>V5</TD><TD>Investor</TD><TD>B</TD><TD>984.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=995,2552 AbschlagProz=1,0622</TD><TD>Investor</TD></TR>
+<TR><TD>V17</TD><TD>Investor</TD><TD>B</TD><TD>991.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1022,9419 AbschlagProz=3,1127</TD><TD>Investor</TD></TR>
+<TR><TD>V6</TD><TD>NoiseTrader</TD><TD>B</TD><TD>994.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1004.0) * ( 1 - 0.906%) Vortag KursZusag=B </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V2</TD><TD>NoiseTrader</TD><TD>B</TD><TD>995.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>VortagKurs(1004.0) * ( 1 - 0.893%) Vortag KursZusag=B </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V64</TD><TD>Investor</TD><TD>B</TD><TD>997.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1039,1432 AbschlagProz=2,054</TD><TD>Investor</TD></TR>
+<TR><TD>V63</TD><TD>Investor</TD><TD>B</TD><TD>999.0</TD><TD>10</TD><TD>10</TD><TD>X</TD><TD>IndividuellerInnererWert=1042,184 AbschlagProz=2,0988</TD><TD>Investor</TD></TR>
+<TR><TD>V31</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1001.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs(1004.0) * ( 1 - 0.245%) Vortag KursZusag=B </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V12</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1001.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs(1004.0) * ( 1 - 0.222%) Vortag KursZusag=B </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>B</TD><TD>1002.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1018,4455 AbschlagProz=1,5494</TD><TD>Investor</TD></TR>
+<TR><TD>V41</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1005.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs(1004.0) * ( 1 - 0.13%) Vortag KursZusag=B </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V62</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1006.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs(1004.0) * ( 1 - 0.258%) Vortag KursZusag=B </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V45</TD><TD>NoiseTrader</TD><TD>B</TD><TD>1007.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>VortagKurs(1004.0) * ( 1 - 0.318%) Vortag KursZusag=B </TD><TD>NoiseTrader</TD></TR>
+<TR><TD>V64</TD><TD>Investor</TD><TD>B</TD><TD>1017.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1039,1432 AbschlagProz=2,054</TD><TD>Investor</TD></TR>
+<TR><TD>V63</TD><TD>Investor</TD><TD>B</TD><TD>1020.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=1042,184 AbschlagProz=2,0988</TD><TD>Investor</TD></TR>
+<TR><TD>RandomTrader1</TD><TD>RandomTrader</TD><TD>S</TD><TD>Best Sell</TD><TD>8</TD><TD>8</TD><TD>X</TD><TD></TD><TD>RandomTrader</TD></TR>
+<TR><TD>V38</TD><TD>Investor</TD><TD>S</TD><TD>972.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=954,8867 AbschlagProz=1,8332</TD><TD>Investor</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>S</TD><TD>979.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>IndividuellerInnererWert=949,2337 AbschlagProz=3,208</TD><TD>Investor</TD></TR>
+<TR><TD>V14</TD><TD>Investor</TD><TD>S</TD><TD>988.0</TD><TD>5</TD><TD>5</TD><TD>X</TD><TD>IndividuellerInnererWert=962,6234 AbschlagProz=2,6622</TD><TD>Investor</TD></TR>
+<TR><TD>V38</TD><TD>Investor</TD><TD>S</TD><TD>991.0</TD><TD>10</TD><TD>8</TD><TD>X</TD><TD>IndividuellerInnererWert=954,8867 AbschlagProz=1,8332</TD><TD>Investor</TD></TR>
+<TR><TD>RandomTrader2</TD><TD>RandomTrader</TD><TD>S</TD><TD>993.0</TD><TD>8</TD><TD>8</TD><TD>X</TD><TD>Vortag * (1 - 0.01) wegen Kurszusatz B</TD><TD>RandomTrader</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>S</TD><TD>998.0</TD><TD>10</TD><TD>8</TD><TD>X</TD><TD>IndividuellerInnererWert=949,2337 AbschlagProz=3,208</TD><TD>Investor</TD></TR>
+<TR><TD>V4</TD><TD>Investor</TD><TD>S</TD><TD>999.0</TD><TD>5</TD><TD>4</TD><TD>X</TD><TD>IndividuellerInnererWert=979,1238 AbschlagProz=2,1006</TD><TD>Investor</TD></TR>
+<TR><TD>V65</TD><TD>Investor</TD><TD>S</TD><TD>1005.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=987,6581 AbschlagProz=1,8113</TD><TD>Investor</TD></TR>
+<TR><TD>V5</TD><TD>Investor</TD><TD>S</TD><TD>1005.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=995,2552 AbschlagProz=1,0622</TD><TD>Investor</TD></TR>
+<TR><TD>V14</TD><TD>Investor</TD><TD>S</TD><TD>1007.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=962,6234 AbschlagProz=2,6622</TD><TD>Investor</TD></TR>
+<TR><TD>V3</TD><TD>Investor</TD><TD>S</TD><TD>1014.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=991,9951 AbschlagProz=2,318</TD><TD>Investor</TD></TR>
+<TR><TD>V4</TD><TD>Investor</TD><TD>S</TD><TD>1019.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=979,1238 AbschlagProz=2,1006</TD><TD>Investor</TD></TR>
+<TR><TD>V38</TD><TD>Investor</TD><TD>S</TD><TD>1020.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=954,8867 AbschlagProz=1,8332</TD><TD>Investor</TD></TR>
+<TR><TD>V65</TD><TD>Investor</TD><TD>S</TD><TD>1025.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=987,6581 AbschlagProz=1,8113</TD><TD>Investor</TD></TR>
+<TR><TD>V5</TD><TD>Investor</TD><TD>S</TD><TD>1025.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=995,2552 AbschlagProz=1,0622</TD><TD>Investor</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>S</TD><TD>1027.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=949,2337 AbschlagProz=3,208</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>S</TD><TD>1028.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1003,8893 AbschlagProz=2,4446</TD><TD>Investor</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>S</TD><TD>1034.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1018,4455 AbschlagProz=1,5494</TD><TD>Investor</TD></TR>
+<TR><TD>V3</TD><TD>Investor</TD><TD>S</TD><TD>1034.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=991,9951 AbschlagProz=2,318</TD><TD>Investor</TD></TR>
+<TR><TD>V14</TD><TD>Investor</TD><TD>S</TD><TD>1036.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=962,6234 AbschlagProz=2,6622</TD><TD>Investor</TD></TR>
+<TR><TD>V38</TD><TD>Investor</TD><TD>S</TD><TD>1039.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=954,8867 AbschlagProz=1,8332</TD><TD>Investor</TD></TR>
+<TR><TD>V13</TD><TD>Investor</TD><TD>S</TD><TD>1046.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=949,2337 AbschlagProz=3,208</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>S</TD><TD>1048.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1003,8893 AbschlagProz=2,4446</TD><TD>Investor</TD></TR>
+<TR><TD>V4</TD><TD>Investor</TD><TD>S</TD><TD>1048.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=979,1238 AbschlagProz=2,1006</TD><TD>Investor</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>S</TD><TD>1054.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1018,4455 AbschlagProz=1,5494</TD><TD>Investor</TD></TR>
+<TR><TD>V65</TD><TD>Investor</TD><TD>S</TD><TD>1054.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=987,6581 AbschlagProz=1,8113</TD><TD>Investor</TD></TR>
+<TR><TD>V17</TD><TD>Investor</TD><TD>S</TD><TD>1054.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1022,9419 AbschlagProz=3,1127</TD><TD>Investor</TD></TR>
+<TR><TD>V5</TD><TD>Investor</TD><TD>S</TD><TD>1055.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=995,2552 AbschlagProz=1,0622</TD><TD>Investor</TD></TR>
+<TR><TD>V14</TD><TD>Investor</TD><TD>S</TD><TD>1055.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=962,6234 AbschlagProz=2,6622</TD><TD>Investor</TD></TR>
+<TR><TD>V64</TD><TD>Investor</TD><TD>S</TD><TD>1060.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1039,1432 AbschlagProz=2,054</TD><TD>Investor</TD></TR>
+<TR><TD>V3</TD><TD>Investor</TD><TD>S</TD><TD>1064.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=991,9951 AbschlagProz=2,318</TD><TD>Investor</TD></TR>
+<TR><TD>V63</TD><TD>Investor</TD><TD>S</TD><TD>1064.0</TD><TD>5</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1042,184 AbschlagProz=2,0988</TD><TD>Investor</TD></TR>
+<TR><TD>V4</TD><TD>Investor</TD><TD>S</TD><TD>1068.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=979,1238 AbschlagProz=2,1006</TD><TD>Investor</TD></TR>
+<TR><TD>V65</TD><TD>Investor</TD><TD>S</TD><TD>1074.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=987,6581 AbschlagProz=1,8113</TD><TD>Investor</TD></TR>
+<TR><TD>V5</TD><TD>Investor</TD><TD>S</TD><TD>1075.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=995,2552 AbschlagProz=1,0622</TD><TD>Investor</TD></TR>
+<TR><TD>V17</TD><TD>Investor</TD><TD>S</TD><TD>1075.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1022,9419 AbschlagProz=3,1127</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>S</TD><TD>1078.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1003,8893 AbschlagProz=2,4446</TD><TD>Investor</TD></TR>
+<TR><TD>V64</TD><TD>Investor</TD><TD>S</TD><TD>1081.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1039,1432 AbschlagProz=2,054</TD><TD>Investor</TD></TR>
+<TR><TD>V3</TD><TD>Investor</TD><TD>S</TD><TD>1084.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=991,9951 AbschlagProz=2,318</TD><TD>Investor</TD></TR>
+<TR><TD>V63</TD><TD>Investor</TD><TD>S</TD><TD>1084.0</TD><TD>10</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1042,184 AbschlagProz=2,0988</TD><TD>Investor</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>S</TD><TD>1085.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1018,4455 AbschlagProz=1,5494</TD><TD>Investor</TD></TR>
+<TR><TD>V53</TD><TD>Investor</TD><TD>S</TD><TD>1098.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1003,8893 AbschlagProz=2,4446</TD><TD>Investor</TD></TR>
+<TR><TD>V77</TD><TD>Investor</TD><TD>S</TD><TD>1105.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1018,4455 AbschlagProz=1,5494</TD><TD>Investor</TD></TR>
+<TR><TD>V17</TD><TD>Investor</TD><TD>S</TD><TD>1105.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1022,9419 AbschlagProz=3,1127</TD><TD>Investor</TD></TR>
+<TR><TD>V64</TD><TD>Investor</TD><TD>S</TD><TD>1112.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1039,1432 AbschlagProz=2,054</TD><TD>Investor</TD></TR>
+<TR><TD>V63</TD><TD>Investor</TD><TD>S</TD><TD>1116.0</TD><TD>15</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1042,184 AbschlagProz=2,0988</TD><TD>Investor</TD></TR>
+<TR><TD>V17</TD><TD>Investor</TD><TD>S</TD><TD>1126.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1022,9419 AbschlagProz=3,1127</TD><TD>Investor</TD></TR>
+<TR><TD>V64</TD><TD>Investor</TD><TD>S</TD><TD>1133.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1039,1432 AbschlagProz=2,054</TD><TD>Investor</TD></TR>
+<TR><TD>V63</TD><TD>Investor</TD><TD>S</TD><TD>1137.0</TD><TD>25</TD><TD>0</TD><TD>-</TD><TD>IndividuellerInnererWert=1042,184 AbschlagProz=2,0988</TD><TD>Investor</TD></TR>
+</Table><br>
+</Body>

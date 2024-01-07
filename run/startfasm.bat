@@ -3,8 +3,9 @@
 rem new start script of FASM Developer Environment
 rem 2007-02-10 changed
 
-set FASM_DRIVER=D:
-set FASM_HOME=D:\Diss\fasmdev\FASMDEV-NEW
+set FASM_DRIVER=D
+C:
+set FASM_HOME=C:\Users\olive\FASM
 set WORKDIR=%FASM_HOME%\run
 set JUNGLIBDIR=%FASM_HOME%\lib\jung
 set JADELIBDIR=%FASM_HOME%\lib\jade

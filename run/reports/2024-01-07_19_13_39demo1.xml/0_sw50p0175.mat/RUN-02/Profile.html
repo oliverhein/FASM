@@ -1,0 +1,268 @@
+<html><Head><Title>Test Report on 2024-01-07 19:14:29.56</title></head>
+<Body> <h4>
+<H2>The simulation begins at 2024-01-07 19:14:07<br>
+--------------------------------------------------------------------------------<br>
+<Table border='1' >
+<TR><TD><H3>Market</H3</TD> <TD><H3>Stock Market</H3> </TD> </TR>
+<TR><TD><H3>Config File</H3</TD> <TD><H3>config/demo1.xml </H3> </TD> </TR>
+<TR><TD><H3>Inner Value File </H3</TD> <TD><H3>network/inner_value.txt</H3> </TD> </TR>
+<TR><TD><H2>Parameter for mapping of Network Node</H2></TD></TR>
+<TR><TD><H3>Parameter Name</H3</TD> <TD><H3> Value</H3> </TD> </TR>
+<TR><TD>Network</TD><TD>network/sw50p0175.mat</TD> </TR>
+<TR><TD>Total Agents </TD><TD>102</TD> </TR>
+<TR><TD>Agents from Netzwerk </TD><TD>100</TD> </TR>
+<TR><TD>&nbsp;&nbsp;&nbsp;Fundamental </TD><TD>12</TD> </TR>
+<TR><TD>&nbsp;&nbsp;&nbsp;Trend </TD><TD>7</TD> </TR>
+<TR><TD>&nbsp;&nbsp;&nbsp;Retail </TD><TD>81</TD> </TR>
+<TR><TD>Liquidity </TD><TD>2</TD> </TR>
+<TR><TD><H2>General Parameter</H2></TD></TR>
+<TR><TD><H3>Parameter Name</H3</TD> <TD><H3> Value</H3> </TD> </TR> 
+<TR><TD>Handelstag dieser Simulation </TD> <TD>400</TD> </TR>
+<TR><TD>GewinnStatusAustauschProbabiliy </TD> <TD>30%</TD> </TR>
+<TR><TD>MaxVerlustAnzahl Mode </TD> <TD>variable</TD> </TR>
+<TR><TD>Gemeinsame feste MaxVerlustanzahl <BR> für Strategiewechsel (Fixed Mode) </TD> <TD>3</TD> </TR>
+<TR><TD>Random Seed für einzelne MaxVerlustanzahl <BR> of Agenten für Strategiewechsel (variable Mode) </TD> <TD>13</TD> </TR>
+<TR><TD>GegenüberTag für Gewinnberechnung </TD> <TD>20</TD> </TR>
+<TR><TD>HillEstimatorProzent </TD> <TD>5.0%</TD> </TR>
+<TR><TD>Anzahl-AutoKorrelation </TD> <TD>40</TD> </TR>
+<TR><TD><H2>Parameter fuer Generierung of Innererwert</H2></TD></TR>
+<TR><TD><H3>Parameter Name</H3</TD> <TD><H3> Value</H3> </TD> </TR> 
+<TR><TD>Period of InnererwertKurv (Tage) </TD> <TD>1500</TD> </TR>
+<TR><TD>Handelstage dieser Simulation </TD> <TD>400</TD> </TR>
+<TR><TD>Minimal-Wert von InnererWert </TD> <TD>500</TD> </TR>
+<TR><TD>Maximal-Wert von InnererWert </TD> <TD>3000</TD> </TR>
+<TR><TD>Start-Wert von InnererWert </TD> <TD>1000</TD> </TR>
+<TR><TD>Maximale Abweichnung gegen Vortag </TD> <TD>1.0%</TD> </TR>
+<TR><TD>InnererwertEntwicklungsTrend </TD> <TD>Aufsteigen</TD> </TR>
+<TR><TD><H2>Configuration von Fundamental Investor</H2></TD></TR>
+<TR><TD><H3>Parameter Name</H3</TD> <TD><H3> Value</H3> </TD> </TR>
+<TR><TD>AbschlageProzent Parameter
+<TR><TD>Minimal-AbschlageProzent</TD> <TD>1.0%</TD> </TR>
+<TR><TD>Maximal-AbschlageProzent</TD> <TD>10.0%</TD> </TR>
+<TR><TD>AbschlageProzent-GaussMean</TD> <TD>3.0</TD> </TR>
+<TR><TD>AbschlageProzent-GaussDeviation</TD> <TD>1.0</TD> </TR>
+<TR><TD>AnzahlProzent-LinkBereich</TD> <TD>70%</TD> </TR>
+<TR><TD>AnzahlProzent-MittBereich</TD> <TD>25%</TD> </TR>
+<TR><TD>AnzahlProzent-RechtBereich</TD> <TD>5%</TD> </TR>
+<TR><TD>Investor Minimal Init Cash</TD> <TD>1500000</TD> </TR>
+<TR><TD>Investor Maximal Init Cash</TD> <TD>6000000</TD> </TR>
+<TR><TD>Investor Minimal Init Securities</TD> <TD>500</TD> </TR>
+<TR><TD>Investor Maximal Init Securities</TD> <TD>1500</TD> </TR>
+<TR><TD>Investor  SchlafProzent</TD> <TD>0</TD> </TR>
+<TR><TD>Investor affected by NoiseTrader</TD> <TD>false</TD> </TR>
+<TR><TD>Individueller InnererWertAbweichung Untergrenz </TD> <TD>-5.0% </TD> </TR>
+<TR><TD>Individueller InnererWertAbweichung Obengrenz </TD> <TD>-5.0% </TD> </TR>
+<TR><TD>ReferenzTag der Kursaenderung </TD> <TD>Vor 5. Tag</TD> </TR>
+<TR><TD>Kursaenderungsschwelle </TD> <TD>8.0% </TD> </TR>
+<TR><TD>Potenz der aktuellen individuellen InnererWert </TD> <TD>8.0% </TD> </TR>
+<TR> <TD> <h4>Investor Stufen Regel </h4></TD> </TR>
+<TR><TD>Stufen </TD> <TD>Kursänderung </TD> <TD>Ordermenge </TD> <TD>Billigstkauf </TD> <TD>Bestverkauf </TD>  </TR>
+<TR><TD>Stufe1</TD> <TD>-Infinitive ~~2.0%</TD><TD>5</TD><TD> -</TD><TD> -</TD>  </TR>
+<TR><TD>Stufe2</TD> <TD>2.0~~5.0%</TD> <TD>10</TD> <TD>-</TD> <TD>-</TD>  </TR>
+<TR><TD>Stufe3</TD> <TD>5.0 ~~7.0%</TD><TD>15</TD> <TD>-</TD> <TD>-</TD>  </TR>
+<TR><TD>Stufe4</TD> <TD>7.0 ~~ Infinitive%</TD><TD>25</TD> <TD>-</TD> <TD>-</TD>  </TR>
+<TR><TD><H2>Configuration of Trend Trader</H2></TD></TR>
+<TR><TD><H3>Parameter Name</H3</TD> <TD><H3> Value</H3> </TD> </TR>
+<TR><TD>Trend Trader Minimal Init Cash</TD> <TD>300000</TD> </TR>
+<TR><TD>Trend Trader Maximal Init Cash</TD> <TD>1500000</TD> </TR>
+<TR><TD>Trend Trader Minimal Init Securities</TD> <TD>500</TD> </TR>
+<TR><TD>Trend Trader Maximal Init Securities</TD> <TD>2000</TD> </TR>
+<TR><TD>Trend Trader SchlafProzent</TD> <TD>0</TD> </TR>
+<TR><TD>Trend Trader affected by Investor </TD> <TD>false</TD> </TR>
+<TR><TD>MinimalMovingDaysForAveragePrice </TD> <TD>10</TD> </TR>
+<TR><TD>MaximalMovingDaysForAveragePrice </TD> <TD>200</TD> </TR>
+<TR> <TD> <h4>Trend Trader Stufen Regel </h4> </TD> </TR>
+<TR><TD>Stufen </TD> <TD>Kursänderung </TD> <TD>Ordermenge </TD> <TD>Billigestkauf </TD> <TD>Bestverkauf </TD>  </TR>
+<TR><TD>Stufe1</TD> <TD>-Infinitive ~~4.0%</TD><TD>5</TD><TD>-</TD> <TD>-</TD>  </TR>
+<TR><TD>Stufe2</TD> <TD>8.0%</TD> <TD>8</TD> <TD>-</TD> <TD>-</TD>  </TR>
+<TR><TD>Stufe3</TD> <TD>16.0%</TD> <TD>30</TD>  <TD>-</TD>  <TD>-</TD>  </TR>
+<TR><TD>Stufe4</TD> <TD>16.0~~Infinitive%</TD> <TD>40</TD> <TD>-</TD> <TD>-</TD>  </TR>
+<TR><TD><H2>Configuration of Retail Agent </H2></TD></TR>
+<TR><TD><H3>Parameter Name</H3</TD> <TD><H3> Value</H3> </TD> </TR>
+<TR><TD>Retail Agent Minimal Init Cash</TD> <TD>100000</TD> </TR>
+<TR><TD>Retail Agent Maximal Init Cash</TD> <TD>100000</TD> </TR>
+<TR><TD>Retail Agent Minimal Init Securities</TD> <TD>1000</TD> </TR>
+<TR><TD>Retail Agent Maximal Init Securities</TD> <TD>1000</TD> </TR>
+<TR><TD>Retail Agent Kurs-change-Procent for activation Min</TD> <TD>5.0</TD> </TR>
+<TR><TD>Retail Agent Kurs-change-Procent for activation Max</TD> <TD>5.0</TD> </TR>
+<TR><TD>Retail Agent Kurs-Change-Procent for deactivation Min</TD> <TD>5.0</TD> </TR>
+<TR><TD>Retail Agent Kurs-Change-Procent for deactivation Max</TD> <TD>5.0</TD> </TR>
+<TR><TD>Retail Agent Index Window  Minimal days </TD> <TD>4</TD> </TR>
+<TR><TD>Retail Agent Index Window  Maximal days </TD> <TD>10</TD> </TR>
+<TR><TD>Retail Agent Minimal sleep days after deactivation </TD> <TD>10</TD> </TR>
+<TR><TD>Retail Agent Maximal sleep days after deactivation </TD> <TD>10</TD> </TR>
+<TR><TD>Retail Agent append cash is allowed? </TD> <TD>true</TD> </TR>
+<TR><TD>Retail Agent Total Sell in  </TD> <TD>10 Days </TD> </TR>
+<TR><TD><H2>Configuration von RandomTrader</H2></TD></TR>
+<TR><TD><H3>Parameter Name</H3</TD><TD><H3> Value</H3> </TD> </TR>
+<TR><TD>RandomTrader Init Cash</TD><TD>90000000</TD> </TR>
+<TR><TD>RandomTrader Init Securities</TD><TD>90000000</TD> </TR>
+<TR><TD>Kauf-Wahrscheinlichkeit</TD><TD>50%</TD> </TR>
+<TR><TD>        Cheapest-Kauf als Limit in Prozent</TD><TD>50%</TD> </TR>
+<TR><TD>        Kurs-basierter Limit in Prozent</TD><TD>50%</TD> </TR>
+<TR><TD>Verkauf-Wahrscheinlichkeit</TD><TD>50%</TD> </TR>
+<TR><TD>        Best-Verkauf als Limit in Prozent</TD><TD>50%</TD> </TR>
+<TR><TD>        Kurs-basierter Limit in Prozent</TD><TD>50%</TD> </TR>
+<TR><TD>Schlaf Prozent</TD><TD>0%</TD> </TR>
+<TR><TD>MinimalOrdermengeofRandomTrader </TD><TD>2</TD></TR>
+<TR><TD>MaximalOrdermengeofRandomTrader </TD><TD>8</TD></TR>
+</Table>
+--------------------------------------------------------------------------------<br>
+<BR><BR>
+Agent Type Information<br>
+<H5><br>
+SM1;BLANKOAGENT;V19;6;V2;V4;V6;V9;V11;V38;<br>
+SM1;BLANKOAGENT;V18;9;V1;V2;V4;V6;V7;V8;V9;V38;V87;<br>
+SM1;INVESTOR;V17;7;V1;V2;V4;V6;V7;V8;V22;<br>
+SM1;BLANKOAGENT;V16;7;V1;V2;V4;V6;V9;V11;V55;<br>
+SM1;BLANKOAGENT;V15;9;V2;V3;V6;V13;V21;V30;V42;V51;V60;<br>
+SM1;BLANKOAGENT;V79;3;V4;V25;V53;<br>
+SM1;INVESTOR;V14;10;V2;V4;V5;V6;V7;V30;V31;V32;V38;V86;<br>
+SM1;BLANKOAGENT;V78;2;V2;V6;<br>
+SM1;INVESTOR;V13;12;V2;V3;V4;V5;V6;V7;V9;V15;V26;V28;V50;V100;<br>
+SM1;NOISETRADER;V12;10;V2;V5;V6;V9;V23;V24;V33;V45;V51;V62;<br>
+SM1;INVESTOR;V77;4;V2;V4;V6;V10;<br>
+SM1;BLANKOAGENT;V76;2;V2;V6;<br>
+SM1;BLANKOAGENT;V11;11;V2;V3;V4;V6;V8;V16;V19;V35;V36;V38;V39;<br>
+SM1;BLANKOAGENT;V75;2;V2;V6;<br>
+SM1;BLANKOAGENT;V10;9;V2;V4;V6;V9;V24;V25;V38;V43;V77;<br>
+SM1;BLANKOAGENT;V74;2;V2;V4;<br>
+SM1;BLANKOAGENT;V73;2;V2;V6;<br>
+SM1;BLANKOAGENT;V72;3;V2;V4;V6;<br>
+SM1;BLANKOAGENT;V71;2;V2;V6;<br>
+SM1;BLANKOAGENT;V70;3;V2;V4;V6;<br>
+SM1;BLANKOAGENT;V69;2;V4;V8;<br>
+SM1;BLANKOAGENT;V68;3;V2;V4;V6;<br>
+SM1;BLANKOAGENT;V67;2;V2;V6;<br>
+SM1;BLANKOAGENT;V66;2;V7;V9;<br>
+SM1;INVESTOR;V65;2;V2;V8;<br>
+SM1;INVESTOR;V64;3;V4;V6;V90;<br>
+SM1;INVESTOR;V63;3;V1;V4;V5;<br>
+SM1;NOISETRADER;V62;4;V2;V4;V8;V12;<br>
+SM1;BLANKOAGENT;V61;2;V2;V6;<br>
+SM1;BLANKOAGENT;V60;2;V5;V15;<br>
+SM1;BLANKOAGENT;V59;3;V2;V6;V31;<br>
+SM1;BLANKOAGENT;V58;4;V1;V2;V4;V6;<br>
+SM1;BLANKOAGENT;V57;3;V2;V4;V6;<br>
+SM1;BLANKOAGENT;V56;3;V2;V4;V6;<br>
+SM1;BLANKOAGENT;V55;2;V1;V16;<br>
+SM1;BLANKOAGENT;V54;4;V2;V4;V6;V38;<br>
+SM1;INVESTOR;V53;6;V2;V4;V7;V8;V9;V79;<br>
+SM1;BLANKOAGENT;V52;3;V2;V4;V6;<br>
+SM1;BLANKOAGENT;V51;4;V2;V12;V15;V21;<br>
+SM1;BLANKOAGENT;V50;4;V2;V4;V13;V25;<br>
+SM1;BLANKOAGENT;V49;3;V2;V6;V26;<br>
+SM1;BLANKOAGENT;V48;3;V2;V6;V7;<br>
+SM1;BLANKOAGENT;V47;3;V2;V4;V27;<br>
+SM1;BLANKOAGENT;V46;3;V2;V4;V6;<br>
+SM1;NOISETRADER;V45;5;V2;V4;V6;V12;V21;<br>
+SM1;BLANKOAGENT;V44;3;V2;V6;V9;<br>
+SM1;BLANKOAGENT;V43;5;V2;V6;V7;V10;V83;<br>
+SM1;BLANKOAGENT;V42;4;V1;V2;V6;V15;<br>
+SM1;NOISETRADER;V41;3;V2;V4;V6;<br>
+SM1;BLANKOAGENT;V40;5;V1;V2;V4;V6;V21;<br>
+SM1;BLANKOAGENT;V100;2;V5;V13;<br>
+SM1;BLANKOAGENT;V39;4;V1;V4;V11;V38;<br>
+SM1;INVESTOR;V38;13;V2;V4;V6;V8;V10;V11;V14;V18;V19;V22;V31;V39;V54;<br>
+SM1;BLANKOAGENT;V37;4;V2;V6;V7;V22;<br>
+SM1;BLANKOAGENT;V36;3;V2;V6;V11;<br>
+SM1;BLANKOAGENT;V35;3;V3;V7;V11;<br>
+SM1;BLANKOAGENT;V9;16;V2;V4;V6;V7;V10;V12;V13;V16;V18;V19;V22;V32;V34;V44;V53;V66;<br>
+SM1;BLANKOAGENT;V99;2;V2;V4;<br>
+SM1;BLANKOAGENT;V34;3;V7;V8;V9;<br>
+SM1;BLANKOAGENT;V8;19;V1;V2;V3;V4;V5;V6;V11;V17;V18;V20;V30;V33;V34;V38;V53;V62;V65;V69;V98;<br>
+SM1;BLANKOAGENT;V98;2;V2;V8;<br>
+SM1;BLANKOAGENT;V33;4;V2;V8;V12;V26;<br>
+SM1;BLANKOAGENT;V7;21;V1;V2;V3;V4;V5;V6;V9;V13;V14;V17;V18;V26;V29;V32;V34;V35;V37;V43;V48;V53;V66;<br>
+SM1;BLANKOAGENT;V97;2;V2;V6;<br>
+SM1;BLANKOAGENT;V32;5;V6;V7;V9;V14;V22;<br>
+SM1;NOISETRADER;V6;70;V1;V2;V3;V4;V5;V7;V8;V9;V10;V11;V12;V13;V14;V15;V16;V17;V18;V19;V20;V21;V22;V23;V24;V25;V26;V27;V28;V31;V32;V36;V37;V38;V40;V41;V42;V43;V44;V45;V46;V48;V49;V52;V54;V56;V57;V58;V59;V61;V64;V67;V68;V70;V71;V72;V73;V75;V76;V77;V78;V80;V82;V84;V85;V86;V87;V91;V93;V94;V95;V97;<br>
+SM1;BLANKOAGENT;V96;2;V2;V4;<br>
+SM1;NOISETRADER;V31;6;V2;V4;V6;V14;V38;V59;<br>
+SM1;INVESTOR;V5;14;V1;V2;V3;V4;V6;V7;V8;V12;V13;V14;V23;V60;V63;V100;<br>
+SM1;BLANKOAGENT;V95;2;V2;V6;<br>
+SM1;BLANKOAGENT;V30;4;V1;V8;V14;V15;<br>
+SM1;INVESTOR;V4;57;V1;V2;V3;V5;V6;V7;V8;V9;V10;V11;V13;V14;V16;V17;V18;V19;V21;V22;V23;V25;V26;V27;V28;V31;V38;V39;V40;V41;V45;V46;V47;V50;V52;V53;V54;V56;V57;V58;V62;V63;V64;V68;V69;V70;V72;V74;V77;V79;V82;V84;V86;V88;V91;V92;V94;V96;V99;<br>
+SM1;BLANKOAGENT;V94;2;V4;V6;<br>
+SM1;INVESTOR;V3;12;V2;V4;V5;V6;V7;V8;V11;V13;V15;V24;V27;V35;<br>
+SM1;BLANKOAGENT;V93;2;V2;V6;<br>
+SM1;NOISETRADER;V2;78;V1;V3;V4;V5;V6;V7;V8;V9;V10;V11;V12;V13;V14;V15;V16;V17;V18;V19;V20;V21;V22;V23;V24;V25;V26;V27;V31;V33;V36;V37;V38;V40;V41;V42;V43;V44;V45;V46;V47;V48;V49;V50;V51;V52;V53;V54;V56;V57;V58;V59;V61;V62;V65;V67;V68;V70;V71;V72;V73;V74;V75;V76;V77;V78;V80;V81;V83;V85;V87;V89;V90;V92;V93;V95;V96;V97;V98;V99;<br>
+SM1;BLANKOAGENT;V92;2;V2;V4;<br>
+SM1;BLANKOAGENT;V1;19;V2;V4;V5;V6;V7;V8;V16;V17;V18;V21;V30;V39;V40;V42;V55;V58;V63;V81;V88;<br>
+SM1;BLANKOAGENT;V91;2;V4;V6;<br>
+SM1;BLANKOAGENT;V90;3;V2;V25;V64;<br>
+SM1;BLANKOAGENT;V29;2;V7;V28;<br>
+SM1;BLANKOAGENT;V28;4;V4;V6;V13;V29;<br>
+SM1;BLANKOAGENT;V27;5;V2;V3;V4;V6;V47;<br>
+SM1;BLANKOAGENT;V26;7;V2;V4;V6;V7;V13;V33;V49;<br>
+SM1;BLANKOAGENT;V25;9;V2;V4;V6;V10;V21;V50;V79;V89;V90;<br>
+SM1;BLANKOAGENT;V89;2;V2;V25;<br>
+SM1;BLANKOAGENT;V24;5;V2;V3;V6;V10;V12;<br>
+SM1;BLANKOAGENT;V88;2;V1;V4;<br>
+SM1;BLANKOAGENT;V23;5;V2;V4;V5;V6;V12;<br>
+SM1;BLANKOAGENT;V87;3;V2;V6;V18;<br>
+SM1;BLANKOAGENT;V22;8;V2;V4;V6;V9;V17;V32;V37;V38;<br>
+SM1;BLANKOAGENT;V86;3;V4;V6;V14;<br>
+SM1;BLANKOAGENT;V21;10;V1;V2;V4;V6;V15;V25;V40;V45;V51;V83;<br>
+SM1;BLANKOAGENT;V85;2;V2;V6;<br>
+SM1;BLANKOAGENT;V20;3;V2;V6;V8;<br>
+SM1;BLANKOAGENT;V84;2;V4;V6;<br>
+SM1;BLANKOAGENT;V83;3;V2;V21;V43;<br>
+SM1;BLANKOAGENT;V82;2;V4;V6;<br>
+SM1;BLANKOAGENT;V81;2;V1;V2;<br>
+SM1;BLANKOAGENT;V80;2;V2;V6;<br>
+SM1;RANDOMTRADER;RandomTrader1;0;0;<br>
+SM1;RANDOMTRADER;RandomTrader2;0;0;<br>
+--------------------------------------------------------------------------------<br>
+<H3><br>
+Die taeglich Status der Agent sind in der Datei unter RUN-x/graphstatehistory.txt gespeichert. <br>
+Bitte Graph-Review tool mit Kommand startreview.bat starten und die obige Datei oeffnen. <br>
+--------------------------------------------------------------------------------<br>
+<H2>Kurs-Entwicklung<br>
+<image src='frame.jpg '><br>
+<H2>Links zu den Detailsdaten -----<br>
+<H3><br>
+<br>
+<a href='ergebnisse.txt'><H2>Statistik Kurtosis</a>
+<br>
+<br>
+<a href='logrenditen.csv'><H2>LogRenditen</a>
+<br>
+<br>
+<a href='logrenditen-sorted.csv'><H2>LogRenditen-Sorted</a>
+<br>
+<br>
+<a href='korrelation.csv'><H2>BasisDaten von Korrelation</a>
+<br>
+<br>
+<a href='autokorrelation.csv'><H2>BasisDaten von AutoKorrelation</a>
+<br>
+<br>
+<a href='hill.csv'><H2>Hill </a>
+<br>
+<br>
+<a href='innererwert-init300.csv'><H2>300-Anfangswerten von Innererwert</a>
+<br>
+<br>
+<a href='tradedailystatistic.csv'><H2>Price history and statistic of daily order book </a>
+<br>
+<br>
+<a href='DailyOrderBook.html'><H2>Daily Orderbook</a>
+<br>
+<br>
+<a href='agentanzahl.csv'><H2>Agent-Type-Aenderung-Ermittlung</a>
+<br>
+<br>
+<a href='depothistory.html'><H2>DepotList of single agents</a>
+<br>
+<br>
+<a href='exchangehistory.html'><H2>ExchangeHistory aller Agenten</a>
+<br>
+<br>
+<a href='depotlist_sortedbygroup.html'><H2>depot group overview and comparation (HTML Format)</a>
+<br>
+<br>
+<a href='depotlist_textformat.csv'><H2>depot overview of all agents (text format)</a>
+<br>
+</Body>
+</HTML>

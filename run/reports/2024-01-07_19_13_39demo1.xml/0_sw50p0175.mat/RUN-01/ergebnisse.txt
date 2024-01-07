@@ -1,0 +1,61 @@
+
+
+
+Statistik aus LogRenditen von 1 Tagenabstand
+Title;Wert
+average;-0,0001
+maximum;0,0221
+minimum;-0,0204
+standard-diviation;0,0073
+skewness;0,1363
+kurtosis;-0,1522
+
+
+
+Statistik aus LogRenditen von 5 Tagenabstand
+Title;Wert
+average;-0,0002
+maximum;0,0332
+minimum;-0,0342
+standard-diviation;0,0155
+skewness;-0,0013
+kurtosis;-0,5858
+
+
+
+Statistik aus LogRenditen von 10 Tagenabstand
+Title;Wert
+average;-0,0001
+maximum;0,0417
+minimum;-0,058
+standard-diviation;0,0232
+skewness;-0,2973
+kurtosis;-0,1753
+
+
+
+Statistik aus LogRenditen von 25 Tagenabstand
+Title;Wert
+average;0,0006
+maximum;0,0355
+minimum;-0,0306
+standard-diviation;0,0201
+skewness;0,2527
+kurtosis;-0,665
+
+
+
+Statistik aus LogRenditen von 50 Tagenabstand
+Title;Wert
+average;0,0009
+maximum;0,0305
+minimum;-0,0276
+standard-diviation;0,0174
+skewness;0,1088
+kurtosis;1,8462
+
+Volatility_old=0,5815
+Volatility_new=52,6906
+
+Distortion=0,9586
+
