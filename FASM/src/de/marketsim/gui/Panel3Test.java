@@ -4,16 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
-/**
- * <p>Überschrift: Mircomarket Simulator</p>
- * <p>Beschreibung: </p>
- * <p>Copyright: Copyright (c) 2006</p>
- * <p>Organisation: </p>
- * @author unbekannt
- * @version 1.0
- */
-
-
 public class Panel3Test extends JFrame
 {
   private BasePanel3Chart jPanel1 = new BasePanel3Chart();
