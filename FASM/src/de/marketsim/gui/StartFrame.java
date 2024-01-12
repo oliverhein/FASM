@@ -29,9 +29,9 @@ public class StartFrame extends JFrame
   public StartFrame()
   {
 
-    String jadebasicconfig = System.getProperty("JADEBASICCONFIG");
+    // String jadebasicconfig = System.getProperty("JADEBASICCONFIG");
+    String jadebasicconfig = "C:/Users/olive/git/FASM/run/etc/jadebasic.cfg";
     System.out.println("JADEBASICCONFIG=" + jadebasicconfig );
-
 
     JadeConfig.Init ( jadebasicconfig );
 
@@ -175,7 +175,8 @@ public class StartFrame extends JFrame
   public static void main(String[] args)
   {
 
-    String jadebasicconfig = System.getProperty("JADEBASICCONFIG");
+    //String jadebasicconfig = System.getProperty("JADEBASICCONFIG");
+    String jadebasicconfig = "C:/Users/olive/git/FASM/run/etc/jadebasic.cfg";
     System.out.println("JADEBASICCONFIG=" + jadebasicconfig );
     JadeConfig.Init ( jadebasicconfig );
     System.out.println("checking port: " + JadeConfig.getPort() );
