@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jbcl.jar"/>
-	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/log4j.jar"/>
-	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jade/Base64.jar"/>
-	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jade/iiop.jar"/>
 	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jade/jade.jar"/>
-	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jade/jadeTools.jar"/>
 	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jfreechart/jcommon-1.0.12.jar"/>
 	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jfreechart/jfreechart-1.0.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jung/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/jung/jung-1.7.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/swt/swt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/olive/git/FASM/lib/log4j.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

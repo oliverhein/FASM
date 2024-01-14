@@ -30,7 +30,7 @@ public class StartFrame extends JFrame
   {
 
     // String jadebasicconfig = System.getProperty("JADEBASICCONFIG");
-    String jadebasicconfig = "C:/Users/olive/git/FASM/run/etc/jadebasic.cfg";
+    String jadebasicconfig = "C:/Users/olive/eclipse - fasm/FASM/run/etc/jadebasic.cfg";
     System.out.println("JADEBASICCONFIG=" + jadebasicconfig );
 
     JadeConfig.Init ( jadebasicconfig );

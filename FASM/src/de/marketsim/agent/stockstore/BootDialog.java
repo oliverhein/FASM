@@ -71,19 +71,20 @@ public class BootDialog
     // start two Agents: simulatorregister + StockStore
 
     // The name is fixed: simulatorregister
-    AllParameter.add("simulatorregister:de.marketsim.agent.stockstore.SimulatorRegisterAgent");
+    AllParameter.add("simulatorregister:de.marketsim.agent.stockstore.SimulatorRegisterAgent;" + 
+    		"DAX:de.marketsim.agent.stockstore.Store("+"-" + AgentCommandlineParameterConst.SimulationConfig +" " + System.getProperty( AgentCommandlineParameterConst.SimulationConfig ) + ");" + "test:de.marketsim.agent.trader.NameFinder( local )");
 
     // Start StockStore
-    AllParameter.add("DAX:de.marketsim.agent.stockstore.Store("+
-                     "-" + AgentCommandlineParameterConst.SimulationConfig +" " + System.getProperty( AgentCommandlineParameterConst.SimulationConfig ) + ")"
-                     );
+//    AllParameter.add("DAX:de.marketsim.agent.stockstore.Store("+
+ //                    "-" + AgentCommandlineParameterConst.SimulationConfig +" " + System.getProperty( AgentCommandlineParameterConst.SimulationConfig ) + ")"
+ //                    );
 
     // Start AgentSimulator SM1 within Börse
 
-    if  ( JadeConfig.getStartSimulator() )
-    {
-        AllParameter.add( "test:de.marketsim.agent.trader.NameFinder( local )" );
-    }
+//    if  ( JadeConfig.getStartSimulator() )
+//    {
+//        AllParameter.add( "test:de.marketsim.agent.trader.NameFinder( local )" );
+//    }
 
     for ( int i=0; i<AllParameter.size();i++)
     {
