@@ -1,35 +1,35 @@
-19:13:39:311: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - Starting DataLoggerAgent
-19:13:39:326: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - DataLogger Agent has been started
-19:13:39:342: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - Agents Runtime Parameter has been sent to all Simulators
-19:13:39:342: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - Agents Distributionlist has been sent to all Simulators
-19:13:39:639: [STOCKSTORE.ABLAUF][DAX] INFO - InitCommand is sent to DataLogger successfully.
-19:13:39:639: [STOCKSTORE.ABLAUF][DAX] INFO - InitCommand is sent to DataLogger
-19:13:40:670: [STOCKSTORE.ABLAUF][DAX] INFO - first 300 InnererWert are sent to DataLogger successfully.
-19:13:40:670: [STOCKSTORE.ABLAUF][DAX] INFO - new PriceIndexCalculator_AktienMarket is created.
-19:13:57:974: [STOCKSTORE.ABLAUF][DAX] INFO - Simulation is finished normally, DAX expects 102 Unregiester Messages
-19:13:58:037: [STOCKSTORE.ABLAUF][DAX] INFO - All UNREGISTER are received.
-19:13:58:037: [STOCKSTORE.ABLAUF][DAX] INFO - Close Command is sent to DataLogger.
-19:14:04:693: [STOCKSTORE.ABLAUF][DAX] INFO - Chart has been saved to a JPG file.
-19:14:04:693: [STOCKSTORE.ABLAUF][DAX] INFO - DataLogger Finish Signal has come back
-19:14:07:693: [STOCKSTORE.ABLAUF][DAX] INFO - currentnetwork.mCurrentRunningNo=2 RepeatTimes defined:2
-19:14:07:693: [STOCKSTORE.ABLAUF][DAX] INFO - Networklist.size=1
-19:14:07:693: [STOCKSTORE.ABLAUF][DAX] INFO - Starting a new simulation
-19:14:07:693: [STOCKSTORE.ABLAUF][DAX] INFO - Starting DataLoggerAgent
-19:14:07:693: [STOCKSTORE.ABLAUF][DAX] INFO - DataLogger Agent has been started
-19:14:07:693: [STOCKSTORE.ABLAUF][DAX] INFO - Agents Runtime Parameter has been sent to all Simulators
-19:14:07:693: [STOCKSTORE.ABLAUF][DAX] INFO - Agents Distributionlist has been sent to all Simulators
-19:14:07:867: [STOCKSTORE.ABLAUF][DAX] INFO - InitCommand is sent to DataLogger successfully.
-19:14:07:867: [STOCKSTORE.ABLAUF][DAX] INFO - InitCommand is sent to DataLogger
-19:14:08:867: [STOCKSTORE.ABLAUF][DAX] INFO - first 300 InnererWert are sent to DataLogger successfully.
-19:14:08:883: [STOCKSTORE.ABLAUF][DAX] INFO - new PriceIndexCalculator_AktienMarket is created.
-19:14:29:279: [STOCKSTORE.ABLAUF][DAX] INFO - Simulation is finished normally, DAX expects 102 Unregiester Messages
-19:14:29:342: [STOCKSTORE.ABLAUF][DAX] INFO - All UNREGISTER are received.
-19:14:29:342: [STOCKSTORE.ABLAUF][DAX] INFO - Close Command is sent to DataLogger.
-19:14:35:967: [STOCKSTORE.ABLAUF][DAX] INFO - Chart has been saved to a JPG file.
-19:14:35:967: [STOCKSTORE.ABLAUF][DAX] INFO - DataLogger Finish Signal has come back
-19:14:38:983: [STOCKSTORE.ABLAUF][DAX] INFO - currentnetwork.mCurrentRunningNo=3 RepeatTimes defined:2
-19:14:38:983: [STOCKSTORE.ABLAUF][DAX] INFO - Networklist.size=1
-19:14:38:983: [STOCKSTORE.ABLAUF][DAX] INFO - There are 2 report data items 
-19:14:43:482: [STOCKSTORE.ABLAUF][DAX] INFO - creating summary file : reports/2024-01-07_19_13_39demo1.xml/summary.csv
-19:14:43:482: [STOCKSTORE.ABLAUF][DAX] INFO - creating HTML summary file reports/2024-01-07_19_13_39demo1.xml/summary.html
-19:14:56:468: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - Send Quit Command to all AgentSimulators.
+11:59:56:045: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - Starting DataLoggerAgent
+11:59:56:047: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - DataLogger Agent has been started
+11:59:56:059: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - Agents Runtime Parameter has been sent to all Simulators
+11:59:56:060: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - Agents Distributionlist has been sent to all Simulators
+11:59:56:164: [STOCKSTORE.ABLAUF][DAX] INFO - InitCommand is sent to DataLogger successfully.
+11:59:56:164: [STOCKSTORE.ABLAUF][DAX] INFO - InitCommand is sent to DataLogger
+11:59:57:184: [STOCKSTORE.ABLAUF][DAX] INFO - first 300 InnererWert are sent to DataLogger successfully.
+11:59:57:191: [STOCKSTORE.ABLAUF][DAX] INFO - new PriceIndexCalculator_AktienMarket is created.
+12:00:05:046: [STOCKSTORE.ABLAUF][DAX] INFO - Simulation is finished normally, DAX expects 102 Unregiester Messages
+12:00:05:061: [STOCKSTORE.ABLAUF][DAX] INFO - All UNREGISTER are received.
+12:00:05:061: [STOCKSTORE.ABLAUF][DAX] INFO - Close Command is sent to DataLogger.
+12:00:11:668: [STOCKSTORE.ABLAUF][DAX] INFO - Chart has been saved to a JPG file.
+12:00:11:668: [STOCKSTORE.ABLAUF][DAX] INFO - DataLogger Finish Signal has come back
+12:00:14:673: [STOCKSTORE.ABLAUF][DAX] INFO - currentnetwork.mCurrentRunningNo=2 RepeatTimes defined:2
+12:00:14:673: [STOCKSTORE.ABLAUF][DAX] INFO - Networklist.size=1
+12:00:14:674: [STOCKSTORE.ABLAUF][DAX] INFO - Starting a new simulation
+12:00:14:674: [STOCKSTORE.ABLAUF][DAX] INFO - Starting DataLoggerAgent
+12:00:14:675: [STOCKSTORE.ABLAUF][DAX] INFO - DataLogger Agent has been started
+12:00:14:676: [STOCKSTORE.ABLAUF][DAX] INFO - Agents Runtime Parameter has been sent to all Simulators
+12:00:14:676: [STOCKSTORE.ABLAUF][DAX] INFO - Agents Distributionlist has been sent to all Simulators
+12:00:14:715: [STOCKSTORE.ABLAUF][DAX] INFO - InitCommand is sent to DataLogger successfully.
+12:00:14:716: [STOCKSTORE.ABLAUF][DAX] INFO - InitCommand is sent to DataLogger
+12:00:15:732: [STOCKSTORE.ABLAUF][DAX] INFO - first 300 InnererWert are sent to DataLogger successfully.
+12:00:15:733: [STOCKSTORE.ABLAUF][DAX] INFO - new PriceIndexCalculator_AktienMarket is created.
+12:00:21:583: [STOCKSTORE.ABLAUF][DAX] INFO - Simulation is finished normally, DAX expects 102 Unregiester Messages
+12:00:21:588: [STOCKSTORE.ABLAUF][DAX] INFO - All UNREGISTER are received.
+12:00:21:589: [STOCKSTORE.ABLAUF][DAX] INFO - Close Command is sent to DataLogger.
+12:00:28:178: [STOCKSTORE.ABLAUF][DAX] INFO - Chart has been saved to a JPG file.
+12:00:28:178: [STOCKSTORE.ABLAUF][DAX] INFO - DataLogger Finish Signal has come back
+12:00:31:193: [STOCKSTORE.ABLAUF][DAX] INFO - currentnetwork.mCurrentRunningNo=3 RepeatTimes defined:2
+12:00:31:193: [STOCKSTORE.ABLAUF][DAX] INFO - Networklist.size=1
+12:00:31:193: [STOCKSTORE.ABLAUF][DAX] INFO - There are 2 report data items 
+12:00:35:587: [STOCKSTORE.ABLAUF][DAX] INFO - creating summary file : reports/2024-01-15_11_59_56demo1.xml/summary.csv
+12:00:35:589: [STOCKSTORE.ABLAUF][DAX] INFO - creating HTML summary file reports/2024-01-15_11_59_56demo1.xml/summary.html
+12:00:52:486: [STOCKSTORE.ABLAUF][AWT-EventQueue-0] INFO - Send Quit Command to all AgentSimulators.

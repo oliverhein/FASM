@@ -3,9 +3,8 @@
 rem new start script of FASM Developer Environment
 rem 2007-02-10 changed
 
-set FASM_DRIVER=D
-C:
-set FASM_HOME=C:\Users\olive\FASM
+set FASM_DRIVER=C:
+set FASM_HOME=C:\Users\olive\git\FASM
 set WORKDIR=%FASM_HOME%\run
 set JUNGLIBDIR=%FASM_HOME%\lib\jung
 set JADELIBDIR=%FASM_HOME%\lib\jade
@@ -39,8 +38,6 @@ echo !                                                                    !
 echo ! Your current WORKDIR=%WORKDIR%                                      !
 echo !                                                                    !
 echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-echo classpath=%CLASSPATH%
 
 rem  Attention: Parameter is seperated by space not comma
 set  JADEBASICCONFIG=%WORKDIR%\etc\jadebasic.cfg
