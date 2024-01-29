@@ -64,7 +64,7 @@ public class BootDialog
     AllParameter.add( maincontainerhost );
     AllParameter.add("-port");
     AllParameter.add( maincontainerport );
-    //AllParameter.add( "-gui" );
+    AllParameter.add( "-gui" );
 
     AllParameter.add( "-mtp" );
     AllParameter.add( "jade.mtp.iiop.MessageTransportProtocol" );
@@ -74,6 +74,7 @@ public class BootDialog
     AllParameter.add("simulatorregister:de.marketsim.agent.stockstore.SimulatorRegisterAgent;" + 
     		"DAX:de.marketsim.agent.stockstore.Store("+"-" + AgentCommandlineParameterConst.SimulationConfig +" " + System.getProperty( AgentCommandlineParameterConst.SimulationConfig ) + ");" + "test:de.marketsim.agent.trader.NameFinder( local )");
 
+    
     // Start StockStore
 //    AllParameter.add("DAX:de.marketsim.agent.stockstore.Store("+
  //                    "-" + AgentCommandlineParameterConst.SimulationConfig +" " + System.getProperty( AgentCommandlineParameterConst.SimulationConfig ) + ")"
